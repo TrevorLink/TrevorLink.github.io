@@ -16,23 +16,33 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="自己折腾记录，OpenPS2Loader+SMB共享实现网络传输读取ISO镜像数据">
+    <meta name="description" content="MIT线性代数第一讲：从几何角度看待方程组">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PS2 OPL+SMB指南">
-<meta property="og:url" content="http://example.com/2022/10/12/PS2-OPL-SMB%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:title" content="MIT线性代数|01-Linear Combination">
+<meta property="og:url" content="http://example.com/2022/10/12/MIT%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-01-Linear-Combination/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="自己折腾记录，OpenPS2Loader+SMB共享实现网络传输读取ISO镜像数据">
+<meta property="og:description" content="MIT线性代数第一讲：从几何角度看待方程组">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-10-12T06:12:01.000Z">
-<meta property="article:modified_time" content="2022-10-12T08:02:52.183Z">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220716231556969.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220717162929274.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220717163118372.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003144602224.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150456022.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150537428.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150555101.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003151113109.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003151348896.png">
+<meta property="article:published_time" content="2022-10-12T08:06:09.000Z">
+<meta property="article:modified_time" content="2022-10-12T08:07:13.336Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="PS2">
-<meta property="article:tag" content="OPL">
+<meta property="article:tag" content="MIT">
+<meta property="article:tag" content="Linear Algebra">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220716231556969.png">
   
   
   
-  <title>PS2 OPL+SMB指南 - Hexo</title>
+  <title>MIT线性代数|01-Linear Combination - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +207,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="PS2 OPL+SMB指南"></span>
+            <span id="subtitle" data-typed-text="MIT线性代数|01-Linear Combination"></span>
           
         </div>
 
@@ -208,7 +218,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-10-12 14:12" pubdate>
+        <time datetime="2022-10-12 16:06" pubdate>
           2022年10月12日 下午
         </time>
       </span>
@@ -220,7 +230,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          870 字
+          1.7k 字
         
       </span>
     
@@ -231,7 +241,7 @@
         
         
         
-          8 分钟
+          14 分钟
         
       </span>
     
@@ -269,54 +279,69 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PS2 OPL+SMB指南</h1>
+            <h1 style="display: none">MIT线性代数|01-Linear Combination</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/330047471">参考思路来自知乎大佬</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/utnewbear/article/details/88543629">在PS2主机上使用OPL通过网络加载PC上的ISO玩游戏</a></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>主要是我自己的那台PS2因为年代久远，光驱基本上有点危险了，前几天读自己刻的影之心，玩了一晚上，第二天再读取，死活就是读取不出来，于是想着把自己的那台薄机直接改成硬盘启动玩游戏，反正自己收藏的也不会拿出来读，光驱基本上可以退休了。</p>
-<h2 id="需要准备的"><a href="#需要准备的" class="headerlink" title="需要准备的"></a>需要准备的</h2><p>PS2主机一台</p>
+                <h1 id="方程组的几何解释"><a href="#方程组的几何解释" class="headerlink" title="方程组的几何解释"></a>方程组的几何解释</h1><h2 id="大纲"><a href="#大纲" class="headerlink" title="大纲"></a>大纲</h2><p>从最经典的n个未知数n个方程开始讲起(一定有解！)</p>
+<p>可以从三个维度进行描述</p>
 <ul>
-<li>如果是厚机，则需要自备网卡</li>
-<li>如果是薄机，不需要额外网卡，内置网卡</li>
+<li>row pic </li>
+<li>column pic</li>
+<li>matrix form</li>
 </ul>
-<p>引导卡一个</p>
-<ul>
-<li>具体制作会在下面展开讲述</li>
-</ul>
-<p>电脑一台</p>
-<ul>
-<li>没有网线口的（比如说我）需要买一个拓展坞</li>
-<li>有网线口的继续往下看</li>
-</ul>
-<h2 id="自制系统运行OPL"><a href="#自制系统运行OPL" class="headerlink" title="自制系统运行OPL"></a>自制系统运行OPL</h2><p><a target="_blank" rel="noopener" href="https://github.com/ps2homebrew/Open-PS2-Loader">OPL是一个开源项目</a></p>
-<p>如果想要自己折腾安装OPL的话请参考官方文档，这里直接采取最简单最快的方案。</p>
-<p>先简单介绍一下OPL，其实就是翻译一下官方文档（</p>
+<h2 id="最简单的二元一次方程"><a href="#最简单的二元一次方程" class="headerlink" title="最简单的二元一次方程"></a>最简单的二元一次方程</h2><h3 id="这里情不自禁直接把-Matrix-Form-给写出来了"><a href="#这里情不自禁直接把-Matrix-Form-给写出来了" class="headerlink" title="这里情不自禁直接把 Matrix Form 给写出来了"></a>这里情不自禁直接把 Matrix Form 给写出来了</h3><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220716231556969.png" srcset="/img/loading.gif" lazyload alt="image-20220716231556969"></p>
+<h3 id="row-pic"><a href="#row-pic" class="headerlink" title="row pic"></a>row pic</h3><p>核心在于针对我们的方程组，<strong>一次只取一行</strong>，作图于xy平面</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220717162929274.png" srcset="/img/loading.gif" lazyload alt="image-20220717162929274" style="zoom:50%;" />
+
+<p>通过作图我们就可以得到，两条直线的交点就是方程组的解(1,2)(对应未知数矩阵)</p>
+<h3 id="column-pic"><a href="#column-pic" class="headerlink" title="column pic"></a>column pic</h3><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220717163118372.png" srcset="/img/loading.gif" lazyload alt="image-20220717163118372" style="zoom:50%;" />
+
+<p>方法是一列一列获取元素，本质是通过<strong>把系数矩阵 A 进行拆分</strong>，但是右边的 b 不变</p>
+<p>现在的问题就转换为<strong>找到一组合适的组合&#x2F;解x和y，可以使得等式成立</strong></p>
+<p>也即 <strong>AxAx 就是对 AA 的列向量进行 xx 对应的组合（这种组合显然是线性的）</strong></p>
+<p>这个思想方法是后来很重要的一个<code>线性组合</code>(linear combination)</p>
+<p>这里有两个列式向量[2,-1]和[-1,2]，我通过x和y<strong>以某种线性的方式来进行组合相加</strong>，这就是 <code>linear combination</code></p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003144602224.png" srcset="/img/loading.gif" lazyload alt="image-20221003144602224" style="zoom:50%;" />
+
+<p>通过作图，我们可以很容易的得出结果，蓝色实线与红色实线作为不平行的二维空间基底，可以通过构造2x红色+1x蓝色来得到最终的 b 向量</p>
+<h2 id="延伸到三元一次方程"><a href="#延伸到三元一次方程" class="headerlink" title="延伸到三元一次方程"></a>延伸到三元一次方程</h2><p>教授给出了一副三元一次方程</p>
+<p>三个未知数，三个方程，一定有解！</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150456022.png" srcset="/img/loading.gif" lazyload alt="image-20221003150456022" style="zoom:50%;" />
+
+<h3 id="Row-pic"><a href="#Row-pic" class="headerlink" title="Row pic"></a>Row pic</h3><p>这种方式直接进行画图其实就比较难了，由于现在是三维空间，每一行取出来都是表示一个三维空间的平面(plane)，因此画图很困难，<strong>无法直接通过每一行进行作图来画出解</strong></p>
+<p>不过值得明确的是，由于这三个平面一定不会平行，因此三个平面相交，一定是可以确定一个三维空间的点的，一定是有解！</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150537428.png" srcset="/img/loading.gif" lazyload alt="image-20221003150537428" style="zoom:33%;" />
+
+<h3 id="Column-pic"><a href="#Column-pic" class="headerlink" title="Column pic"></a>Column pic</h3><p>通过将系数矩阵A的列进行提取，我们可以得到下面的column pic</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150555101.png" srcset="/img/loading.gif" lazyload alt="image-20221003150555101" style="zoom: 50%;" />
+
+<p>由于老师这里专门设计了一下，我们一眼就能看出原方程组的解为(0,0,1)，这也从侧面体现出了，采用<code>column pic</code>作为解决方式的快捷与直观</p>
+<p>教授也引出了一个探讨的话题：</p>
 <blockquote>
-<p>OPL本质上其实是一个自制程序加载器，它支持三大存储设备</p>
-<ul>
-<li><p>USB硬盘设备</p>
-</li>
-<li><p>SMB网络共享</p>
-</li>
-<li><p>PS2专属硬盘</p>
-<p>USB 设备和 SMB 共享支持 USBExtreme 和 *.ISO 格式</p>
-<p>而 PS2 硬盘支持 HDLoader 格式</p>
-<p>所有设备也支持 ZSO 格式（压缩 ISO）。</p>
-</li>
-</ul>
+<p>对于<code>Ax=b</code>，是不是对于任何的b都有解？</p>
+<p>如果用线性组合(<code>linear combination</code>)的角度来看待这个问题，问题也可以转化为：系数矩阵中每一列的线性组合是否可以覆盖全部的空间(在这里三元是对应三维空间)</p>
 </blockquote>
-<p>最终只有通过核心的OPL我们才能运行游戏来进行免光盘游玩</p>
-<p>主要有三种方式运行OPL</p>
-<h3 id="从工具盘中运行OPL"><a href="#从工具盘中运行OPL" class="headerlink" title="从工具盘中运行OPL"></a>从工具盘中运行OPL</h3><p>这个方案<strong>要求机器需要带有直读</strong>，能正常读取自己刻录的光盘，如果光头坏了就参考下面其他的方案罢（悲）</p>
-<p>主要需要就是自己刻录一份然后丢到机器中运行，具体的方案后续会补充</p>
-<h3 id="FMCB启动"><a href="#FMCB启动" class="headerlink" title="FMCB启动"></a>FMCB启动</h3><p>如果您的记忆卡空间足够，可以准备一份Free MCBoot（FMCB）的安装包</p>
-<p>放到FAT32格式的U盘上，利用<strong>工具盘</strong>中的 LaunchELF 等文件管理工具将 FMCB 安装到记忆卡上，安装完毕后，当PS2插入这张记忆卡启动时，就会启动到FMCB界面，FMCB一般自带OPL，在系统菜单选择启动即可</p>
-<p>但是这里我觉得有点奇怪，既然前面说了工具盘自带OPL，那么为什么还需要多一步操作来运行LaunchELF 来进FMCB的安装呢，所以这一种我也没有尝试</p>
-<h3 id="钞能力，直接买做好的FMCB"><a href="#钞能力，直接买做好的FMCB" class="headerlink" title="钞能力，直接买做好的FMCB"></a>钞能力，直接买做好的FMCB</h3><p>由于我本身的两个记忆卡都是原装的，舍弃掉一个来做引导卡，有点肉疼</p>
-<p>因此这里直接上 TB 买一个做好了的FMCB</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003151113109.png" srcset="/img/loading.gif" lazyload alt="image-20221003151113109" style="zoom:50%;" />
+
+<p>这其实是取决于我们的A的，因为在 <code>Column pic</code> 中，如果是三元方程组，理论上有解的 column pic 中一定是<strong>存在三个互不共面的向量来作为三个基底的</strong>，如果发现题目给的数据中存在三个向量abc，其中c可以通过ab的线性组合得来，说明他们就不共面了，<strong>因此实际上相当于你只有两个有效的方程组，三个未知数，是没有唯一解的</strong></p>
+<h2 id="延申问题到九维空间"><a href="#延申问题到九维空间" class="headerlink" title="延申问题到九维空间"></a>延申问题到九维空间</h2><p>还是那个问题，对于<code>Ax=b</code>，是不是对于任何的b都有解？</p>
+<p>通过迁移，其实我们也可以举一反三了，只要系数矩阵中的9个列元素都可以作为九维空间的基底（不存在说其中的某一个可以被剩下八个向量表示的情况）那么我们就一定可以通过<code>linear combination</code>来对这九个向量组合，得到空间的任意一个向量b</p>
+<h2 id="矩阵的乘法"><a href="#矩阵的乘法" class="headerlink" title="矩阵的乘法"></a>矩阵的乘法</h2><p>由于之前提到过矩阵的<code>Matrix Form</code>，因此教授还对矩阵的乘法，形如<code>Ax=b</code>的乘法来进行一个讲解</p>
+<p>例题如下：</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003151348896.png" srcset="/img/loading.gif" lazyload alt="image-20221003151348896" style="zoom: 33%;" />
+
+<p>从<code>row pic</code>以及<code>column pic</code>的角度出发，其实还是有两种角度来看待</p>
+<h3 id="row-pic的角度"><a href="#row-pic的角度" class="headerlink" title="row pic的角度"></a>row pic的角度</h3><p>row pic 的核心思想在于一次取一行，因此我们取第一行[2,5]，点乘[1,2]^T^，得到的就是2*1+5*2&#x3D;12</p>
+<p>同理下面的就是1*1+3*2&#x3D;7</p>
+<h3 id="column-pic的角度"><a href="#column-pic的角度" class="headerlink" title="column pic的角度"></a>column pic的角度</h3><p>column pic的思想在于每次取的是系数矩阵的每一列，而最核心的辅助于他的实际上是<code>linear combination</code>这个核心概念</p>
+<p>我们在乘法的时候也可以运用上这个核心的思想</p>
+<p>上述的题目就相当于是：最终的结果&#x3D;1倍的[2,1]与2倍的[5,3]进行<code>linear combination</code>组合得来的，直接秒杀得到[12,7]</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>教授通过上述的问题在第一节课就提出了线性代数中很重要的一个概念：<code>linear combination</code></p>
+<p>同时也引出一个很重要的问题，是不是对于<code>Ax=b</code>，是不是对于任何的b都有解？</p>
+<p>为后续<code>奇异</code>，<code>可逆</code>的矩阵性质埋下伏笔</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h3><p>部分图片来自大佬的博客：<a target="_blank" rel="noopener" href="https://rqtn.github.io/2019/08/11/LA-Lec01/">Lec01 - 方程组的几何解释</a></p>
 
                 
               </div>
@@ -335,7 +360,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Game/" class="category-chain-item">Game</a>
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
   
   
 
@@ -350,9 +375,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/PS2/">#PS2</a>
+        <a href="/tags/MIT/">#MIT</a>
       
-        <a href="/tags/OPL/">#OPL</a>
+        <a href="/tags/Linear-Algebra/">#Linear Algebra</a>
       
     </div>
   
@@ -364,8 +389,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>PS2 OPL+SMB指南</div>
-      <div>http://example.com/2022/10/12/PS2-OPL-SMB指南/</div>
+      <div>MIT线性代数|01-Linear Combination</div>
+      <div>http://example.com/2022/10/12/MIT线性代数-01-Linear-Combination/</div>
     </div>
     <div class="license-meta">
       
@@ -409,15 +434,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/10/12/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6%E6%A8%A1%E5%9E%8B-%E4%B8%8A/" title="分布式系统数据复制模型(上)">
+                      <a href="/2022/10/12/MIT%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-02-Elimination/" title="MIT线性代数|02-Elimination">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">分布式系统数据复制模型(上)</span>
+                        <span class="hidden-mobile">MIT线性代数|02-Elimination</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2022/10/12/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6%E6%A8%A1%E5%9E%8B-%E4%B8%8A/" title="分布式系统数据复制模型(上)">
+                        <span class="hidden-mobile">分布式系统数据复制模型(上)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

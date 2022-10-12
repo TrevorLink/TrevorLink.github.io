@@ -16,23 +16,26 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="自己折腾记录，OpenPS2Loader+SMB共享实现网络传输读取ISO镜像数据">
+    <meta name="description" content="美团技术团队开源分享系列————分布式系统下常见的数据复制模型">
 <meta property="og:type" content="article">
-<meta property="og:title" content="PS2 OPL+SMB指南">
-<meta property="og:url" content="http://example.com/2022/10/12/PS2-OPL-SMB%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:title" content="分布式系统数据复制模型(上)">
+<meta property="og:url" content="http://example.com/2022/10/12/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6%E6%A8%A1%E5%9E%8B-%E4%B8%8A/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="自己折腾记录，OpenPS2Loader+SMB共享实现网络传输读取ISO镜像数据">
+<meta property="og:description" content="美团技术团队开源分享系列————分布式系统下常见的数据复制模型">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-10-12T06:12:01.000Z">
-<meta property="article:modified_time" content="2022-10-12T08:02:52.183Z">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c6a4c47606226ed3664c162796d0006482842.png">
+<meta property="article:published_time" content="2022-10-12T07:59:48.000Z">
+<meta property="article:modified_time" content="2022-10-12T08:03:24.939Z">
 <meta property="article:author" content="John Doe">
-<meta property="article:tag" content="PS2">
-<meta property="article:tag" content="OPL">
+<meta property="article:tag" content="分布式系统">
+<meta property="article:tag" content="基础架构">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png">
   
   
   
-  <title>PS2 OPL+SMB指南 - Hexo</title>
+  <title>分布式系统数据复制模型(上) - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +200,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="PS2 OPL+SMB指南"></span>
+            <span id="subtitle" data-typed-text="分布式系统数据复制模型(上)"></span>
           
         </div>
 
@@ -208,7 +211,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-10-12 14:12" pubdate>
+        <time datetime="2022-10-12 15:59" pubdate>
           2022年10月12日 下午
         </time>
       </span>
@@ -220,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          870 字
+          2.7k 字
         
       </span>
     
@@ -231,7 +234,7 @@
         
         
         
-          8 分钟
+          23 分钟
         
       </span>
     
@@ -269,54 +272,101 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">PS2 OPL+SMB指南</h1>
+            <h1 style="display: none">分布式系统数据复制模型(上)</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/330047471">参考思路来自知乎大佬</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/utnewbear/article/details/88543629">在PS2主机上使用OPL通过网络加载PC上的ISO玩游戏</a></p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>主要是我自己的那台PS2因为年代久远，光驱基本上有点危险了，前几天读自己刻的影之心，玩了一晚上，第二天再读取，死活就是读取不出来，于是想着把自己的那台薄机直接改成硬盘启动玩游戏，反正自己收藏的也不会拿出来读，光驱基本上可以退休了。</p>
-<h2 id="需要准备的"><a href="#需要准备的" class="headerlink" title="需要准备的"></a>需要准备的</h2><p>PS2主机一台</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>所有内容来自美团技术团队</p>
+<p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2022/08/25/replication-in-meituan-01.html">Replication（上）：常见复制模型&amp;分布式系统挑战 - 美团技术团队 (meituan.com)</a></p>
+<h2 id="为什么需要进行复制"><a href="#为什么需要进行复制" class="headerlink" title="为什么需要进行复制"></a>为什么需要进行复制</h2><ul>
+<li><p>系统的扩展性</p>
 <ul>
-<li>如果是厚机，则需要自备网卡</li>
-<li>如果是薄机，不需要额外网卡，内置网卡</li>
+<li>数据量读写负载增加，需要<strong>横向扩展</strong></li>
 </ul>
-<p>引导卡一个</p>
-<ul>
-<li>具体制作会在下面展开讲述</li>
-</ul>
-<p>电脑一台</p>
-<ul>
-<li>没有网线口的（比如说我）需要买一个拓展坞</li>
-<li>有网线口的继续往下看</li>
-</ul>
-<h2 id="自制系统运行OPL"><a href="#自制系统运行OPL" class="headerlink" title="自制系统运行OPL"></a>自制系统运行OPL</h2><p><a target="_blank" rel="noopener" href="https://github.com/ps2homebrew/Open-PS2-Loader">OPL是一个开源项目</a></p>
-<p>如果想要自己折腾安装OPL的话请参考官方文档，这里直接采取最简单最快的方案。</p>
-<p>先简单介绍一下OPL，其实就是翻译一下官方文档（</p>
-<blockquote>
-<p>OPL本质上其实是一个自制程序加载器，它支持三大存储设备</p>
-<ul>
-<li><p>USB硬盘设备</p>
 </li>
-<li><p>SMB网络共享</p>
+<li><p>系统的可用性以及容错性（高可用）</p>
+<ul>
+<li>单机故障在分布式系统中是常态，希望复制做到冗余备份，能够<strong>及时接管故障机器</strong></li>
+</ul>
 </li>
-<li><p>PS2专属硬盘</p>
-<p>USB 设备和 SMB 共享支持 USBExtreme 和 *.ISO 格式</p>
-<p>而 PS2 硬盘支持 HDLoader 格式</p>
-<p>所有设备也支持 ZSO 格式（压缩 ISO）。</p>
+<li><p>统一的用户体验</p>
+<ul>
+<li>多地部署服务，这个时候也是需要复制</li>
+</ul>
 </li>
 </ul>
-</blockquote>
-<p>最终只有通过核心的OPL我们才能运行游戏来进行免光盘游玩</p>
-<p>主要有三种方式运行OPL</p>
-<h3 id="从工具盘中运行OPL"><a href="#从工具盘中运行OPL" class="headerlink" title="从工具盘中运行OPL"></a>从工具盘中运行OPL</h3><p>这个方案<strong>要求机器需要带有直读</strong>，能正常读取自己刻录的光盘，如果光头坏了就参考下面其他的方案罢（悲）</p>
-<p>主要需要就是自己刻录一份然后丢到机器中运行，具体的方案后续会补充</p>
-<h3 id="FMCB启动"><a href="#FMCB启动" class="headerlink" title="FMCB启动"></a>FMCB启动</h3><p>如果您的记忆卡空间足够，可以准备一份Free MCBoot（FMCB）的安装包</p>
-<p>放到FAT32格式的U盘上，利用<strong>工具盘</strong>中的 LaunchELF 等文件管理工具将 FMCB 安装到记忆卡上，安装完毕后，当PS2插入这张记忆卡启动时，就会启动到FMCB界面，FMCB一般自带OPL，在系统菜单选择启动即可</p>
-<p>但是这里我觉得有点奇怪，既然前面说了工具盘自带OPL，那么为什么还需要多一步操作来运行LaunchELF 来进FMCB的安装呢，所以这一种我也没有尝试</p>
-<h3 id="钞能力，直接买做好的FMCB"><a href="#钞能力，直接买做好的FMCB" class="headerlink" title="钞能力，直接买做好的FMCB"></a>钞能力，直接买做好的FMCB</h3><p>由于我本身的两个记忆卡都是原装的，舍弃掉一个来做引导卡，有点肉疼</p>
-<p>因此这里直接上 TB 买一个做好了的FMCB</p>
+<h2 id="复制的方式和目的"><a href="#复制的方式和目的" class="headerlink" title="复制的方式和目的"></a>复制的方式和目的</h2><h3 id="复制的方式"><a href="#复制的方式" class="headerlink" title="复制的方式"></a>复制的方式</h3><p>数据的多机分布的方式主要有两种：</p>
+<p>一种是将数据分片保存，每个机器保存数据的部分分片（Kafka中称为Partition，其他部分系统称为Shard）</p>
+<p>另一种则是完全的冗余，其中每一份数据叫做一个副本（Kafka中称为Replica），通过数据复制技术实现。</p>
+<p>在分布式系统中，两种方式通常会<strong>共同使用</strong>，最后的数据分布往往是下图的样子，一台机器上会保存不同数据分片的若干个副本。这里主要探讨如何进行数据的复制</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png" srcset="/img/loading.gif" lazyload alt="图1 常见数据分布"></p>
+<h3 id="复制的目的"><a href="#复制的目的" class="headerlink" title="复制的目的"></a>复制的目的</h3><p>复制的目标需要保证<strong>若干个副本上的数据是一致的</strong>，这里的“一致”是一个<strong>十分不确定的词</strong></p>
+<p>从最终复制的结果来看，主要是有两种形式：</p>
+<ul>
+<li><strong>强一致性</strong>角度<ul>
+<li><strong>任何时候</strong>不同客端都能访问到<strong>相同的新的数据</strong></li>
+</ul>
+</li>
+<li><strong>最终一致性</strong>，可用性角度<ul>
+<li>不同客户端某一时刻访问的数据不相同，但<strong>在一段时间后可以访问到相同的数据</strong>（强调的是最终能实现一致，但是具体什么时候，我不知道）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>此时，大家可能会有疑问，直接让所有副本在任意时刻都保持一致不就行了，为啥还要有各种不同的一致性呢？</p>
+<p>我们认为有两个考量点，第一是性能，第二则是复杂性。</p>
+<p><strong>性能</strong>比较好理解，因为冗余的目的<strong>不完全是为了高可用，还有延迟和负载均衡这类提升性能的目的</strong>，如果只<strong>一味地为了地强调数据一致，可能得不偿失</strong>。</p>
+<p><strong>复杂性</strong>是因为分布式系统中，有着比单机系统更加复杂的不确定性，<strong>节点之间由于采用不大可靠的网络进行传输</strong>，并且不能共享统一的一套系统时间和内存地址（后文会详细进行说明），这使得原本在一些单机系统上很简单的事情，在转到分布式系统上以后就变得异常复杂。这种复杂性和不确定性甚至会让我们怀疑，这些副本上的数据真的能达成一致吗？</p>
+<h2 id="数据复制模式"><a href="#数据复制模式" class="headerlink" title="数据复制模式"></a>数据复制模式</h2><p>常见的数据复制模式主要有三种</p>
+<ul>
+<li>主从模式</li>
+<li>多Leader模式</li>
+<li>无Leader模式</li>
+</ul>
+<h3 id="主从模式——最简单的复制模式"><a href="#主从模式——最简单的复制模式" class="headerlink" title="主从模式——最简单的复制模式"></a>主从模式——最简单的复制模式</h3><p>这是最简单的方式</p>
+<p>核心思想在于赋予多个副本不同的<strong>角色</strong></p>
+<h4 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h4><p>我们常说主从架构中的主，是指主副本。主副本将数据存储在本地后，<strong>将数据更改作为日志，或者以更改流的方式发到各个从副本</strong>（后文也会称节点）中。</p>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>读取数据一致性问题无法保证</p>
+<p>网络传输的时间开销不可忽略</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c6a4c47606226ed3664c162796d0006482842.png" srcset="/img/loading.gif" lazyload alt="图2 同步复制与异步复制" style="zoom: 80%;" />
+
+<p>上述出现了<strong>异步复制</strong>和<strong>同步复制</strong>两种完全不同的复制方式（概念）</p>
+<p>可能读到旧值，这个其实有专门的名称————<strong>复制滞后</strong></p>
+<p>这是因为在异步复制中，由于写请求写到主副本就返回成功，在数据复制到其他副本的过程中，如果客户端进行读取，在不同副本读取到的数据可能会不一致，《DDIA》将这个种现象称为复制滞后（Replication Lag），存在这种问题的复制行为<strong>所形成的数据一致性统称为最终一致性</strong>。</p>
+<h4 id="一致性的解决方式"><a href="#一致性的解决方式" class="headerlink" title="一致性的解决方式"></a>一致性的解决方式</h4><p>两种做法可以参考</p>
+<ul>
+<li>Kafka当前的做法：所有客户端只能读主节点数据</li>
+<li>采用<strong>同步复制</strong>的方式，任何一个副本同步的时候出现故障都会阻塞，同时要求<strong>每一次写请求都需要等待所有节点进行确认</strong></li>
+</ul>
+<p>还是有问题</p>
+<ul>
+<li>所有读请求全部打入主节点，主节点故障切换时还是会有不一致问题</li>
+<li>第二种方案：副本过多时系统吞吐量极低，消耗性能</li>
+</ul>
+<p>很多系统都会采用<strong>半同步复制或异步复制来在可用性和一致性之间做权衡</strong></p>
+<h4 id="需要的一些能力"><a href="#需要的一些能力" class="headerlink" title="需要的一些能力"></a>需要的一些能力</h4><h5 id="追加新的从节点"><a href="#追加新的从节点" class="headerlink" title="追加新的从节点"></a>追加新的从节点</h5><ul>
+<li>在Kafka中，我们所采取的的方式是通过新建副本分配的方式，以追赶的方式从主副本中同步数据。</li>
+<li>而经常使用的数据库，所采用的方式则是通过<code>快照(snapshot)+增量更新同步</code>的方式来实现从节点数据的同步追赶，具体的操作实现步骤如下👇<ul>
+<li>在某一个时间点产生一个一致性的快照</li>
+<li>将快照拷贝到新创建的从节点</li>
+<li>由于上述过程存在一定的网络传输时间，在这个过程中还存在一些增量更新，<strong>因此从节点会连接到主节点请求所有快照点后发生的改变日志</strong></li>
+<li>获取到日志后，应用日志到自己的副本中，称之为追赶</li>
+</ul>
+</li>
+<li>相比Kafka，数据库是将一段时间间隔内的数据抽取成了一个<code>snapshot</code>的形式，之后多余的零散数据再进行<strong>追赶同步</strong></li>
+</ul>
+<h5 id="处理从节点失效"><a href="#处理从节点失效" class="headerlink" title="处理从节点失效"></a>处理从节点失效</h5><p>这里一般采取的就是<strong>追赶式恢复</strong></p>
+<p>下面还是从两个具体应用角度来看</p>
+<ul>
+<li>对于数据库而言，从节点可以知道在崩溃前所执行的最后一个事务，然后连接主节点，从该节点将拉取所有的事件变更，将这些变更应用到本地记录即可完成追赶。</li>
+<li>对于Kafka而言，恢复也是类似的，Kafka在运行过程中，会定期向磁盘文件中写入<code>checkpoint</code>，共包含两个文件，一个是recovery-point-offset-checkpoint，记录已经写到磁盘的offset，另一个则是replication-offset-checkpoint，用来记录高水位（下文简称HW），由ReplicaManager写入，下一次恢复时，Broker将读取两个文件的内容，可能有些被记录到本地磁盘上的日志没有提交，这时就会先截断（Truncate）到HW对应的offset上，然后从这个offset开始从Leader副本拉取数据，直到认追上Leader，被加入到ISR集合中</li>
+</ul>
+<h5 id="处理主节点失效"><a href="#处理主节点失效" class="headerlink" title="处理主节点失效"></a>处理主节点失效</h5><ol>
+<li>确认主节点失效，由于失效的原因有多种多样，大多数系统会采用超时来判定节点失效。一般都是采用节点间互发心跳的方式，如果发现某个节点在较长时间内无响应，则会认定为节点失效。具体到Kafka中，它是通过和Zookeeper（下文简称ZK）间的会话来保持心跳的，在启动时Kafka会在ZK上注册临时节点，此后会和ZK间维持会话，假设Kafka节点出现故障（这里指被动的掉线，不包含主动执行停服的操作），当会话心跳超时时，ZK上的临时节点会掉线，这时会有专门的组件（Controller）监听到这一信息，并认定节点失效。</li>
+<li>选举新的主节点。这里可以通过通过选举的方式（民主协商投票，通常使用共识算法），或由某个特定的组件指定某个节点作为新的节点（Kafka的Controller）。在选举或指定时，需要尽可能地让新主与原主的差距最小，这样会最小化数据丢失的风险（让所有节点都认可新的主节点是典型的共识问题）——这里所谓共识，就是让一个小组的节点就某一个议题达成一致，下一篇文章会重点进行介绍。</li>
+<li>重新配置系统是新的主节点生效，这一阶段基本可以理解为对集群的元数据进行修改，让所有外界知道新主节点的存在（Kafka中Controller通过元数据广播实现），后续及时旧的节点启动，也需要确保它不能再认为自己是主节点，从而承担写请求。</li>
+</ol>
 
                 
               </div>
@@ -335,7 +385,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Game/" class="category-chain-item">Game</a>
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
   
   
 
@@ -350,9 +400,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/PS2/">#PS2</a>
+        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">#分布式系统</a>
       
-        <a href="/tags/OPL/">#OPL</a>
+        <a href="/tags/%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84/">#基础架构</a>
       
     </div>
   
@@ -364,8 +414,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>PS2 OPL+SMB指南</div>
-      <div>http://example.com/2022/10/12/PS2-OPL-SMB指南/</div>
+      <div>分布式系统数据复制模型(上)</div>
+      <div>http://example.com/2022/10/12/分布式系统数据复制模型-上/</div>
     </div>
     <div class="license-meta">
       
@@ -409,15 +459,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/10/12/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6%E6%A8%A1%E5%9E%8B-%E4%B8%8A/" title="分布式系统数据复制模型(上)">
+                      <a href="/2022/10/12/MIT%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0-01-Linear-Combination/" title="MIT线性代数|01-Linear Combination">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">分布式系统数据复制模型(上)</span>
+                        <span class="hidden-mobile">MIT线性代数|01-Linear Combination</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2022/10/12/PS2-OPL-SMB%E6%8C%87%E5%8D%97/" title="PS2 OPL+SMB指南">
+                        <span class="hidden-mobile">PS2 OPL+SMB指南</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
