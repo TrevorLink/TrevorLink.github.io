@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>PS2 OPL+SMB指南</title>
+    <link href="/2022/10/12/PS2-OPL-SMB%E6%8C%87%E5%8D%97/"/>
+    <url>/2022/10/12/PS2-OPL-SMB%E6%8C%87%E5%8D%97/</url>
+    
+    <content type="html"><![CDATA[<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://www.zhihu.com/question/330047471">参考思路来自知乎大佬</a></p><p><a href="https://blog.csdn.net/utnewbear/article/details/88543629">在PS2主机上使用OPL通过网络加载PC上的ISO玩游戏</a></p><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>主要是我自己的那台PS2因为年代久远，光驱基本上有点危险了，前几天读自己刻的影之心，玩了一晚上，第二天再读取，死活就是读取不出来，于是想着把自己的那台薄机直接改成硬盘启动玩游戏，反正自己收藏的也不会拿出来读，光驱基本上可以退休了。</p><h2 id="需要准备的"><a href="#需要准备的" class="headerlink" title="需要准备的"></a>需要准备的</h2><p>PS2主机一台</p><ul><li>如果是厚机，则需要自备网卡</li><li>如果是薄机，不需要额外网卡，内置网卡</li></ul><p>引导卡一个</p><ul><li>具体制作会在下面展开讲述</li></ul><p>电脑一台</p><ul><li>没有网线口的（比如说我）需要买一个拓展坞</li><li>有网线口的继续往下看</li></ul><h2 id="自制系统运行OPL"><a href="#自制系统运行OPL" class="headerlink" title="自制系统运行OPL"></a>自制系统运行OPL</h2><p><a href="https://github.com/ps2homebrew/Open-PS2-Loader">OPL是一个开源项目</a></p><p>如果想要自己折腾安装OPL的话请参考官方文档，这里直接采取最简单最快的方案。</p><p>先简单介绍一下OPL，其实就是翻译一下官方文档（</p><blockquote><p>OPL本质上其实是一个自制程序加载器，它支持三大存储设备</p><ul><li><p>USB硬盘设备</p></li><li><p>SMB网络共享</p></li><li><p>PS2专属硬盘</p><p>USB 设备和 SMB 共享支持 USBExtreme 和 *.ISO 格式</p><p>而 PS2 硬盘支持 HDLoader 格式</p><p>所有设备也支持 ZSO 格式（压缩 ISO）。</p></li></ul></blockquote><p>最终只有通过核心的OPL我们才能运行游戏来进行免光盘游玩</p><p>主要有三种方式运行OPL</p><h3 id="从工具盘中运行OPL"><a href="#从工具盘中运行OPL" class="headerlink" title="从工具盘中运行OPL"></a>从工具盘中运行OPL</h3><p>这个方案<strong>要求机器需要带有直读</strong>，能正常读取自己刻录的光盘，如果光头坏了就参考下面其他的方案罢（悲）</p><p>主要需要就是自己刻录一份然后丢到机器中运行，具体的方案后续会补充</p><h3 id="FMCB启动"><a href="#FMCB启动" class="headerlink" title="FMCB启动"></a>FMCB启动</h3><p>如果您的记忆卡空间足够，可以准备一份Free MCBoot（FMCB）的安装包</p><p>放到FAT32格式的U盘上，利用<strong>工具盘</strong>中的 LaunchELF 等文件管理工具将 FMCB 安装到记忆卡上，安装完毕后，当PS2插入这张记忆卡启动时，就会启动到FMCB界面，FMCB一般自带OPL，在系统菜单选择启动即可</p><p>但是这里我觉得有点奇怪，既然前面说了工具盘自带OPL，那么为什么还需要多一步操作来运行LaunchELF 来进FMCB的安装呢，所以这一种我也没有尝试</p><h3 id="钞能力，直接买做好的FMCB"><a href="#钞能力，直接买做好的FMCB" class="headerlink" title="钞能力，直接买做好的FMCB"></a>钞能力，直接买做好的FMCB</h3><p>由于我本身的两个记忆卡都是原装的，舍弃掉一个来做引导卡，有点肉疼</p><p>因此这里直接上 TB 买一个做好了的FMCB</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Game</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>PS2</tag>
+      
+      <tag>OPL</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Test</title>
     <link href="/2022/10/11/Test/"/>
     <url>/2022/10/11/Test/</url>
@@ -21,7 +48,7 @@
     <link href="/2022/10/11/hello-world/"/>
     <url>/2022/10/11/hello-world/</url>
     
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
     
     
     
