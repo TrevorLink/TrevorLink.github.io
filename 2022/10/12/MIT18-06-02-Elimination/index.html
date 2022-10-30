@@ -16,26 +16,34 @@
   <meta name="author" content="TrevorLink">
   <meta name="keywords" content="">
   
-    <meta name="description" content="美团技术团队开源分享系列————分布式系统下常见的数据复制模型">
+    <meta name="description" content="MIT线性代数第二讲：系统化消元&amp;从行的线性组合与矩阵乘法理解消元">
 <meta property="og:type" content="article">
-<meta property="og:title" content="分布式系统数据复制模型(上)">
-<meta property="og:url" content="http://example.com/2022/10/12/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6%E6%A8%A1%E5%9E%8B-%E4%B8%8A/index.html">
+<meta property="og:title" content="MIT-18.06|02-Elimination">
+<meta property="og:url" content="http://example.com/2022/10/12/MIT18-06-02-Elimination/index.html">
 <meta property="og:site_name" content="黄鸭村">
-<meta property="og:description" content="美团技术团队开源分享系列————分布式系统下常见的数据复制模型">
+<meta property="og:description" content="MIT线性代数第二讲：系统化消元&amp;从行的线性组合与矩阵乘法理解消元">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c6a4c47606226ed3664c162796d0006482842.png">
-<meta property="article:published_time" content="2022-10-12T07:59:48.000Z">
-<meta property="article:modified_time" content="2022-10-12T08:03:24.939Z">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004101754850.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004102005619.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004103900881.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004104051046.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004151141485.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004151455843.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004152329517.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004152638894.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004152940158.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004153054618.png">
+<meta property="article:published_time" content="2022-10-12T08:11:59.000Z">
+<meta property="article:modified_time" content="2022-10-30T01:39:15.893Z">
 <meta property="article:author" content="TrevorLink">
-<meta property="article:tag" content="分布式系统">
-<meta property="article:tag" content="基础架构">
+<meta property="article:tag" content="MIT">
+<meta property="article:tag" content="Linear Algebra">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004101754850.png">
   
   
   
-  <title>分布式系统数据复制模型(上) - 黄鸭村</title>
+  <title>MIT-18.06|02-Elimination - 黄鸭村</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +208,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="分布式系统数据复制模型(上)"></span>
+            <span id="subtitle" data-typed-text="MIT-18.06|02-Elimination"></span>
           
         </div>
 
@@ -211,7 +219,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-10-12 15:59" pubdate>
+        <time datetime="2022-10-12 16:11" pubdate>
           2022年10月12日 下午
         </time>
       </span>
@@ -223,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          1.4k 字
         
       </span>
     
@@ -234,7 +242,7 @@
         
         
         
-          23 分钟
+          12 分钟
         
       </span>
     
@@ -272,101 +280,67 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">分布式系统数据复制模型(上)</h1>
+            <h1 style="display: none">MIT-18.06|02-Elimination</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>所有内容来自美团技术团队</p>
-<p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2022/08/25/replication-in-meituan-01.html">Replication（上）：常见复制模型&amp;分布式系统挑战 - 美团技术团队 (meituan.com)</a></p>
-<h2 id="为什么需要进行复制"><a href="#为什么需要进行复制" class="headerlink" title="为什么需要进行复制"></a>为什么需要进行复制</h2><ul>
-<li><p>系统的扩展性</p>
+                <h1 id="消元Elimination"><a href="#消元Elimination" class="headerlink" title="消元Elimination"></a>消元Elimination</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本次 Lecture 主要讲解如何<strong>运用消元法系统化地求解</strong></p>
+<p>什么时候消元法有效，什么时候失效？</p>
+<p>整门课程其实用到最多的是<strong>矩阵变换</strong></p>
+<h2 id="矩阵消元具体操作"><a href="#矩阵消元具体操作" class="headerlink" title="矩阵消元具体操作"></a>矩阵消元具体操作</h2><h3 id="专有名词"><a href="#专有名词" class="headerlink" title="专有名词"></a>专有名词</h3><p>首先这部分教授提出了一些专有名词定义</p>
 <ul>
-<li>数据量读写负载增加，需要<strong>横向扩展</strong></li>
+<li>主元 <code>pivot</code></li>
+<li>行列式 <code>determinant</code></li>
 </ul>
-</li>
-<li><p>系统的可用性以及容错性（高可用）</p>
+<p>其中：</p>
 <ul>
-<li>单机故障在分布式系统中是常态，希望复制做到冗余备份，能够<strong>及时接管故障机器</strong></li>
+<li>主元是我们自己定义的，如果出现系数矩阵中<strong>某一行主元为0</strong>的情况，那么我们可以在通过<strong>向下置换</strong>来实现</li>
+<li>行列式&#x3D;主元的乘积，这里教授只是简单引出，后续还会深入讲解</li>
 </ul>
-</li>
-<li><p>统一的用户体验</p>
-<ul>
-<li>多地部署服务，这个时候也是需要复制</li>
-</ul>
-</li>
-</ul>
-<h2 id="复制的方式和目的"><a href="#复制的方式和目的" class="headerlink" title="复制的方式和目的"></a>复制的方式和目的</h2><h3 id="复制的方式"><a href="#复制的方式" class="headerlink" title="复制的方式"></a>复制的方式</h3><p>数据的多机分布的方式主要有两种：</p>
-<p>一种是将数据分片保存，每个机器保存数据的部分分片（Kafka中称为Partition，其他部分系统称为Shard）</p>
-<p>另一种则是完全的冗余，其中每一份数据叫做一个副本（Kafka中称为Replica），通过数据复制技术实现。</p>
-<p>在分布式系统中，两种方式通常会<strong>共同使用</strong>，最后的数据分布往往是下图的样子，一台机器上会保存不同数据分片的若干个副本。这里主要探讨如何进行数据的复制</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png" srcset="/img/loading.gif" lazyload alt="图1 常见数据分布"></p>
-<h3 id="复制的目的"><a href="#复制的目的" class="headerlink" title="复制的目的"></a>复制的目的</h3><p>复制的目标需要保证<strong>若干个副本上的数据是一致的</strong>，这里的“一致”是一个<strong>十分不确定的词</strong></p>
-<p>从最终复制的结果来看，主要是有两种形式：</p>
-<ul>
-<li><strong>强一致性</strong>角度<ul>
-<li><strong>任何时候</strong>不同客端都能访问到<strong>相同的新的数据</strong></li>
-</ul>
-</li>
-<li><strong>最终一致性</strong>，可用性角度<ul>
-<li>不同客户端某一时刻访问的数据不相同，但<strong>在一段时间后可以访问到相同的数据</strong>（强调的是最终能实现一致，但是具体什么时候，我不知道）</li>
-</ul>
-</li>
-</ul>
-<hr>
-<p>此时，大家可能会有疑问，直接让所有副本在任意时刻都保持一致不就行了，为啥还要有各种不同的一致性呢？</p>
-<p>我们认为有两个考量点，第一是性能，第二则是复杂性。</p>
-<p><strong>性能</strong>比较好理解，因为冗余的目的<strong>不完全是为了高可用，还有延迟和负载均衡这类提升性能的目的</strong>，如果只<strong>一味地为了地强调数据一致，可能得不偿失</strong>。</p>
-<p><strong>复杂性</strong>是因为分布式系统中，有着比单机系统更加复杂的不确定性，<strong>节点之间由于采用不大可靠的网络进行传输</strong>，并且不能共享统一的一套系统时间和内存地址（后文会详细进行说明），这使得原本在一些单机系统上很简单的事情，在转到分布式系统上以后就变得异常复杂。这种复杂性和不确定性甚至会让我们怀疑，这些副本上的数据真的能达成一致吗？</p>
-<h2 id="数据复制模式"><a href="#数据复制模式" class="headerlink" title="数据复制模式"></a>数据复制模式</h2><p>常见的数据复制模式主要有三种</p>
-<ul>
-<li>主从模式</li>
-<li>多Leader模式</li>
-<li>无Leader模式</li>
-</ul>
-<h3 id="主从模式——最简单的复制模式"><a href="#主从模式——最简单的复制模式" class="headerlink" title="主从模式——最简单的复制模式"></a>主从模式——最简单的复制模式</h3><p>这是最简单的方式</p>
-<p>核心思想在于赋予多个副本不同的<strong>角色</strong></p>
-<h4 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h4><p>我们常说主从架构中的主，是指主副本。主副本将数据存储在本地后，<strong>将数据更改作为日志，或者以更改流的方式发到各个从副本</strong>（后文也会称节点）中。</p>
-<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>读取数据一致性问题无法保证</p>
-<p>网络传输的时间开销不可忽略</p>
-<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c6a4c47606226ed3664c162796d0006482842.png" srcset="/img/loading.gif" lazyload alt="图2 同步复制与异步复制" style="zoom: 80%;" />
+<h3 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h3><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004101754850.png" srcset="/img/loading.gif" lazyload alt="image-20221004101754850" style="zoom:50%;" />
 
-<p>上述出现了<strong>异步复制</strong>和<strong>同步复制</strong>两种完全不同的复制方式（概念）</p>
-<p>可能读到旧值，这个其实有专门的名称————<strong>复制滞后</strong></p>
-<p>这是因为在异步复制中，由于写请求写到主副本就返回成功，在数据复制到其他副本的过程中，如果客户端进行读取，在不同副本读取到的数据可能会不一致，《DDIA》将这个种现象称为复制滞后（Replication Lag），存在这种问题的复制行为<strong>所形成的数据一致性统称为最终一致性</strong>。</p>
-<h4 id="一致性的解决方式"><a href="#一致性的解决方式" class="headerlink" title="一致性的解决方式"></a>一致性的解决方式</h4><p>两种做法可以参考</p>
-<ul>
-<li>Kafka当前的做法：所有客户端只能读主节点数据</li>
-<li>采用<strong>同步复制</strong>的方式，任何一个副本同步的时候出现故障都会阻塞，同时要求<strong>每一次写请求都需要等待所有节点进行确认</strong></li>
-</ul>
-<p>还是有问题</p>
-<ul>
-<li>所有读请求全部打入主节点，主节点故障切换时还是会有不一致问题</li>
-<li>第二种方案：副本过多时系统吞吐量极低，消耗性能</li>
-</ul>
-<p>很多系统都会采用<strong>半同步复制或异步复制来在可用性和一致性之间做权衡</strong></p>
-<h4 id="需要的一些能力"><a href="#需要的一些能力" class="headerlink" title="需要的一些能力"></a>需要的一些能力</h4><h5 id="追加新的从节点"><a href="#追加新的从节点" class="headerlink" title="追加新的从节点"></a>追加新的从节点</h5><ul>
-<li>在Kafka中，我们所采取的的方式是通过新建副本分配的方式，以追赶的方式从主副本中同步数据。</li>
-<li>而经常使用的数据库，所采用的方式则是通过<code>快照(snapshot)+增量更新同步</code>的方式来实现从节点数据的同步追赶，具体的操作实现步骤如下👇<ul>
-<li>在某一个时间点产生一个一致性的快照</li>
-<li>将快照拷贝到新创建的从节点</li>
-<li>由于上述过程存在一定的网络传输时间，在这个过程中还存在一些增量更新，<strong>因此从节点会连接到主节点请求所有快照点后发生的改变日志</strong></li>
-<li>获取到日志后，应用日志到自己的副本中，称之为追赶</li>
-</ul>
-</li>
-<li>相比Kafka，数据库是将一段时间间隔内的数据抽取成了一个<code>snapshot</code>的形式，之后多余的零散数据再进行<strong>追赶同步</strong></li>
-</ul>
-<h5 id="处理从节点失效"><a href="#处理从节点失效" class="headerlink" title="处理从节点失效"></a>处理从节点失效</h5><p>这里一般采取的就是<strong>追赶式恢复</strong></p>
-<p>下面还是从两个具体应用角度来看</p>
-<ul>
-<li>对于数据库而言，从节点可以知道在崩溃前所执行的最后一个事务，然后连接主节点，从该节点将拉取所有的事件变更，将这些变更应用到本地记录即可完成追赶。</li>
-<li>对于Kafka而言，恢复也是类似的，Kafka在运行过程中，会定期向磁盘文件中写入<code>checkpoint</code>，共包含两个文件，一个是recovery-point-offset-checkpoint，记录已经写到磁盘的offset，另一个则是replication-offset-checkpoint，用来记录高水位（下文简称HW），由ReplicaManager写入，下一次恢复时，Broker将读取两个文件的内容，可能有些被记录到本地磁盘上的日志没有提交，这时就会先截断（Truncate）到HW对应的offset上，然后从这个offset开始从Leader副本拉取数据，直到认追上Leader，被加入到ISR集合中</li>
-</ul>
-<h5 id="处理主节点失效"><a href="#处理主节点失效" class="headerlink" title="处理主节点失效"></a>处理主节点失效</h5><ol>
-<li>确认主节点失效，由于失效的原因有多种多样，大多数系统会采用超时来判定节点失效。一般都是采用节点间互发心跳的方式，如果发现某个节点在较长时间内无响应，则会认定为节点失效。具体到Kafka中，它是通过和Zookeeper（下文简称ZK）间的会话来保持心跳的，在启动时Kafka会在ZK上注册临时节点，此后会和ZK间维持会话，假设Kafka节点出现故障（这里指被动的掉线，不包含主动执行停服的操作），当会话心跳超时时，ZK上的临时节点会掉线，这时会有专门的组件（Controller）监听到这一信息，并认定节点失效。</li>
-<li>选举新的主节点。这里可以通过通过选举的方式（民主协商投票，通常使用共识算法），或由某个特定的组件指定某个节点作为新的节点（Kafka的Controller）。在选举或指定时，需要尽可能地让新主与原主的差距最小，这样会最小化数据丢失的风险（让所有节点都认可新的主节点是典型的共识问题）——这里所谓共识，就是让一个小组的节点就某一个议题达成一致，下一篇文章会重点进行介绍。</li>
-<li>重新配置系统是新的主节点生效，这一阶段基本可以理解为对集群的元数据进行修改，让所有外界知道新主节点的存在（Kafka中Controller通过元数据广播实现），后续及时旧的节点启动，也需要确保它不能再认为自己是主节点，从而承担写请求。</li>
-</ol>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004102005619.png" srcset="/img/loading.gif" lazyload alt="image-20221004102005619"></p>
+<p>同时我们最终可以得到原来系数矩阵A通过消元得到的上三角矩阵U(Upper Triangular)</p>
+<p>其中方框中标出的就是我们的主元，主元是我们自己定义的，如果出现系数矩阵中<strong>某一行主元为0</strong>的情况，那么我们可以在通过<strong>向下置换</strong>来实现</p>
+<h3 id="消元失效的情况"><a href="#消元失效的情况" class="headerlink" title="消元失效的情况"></a>消元失效的情况</h3><p>正如上面所说，当想要消元得出主元的时候发现主元也消掉，出现主元为0的情况，我们就可以通过向下交换</p>
+<p>当然<strong>如果下面没有了，出现最后一行主元为0的情况，此时消元就失效了，方程无解</strong></p>
+<p>换句话说，n*n的矩阵中如果主元个数最终通过置换还是不为n，那么此时消元就失效了</p>
+<h3 id="增广矩阵回代"><a href="#增广矩阵回代" class="headerlink" title="增广矩阵回代"></a>增广矩阵回代</h3><p>教授这里将右边的b在初次消元时不带入，最终以<code>Argument Matrix</code>的形式接入，但是实际上还是需要遵循因消元而产生<strong>的倍增倍缩</strong>情况进行计算，最终得到一个<code>c</code>，<strong>c对应b正如U对应A一样</strong></p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004103900881.png" srcset="/img/loading.gif" lazyload alt="image-20221004103900881" style="zoom:50%;" />
+
+<p>求到了这里之后就可以进行最后的回代了，原来的<code>Ax=b</code>现在已经转化为了<code>Ux=c</code></p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004104051046.png" srcset="/img/loading.gif" lazyload alt="image-20221004104051046" style="zoom:50%;" />
+
+<h2 id="从矩阵乘法的角度来看消元"><a href="#从矩阵乘法的角度来看消元" class="headerlink" title="从矩阵乘法的角度来看消元"></a>从矩阵乘法的角度来看消元</h2><h3 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h3><p>首先教授进行了一个<strong>从线性代数本质来看矩阵操作的前置科普</strong></p>
+<p>主要是行和列和线性组合</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004151141485.png" srcset="/img/loading.gif" lazyload alt="image-20221004151141485"></p>
+<p>这里其实就涉及到了线性代数中核心概念：<strong>分别使用行（左乘）和列（右乘）进行矩阵操作。</strong></p>
+<h3 id="矩阵乘法进行消元"><a href="#矩阵乘法进行消元" class="headerlink" title="矩阵乘法进行消元"></a>矩阵乘法进行消元</h3><p>在上述的基础上，教授提出了如何进行消元，可以这么理解</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004151455843.png" srcset="/img/loading.gif" lazyload alt="image-20221004151455843"></p>
+<p>对于原始的系数矩阵A进行左乘操作，采用行的线性组合</p>
+<p>[1,0,0]表示的是新结果（也就是右边）的第一行，<strong>行的线性组合应该是1倍的原来矩阵第一行+0倍的原来矩阵第二行+0倍的原来矩阵第三行</strong></p>
+<p>同理第三行[0,0,1]表示的是新矩阵的第三行</p>
+<blockquote>
+<p>这也是为什么说[[1,0,0],[0,1,0],[0,0,1]]是单位矩阵，也可以从这个角度进行理解</p>
+</blockquote>
+<p>最重要的由于我们这里需要消元的是A<del>21</del>，因此最终要的是第二行的操作，想要消元A<del>21</del>，我们就<strong>需要让-3*第一行+第二行，而不需要第三行参与，因此这里就是[-3,1,0]</strong></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p><a target="_blank" rel="noopener" href="https://rqtn.github.io/2019/08/11/LA-Lec02/">这里参考大佬的总结👇</a></p>
+<p><strong>一个指定位置的消元不过是一次行的线性组合</strong></p>
+<h2 id="从行的线性组合理解置换矩阵和逆矩阵"><a href="#从行的线性组合理解置换矩阵和逆矩阵" class="headerlink" title="从行的线性组合理解置换矩阵和逆矩阵"></a>从行的线性组合理解置换矩阵和逆矩阵</h2><h3 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h3><p>有了上述的前置条件，其实我们就很清楚如何实现矩阵的置换以及矩阵的逆操作了</p>
+<p>教授在最后进行整篇 Lecture 的补充</p>
+<h3 id="置换矩阵"><a href="#置换矩阵" class="headerlink" title="置换矩阵"></a>置换矩阵</h3><p>不需要死记硬背，这个其实很好理解</p>
+<p>相当于说我们让新的第一行&#x2F;列是原来的第二行&#x2F;列，新的第二行&#x2F;列是原来的第一行&#x2F;列，</p>
+<h4 id="行置换"><a href="#行置换" class="headerlink" title="行置换"></a>行置换</h4><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004152329517.png" srcset="/img/loading.gif" lazyload alt="image-20221004152329517"></p>
+<p>注意是<strong>左乘操作进行 行的线性组合</strong></p>
+<h4 id="列置换"><a href="#列置换" class="headerlink" title="列置换"></a>列置换</h4><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004152638894.png" srcset="/img/loading.gif" lazyload alt="image-20221004152638894"></p>
+<p>注意是<strong>右乘操作进行 列的线性组合</strong></p>
+<h3 id="逆矩阵"><a href="#逆矩阵" class="headerlink" title="逆矩阵"></a>逆矩阵</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><p>逆矩阵需要注意和转置矩阵进行区分</p>
+<p>逆矩阵的本质其实就是为了<strong>撤销之前的行变换合并操作</strong></p>
+<h4 id="如何计算"><a href="#如何计算" class="headerlink" title="如何计算"></a>如何计算</h4><p>对于一个 3×3 的 矩阵 A，当我们左乘一个 E 矩阵就表示对 A 进行一次行的线性组合，是一次<strong>行变换</strong>，具体变换操作是将 −3 倍的第一行和第二行相加得到新的第二行，而第一行和第三行保持不变</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004152940158.png" srcset="/img/loading.gif" lazyload alt="image-20221004152940158"></p>
+<p>如果想要撤销其实只需要把之前加回去的给他减掉其实就行了</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221004153054618.png" srcset="/img/loading.gif" lazyload alt="image-20221004153054618"></p>
 
                 
               </div>
@@ -400,9 +374,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">#分布式系统</a>
+        <a href="/tags/MIT/">#MIT</a>
       
-        <a href="/tags/%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84/">#基础架构</a>
+        <a href="/tags/Linear-Algebra/">#Linear Algebra</a>
       
     </div>
   
@@ -414,8 +388,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>分布式系统数据复制模型(上)</div>
-      <div>http://example.com/2022/10/12/分布式系统数据复制模型-上/</div>
+      <div>MIT-18.06|02-Elimination</div>
+      <div>http://example.com/2022/10/12/MIT18-06-02-Elimination/</div>
     </div>
     <div class="license-meta">
       
@@ -459,9 +433,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/10/12/MIT-18-06-01-Linear-Combination/" title="MIT-18.06|01-Linear Combination">
+                      <a href="/2022/10/13/TED-%E5%A6%82%E4%BD%95%E5%BA%94%E5%AF%B9%E7%84%A6%E8%99%91/" title="TED|如何应对焦虑">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MIT-18.06|01-Linear Combination</span>
+                        <span class="hidden-mobile">TED|如何应对焦虑</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -469,8 +443,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/10/12/PS2-OPL-SMB%E6%8C%87%E5%8D%97/" title="PS2 OPL+SMB指南">
-                        <span class="hidden-mobile">PS2 OPL+SMB指南</span>
+                      <a href="/2022/10/12/MIT-18-06-01-Linear-Combination/" title="MIT-18.06|01-Linear Combination">
+                        <span class="hidden-mobile">MIT-18.06|01-Linear Combination</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
