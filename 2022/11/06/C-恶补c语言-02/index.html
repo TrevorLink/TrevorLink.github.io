@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221106193544313.png">
 <meta property="article:published_time" content="2022-11-06T14:28:48.000Z">
-<meta property="article:modified_time" content="2022-11-06T14:29:24.078Z">
+<meta property="article:modified_time" content="2022-11-06T15:10:15.338Z">
 <meta property="article:author" content="TrevorLink">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="Programming Language">
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          2.9k 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          22 分钟
+          24 分钟
         
       </span>
     
@@ -317,6 +317,21 @@
 <li>异常标识返回，需要返回是否正确，同时也要返回结果（在底层操作文件的库中很常见），这个在现在的 <code>cpp/java</code> 中不常见，取而代之的是异常 <strong>Exception</strong> 的处理</li>
 </ul>
 <h3 id="空指针"><a href="#空指针" class="headerlink" title="空指针"></a>空指针</h3><p><strong>指针变量在没有初始化的时候不能使用</strong>，因为没有初始化的时候，默认值可能被分配到了一个奇怪的值，这个奇怪的值是地址值，然后你试图通过 <code>*p</code> 向这个地址写入数据，很有可能出现 <code>segement fault</code> 这样的问题。</p>
+<h2 id="数组与指针"><a href="#数组与指针" class="headerlink" title="数组与指针"></a>数组与指针</h2><p>数组作为其他函数的参数的时候<strong>本质上传递的是一个指针</strong>。</p>
+<p>这也就是为什么我们说传参数的时候再用 <code>size_of</code> 其实是求不出来的， 因为即使你用 <code>size_of</code> 去获取大小，获取到的本质上还是 <code>pointer</code> 的类型大小所占字节。</p>
+<blockquote>
+<p>数组变量是一个特殊的指针。</p>
+</blockquote>
+<p>数组变量本身就表达了地址，这是因为我们之前说的，数组变量被数组的第一个元素所代表，相当于起了一个别名(alias)。</p>
+<ul>
+<li>因此 <code>[]</code> 运算符也可以对指针做。</li>
+<li>因此 <code>*</code> 运算符也可以对指针做，表示的是获取<strong>数组指针的所指向的数组的第一个元素</strong>。</li>
+</ul>
+<p>但是数组的单元他是变量，是需要用 <code>&amp;</code> 来获取的。</p>
+<blockquote>
+<p>数组变量本质是 <code>int* const </code> 的，因此数组本身不可变。</p>
+</blockquote>
+<p>所以是不可以出现类似 <code>int [] a = b</code> 这样的代码的。</p>
 
                 
               </div>
