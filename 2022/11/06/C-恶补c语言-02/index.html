@@ -1,0 +1,682 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="TrevorLink">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="c快速回顾——数组与指针">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C|恶补c语言#02">
+<meta property="og:url" content="http://example.com/2022/11/06/C-%E6%81%B6%E8%A1%A5c%E8%AF%AD%E8%A8%80-02/index.html">
+<meta property="og:site_name" content="黄鸭村">
+<meta property="og:description" content="c快速回顾——数组与指针">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221106193544313.png">
+<meta property="article:published_time" content="2022-11-06T14:28:48.000Z">
+<meta property="article:modified_time" content="2022-11-06T14:29:24.078Z">
+<meta property="article:author" content="TrevorLink">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="Programming Language">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221106193544313.png">
+  
+  
+  
+  <title>C|恶补c语言#02 - 黄鸭村</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>黄鸭村</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C|恶补c语言#02"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-06 22:28" pubdate>
+          2022年11月6日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">C|恶补c语言#02</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>还是标准不一样，C99之前，数组大小只能是 <code>const</code> 定义，但是 C99 之后，数组的大小可以通过变量来代替。</p>
+<h2 id="数组的大小"><a href="#数组的大小" class="headerlink" title="数组的大小"></a>数组的大小</h2><p>很妙的一个计算，是的代码具有可移植性，同时即使数组数据修改了，在遍历的时候求数组大小的代码也不需要改变。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-built_in">int</span> a[]=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>&#125;;<br><span class="hljs-comment">//数组大小=整个数组所占的内容/单个数组单元所占的内存</span><br><span class="hljs-built_in">int</span> len = <span class="hljs-keyword">sizeof</span>(a)/<span class="hljs-keyword">sizeof</span>(a[<span class="hljs-number">0</span>]);<br></code></pre></td></tr></table></figure>
+
+<p>但是需要注意的是，<strong>当数组作为函数的参数时，往往需要再加一个参数来用于传入这个数组的大小。</strong></p>
+<p>此时不能再利用 <strong>sizeof</strong> 来计算数组元素个数（具体为什么，后面指针的时候会说），当然也不能直接隐式声明传入数组大小。</p>
+<h1 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h1><h2 id="amp-运算符"><a href="#amp-运算符" class="headerlink" title="&amp;运算符"></a>&amp;运算符</h2><p>表示的是获取变量在内存中的<strong>地址</strong>，因此操作的对象只能是变量。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>     <span class="hljs-type">unsigned</span> i = <span class="hljs-number">0</span>;<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p&quot;</span>,&amp;i);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="不同机器上的占用"><a href="#不同机器上的占用" class="headerlink" title="不同机器上的占用"></a>不同机器上的占用</h3><p>注意 c 的指针在不同字长的机器上所占的字节数是不一样的，<strong>究竟占用多少字节取决于你的机器的架构</strong>，这个其实在我们之前和 CSAPP 的时候也都有提到过。</p>
+<p>在 32 位机器上一个指针所占用的字节数是 4byte，而在 64 位机器上一个指针所占用的字节数是 8byte。（而int无论在64还是32位架构的机器上都是 4byte 的大小，因此我们不能简单地通过 <code>%x</code>的方式来进行打印，指针有专门的占位符打印方式:<code>%p</code></p>
+<p>我们可以利用 <code>size_of</code> 来通过如下的代码来进行验证。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>     <span class="hljs-type">int</span> i;<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lu\n&quot;</span>,<span class="hljs-built_in">sizeof</span>(<span class="hljs-type">int</span>));<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%lu&quot;</span>,<span class="hljs-built_in">sizeof</span>(&amp;i));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221106193544313.png" srcset="/img/loading.gif" lazyload alt="image-20221106193544313"></p>
+<h3 id="相邻变量的地址获取"><a href="#相邻变量的地址获取" class="headerlink" title="相邻变量的地址获取"></a>相邻变量的地址获取</h3><p>直接看代码。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>     <span class="hljs-type">int</span> i = <span class="hljs-number">0</span>;<br>     <span class="hljs-type">int</span> p;<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>, &amp;i);<span class="hljs-comment">//000000000061FE1C</span><br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p&quot;</span>, &amp;p);<span class="hljs-comment">//000000000061FE18</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过对比我们可以发现他们的地址刚好就相差 4 个字节的长度，这是因为 int 数据类型所占据的内存大小就是 4 字节。</p>
+<p>同时通过这个实验我们也可以看到这两个变量在内存的地址其实<strong>反而先定义的变量地址更大</strong>，这个主要是因为根据 c 的内存模型是一个堆栈结构，是自顶向下放置变量的，因此先定义的变量在内存中的地址其实是更大的，从大地址到小地址开始排（ CSAPP 的大小端？）。</p>
+<h3 id="数组的地址"><a href="#数组的地址" class="headerlink" title="数组的地址"></a>数组的地址</h3><p>还是直接看代码。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>     <span class="hljs-type">int</span> arr[<span class="hljs-number">10</span>];<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,&amp;arr);<span class="hljs-comment">//000000000061FDF0</span><br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,arr);<span class="hljs-comment">//000000000061FDF0</span><br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,&amp;arr[<span class="hljs-number">0</span>]);<span class="hljs-comment">//000000000061FDF0</span><br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%p\n&quot;</span>,&amp;arr[<span class="hljs-number">1</span>]);<span class="hljs-comment">//000000000061FDF4</span><br>     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>通过这里我们可以验证数组的<strong>连续性</strong>~</p>
+<p>同时进一步得出，<strong>仅仅用数组的第一个元素就可以代表数组</strong>，因为知道了第一个元素的地址，同时编译器也知道了数组的数据类型，那么就可以通过<strong>下标等距间隔来计算出下一个元素在内存中的位置</strong>了。</p>
+<h2 id="指针变量"><a href="#指针变量" class="headerlink" title="指针变量"></a>指针变量</h2><h3 id="基本声明"><a href="#基本声明" class="headerlink" title="基本声明"></a>基本声明</h3><p>没有 <code>int*</code> 这种变量，只有 <code>*p</code> 这种变量的声明，表示这是一个指针变量。<code>*</code>可以靠近 int 也可以靠近 p ，因此我们有如下的代码。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs css">//都是定义指针变量<span class="hljs-selector-tag">p</span>和普通int变量<span class="hljs-selector-tag">q</span><br>int* <span class="hljs-selector-tag">p</span>,<span class="hljs-selector-tag">q</span>;<br>int *<span class="hljs-selector-tag">p</span>,<span class="hljs-selector-tag">q</span>;<br>//定义了两个指针变量<span class="hljs-selector-tag">p</span>和<span class="hljs-selector-tag">q</span><br>int *<span class="hljs-selector-tag">p</span>,*<span class="hljs-selector-tag">q</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h3><p>这是最精髓也是最常用到的部分，直接看代码。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">changeVal</span><span class="hljs-params">(<span class="hljs-type">int</span> *p)</span></span>;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>     <span class="hljs-type">int</span> num=<span class="hljs-number">1</span>;<br>     <span class="hljs-built_in">changeVal</span>(&amp;num);<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;after change:%d&quot;</span>,num);<br>&#125;<br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">changeVal</span><span class="hljs-params">(<span class="hljs-type">int</span> *p)</span></span><br><span class="hljs-function"></span>&#123;<br>     <span class="hljs-comment">//读数据</span><br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;before change:%d\n&quot;</span>,*p);<br>     <span class="hljs-comment">//写数据</span><br>     *p=<span class="hljs-number">2</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里参数的 p 就是一个指针变量，存储的是地址，而 <code>*p</code> 则表示我们可以通过地址来访问到对应的数据。</p>
+<p>虽然这里修改数据本质还是 <strong>值的传递</strong> ，但是传递的是地址值。</p>
+<p><strong>补充</strong>：c 语言的左值，之所以叫<strong>左值</strong>，是因为<strong>它本身是一个表达式，是一个运算的结果，是一个值</strong>，不要简单地像 Java 那样理解为只能是变量。</p>
+<h3 id="为什么scanf直接传数字不会报错"><a href="#为什么scanf直接传数字不会报错" class="headerlink" title="为什么scanf直接传数字不会报错"></a>为什么scanf直接传数字不会报错</h3><p>综合上述的所有我们已经可以回答了，可能你是 32 位系统的机器，因此 int 和 pointer 变量都占用了4byte 的数据，所以在编译阶段是没有问题的，在执行 scanf 这个函数进去的时候也是没有问题， scanf 这个函数把传入的普通数字也直接当成了地址值，但是如果我们传入的是内存低地址区域的数字，那部分是不让访问的，因此会直接报错出现 <code>segementation fault</code> 这个错误，当然也可能不出现错误。</p>
+<h3 id="为什么需要指针"><a href="#为什么需要指针" class="headerlink" title="为什么需要指针"></a>为什么需要指针</h3><p>主要是有如下的两个场景：</p>
+<ul>
+<li>函数的返回值默认是只能返回一个，但是当一个返回不够，就得通过<strong>指针传递的方式通过引用间接返回多个结果数据</strong>。</li>
+<li>异常标识返回，需要返回是否正确，同时也要返回结果（在底层操作文件的库中很常见），这个在现在的 <code>cpp/java</code> 中不常见，取而代之的是异常 <strong>Exception</strong> 的处理</li>
+</ul>
+<h3 id="空指针"><a href="#空指针" class="headerlink" title="空指针"></a>空指针</h3><p><strong>指针变量在没有初始化的时候不能使用</strong>，因为没有初始化的时候，默认值可能被分配到了一个奇怪的值，这个奇怪的值是地址值，然后你试图通过 <code>*p</code> 向这个地址写入数据，很有可能出现 <code>segement fault</code> 这样的问题。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/C/">#C</a>
+      
+        <a href="/tags/Programming-Language/">#Programming Language</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C|恶补c语言#02</div>
+      <div>http://example.com/2022/11/06/C-恶补c语言-02/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>TrevorLink</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月6日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/06/C-%E6%81%B6%E8%A1%A5c%E8%AF%AD%E8%A8%80-01/" title="C|恶补c语言#01">
+                        <span class="hidden-mobile">C|恶补c语言#01</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
