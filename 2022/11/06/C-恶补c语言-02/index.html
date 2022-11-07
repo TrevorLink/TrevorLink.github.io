@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221106193544313.png">
 <meta property="article:published_time" content="2022-11-06T14:28:48.000Z">
-<meta property="article:modified_time" content="2022-11-06T15:10:15.338Z">
+<meta property="article:modified_time" content="2022-11-07T04:59:12.329Z">
 <meta property="article:author" content="TrevorLink">
 <meta property="article:tag" content="C">
 <meta property="article:tag" content="Programming Language">
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          3.8k 字
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          24 分钟
+          32 分钟
         
       </span>
     
@@ -318,11 +318,11 @@
 </ul>
 <h3 id="空指针"><a href="#空指针" class="headerlink" title="空指针"></a>空指针</h3><p><strong>指针变量在没有初始化的时候不能使用</strong>，因为没有初始化的时候，默认值可能被分配到了一个奇怪的值，这个奇怪的值是地址值，然后你试图通过 <code>*p</code> 向这个地址写入数据，很有可能出现 <code>segement fault</code> 这样的问题。</p>
 <h2 id="数组与指针"><a href="#数组与指针" class="headerlink" title="数组与指针"></a>数组与指针</h2><p>数组作为其他函数的参数的时候<strong>本质上传递的是一个指针</strong>。</p>
-<p>这也就是为什么我们说传参数的时候再用 <code>size_of</code> 其实是求不出来的， 因为即使你用 <code>size_of</code> 去获取大小，获取到的本质上还是 <code>pointer</code> 的类型大小所占字节。</p>
+<p>这也就是为什么我们说传参数的时候再用 <code>size_of</code> 其实是求不出来的， 因为即使你用 <code>size_of</code> 去获取大小，获取到的本质上还是 <code>pointer</code> 的类型大小所占字节。（也就是说在 32 位机器上是 4 字节，在 64 位机器上是 8 字节。）</p>
 <blockquote>
 <p>数组变量是一个特殊的指针。</p>
 </blockquote>
-<p>数组变量本身就表达了地址，这是因为我们之前说的，数组变量被数组的第一个元素所代表，相当于起了一个别名(alias)。</p>
+<p>数组变量本身就表达了地址，这是因为我们之前说的，<strong>数组变量被数组的第一个元素所代表，相当于起了一个别名</strong>(alias)。</p>
 <ul>
 <li>因此 <code>[]</code> 运算符也可以对指针做。</li>
 <li>因此 <code>*</code> 运算符也可以对指针做，表示的是获取<strong>数组指针的所指向的数组的第一个元素</strong>。</li>
@@ -332,6 +332,29 @@
 <p>数组变量本质是 <code>int* const </code> 的，因此数组本身不可变。</p>
 </blockquote>
 <p>所以是不可以出现类似 <code>int [] a = b</code> 这样的代码的。</p>
+<h2 id="指针与const"><a href="#指针与const" class="headerlink" title="指针与const"></a>指针与const</h2><p>如果考虑指针的同时我们也考虑到 const 常量这一个因素的话，我们其实不难得出，指针本身可以是一个常量，而指针所指向的那个元素它也可以是一个常量，并且这两者是有本质上的区别的。</p>
+<h3 id="指针是const"><a href="#指针是const" class="headerlink" title="指针是const"></a>指针是const</h3><p><strong>指针不可修改</strong>。</p>
+<p>意思就是说<strong>地址的值不可以被改变了</strong>，换句话说，q指向i这个事实不能再改变了，q记录的永远就是i的地址值，还是直接看代码。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span>* <span class="hljs-type">const</span> q = &amp;i;<span class="hljs-comment">//q是i变量的指针变量，记录的是地址值。</span><br>*q=<span class="hljs-number">26</span>;<span class="hljs-comment">//没有改变地址值，改变的是同一个地址值元素的值</span><br>q++;<span class="hljs-comment">//地址值改变了，报错！</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="指针所指是const"><a href="#指针所指是const" class="headerlink" title="指针所指是const"></a>指针所指是const</h3><p><strong>通过指针，不可修改</strong>。</p>
+<p>寻址的逻辑是固定的，还是看代码。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> *p = &amp;i;<span class="hljs-comment">//这里说的是*p是const，也就是寻址的逻辑是固定的，不可改变</span><br>*p=<span class="hljs-number">945</span>;<span class="hljs-comment">//不可以，寻址的逻辑改变了</span><br>p++;<span class="hljs-comment">//OK,因为p不是const</span><br>i++;<span class="hljs-comment">//OK,因为i不是const</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="到底怎么看"><a href="#到底怎么看" class="headerlink" title="到底怎么看"></a>到底怎么看</h3><p>直接看 <code>*</code> 到底在 <code>const</code> 的前面还是后面。</p>
+<p>如果是 <code>const</code> 在 <code>*</code> 的后面，表示修饰的是指针，是指针不可修改。</p>
+<p>如果是 <code>const</code> 在 <code>*</code> 的前面，表示修饰的是 <code>*p</code> 这种通过指针的寻址方式不可修改。</p>
+<h3 id="有什么用"><a href="#有什么用" class="headerlink" title="有什么用"></a>有什么用</h3><p><strong>通过指针的寻址方式不可修改</strong> 其作用在于函数参数传递的时候，如果函数的原型为</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span>* p)</span>;<br></code></pre></td></tr></table></figure>
+
+<p>则表示说<strong>我这个函数保证不会通过你这个指针来进行数据的修改</strong>，这种一般常用于 <code>struct</code> 类型的参数进行传递的时候，这个后面会再说。</p>
+<h3 id="数组与const"><a href="#数组与const" class="headerlink" title="数组与const"></a>数组与const</h3><p>我们已经知道数组作为函数的参数进行传递的时候本质上是一个 <code>const</code> 类型的指针变量，但是如果我们在定义的时候再加上 <code>const</code> 进行声明，则表示说，这个数组的每一个元素都是不可变的。<strong>但是与此同时我们也只能通过显式声明的方式来进行元素的初始化</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">const</span> <span class="hljs-type">int</span> arr[] = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>通过这种方式可以<strong>保护数组即使是传递参数的时候，其内部元素的 value 也不会被破坏</strong>。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">sum</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">int</span> arr[] , <span class="hljs-type">int</span> len)</span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="指针运算"><a href="#指针运算" class="headerlink" title="指针运算"></a>指针运算</h2><p>指针+1其实是让指针移动到下一个数据单元的地址上，这个和指针所指的数据类型有关。</p>
 
                 
               </div>
