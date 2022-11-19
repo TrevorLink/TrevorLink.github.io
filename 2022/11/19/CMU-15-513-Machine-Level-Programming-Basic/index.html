@@ -19,7 +19,7 @@
     <meta name="description" content="CMU 15-213 Machine Level Programming 第一讲">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CMU 15-513|Machine Level Programming-Basic">
-<meta property="og:url" content="http://example.com/2022/10/23/CMU-15-513-Machine-Level-Programming-Basic/index.html">
+<meta property="og:url" content="http://example.com/2022/11/19/CMU-15-513-Machine-Level-Programming-Basic/index.html">
 <meta property="og:site_name" content="黄鸭村">
 <meta property="og:description" content="CMU 15-213 Machine Level Programming 第一讲">
 <meta property="og:locale" content="zh_CN">
@@ -30,8 +30,16 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023155421732.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023155821553.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023160759106.png">
-<meta property="article:published_time" content="2022-10-23T06:23:58.000Z">
-<meta property="article:modified_time" content="2022-11-17T07:56:36.842Z">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163034794.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163106148.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163125339.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163136343.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163217290.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119200226254.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205107592.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205114071.png">
+<meta property="article:published_time" content="2022-11-19T06:23:58.000Z">
+<meta property="article:modified_time" content="2022-11-19T13:04:30.810Z">
 <meta property="article:author" content="TrevorLink">
 <meta property="article:tag" content="CMU">
 <meta property="article:tag" content="CSAPP">
@@ -216,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-10-23 14:23" pubdate>
-          2022年10月23日 下午
+        <time datetime="2022-11-19 14:23" pubdate>
+          2022年11月19日 下午
         </time>
       </span>
     
@@ -228,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.7k 字
+          6.4k 字
         
       </span>
     
@@ -239,7 +247,7 @@
         
         
         
-          40 分钟
+          54 分钟
         
       </span>
     
@@ -387,17 +395,129 @@
 </ul>
 </li>
 <li>Memory<ul>
-<li>操作量还是可以内存地址，如果是内存的数据则需要用一个<code>()</code>来引用。具体的寻址模式可以参见 [Simple Memory Addressing Modes](##Simple Memory Addressing Modes)</li>
+<li>操作量还是可以内存地址，但是具体在寻址的时候存在两个模型，具体的寻址模式可以参见 [Simple Memory Addressing Modes](##Simple Memory Addressing Modes) 以及 [Compelete Memory Addressing Modes](#Compelete Memory Addressing Modes)</li>
 </ul>
 </li>
 </ul>
-<h3 id="Combinations"><a href="#Combinations" class="headerlink" title="Combinations"></a>Combinations</h3><p>一些和<code>movq</code>相关的排列组合</p>
+<h3 id="Combinations"><a href="#Combinations" class="headerlink" title="Combinations"></a>Combinations</h3><p>一些和 <code>movq</code> 相关的指令组合</p>
 <img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023160759106.png" srcset="/img/loading.gif" lazyload alt="image-20221023160759106" style="zoom:67%;" />
 
 <p>从上面的代码可以知道，其实<strong>寄存器中的数据完全可以看作是高级编程语言所编写程序中的 <code>tmp</code> 变量</strong></p>
-<h2 id="Simple-Memory-Addressing-Modes"><a href="#Simple-Memory-Addressing-Modes" class="headerlink" title="Simple Memory Addressing Modes"></a>Simple Memory Addressing Modes</h2><h3 id="通过括号引用内存地址"><a href="#通过括号引用内存地址" class="headerlink" title="通过括号引用内存地址"></a>通过括号引用内存地址</h3><h3 id="Displacement"><a href="#Displacement" class="headerlink" title="Displacement"></a>Displacement</h3><p>偏移，存在一个偏移常量D</p>
-<p>最常见的就是在进行 <strong>数组引用</strong> 的时候</p>
-<h2 id="Compelete-Memory-Addressing-Modes"><a href="#Compelete-Memory-Addressing-Modes" class="headerlink" title="Compelete Memory Addressing Modes"></a>Compelete Memory Addressing Modes</h2>
+<h2 id="Simple-Memory-Addressing-Modes"><a href="#Simple-Memory-Addressing-Modes" class="headerlink" title="Simple Memory Addressing Modes"></a>Simple Memory Addressing Modes</h2><h3 id="Normal"><a href="#Normal" class="headerlink" title="Normal"></a>Normal</h3><p>最基本的寻址模式，通过一个括号。</p>
+<p><code>(%rdx)</code> 表示的是<strong>我们不关心 rdx 这个寄存器中的具体内容，直接就把他当作他存储了一段内存的地址</strong>，然后通过这个地址访问内存的数据。</p>
+<p>说起来其实就等价于 c 中的指针寻址(referencing)。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c">temp = *p;<br></code></pre></td></tr></table></figure>
+
+<p>我们假设 temp 在编译器执行后得到的寄存器名称为 <code>rdx</code> ，而原始 p 指针的地址存储于 <code>rax</code> 寄存器，这段其实就等价于:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">movq (%rax) , %rdx<br></code></pre></td></tr></table></figure>
+
+<p>再来看一个基本的例子，以著名的 swap 函数为例</p>
+ <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">swap</span><span class="hljs-params">(<span class="hljs-type">long</span> *p,<span class="hljs-type">long</span> *q)</span><br>&#123;<br>     <span class="hljs-type">long</span> i = *p;<br>     <span class="hljs-type">long</span> j = *q;<br>     *p = j;<br>     *q = i;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们假设编译器在进行 <strong>寄存器分配算法</strong> 之后得到每个数据对应的寄存器如下表：</p>
+<table>
+<thead>
+<tr>
+<th>Register</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%rdi</td>
+<td>p</td>
+</tr>
+<tr>
+<td>%rsi</td>
+<td>q</td>
+</tr>
+<tr>
+<td>%rax</td>
+<td>i</td>
+</tr>
+<tr>
+<td>%rdx</td>
+<td>j</td>
+</tr>
+</tbody></table>
+<p>则每一行的代码其实可以等价如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs assembly">#long i = *p;<br>movq (%rdi),%rax<br>#long j = *q;<br>movq (%rsi),%rdx<br>#*p = j;<br>movq %rdx,(%rdi)<br>#q = i;<br>movq %rax,(%rsi)<br></code></pre></td></tr></table></figure>
+
+<p>具体的图例如下</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163034794.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
+
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163106148.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
+
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163125339.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
+
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163136343.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
+
+<h3 id="Displacement"><a href="#Displacement" class="headerlink" title="Displacement"></a>Displacement</h3><p>偏移，存在一个偏移常量D。</p>
+<p>常见的一个表示的形式就是 <code>某个数(%rdx)</code> ，表示的是对 rdx 这个寄存器内的地址进行偏移运算（具体运算就是加上这个数）。</p>
+<h2 id="Compelete-Memory-Addressing-Modes"><a href="#Compelete-Memory-Addressing-Modes" class="headerlink" title="Compelete Memory Addressing Modes"></a>Compelete Memory Addressing Modes</h2><p>最常见的就是在进行 <strong>数组引用</strong> 的时候。</p>
+<p>具体的寻址相关符号定义如下：</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163217290.png" srcset="/img/loading.gif" lazyload></p>
+<p>其中的 Rb 其实就是一个基地址，对应我们数组的首个元素的地址。</p>
+<p>而 Ri 则是存储具体元素在哪一个索引，对应的其实是我们数组元素的下标。</p>
+<p>S 则与数组的元素有关，之所以是 1|2|4|8 其实就是对应<strong>数组存储的不同数据类型所占据的字节长度</strong>(比如 int 是 4 个字节的长度)。</p>
+<p>而 PPT 中也给出了一些基本的表示形式和运算规则：</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119200226254.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="lea"><a href="#lea" class="headerlink" title="lea"></a>lea</h2><p><code>lea = load effctive address</code></p>
+<h3 id="uses"><a href="#uses" class="headerlink" title="uses"></a>uses</h3><p>顾名思义其实就是加载内存地址，之所以会出现这个汇编的 operator 其主要的出现场景有两个：</p>
+<p>1)就是我们 C 中的 ampersand 运算符 &amp; 的汇编层面的对应，例如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = &amp;arr[i];<br></code></pre></td></tr></table></figure>
+
+<p>2)许多 c 语言的编译器也很喜欢用 lea 去进行算数上的运算。</p>
+<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><p>课件中举出了如下的例子:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">long</span> <span class="hljs-title function_">m12</span><span class="hljs-params">(<span class="hljs-type">long</span> x)</span><br>&#123;<br>     <span class="hljs-keyword">return</span> x*<span class="hljs-number">12</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>对应的汇编代码在进行翻译解释后编译器得到的结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs assembly">leaq(%rdi,%rdi,2); #等价于 x+=x*2<br>salq $2 ,%rax; #等价于返回 x&lt;&lt;2也就是乘以4的结果<br></code></pre></td></tr></table></figure>
+
+<h2 id="Arithmetic-Operations"><a href="#Arithmetic-Operations" class="headerlink" title="Arithmetic Operations"></a>Arithmetic Operations</h2><p>教授还给出了其他一些常用的算数运算的操作符。</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205107592.png" srcset="/img/loading.gif" lazyload alt="加减乘除左右移"></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205114071.png" srcset="/img/loading.gif" lazyload alt="自增自减取反"></p>
+<p>他们都有一个规律就是都以 <code>operation src dest</code> 的格式，有点类似我们高级编程语言中的 x+&#x3D;y 这样的简写形式，<strong>因为 x+&#x3D;y 其实就是 将 x 和 y 的值进行相加，之后又存储到了 x 中。</strong></p>
+<p>和 x+&#x3D;y 类似， leaq src dest 也是将 src 的地址&#x2F;值和 dest进行相加之后存储到 dest 所指向的寄存器中。</p>
+<h2 id="Arithmetic-Expression-Example"><a href="#Arithmetic-Expression-Example" class="headerlink" title="Arithmetic Expression Example"></a>Arithmetic Expression Example</h2><p>教授给出了如下的代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">long</span> <span class="hljs-title function_">arith</span><span class="hljs-params">(<span class="hljs-type">long</span> x, <span class="hljs-type">long</span> y, <span class="hljs-type">long</span> z)</span><br>&#123;<br>     <span class="hljs-type">long</span> t1 = x+y;<br>     <span class="hljs-type">long</span> t2 = z+t1;<br>     <span class="hljs-type">long</span> t3 = x+<span class="hljs-number">4</span>;<br>     <span class="hljs-type">long</span> t4 = y * <span class="hljs-number">48</span>;<br>     <span class="hljs-type">long</span> t5 = t3 + t4;<br>     <span class="hljs-type">long</span> rval = t2 * t5;<br>     <span class="hljs-keyword">return</span> rval;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>要求我们可以看得懂哪些部分对应 c 中的代码即可，不要求你会写：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs assembly">arith:<br>     leaq (%rdi,%rsi), %rax<br>     addq %rdx, %rax<br>     leaq (%rsi,%rsi,2), %rdx<br>     salq $4, %rdx<br>     leaq 4(%rdi,%rdx), %rcx<br>     imulq %rcx, %rax<br>     ret<br></code></pre></td></tr></table></figure>
+
+<p>所以对应的各个变量以及寄存器表格如下</p>
+<table>
+<thead>
+<tr>
+<th>Arguments</th>
+<th>Registers</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x</td>
+<td>%rdi</td>
+</tr>
+<tr>
+<td>y</td>
+<td>%rsi</td>
+</tr>
+<tr>
+<td>z</td>
+<td>%rdx</td>
+</tr>
+<tr>
+<td>t1,t2,rval</td>
+<td>%rax</td>
+</tr>
+<tr>
+<td>t4</td>
+<td>%rdx</td>
+</tr>
+<tr>
+<td>t5</td>
+<td>%rcx</td>
+</tr>
+</tbody></table>
+
                 
               </div>
             
@@ -445,7 +565,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>CMU 15-513|Machine Level Programming-Basic</div>
-      <div>http://example.com/2022/10/23/CMU-15-513-Machine-Level-Programming-Basic/</div>
+      <div>http://example.com/2022/11/19/CMU-15-513-Machine-Level-Programming-Basic/</div>
     </div>
     <div class="license-meta">
       
@@ -457,7 +577,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年10月23日</div>
+          <div>2022年11月19日</div>
         </div>
       
       
@@ -489,18 +609,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/10/30/MIT-18-06-Assignment1-2/" title="MIT-18.06|Assignment1&amp;2">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">MIT-18.06|Assignment1&amp;2</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/10/19/TED-How-NOT-taking-things-PERSONALLY/" title="TED|How NOT taking things PERSONALLY">
-                        <span class="hidden-mobile">TED|How NOT taking things PERSONALLY</span>
+                      <a href="/2022/11/06/C-%E6%81%B6%E8%A1%A5c%E8%AF%AD%E8%A8%80-02/" title="C|恶补c语言#02">
+                        <span class="hidden-mobile">C|恶补c语言#02</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
