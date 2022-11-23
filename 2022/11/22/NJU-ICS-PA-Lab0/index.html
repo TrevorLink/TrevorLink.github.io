@@ -24,8 +24,10 @@
 <meta property="og:description" content="南京大学 PA Lab0">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221122235553191.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123213545917.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123221038058.png">
 <meta property="article:published_time" content="2022-11-22T15:25:25.000Z">
-<meta property="article:modified_time" content="2022-11-23T09:11:59.247Z">
+<meta property="article:modified_time" content="2022-11-23T14:19:49.349Z">
 <meta property="article:author" content="TrevorLink">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="NJU">
@@ -222,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          3k 字
         
       </span>
     
@@ -233,7 +235,7 @@
         
         
         
-          14 分钟
+          26 分钟
         
       </span>
     
@@ -319,6 +321,40 @@
 <figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-comment">--- before modification</span><br><span class="hljs-comment">+++ after modification</span><br><span class="hljs-meta">@@ -17,3 +17,3 @@</span><br> &quot; Vim5 and later versions support syntax highlighting. Uncommenting the next<br> &quot; line enables syntax highlighting by default.<br><span class="hljs-deletion">-&quot;syntax on</span><br><span class="hljs-addition">+syntax on</span><br></code></pre></td></tr></table></figure>
 
 <p>具体解释一下就是，diff 中的 <code>-</code> 表示的是修改前的文档， <code>+</code> 表示的是修改后的文档，第三行的意思是两次修改分别都是在 第一个&#x2F;第二个文件的第 17 行处进行的修改，同时都只展示三行的内容合并显示。</p>
+<h1 id="More-Exploration"><a href="#More-Exploration" class="headerlink" title="More Exploration"></a>More Exploration</h1><h2 id="man-命令"><a href="#man-命令" class="headerlink" title="man 命令"></a>man 命令</h2><p>man 命令可以说是 GNU&#x2F;Linux 系统中最重要的一个命令了，因为他是其他所有命令的说明书一般的存在，这里有<a target="_blank" rel="noopener" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2022/man.html">man 命令的快速上手教程</a>，可以稍微了解一下，学会最基本的 RTFM 即可。</p>
+<h2 id="Linux-快速上手"><a href="#Linux-快速上手" class="headerlink" title="Linux 快速上手"></a>Linux 快速上手</h2><p>这边有 jyy 老师的<a target="_blank" rel="noopener" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2022/linux.html">Linux快速上手指南</a>。</p>
+<h2 id="实验必做内容"><a href="#实验必做内容" class="headerlink" title="实验必做内容"></a>实验必做内容</h2><h3 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h3><blockquote>
+<p>Write a “Hello World” program, compile it, then run it under GNU&#x2F;Linux. If you do not know what to do, refer to the GNU&#x2F;Linux tutorial above.</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World\n&quot;</span>);<br>     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123213545917.png" srcset="/img/loading.gif" lazyload alt="test"></p>
+<h3 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h3><blockquote>
+<p>Write a Makefile to compile the “Hello World” program above. If you do not know what to do, refer to the GNU&#x2F;Linux tutorial above.</p>
+</blockquote>
+<p>这块的话其实还是第一次写 makefile ，这边稍微看了一下文档进行记录。</p>
+<h4 id="最简单的demo"><a href="#最简单的demo" class="headerlink" title="最简单的demo"></a>最简单的demo</h4><p>基于我们上面写的 hello.c 我们可以针对他做出如下的 Makefile demo:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">hello:hello.c</span><br>    gcc hello.c -o hello    <span class="hljs-comment"># 注意开头的tab, 而不是空格</span><br><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: clean</span><br><br><span class="hljs-section">clean:</span><br>    rm hello    <span class="hljs-comment"># 注意开头的tab, 而不是空格</span><br></code></pre></td></tr></table></figure>
+
+<p>这个时候我们保存并键入 <code>make</code> 命令，可以看到 makefile 帮助我们进行了 gcc 的编译。</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123221038058.png" srcset="/img/loading.gif" lazyload alt="image-20221123221038058"></p>
+<h4 id="makefile-语法"><a href="#makefile-语法" class="headerlink" title="makefile 语法"></a>makefile 语法</h4><p>makefile文件的一般格式和语法如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">目标文件名:该文件依赖的文件列表</span><br>	用于生成这个目标文件的命令序列<br></code></pre></td></tr></table></figure>
+
+<p>比如上面这段 makefile ：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">hello:hello.c</span><br>    gcc hello.c -o hello <br></code></pre></td></tr></table></figure>
+
+<p>意思就是我们想要生成 <code>hello</code> 文件，他依赖于 <code>hello.c</code> 这个源文件，而具体生成则是需要 <code>gcc hello.c -o hello </code> 这段命令序列。</p>
+<p>上面例子中的 <code>clean</code> 规则比较特殊, 它并不是用来生成一个名为 <code>clean</code> 的文件, 而是用于清除编译结果, 并且它不依赖于其它任何文件。</p>
+<p>我们需要键入 <code>make clean </code> 命令来告诉 <code>make</code> 程序执行 <code>clean</code> 规则, 这是因为 <code>make</code> 默认执行在 <code>Makefile</code> 中文本序排在最前面的规则. 但如果很不幸地, 目录下已经存在了一个名为<code>clean</code>的文件, 执行<code>make clean</code>会得到”文件已经是最新版本”的提示.。</p>
+<p>为了解决这一个问题，我们在 <code>Makefile</code> 中加入一行 <code>PHONY: clean</code> , 用于指示 “<code>clean</code>是一个伪目标” 。</p>
+<p>这样以后, <code>make </code>程序就不会判断目标文件的新旧, <strong>伪目标相应的命令序列总是会被执行</strong>。</p>
+<h4 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h4><p>对于一个规模稍大一点的工程, <code>Makefile</code> 文件还会使用变量, 函数, 调用Shell命令, 隐含规则等功能，希望能够 STFW.</p>
+<h3 id="Learn-to-us-GDB"><a href="#Learn-to-us-GDB" class="headerlink" title="Learn to us GDB"></a>Learn to us GDB</h3><blockquote>
+<p>Read the GDB tutorial and use GDB following the tutorial. </p>
+<p>In PA1, you will be required to implement a simplified version of GDB. If you have not used GDB, you may have no idea to finish PA1.</p>
+</blockquote>
+<p>RTFM: <a target="_blank" rel="noopener" href="https://www.cprogramming.com/gdb.html">GDB, The GNU Debugger, By Example</a></p>
 
                 
               </div>
