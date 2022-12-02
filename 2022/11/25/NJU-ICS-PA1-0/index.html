@@ -16,19 +16,19 @@
   <meta name="author" content="TrevorLink">
   <meta name="keywords" content="">
   
-    <meta name="description" content="南京大学 PA1 实验报告(选择ISA，最简单的计算机)">
+    <meta name="description" content="南京大学 PA1 实验报告第0部分(选择ISA，最简单的计算机)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NJU-ICS|PA1.1">
-<meta property="og:url" content="http://example.com/2022/11/25/NJU-ICS-PA1-1/index.html">
+<meta property="og:title" content="NJU-ICS|PA1.0">
+<meta property="og:url" content="http://example.com/2022/11/25/NJU-ICS-PA1-0/index.html">
 <meta property="og:site_name" content="黄鸭村">
-<meta property="og:description" content="南京大学 PA1 实验报告(选择ISA，最简单的计算机)">
+<meta property="og:description" content="南京大学 PA1 实验报告第0部分(选择ISA，最简单的计算机)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125005619509.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125011127752.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125153035685.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/state-machine.png">
 <meta property="article:published_time" content="2022-11-24T16:42:04.000Z">
-<meta property="article:modified_time" content="2022-12-02T07:26:17.046Z">
+<meta property="article:modified_time" content="2022-12-02T07:30:41.713Z">
 <meta property="article:author" content="TrevorLink">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="NJU">
@@ -37,7 +37,7 @@
   
   
   
-  <title>NJU-ICS|PA1.1 - 黄鸭村</title>
+  <title>NJU-ICS|PA1.0 - 黄鸭村</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -202,7 +202,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="NJU-ICS|PA1.1"></span>
+            <span id="subtitle" data-typed-text="NJU-ICS|PA1.0"></span>
           
         </div>
 
@@ -274,14 +274,14 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">NJU-ICS|PA1.1</h1>
+            <h1 style="display: none">NJU-ICS|PA1.0</h1>
             
             
               <div class="markdown-body">
                 
                 <h1 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h1><h2 id="NEMU是什么"><a href="#NEMU是什么" class="headerlink" title="NEMU是什么"></a>NEMU是什么</h2><p>首先我们需要知道我们这个实验真正需要做什么————实现一个 FC 模拟器(双 厨 狂 喜)，他是一款经过简化的全系统模拟器。</p>
 <p>NEMU 是基于开源的 FC 模拟器项目 FCEUX 移植而来，在之前 Lab0 的体验中其实我们已经装好了 FCEUX 这个项目的（同时官方也很贴心地为我们将其加入到了 <code>.gitignore</code> 文件中，可以进去体验一下，这里我们就以移植过后的 <code>fceux-am</code> 这个项目为例先进行一个 RTFM 初步跑起来一个 FC 游戏，至于游戏这块，我选择小时候最喜欢玩的 <strong>加纳战机</strong> 作为 ROM（仅为学习交流使用，不要问我哪里找的XD）。</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125005619509.png" srcset="/img/loading.gif" lazyload alt="image-20221125005619509"></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125005619509.png" srcset="/img/loading.gif" lazyload alt="运行体验"></p>
 <p>初步的体验可以说是一切正常，而且不知道为啥总感觉 Linux 上玩画质更好（</p>
 <h2 id="运行的额外工作"><a href="#运行的额外工作" class="headerlink" title="运行的额外工作"></a>运行的额外工作</h2><h3 id="检查按键"><a href="#检查按键" class="headerlink" title="检查按键"></a>检查按键</h3><p>为了检查按键我们这里用一个讲义中同宫的新的子项目 <code>am-kernels</code> 来检查测试按键。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> ics2022<br>bash init.sh am-kernels<br><span class="hljs-built_in">cd</span> am-kernels/tests/am-tests<br>make ARCH=native mainargs=k run<br></code></pre></td></tr></table></figure>
@@ -420,8 +420,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>NJU-ICS|PA1.1</div>
-      <div>http://example.com/2022/11/25/NJU-ICS-PA1-1/</div>
+      <div>NJU-ICS|PA1.0</div>
+      <div>http://example.com/2022/11/25/NJU-ICS-PA1-0/</div>
     </div>
     <div class="license-meta">
       
