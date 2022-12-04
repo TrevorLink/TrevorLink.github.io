@@ -31,8 +31,17 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204152550381.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204165033334.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204165612878.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204221334833.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204222647217.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204223401279.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204223818835.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204223846327.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224031508.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224215904.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224325557.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224844904.png">
 <meta property="article:published_time" content="2022-12-04T07:17:13.000Z">
-<meta property="article:modified_time" content="2022-12-04T09:03:05.007Z">
+<meta property="article:modified_time" content="2022-12-04T14:50:27.093Z">
 <meta property="article:author" content="TrevorLink">
 <meta property="article:tag" content="CMU">
 <meta property="article:tag" content="CSAPP">
@@ -229,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.4k 字
+          4.7k 字
         
       </span>
     
@@ -240,7 +249,7 @@
         
         
         
-          29 分钟
+          39 分钟
         
       </span>
     
@@ -373,6 +382,39 @@
 <p>对应的汇编代码如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs assembly">	movl $0, %eax ; result = 0<br>.L2: 		    ; loop:<br>     movq %rdi, %rdx<br>     andl $1, %edx ; t = x &amp; 0x1<br>     addq %rdx, %rax ; result += t<br>     shrq %rdi     ; x &gt;&gt;= 1<br>     jne .L2       ; if (x) goto loop<br>     rep; ret<br></code></pre></td></tr></table></figure>
 
+<h1 id="Switch-Statements"><a href="#Switch-Statements" class="headerlink" title="Switch Statements"></a>Switch Statements</h1><h2 id="三大特性"><a href="#三大特性" class="headerlink" title="三大特性"></a>三大特性</h2><p>需要关注的是我们 c 中的 switch 语句主要有三大特性</p>
+<ul>
+<li>可以存在多个标签匹配同一个 case 的情况(对应5&amp;6)</li>
+<li>可以存在没有 break 进行 fallthrough 的情况(对应2)</li>
+<li>可以存在缺少 case 的情况(对应4)</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">long</span> <span class="hljs-title function_">switch_eg</span> <span class="hljs-params">(<span class="hljs-type">long</span> x, <span class="hljs-type">long</span> y, <span class="hljs-type">long</span> z)</span><br>&#123;<br>     <span class="hljs-type">long</span> w = <span class="hljs-number">1</span>;<br>     <span class="hljs-keyword">switch</span>(x) &#123;<br>     <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:<br>     	w = y*z;<br>     	<span class="hljs-keyword">break</span>;<br>     <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:<br>     	w = y/z;<br>     	<span class="hljs-comment">/* Fall Through */</span><br>     <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:<br>     	w += z;<br>     	<span class="hljs-keyword">break</span>;<br>     <span class="hljs-keyword">case</span> <span class="hljs-number">5</span>:<br>     <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>:<br>     	w -= z;<br>     	<span class="hljs-keyword">break</span>;<br>     <span class="hljs-keyword">default</span>:<br>     	w = <span class="hljs-number">2</span>;<br>     &#125;<br>     <span class="hljs-keyword">return</span> w;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>以上面这个代码为例，其实可以引出我们 switch 在底层实现的一个很重要的数据结构 <code>jump table</code>:</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204221334833.png" srcset="/img/loading.gif" lazyload alt="switch底层的跳转表"></p>
+<p>跳转表由编译器生成，汇编器进行填充，其中对于程序语句的 case 编号进行标号(比如图中的0 ~ n-1)，我们根据这个编号可以构建出跳转表(上图的紫色部分)。</p>
+<p>其实这个数据结构就是<strong>数组的基本实现</strong>，之所以这么做就是为了可以根据数组的随机访问特性 (Array Indexing) 通过 <strong>jump table</strong> 以 O(1) 的时间复杂度来快速定位具体的代码 block 数据段。</p>
+<h2 id="switch-汇编"><a href="#switch-汇编" class="headerlink" title="switch 汇编"></a>switch 汇编</h2><p>我们可以看到课件中针对 switch 这段语句的整体框架生成的汇编代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">long</span> <span class="hljs-title function_">switch_eg</span><span class="hljs-params">(<span class="hljs-type">long</span> x, <span class="hljs-type">long</span> y, <span class="hljs-type">long</span> z)</span><br>&#123;<br>     <span class="hljs-type">long</span> w = <span class="hljs-number">1</span>;<br>     <span class="hljs-keyword">switch</span>(x) &#123;<br>          . . .<br>     &#125;<br>     <span class="hljs-keyword">return</span> w;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs assembly">switch_eg:<br>     movq %rdx, %rcx<br>     cmpq $6, %rdi # x:6<br>     ja .L8<br>     jmp *.L4(,%rdi,8)<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204222647217.png" srcset="/img/loading.gif" lazyload alt="程序变量和对应寄存器"></p>
+<p>之所以会将进行 case 比较的 x 和 6 进行比较是因为编译器在扫描了整段程序后，发现其实 case 的具体值的范围就落在 1~6 区间之间，因此此时会进行比较，通过比较来设置状态码。</p>
+<p>但是这里的 <code>ja</code> 指令用的十分有说法， <code>ja</code> 是指 <code>jump above</code> ，和 <code>jump greater</code> 相比， ja 还考虑到了<strong>有符号负数</strong>的情况，如果 x 是一个负数的时候，通过 ja 进行比较，实际上比较的是以无符号数形式来和 6 进行比较的，如果是负数，通过 ja 进行比较得到的结果其实是大于 6 的，因为会以无符号数的角度来进行比较。而如果是 <code>jg</code> 则负数 x 是小于 6 的。</p>
+<p>因此课件中问的这个</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204223401279.png" srcset="/img/loading.gif" lazyload></p>
+<p>其实表示的范围就是 <code>(-∞,1]U(6.+∞]</code> ,可以说这个指令用的非常的巧妙。</p>
+<h2 id="间接跳转"><a href="#间接跳转" class="headerlink" title="间接跳转"></a>间接跳转</h2><p>我们观察之前生成的汇编代码就可以发现，有一个带 <code>*</code> 的 jmp 指令，这就是间接跳转 <strong>indirect jump</strong>.</p>
+<p>这里的意思其实就是通过间接跳转来以 O(1) 的时间复杂度根据 jump table 索引到具体的 case 段中。</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204223818835.png" srcset="/img/loading.gif" lazyload alt="直接跳转和间接跳转"></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204223846327.png" srcset="/img/loading.gif" lazyload alt="具体 jump table 在程序中对应的 case "></p>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><p>下面我们来分段进行分析，还记得我们之前说的 switch 语句的三个特性吗，其实一开始的 demo 就很好地包含了这三个特性，看下生成的汇编代码到底是如何处理的。</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224031508.png" srcset="/img/loading.gif" lazyload alt="最简单的无特性block"></p>
+<p>下面是编译器 gcc 进行特殊处理的逻辑图</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224215904.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224325557.png" srcset="/img/loading.gif" lazyload alt="不写break的 fallthrough 情况"></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224844904.png" srcset="/img/loading.gif" lazyload alt="多个 case 合在一起的情况"></p>
 
                 
               </div>
