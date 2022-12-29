@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>Leetcode|Linked List Problem Sets</title>
+    <link href="/2022/12/29/Leetcode-Linked-List-Problem-Sets/"/>
+    <url>/2022/12/29/Leetcode-Linked-List-Problem-Sets/</url>
+    
+    <content type="html"><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>本文为 Labuladong 算法小抄 的第一章节，<strong>手把手刷链表算法</strong>的部分，个人刷题帖子。</p><p>每七天一更新，一天一题，第七天把前六天的题目重新回顾一遍。</p><h1 id="双指针技巧"><a href="#双指针技巧" class="headerlink" title="双指针技巧"></a>双指针技巧</h1><h2 id="合并两个有序链表"><a href="#合并两个有序链表" class="headerlink" title="合并两个有序链表"></a>合并两个有序链表</h2><p><a href="https://leetcode.cn/problems/merge-two-sorted-lists/">题目</a></p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221229232848482.png"></p><h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><p>很简单的一个思路，本题的具体实现其实和 归并排序 中的 <code>merge</code> 部分一脉相承，是一个很经典的双指针算法。</p><p>两个指针指向两个升序链表，每一次我们都比较哪一个小，维护一个新的链表，把每一次指针指向的最小的那个元素加入到新维护的链表中即可。</p><p>最终记得和归并排序的 merge 处理一样，我们还需要进行扫尾操作</p><h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">mergeTwoLists</span><span class="hljs-params">(ListNode list1, ListNode list2)</span> &#123;<br><span class="hljs-type">ListNode</span> <span class="hljs-variable">dummy</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ListNode</span>(<span class="hljs-number">0</span>, <span class="hljs-literal">null</span>);<br><span class="hljs-type">ListNode</span> <span class="hljs-variable">c1</span> <span class="hljs-operator">=</span> list1;<br><span class="hljs-type">ListNode</span> <span class="hljs-variable">c2</span> <span class="hljs-operator">=</span> list2;<br><span class="hljs-type">ListNode</span> <span class="hljs-variable">res</span> <span class="hljs-operator">=</span> dummy;<br><span class="hljs-keyword">while</span> (c1 != <span class="hljs-literal">null</span> &amp;&amp; c2 != <span class="hljs-literal">null</span>) &#123;<br><span class="hljs-keyword">if</span> (c1.val &gt;= c2.val) &#123;<br>dummy.next = c2;<br>c2 = c2.next;<br>&#125;<br><span class="hljs-keyword">else</span> &#123;<br>dummy.next = c1;<br>c1 = c1.next;<br>&#125;<br>dummy = dummy.next;<br>&#125;<br><span class="hljs-keyword">if</span> (c1 == <span class="hljs-literal">null</span>) &#123;<br>dummy.next = c2;<br>&#125;<br><span class="hljs-keyword">if</span> (c2 == <span class="hljs-literal">null</span>) &#123;<br>dummy.next = c1;<br>&#125;<br><span class="hljs-keyword">return</span> res.next;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>CS_Basic</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Algorithm</tag>
+      
+      <tag>Leetcode</tag>
+      
+      <tag>Labuladong</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>NJU-ICS|习题课#01</title>
     <link href="/2022/12/12/NJU-ICS-%E4%B9%A0%E9%A2%98%E8%AF%BE-01/"/>
     <url>/2022/12/12/NJU-ICS-%E4%B9%A0%E9%A2%98%E8%AF%BE-01/</url>
