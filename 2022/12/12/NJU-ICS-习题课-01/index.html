@@ -28,8 +28,9 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221212222446581.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221212222603095.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221228221800127.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230102205826707.png">
 <meta property="article:published_time" content="2022-12-12T09:31:37.000Z">
-<meta property="article:modified_time" content="2022-12-28T14:19:30.893Z">
+<meta property="article:modified_time" content="2023-01-02T13:11:38.896Z">
 <meta property="article:author" content="TrevorLink">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="NJU">
@@ -226,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          4.5k 字
+          6.5k 字
         
       </span>
     
@@ -237,7 +238,7 @@
         
         
         
-          38 分钟
+          55 分钟
         
       </span>
     
@@ -400,12 +401,33 @@
 
 <p>补充：</p>
 <ul>
-<li>对于现在的计算机系统，8 bit我们需要知道有一个和他一样长度的数据是 <code>char</code> </li>
-<li>除了 <code>uint8_t</code> ，在后续的框架代码中其实我们还会大量看见 <code>intptr</code> 这个类型，这个类型的意思指的是我们的整数类型数据的指针<strong>承接形式</strong>，因为我们都知道在 64&#x2F;32 位机器上，指针类型分别是 8&#x2F;4 字节的，如果我们简单地直接用 int 来承接指针类型，在64位机器上就会直接溢出，因此 PPT 这里的 quiz 其实答案就是应该使用 <code>intptr</code> 这个数据类型。</li>
+<li>对于现在的计算机系统，8 bit 我们需要知道有一个和他一样长度的数据是 <code>char</code> </li>
+<li>除了 <code>uint8_t</code> ，在后续的框架代码中其实我们还会大量看见 <code>intptr</code> 这个类型，这个类型的意思指的是我们的整数类型数据的指针<strong>承接形式</strong>，因为我们都知道在 64&#x2F;32 位机器上，指针类型分别是 8&#x2F;4 字节的，如果我们简单地直接用 int 来承接指针类型，在64位机器上就会直接溢出，因此 PPT 这里的 quiz 其实答案就是应该使用 <code>intptr</code> 这个数据类型。这也解释了其实 <code>intptr</code> 这个数据类型本质上其实在 C 语言中就是数据+我们对指针类型的解读。</li>
 </ul>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221228221800127.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221228221800127.png" srcset="/img/loading.gif" lazyload alt="PPT上的Quiz"></p>
 <p>但是这个代码的可维护性还是不太好，比如说我们新增了一个寄存器，这个时候就需要改动 <code>NREG</code> 这段数据，因此我们这里可以简单重构：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//这里通过枚举的形式列出所有的寄存器</span><br><span class="hljs-class"><span class="hljs-keyword">enum</span> &#123;</span> RA, R1, ..., PC &#125;;<br><span class="hljs-comment">//数组初始化的时候对于每一个位置我们都清楚其内容意义</span><br>u8 R[] = &#123;<br>  [RA] = <span class="hljs-number">0</span>,<br>  [R1] = <span class="hljs-number">0</span>,<br>  ...<br>  [PC]  = init_pc,<br>&#125;;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> pc (R[PC]) <span class="hljs-comment">// 把 PC 也作为寄存器的一部分</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NREG (sizeof(R) / sizeof(u8))</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//这里通过枚举的形式列出所有的寄存器</span><br><span class="hljs-class"><span class="hljs-keyword">enum</span> &#123;</span> RA, R1, ..., PC &#125;;<br><span class="hljs-comment">//数组初始化的时候对于每一个位置我们都清楚其内容意义</span><br>u8 R[] = &#123;<br>  [RA] = <span class="hljs-number">0</span>,<br>  [R1] = <span class="hljs-number">0</span>,<br>  ...<br>  [PC]  = init_pc,<br>&#125;;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> pc (R[PC]) <span class="hljs-comment">// 把 PC 也作为寄存器的一部分</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> NREG (sizeof(R) / sizeof(u8)) <span class="hljs-comment">//这里其实也很巧妙的处理了寄存器个数，让我们的整个寄存器数组大小除以每一个寄存器都是 8bit 的大小来间接计算出寄存器的个数</span></span><br></code></pre></td></tr></table></figure>
+
+<p>这里就引出了我们软件在设计的过程中代码应该如何写便于维护</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230102205826707.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="模拟指令执行"><a href="#模拟指令执行" class="headerlink" title="模拟指令执行"></a>模拟指令执行</h3><p>我们之前已经强调很多次了，其实计算机本质就是在时钟信号的驱动下，根据(Memory,Register)来更新系统的状态。</p>
+<ul>
+<li>取指令 (fetch): 读出 <code>M[R[PC]]</code> 的一条指令</li>
+<li>译码 (decode): 根据指令集规范解析指令的语义 (顺便取出操作数)</li>
+<li>执行 (execute): 执行指令、运算后写回寄存器或内存</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>  <span class="hljs-keyword">while</span> (!is_halt(M[pc])) &#123;<br>    idex(); <span class="hljs-comment">//核心所在</span><br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h3><p>这里的 idex() 其实就是上面的三个步骤，我们以课件中最简单的计算机为例来学习。</p>
+<p>我们很容易可以写出如下的 <code>if-else</code> 判断</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">idex</span><span class="hljs-params">()</span> &#123;<br>  <span class="hljs-keyword">if</span> ((M[pc] &gt;&gt; <span class="hljs-number">4</span>) == <span class="hljs-number">0</span>) &#123;<span class="hljs-comment">//高四位为0000</span><br>    R[(M[pc] &gt;&gt; <span class="hljs-number">2</span>) &amp; <span class="hljs-number">3</span>] = R[M[pc] &amp; <span class="hljs-number">3</span>];<span class="hljs-comment">//mov操作  rt(低四位的高两位) = rs(低四位的低两位)</span><br>    pc++;<br>  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((M[pc] &gt;&gt; <span class="hljs-number">4</span>) == <span class="hljs-number">1</span>) &#123;<span class="hljs-comment">//高四位为0001</span><br>    R[(M[pc] &gt;&gt; <span class="hljs-number">2</span>) &amp; <span class="hljs-number">3</span>] += R[M[pc] &amp; <span class="hljs-number">3</span>];<span class="hljs-comment">//add操作 rt(低四位的高两位) += rs(低四位的低两位)</span><br>    pc++;<br>  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((M[pc] &gt;&gt; <span class="hljs-number">4</span>) == <span class="hljs-number">14</span>) &#123;<span class="hljs-comment">//高四位为1110</span><br>    R[<span class="hljs-number">0</span>] = M[M[pc] &amp; <span class="hljs-number">0xf</span>]; <span class="hljs-comment">//read操作</span><br>    pc++;<br>  &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((M[pc] &gt;&gt; <span class="hljs-number">4</span>) == <span class="hljs-number">15</span>) &#123;<span class="hljs-comment">//高四位为1111</span><br>    M[M[pc] &amp; <span class="hljs-number">0xf</span>] = R[<span class="hljs-number">0</span>];<span class="hljs-comment">//store操作</span><br>    pc++;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>但是这个代码看着实在是太折磨了，完全没有可维护性而言。</p>
+<p>我们可以抽取出公共部分，通过变量命名追加自然语言来提升代码的可读性：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">idex</span><span class="hljs-params">()</span> &#123;<br>  u8 inst = M[pc++];<span class="hljs-comment">//获取指令数据</span><br>  u8 op = inst &gt;&gt; <span class="hljs-number">4</span>;<span class="hljs-comment">//获取指令中的操作符数据</span><br>  <span class="hljs-keyword">if</span> (op == <span class="hljs-number">0x0</span> || op == <span class="hljs-number">0x1</span>) &#123;<span class="hljs-comment">//如果为mov/add</span><br>    <span class="hljs-type">int</span> rt = (inst &gt;&gt; <span class="hljs-number">2</span>) &amp; <span class="hljs-number">3</span>, rs = (inst &amp; <span class="hljs-number">3</span>);<span class="hljs-comment">//抽取出rt和rs内容</span><br>    <span class="hljs-keyword">if</span>      (op == <span class="hljs-number">0x0</span>) R[rt]  = R[rs];<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (op == <span class="hljs-number">0x1</span>) R[rt] += R[rs];<br>  &#125;<br>  <span class="hljs-keyword">if</span> (op == <span class="hljs-number">0xe</span> || op == <span class="hljs-number">0xf</span>) &#123;<br>    <span class="hljs-type">int</span> addr = inst &amp; <span class="hljs-number">0xf</span>;<br>    <span class="hljs-keyword">if</span>      (op == <span class="hljs-number">0xe</span>) R[<span class="hljs-number">0</span>]    = M[addr];<br>    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (op == <span class="hljs-number">0xf</span>) M[addr] = R[<span class="hljs-number">0</span>];<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>或者我们可以巧妙利用 c 的 <strong>union</strong> ,<strong>bitfield</strong> 以及 <strong>struct</strong> 来模拟两种不同的instruction解释行为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">union</span> <span class="hljs-title">inst</span> &#123;</span><br>  <span class="hljs-comment">//从低到高依次通过bitfield来获取数据</span><br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span> u8 rs  : <span class="hljs-number">2</span>, rt: <span class="hljs-number">2</span>, op: <span class="hljs-number">4</span>; &#125; rtype;<br>  <span class="hljs-class"><span class="hljs-keyword">struct</span> &#123;</span> u8 addr: <span class="hljs-number">4</span>,        op: <span class="hljs-number">4</span>; &#125; mtype;<br>&#125; <span class="hljs-type">inst_t</span>;<br><span class="hljs-meta">#<span class="hljs-keyword">define</span> RTYPE(i) u8 rt = (i)-&gt;rtype.rt, rs = (i)-&gt;rtype.rs;</span><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MTYPE(i) u8 addr = (i)-&gt;mtype.addr;</span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">idex</span><span class="hljs-params">()</span> &#123;<br>  <span class="hljs-type">inst_t</span> *cur = (<span class="hljs-type">inst_t</span> *)&amp;M[pc];<br>  <span class="hljs-keyword">switch</span> (cur-&gt;rtype.op) &#123;<br>  <span class="hljs-keyword">case</span> <span class="hljs-number">0b0000</span>: &#123; RTYPE(cur); R[rt]   = R[rs];   pc++; <span class="hljs-keyword">break</span>; &#125;<br>  <span class="hljs-keyword">case</span> <span class="hljs-number">0b0001</span>: &#123; RTYPE(cur); R[rt]  += R[rs];   pc++; <span class="hljs-keyword">break</span>; &#125;<br>  <span class="hljs-keyword">case</span> <span class="hljs-number">0b1110</span>: &#123; MTYPE(cur); R[RA]   = M[addr]; pc++; <span class="hljs-keyword">break</span>; &#125;<br>  <span class="hljs-keyword">case</span> <span class="hljs-number">0b1111</span>: &#123; MTYPE(cur); M[addr] = R[RA];   pc++; <span class="hljs-keyword">break</span>; &#125;<br>  <span class="hljs-keyword">default</span>: panic(<span class="hljs-string">&quot;invalid instruction at PC = %x&quot;</span>, pc);<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
                 
@@ -509,8 +531,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/12/10/WiiU-%E7%A0%B4%E8%A7%A3%E6%8C%87%E5%8D%97-01/" title="WiiU|破解指南#01">
-                        <span class="hidden-mobile">WiiU|破解指南#01</span>
+                      <a href="/2022/12/10/WiiU-%E7%A0%B4%E8%A7%A3%E6%8C%87%E5%8D%97-01/" title="Wii U|破解指南#01">
+                        <span class="hidden-mobile">Wii U|破解指南#01</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
