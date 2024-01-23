@@ -1,0 +1,738 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Noctis64">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="美团技术团队开源分享系列————分布式系统下常见的数据复制模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式系统数据复制模型(上)">
+<meta property="og:url" content="http://example.com/2022/10/12/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6%E6%A8%A1%E5%9E%8B-%E4%B8%8A/index.html">
+<meta property="og:site_name" content="Zanarkand">
+<meta property="og:description" content="美团技术团队开源分享系列————分布式系统下常见的数据复制模型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c6a4c47606226ed3664c162796d0006482842.png">
+<meta property="article:published_time" content="2022-10-12T07:59:48.000Z">
+<meta property="article:modified_time" content="2022-10-12T08:03:24.939Z">
+<meta property="article:author" content="Noctis64">
+<meta property="article:tag" content="分布式系统">
+<meta property="article:tag" content="基础架构">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png">
+  
+  
+  
+  <title>分布式系统数据复制模型(上) - Zanarkand</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zanarkand</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="分布式系统数据复制模型(上)"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-12 15:59" pubdate>
+          2022年10月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">分布式系统数据复制模型(上)</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>所有内容来自美团技术团队</p>
+<p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2022/08/25/replication-in-meituan-01.html">Replication（上）：常见复制模型&amp;分布式系统挑战 - 美团技术团队 (meituan.com)</a></p>
+<h2 id="为什么需要进行复制"><a href="#为什么需要进行复制" class="headerlink" title="为什么需要进行复制"></a>为什么需要进行复制</h2><ul>
+<li><p>系统的扩展性</p>
+<ul>
+<li>数据量读写负载增加，需要<strong>横向扩展</strong></li>
+</ul>
+</li>
+<li><p>系统的可用性以及容错性（高可用）</p>
+<ul>
+<li>单机故障在分布式系统中是常态，希望复制做到冗余备份，能够<strong>及时接管故障机器</strong></li>
+</ul>
+</li>
+<li><p>统一的用户体验</p>
+<ul>
+<li>多地部署服务，这个时候也是需要复制</li>
+</ul>
+</li>
+</ul>
+<h2 id="复制的方式和目的"><a href="#复制的方式和目的" class="headerlink" title="复制的方式和目的"></a>复制的方式和目的</h2><h3 id="复制的方式"><a href="#复制的方式" class="headerlink" title="复制的方式"></a>复制的方式</h3><p>数据的多机分布的方式主要有两种：</p>
+<p>一种是将数据分片保存，每个机器保存数据的部分分片（Kafka中称为Partition，其他部分系统称为Shard）</p>
+<p>另一种则是完全的冗余，其中每一份数据叫做一个副本（Kafka中称为Replica），通过数据复制技术实现。</p>
+<p>在分布式系统中，两种方式通常会<strong>共同使用</strong>，最后的数据分布往往是下图的样子，一台机器上会保存不同数据分片的若干个副本。这里主要探讨如何进行数据的复制</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1a0f88b2d8ff9019da609b765bc7eaca34503.png" srcset="/img/loading.gif" lazyload alt="图1 常见数据分布"></p>
+<h3 id="复制的目的"><a href="#复制的目的" class="headerlink" title="复制的目的"></a>复制的目的</h3><p>复制的目标需要保证<strong>若干个副本上的数据是一致的</strong>，这里的“一致”是一个<strong>十分不确定的词</strong></p>
+<p>从最终复制的结果来看，主要是有两种形式：</p>
+<ul>
+<li><strong>强一致性</strong>角度<ul>
+<li><strong>任何时候</strong>不同客端都能访问到<strong>相同的新的数据</strong></li>
+</ul>
+</li>
+<li><strong>最终一致性</strong>，可用性角度<ul>
+<li>不同客户端某一时刻访问的数据不相同，但<strong>在一段时间后可以访问到相同的数据</strong>（强调的是最终能实现一致，但是具体什么时候，我不知道）</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>此时，大家可能会有疑问，直接让所有副本在任意时刻都保持一致不就行了，为啥还要有各种不同的一致性呢？</p>
+<p>我们认为有两个考量点，第一是性能，第二则是复杂性。</p>
+<p><strong>性能</strong>比较好理解，因为冗余的目的<strong>不完全是为了高可用，还有延迟和负载均衡这类提升性能的目的</strong>，如果只<strong>一味地为了地强调数据一致，可能得不偿失</strong>。</p>
+<p><strong>复杂性</strong>是因为分布式系统中，有着比单机系统更加复杂的不确定性，<strong>节点之间由于采用不大可靠的网络进行传输</strong>，并且不能共享统一的一套系统时间和内存地址（后文会详细进行说明），这使得原本在一些单机系统上很简单的事情，在转到分布式系统上以后就变得异常复杂。这种复杂性和不确定性甚至会让我们怀疑，这些副本上的数据真的能达成一致吗？</p>
+<h2 id="数据复制模式"><a href="#数据复制模式" class="headerlink" title="数据复制模式"></a>数据复制模式</h2><p>常见的数据复制模式主要有三种</p>
+<ul>
+<li>主从模式</li>
+<li>多Leader模式</li>
+<li>无Leader模式</li>
+</ul>
+<h3 id="主从模式——最简单的复制模式"><a href="#主从模式——最简单的复制模式" class="headerlink" title="主从模式——最简单的复制模式"></a>主从模式——最简单的复制模式</h3><p>这是最简单的方式</p>
+<p>核心思想在于赋予多个副本不同的<strong>角色</strong></p>
+<h4 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h4><p>我们常说主从架构中的主，是指主副本。主副本将数据存储在本地后，<strong>将数据更改作为日志，或者以更改流的方式发到各个从副本</strong>（后文也会称节点）中。</p>
+<h4 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h4><p>读取数据一致性问题无法保证</p>
+<p>网络传输的时间开销不可忽略</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c6a4c47606226ed3664c162796d0006482842.png" srcset="/img/loading.gif" lazyload alt="图2 同步复制与异步复制" style="zoom: 80%;" />
+
+<p>上述出现了<strong>异步复制</strong>和<strong>同步复制</strong>两种完全不同的复制方式（概念）</p>
+<p>可能读到旧值，这个其实有专门的名称————<strong>复制滞后</strong></p>
+<p>这是因为在异步复制中，由于写请求写到主副本就返回成功，在数据复制到其他副本的过程中，如果客户端进行读取，在不同副本读取到的数据可能会不一致，《DDIA》将这个种现象称为复制滞后（Replication Lag），存在这种问题的复制行为<strong>所形成的数据一致性统称为最终一致性</strong>。</p>
+<h4 id="一致性的解决方式"><a href="#一致性的解决方式" class="headerlink" title="一致性的解决方式"></a>一致性的解决方式</h4><p>两种做法可以参考</p>
+<ul>
+<li>Kafka当前的做法：所有客户端只能读主节点数据</li>
+<li>采用<strong>同步复制</strong>的方式，任何一个副本同步的时候出现故障都会阻塞，同时要求<strong>每一次写请求都需要等待所有节点进行确认</strong></li>
+</ul>
+<p>还是有问题</p>
+<ul>
+<li>所有读请求全部打入主节点，主节点故障切换时还是会有不一致问题</li>
+<li>第二种方案：副本过多时系统吞吐量极低，消耗性能</li>
+</ul>
+<p>很多系统都会采用<strong>半同步复制或异步复制来在可用性和一致性之间做权衡</strong></p>
+<h4 id="需要的一些能力"><a href="#需要的一些能力" class="headerlink" title="需要的一些能力"></a>需要的一些能力</h4><h5 id="追加新的从节点"><a href="#追加新的从节点" class="headerlink" title="追加新的从节点"></a>追加新的从节点</h5><ul>
+<li>在Kafka中，我们所采取的的方式是通过新建副本分配的方式，以追赶的方式从主副本中同步数据。</li>
+<li>而经常使用的数据库，所采用的方式则是通过<code>快照(snapshot)+增量更新同步</code>的方式来实现从节点数据的同步追赶，具体的操作实现步骤如下👇<ul>
+<li>在某一个时间点产生一个一致性的快照</li>
+<li>将快照拷贝到新创建的从节点</li>
+<li>由于上述过程存在一定的网络传输时间，在这个过程中还存在一些增量更新，<strong>因此从节点会连接到主节点请求所有快照点后发生的改变日志</strong></li>
+<li>获取到日志后，应用日志到自己的副本中，称之为追赶</li>
+</ul>
+</li>
+<li>相比Kafka，数据库是将一段时间间隔内的数据抽取成了一个<code>snapshot</code>的形式，之后多余的零散数据再进行<strong>追赶同步</strong></li>
+</ul>
+<h5 id="处理从节点失效"><a href="#处理从节点失效" class="headerlink" title="处理从节点失效"></a>处理从节点失效</h5><p>这里一般采取的就是<strong>追赶式恢复</strong></p>
+<p>下面还是从两个具体应用角度来看</p>
+<ul>
+<li>对于数据库而言，从节点可以知道在崩溃前所执行的最后一个事务，然后连接主节点，从该节点将拉取所有的事件变更，将这些变更应用到本地记录即可完成追赶。</li>
+<li>对于Kafka而言，恢复也是类似的，Kafka在运行过程中，会定期向磁盘文件中写入<code>checkpoint</code>，共包含两个文件，一个是recovery-point-offset-checkpoint，记录已经写到磁盘的offset，另一个则是replication-offset-checkpoint，用来记录高水位（下文简称HW），由ReplicaManager写入，下一次恢复时，Broker将读取两个文件的内容，可能有些被记录到本地磁盘上的日志没有提交，这时就会先截断（Truncate）到HW对应的offset上，然后从这个offset开始从Leader副本拉取数据，直到认追上Leader，被加入到ISR集合中</li>
+</ul>
+<h5 id="处理主节点失效"><a href="#处理主节点失效" class="headerlink" title="处理主节点失效"></a>处理主节点失效</h5><ol>
+<li>确认主节点失效，由于失效的原因有多种多样，大多数系统会采用超时来判定节点失效。一般都是采用节点间互发心跳的方式，如果发现某个节点在较长时间内无响应，则会认定为节点失效。具体到Kafka中，它是通过和Zookeeper（下文简称ZK）间的会话来保持心跳的，在启动时Kafka会在ZK上注册临时节点，此后会和ZK间维持会话，假设Kafka节点出现故障（这里指被动的掉线，不包含主动执行停服的操作），当会话心跳超时时，ZK上的临时节点会掉线，这时会有专门的组件（Controller）监听到这一信息，并认定节点失效。</li>
+<li>选举新的主节点。这里可以通过通过选举的方式（民主协商投票，通常使用共识算法），或由某个特定的组件指定某个节点作为新的节点（Kafka的Controller）。在选举或指定时，需要尽可能地让新主与原主的差距最小，这样会最小化数据丢失的风险（让所有节点都认可新的主节点是典型的共识问题）——这里所谓共识，就是让一个小组的节点就某一个议题达成一致，下一篇文章会重点进行介绍。</li>
+<li>重新配置系统是新的主节点生效，这一阶段基本可以理解为对集群的元数据进行修改，让所有外界知道新主节点的存在（Kafka中Controller通过元数据广播实现），后续及时旧的节点启动，也需要确保它不能再认为自己是主节点，从而承担写请求。</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F/">#分布式系统</a>
+      
+        <a href="/tags/%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84/">#基础架构</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>分布式系统数据复制模型(上)</div>
+      <div>http://example.com/2022/10/12/分布式系统数据复制模型-上/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Noctis64</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/12/MIT-18-06-01-Linear-Combination/" title="MIT-18.06|01-Linear Combination">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MIT-18.06|01-Linear Combination</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/12/PS2-OPL-SMB%E6%8C%87%E5%8D%97/" title="PS2 OPL+SMB指南">
+                        <span class="hidden-mobile">PS2 OPL+SMB指南</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

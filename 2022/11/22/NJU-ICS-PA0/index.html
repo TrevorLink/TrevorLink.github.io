@@ -1,0 +1,800 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Noctis64">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="南京大学 PA0 实验报告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJU-ICS|PA0">
+<meta property="og:url" content="http://example.com/2022/11/22/NJU-ICS-PA0/index.html">
+<meta property="og:site_name" content="Zanarkand">
+<meta property="og:description" content="南京大学 PA0 实验报告">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221122235553191.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123213545917.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123221038058.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123230606542.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123230744364.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123230824399.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221124191924777.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221124192704275.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221124193414160.png">
+<meta property="article:published_time" content="2022-11-22T15:25:25.000Z">
+<meta property="article:modified_time" content="2022-11-24T16:42:50.398Z">
+<meta property="article:author" content="Noctis64">
+<meta property="article:tag" content="CSAPP">
+<meta property="article:tag" content="NJU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221122235553191.png">
+  
+  
+  
+  <title>NJU-ICS|PA0 - Zanarkand</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zanarkand</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="NJU-ICS|PA0"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-22 23:25" pubdate>
+          2022年11月22日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          45 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">NJU-ICS|PA0</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Installing-Linux"><a href="#Installing-Linux" class="headerlink" title="Installing Linux"></a>Installing Linux</h1><p>最恶心的装虚拟机来咯，首先需要下载 Ubuntu 22.03 的镜像，官网下载即可。</p>
+<p>之后通过 VMWare 来进行虚拟机的安装，这里直接通过<strong>典型</strong>的安装步骤即可，网上很多，这里不再记录归档。</p>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>针对 VMWare 不能全屏幕显示的这个问题，主要是需要安装 VMWare Tools，但是在按照官方的文档配置安装的过程中爆出了 <code>segementation fault</code> 的错误选项，这里查询到了几种解决方案。</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3e5a0d7e8f41">VMWare tools 安装以及一些常见错误</a></p>
+<h2 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h2><p>值得注意的是官方的讲义中明确指出了第一次进去的时候弹出更新软件包的窗口，要求<strong>不要让我们更新软件包</strong>，否则之后将以的操作会产生冲突，我们这里严格按照要求来就好了。</p>
+<p>至于如何永久关闭软件包的更新，这里按照这个配置来即可</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221122235553191.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="First-Exploration"><a href="#First-Exploration" class="headerlink" title="First  Exploration"></a>First  Exploration</h1><p>这部分就是简单的一个初体验快速上手我们的 Linux，如果你之前有过Linux操作的经验应该不是问题。</p>
+<p>同时还强调了 CLI 相较于 GUI 的优势， <code>vim</code> 为何是编辑器之神 XD。</p>
+<h1 id="Installing-Tools"><a href="#Installing-Tools" class="headerlink" title="Installing Tools"></a>Installing Tools</h1><p>按照文档来即可 <a target="_blank" rel="noopener" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2022/0.3.html">Installing Tools</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xpy870663266/article/details/94742491">解决 Unable to Correct Problems ‘You have Held Broken Packages</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/asmer-stone/p/5227188.html">在英文的 Linux 系统中安装中文输入法</a></p>
+<p>当我们通过 fcitx 下载了最新的 sunpinyin 语言包之后，就可以进入到左上角小键盘右键的 <code>configure</code> 选项卡中进行追加中文输入法了，但是保持系统语言还是英文。</p>
+<p>之后重启&#x2F;注销即可生效。</p>
+<h1 id="Configuring-vim"><a href="#Configuring-vim" class="headerlink" title="Configuring vim"></a>Configuring vim</h1><h2 id="Learning-vim"><a href="#Learning-vim" class="headerlink" title="Learning vim"></a>Learning vim</h2><p>为什么 vim 是神？因为他确实太好用了。</p>
+<p>讲义中给出了很多推荐的 tutorial 这边我采用的是这个 <a target="_blank" rel="noopener" href="https://www.openvim.com/tutorial.html">Open Vim Tutorial</a>。</p>
+<p>这边简单进行记录和总结，具体还是需要多实战练习。</p>
+<ul>
+<li><p>基本移动</p>
+<ul>
+<li>h 左，j 下，k 上，l 右。</li>
+<li>w 表示光标移动到下一个 word 的开头，e 表示光标移动到这个单词的结尾(end)，b 表示移动到这个单词的开头(begin)。</li>
+<li>移动操作不仅包括一次移动一格，同时也包括了一次移动倍数格，可以通过组合键的形式进行移动，例如 3w 就是移动三个 word。</li>
+<li>同时倍数的操作也可以用于插入，我们都知道插入操作是 i 这个按键，也可以进行组合，比如 <code>3igo + esc</code> 表示我们在普通模式下进入插入模式写三个 go 之后再退回普通模式。</li>
+<li>0 返回这一行的开头，$ 移动到这一行的末尾。</li>
+<li>gg 移动到文件的开头，G 移动到文件的末尾，如果要定位第几行，用 nG。</li>
+</ul>
+</li>
+<li><p>查询</p>
+<ul>
+<li>通过 f 来进行查询某个字母第一次出现的位置并定位。</li>
+<li>也可以配合数字倍数进行查询第 n 次出现的位置。</li>
+<li>通过 <code>%</code> 可以匹配对应的各种括号。</li>
+<li><code>#</code> 可以查询并移动到当前下标所指单词的下一个位置，<code>*</code> 起到反作用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="Enabling-syntax-highlight"><a href="#Enabling-syntax-highlight" class="headerlink" title="Enabling syntax highlight"></a>Enabling syntax highlight</h2><p>这一部分主要是让我们修改一下 vim 的配置文件来开启文本高亮的显示，修改不是问题，主要在这个过程中学到了 <code>GNU 合并格式的 diff</code> 的这么一个阅读方式，收益很大。</p>
+<p>关于 diff 的语法格式这里可以参考 阮一峰 的博客：<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2012/08/how_to_read_diff.html">读懂diff - 阮一峰的网络日志</a></p>
+<p>（说白了其实就是把 syntax on 给他注释了的开起来）</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-comment">--- before modification</span><br><span class="hljs-comment">+++ after modification</span><br><span class="hljs-meta">@@ -17,3 +17,3 @@</span><br> &quot; Vim5 and later versions support syntax highlighting. Uncommenting the next<br> &quot; line enables syntax highlighting by default.<br><span class="hljs-deletion">-&quot;syntax on</span><br><span class="hljs-addition">+syntax on</span><br></code></pre></td></tr></table></figure>
+
+<p>具体解释一下就是，diff 中的 <code>-</code> 表示的是修改前的文档， <code>+</code> 表示的是修改后的文档，第三行的意思是两次修改分别都是在 第一个&#x2F;第二个文件的第 17 行处进行的修改，同时都只展示三行的内容合并显示。</p>
+<h1 id="More-Exploration"><a href="#More-Exploration" class="headerlink" title="More Exploration"></a>More Exploration</h1><h2 id="man-命令"><a href="#man-命令" class="headerlink" title="man 命令"></a>man 命令</h2><p>man 命令可以说是 GNU&#x2F;Linux 系统中最重要的一个命令了，因为他是其他所有命令的说明书一般的存在，这里有<a target="_blank" rel="noopener" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2022/man.html">man 命令的快速上手教程</a>，可以稍微了解一下，学会最基本的 RTFM 即可。</p>
+<h2 id="Linux-快速上手"><a href="#Linux-快速上手" class="headerlink" title="Linux 快速上手"></a>Linux 快速上手</h2><p>这边有 jyy 老师的<a target="_blank" rel="noopener" href="https://nju-projectn.github.io/ics-pa-gitbook/ics2022/linux.html">Linux快速上手指南</a>。</p>
+<h2 id="综合体验"><a href="#综合体验" class="headerlink" title="综合体验"></a>综合体验</h2><h3 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h3><blockquote>
+<p>Write a “Hello World” program, compile it, then run it under GNU&#x2F;Linux. If you do not know what to do, refer to the GNU&#x2F;Linux tutorial above.</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span><br>&#123;<br>     <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hello World\n&quot;</span>);<br>     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123213545917.png" srcset="/img/loading.gif" lazyload alt="test"></p>
+<h3 id="makefile"><a href="#makefile" class="headerlink" title="makefile"></a>makefile</h3><blockquote>
+<p>Write a Makefile to compile the “Hello World” program above. If you do not know what to do, refer to the GNU&#x2F;Linux tutorial above.</p>
+</blockquote>
+<p>这块的话其实还是第一次写 makefile ，这边稍微看了一下文档进行记录。</p>
+<h4 id="最简单的demo"><a href="#最简单的demo" class="headerlink" title="最简单的demo"></a>最简单的demo</h4><p>基于我们上面写的 hello.c 我们可以针对他做出如下的 Makefile demo:</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">hello:hello.c</span><br>    gcc hello.c -o hello    <span class="hljs-comment"># 注意开头的tab, 而不是空格</span><br><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: clean</span><br><br><span class="hljs-section">clean:</span><br>    rm hello    <span class="hljs-comment"># 注意开头的tab, 而不是空格</span><br></code></pre></td></tr></table></figure>
+
+<p>这个时候我们保存并键入 <code>make</code> 命令，可以看到 makefile 帮助我们进行了 gcc 的编译。</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123221038058.png" srcset="/img/loading.gif" lazyload alt="image-20221123221038058"></p>
+<h4 id="makefile-语法"><a href="#makefile-语法" class="headerlink" title="makefile 语法"></a>makefile 语法</h4><p>makefile文件的一般格式和语法如下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">目标文件名:该文件依赖的文件列表</span><br>	用于生成这个目标文件的命令序列<br></code></pre></td></tr></table></figure>
+
+<p>比如上面这段 makefile ：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-section">hello:hello.c</span><br>    gcc hello.c -o hello <br></code></pre></td></tr></table></figure>
+
+<p>意思就是我们想要生成 <code>hello</code> 文件，他依赖于 <code>hello.c</code> 这个源文件，而具体生成则是需要 <code>gcc hello.c -o hello </code> 这段命令序列。</p>
+<p>上面例子中的 <code>clean</code> 规则比较特殊, 它并不是用来生成一个名为 <code>clean</code> 的文件, 而是用于清除编译结果, 并且它不依赖于其它任何文件。</p>
+<p>我们需要键入 <code>make clean </code> 命令来告诉 <code>make</code> 程序执行 <code>clean</code> 规则, 这是因为 <code>make</code> 默认执行在 <code>Makefile</code> 中文本序排在最前面的规则. 但如果很不幸地, 目录下已经存在了一个名为<code>clean</code>的文件, 执行<code>make clean</code>会得到”文件已经是最新版本”的提示.。</p>
+<p>为了解决这一个问题，我们在 <code>Makefile</code> 中加入一行 <code>PHONY: clean</code> , 用于指示 “<code>clean</code>是一个伪目标” 。</p>
+<p>这样以后, <code>make </code>程序就不会判断目标文件的新旧, <strong>伪目标相应的命令序列总是会被执行</strong>。</p>
+<h4 id="其他内容"><a href="#其他内容" class="headerlink" title="其他内容"></a>其他内容</h4><p>对于一个规模稍大一点的工程, <code>Makefile</code> 文件还会使用变量, 函数, 调用Shell命令, 隐含规则等功能，希望能够 STFW.</p>
+<h3 id="Learn-to-us-GDB"><a href="#Learn-to-us-GDB" class="headerlink" title="Learn to us GDB"></a>Learn to us GDB</h3><blockquote>
+<p>Read the GDB tutorial and use GDB following the tutorial. </p>
+<p>In PA1, you will be required to implement a simplified version of GDB. If you have not used GDB, you may have no idea to finish PA1.</p>
+</blockquote>
+<p>RTFM: <a target="_blank" rel="noopener" href="https://www.cprogramming.com/gdb.html">GDB, The GNU Debugger, By Example</a></p>
+<h4 id="必要准备"><a href="#必要准备" class="headerlink" title="必要准备"></a>必要准备</h4><p>首先需要编译你的源代码生成可执行文件，在编译的同时开启编译器警告，比如这里有一个 cpp 源程序：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-keyword">include</span><span class="hljs-string">&lt;iostream&gt;</span></span><br>      <br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std;<br>      <br><span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-title">factorial</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span>;<br>      <br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">n</span><span class="hljs-params">(<span class="hljs-number">0</span>)</span></span>;<br>    cin&gt;&gt;n;<br>    <span class="hljs-type">long</span> val=<span class="hljs-built_in">factorial</span>(n);<br>    cout&lt;&lt;val;<br>    cin.<span class="hljs-built_in">get</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br>      <br><span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-title">factorial</span><span class="hljs-params">(<span class="hljs-type">int</span> n)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function"><span class="hljs-type">long</span> <span class="hljs-title">result</span><span class="hljs-params">(<span class="hljs-number">1</span>)</span></span>;<br>    <span class="hljs-keyword">while</span>(n--)<br>    &#123;<br>        result*=n;<br>    &#125;<br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">g++ main.cpp -g -Wall -o main<br></code></pre></td></tr></table></figure>
+
+<p>之后直接通过 <code>gdb 可执行程序名</code> 即可进行调试：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">gdb main<br></code></pre></td></tr></table></figure>
+
+<h4 id="设置断点，运行中debug"><a href="#设置断点，运行中debug" class="headerlink" title="设置断点，运行中debug"></a>设置断点，运行中debug</h4><p>通过 <code>break linenumber</code> 可以对源代码的指定行数进行断点设置。</p>
+<p>由于是命令行，不像是 IDE 中当前位置一目了然，我们需要 <code>list</code> 命令来查看当前程序进行到哪一行了，这里会列出最近的十行程序。</p>
+<p><code>next</code> 命令走到下一行，而 <code>step</code> 命令有可能会走到源码里。</p>
+<p>我们可以通过 <code>print &lt;var&gt;</code> 来对当前程序中的变量值进行检查，同时也可以通过 <code>set &lt;var&gt; = &lt;value&gt;</code>修改某个变量的值，这样也是便于调试，如果修改成功了说明问题已经被我们 debug 出来了。</p>
+<h4 id="记录程序变化"><a href="#记录程序变化" class="headerlink" title="记录程序变化"></a>记录程序变化</h4><p><code>watch &lt;var&gt;</code> 命令可以查看当前所有变量在运行时的修改情况，每当程序发生变化的时候程序都会提供详细的修改信息。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>事实上这个程序有 bug ，我们通过断点调试就可以看出来，这里手册上详细说出来了，这里就截图跑了一遍体验了一下。</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123230606542.png" srcset="/img/loading.gif" lazyload alt="初始化变量"></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123230744364.png" srcset="/img/loading.gif" lazyload alt="多次执行查看watch的情况"></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221123230824399.png" srcset="/img/loading.gif" lazyload alt="找出最终问题所在"></p>
+<h2 id="Installing-tmux"><a href="#Installing-tmux" class="headerlink" title="Installing tmux"></a>Installing tmux</h2><p><code>tmux</code> 顾名思义就是 Terminal Multiplxer 的简称，一般是给 <strong>有高分屏的富哥们</strong> 拿来同时操作多件事情用的。</p>
+<p>具体的使用还得是 STFW.</p>
+<p>讲义中的思考题提出了原先的 terminal 其实是不支持滚动的，为什么最早的终端不支持滚动显示？</p>
+<p>此外 tmux 的滚动实现是怎样的？</p>
+<p>如果想让终端可以进行滚动显示，应该如何处理？</p>
+<h1 id="Getting-Source-Code-for-PAs"><a href="#Getting-Source-Code-for-PAs" class="headerlink" title="Getting Source Code for PAs"></a>Getting Source Code for PAs</h1><h2 id="init"><a href="#init" class="headerlink" title="init"></a>init</h2><p>这里由于是一台新的机器，因此 git 需要进行初始化，否则直接拉取讲义中的源码的时候会报错:<code>git@github.com: Permission denied (publickey)</code>.</p>
+<p>具体解决的方案 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43768946/article/details/90411154">STFW</a>.</p>
+<p>之后我们就可以拉取代码了，代码其实是人家写好的 shell 脚本，我们直接运行即可。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">git branch -m master<br>bash init.sh nemu<br>bash init.sh abstract-machine<br></code></pre></td></tr></table></figure>
+
+<p>脚本运行主要是拉取一下实验需要的其他的 git 代码仓库，同时也设置了一些环境变量，我们这里可以进行验证：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">echo</span> <span class="hljs-variable">$NEMU_HOME</span> <span class="hljs-comment"># 执行 shell 脚本的目录下的 nemu 目录</span><br><span class="hljs-built_in">echo</span> <span class="hljs-variable">$AM_HOME</span> <span class="hljs-comment">#执行 shell 脚本的目录下的 abstract-machine 目录</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="git-review"><a href="#git-review" class="headerlink" title="git review"></a>git review</h2><p>本实验基于 branch 分支对每一次实验进行管理。一个分支对应一个 PA 的实验课。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git checkout -b pa0 <span class="hljs-comment">#创建 Lab0 的专属分支</span><br></code></pre></td></tr></table></figure>
+
+<p>每一次差不多就是在 pa 的实验开始之前先建立一个分支，之后在这个分支上进行 Lab 的开发，开发完毕之后再合并到 master 主干分支中，这也是一般的开源项目中最常见的一种开发方式。</p>
+<p>这里我们把原先的 git 仓库指向删除，改成自己的仓库，方便版本管理，<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44578786/article/details/123102195">STFW 之后得到其实本质就是修改 git 文件的引用即可。</a></p>
+<h2 id="Compiling-and-Running-NEMU"><a href="#Compiling-and-Running-NEMU" class="headerlink" title="Compiling and Running NEMU"></a>Compiling and Running NEMU</h2><h3 id="make"><a href="#make" class="headerlink" title="make"></a>make</h3><p>讲义让我们直接进入 nemu 中进行编译构建，然后就报错了XD，具体原因我们直接 STFW.</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221124191924777.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以看到似乎是有两个问题</p>
+<ul>
+<li>第一个是这个 bison 指令，好像是没有安装的样子</li>
+<li>第二个好像是 makefile 在执行的时候 27 行 <code>parser.tab.h</code> 的时候报错了，这里先不管他，因为可能是 bison 缺少导致的问题</li>
+</ul>
+<p>我们这里先直接安装 bison 工具包:</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sudo apt-get install bison<br></code></pre></td></tr></table></figure>
+
+<p>之后再次执行，发现还是爆了:</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221124192704275.png" srcset="/img/loading.gif" lazyload></p>
+<p>这次发现可能是 flex 的问题，这里我们去装 flex 试试:</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">sudo apt-<span class="hljs-built_in">get</span> install flex<br></code></pre></td></tr></table></figure>
+
+<p>这次就可以了，原来是讲义没有引导我们安装 bison 和 flex 这两个构建项目必要的工具包。</p>
+<p>此时我们进入到一个 GUI 中，这里按照讲义的要求先退出然后保存 configuration ，之后通过 make 编译。</p>
+<p>如果想要清除构建重新编译的话，只需要 <code>make clean</code> 即可。</p>
+<p>下面我们直接通过 <code>make run</code> 运行 NEMU：</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221124193414160.png" srcset="/img/loading.gif" lazyload></p>
+<p>出现了 assertion fail ，这个问题我们会在 Lab1 中进行修复，现在只是快速体验一下把环境搭建好。</p>
+<blockquote>
+<p>思考题：为什么在 make 的时候会出现打印提示？</p>
+</blockquote>
+<p>这是因为 makefile 其实本质就是一个构建用的脚本，讲义的作者为我们提供的 makefile 中加入了 <code>if , echo xxx</code> 等的语句用于错误&#x2F;成功时的信息调试，便于我们快速定位问题所在。</p>
+<h3 id="turn-off-development-tracing"><a href="#turn-off-development-tracing" class="headerlink" title="turn off development tracing"></a>turn off development tracing</h3><p>因为我不是 NJU 的学生，为了保证 git 提交的整洁，这里先把开发跟踪关闭了，具体在讲义中也有提到。</p>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h1><h2 id="实验进度"><a href="#实验进度" class="headerlink" title="实验进度"></a>实验进度</h2><ul>
+<li>完成了所有内容，其中包括基本环境搭建，学习了 vim gdb makefile 等具体使用。</li>
+<li>蓝框思考题已经在以上内容中。</li>
+</ul>
+<h2 id="针对-PA0-实验的心得"><a href="#针对-PA0-实验的心得" class="headerlink" title="针对 PA0 实验的心得"></a>针对 PA0 实验的心得</h2><p>深刻体会了 RTFM &#x2F; STFW  对于一个 CSer 的必要性。</p>
+<p>中间的我忘了，后面的我也忘了。</p>
+<p>废话不多说，PA1 启动。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CSAPP/">#CSAPP</a>
+      
+        <a href="/tags/NJU/">#NJU</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>NJU-ICS|PA0</div>
+      <div>http://example.com/2022/11/22/NJU-ICS-PA0/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Noctis64</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/11/23/%E5%86%99%E7%BB%99%E5%9B%A0%E4%B8%BA%E5%AE%B3%E6%80%95%E5%A4%B1%E7%9C%A0%E8%80%8C%E5%A4%B1%E7%9C%A0%E7%9A%84%E6%88%91%E5%92%8C%E4%BD%A0/" title="写给因为害怕失眠而失眠的我和你">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">写给因为害怕失眠而失眠的我和你</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/22/Compiler-Overview-Architecture-Phase/" title="Compiler|Overview &amp; Architecture &amp; Phase">
+                        <span class="hidden-mobile">Compiler|Overview &amp; Architecture &amp; Phase</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

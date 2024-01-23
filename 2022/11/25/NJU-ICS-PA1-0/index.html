@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Noctis64">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="南京大学 PA1 实验报告第0部分(选择ISA，最简单的计算机,RTFSC)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NJU-ICS|PA1.0">
+<meta property="og:url" content="http://example.com/2022/11/25/NJU-ICS-PA1-0/index.html">
+<meta property="og:site_name" content="Zanarkand">
+<meta property="og:description" content="南京大学 PA1 实验报告第0部分(选择ISA，最简单的计算机,RTFSC)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125005619509.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125011127752.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125153035685.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/state-machine.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221203102242796.png">
+<meta property="article:published_time" content="2022-11-24T16:42:04.000Z">
+<meta property="article:modified_time" content="2022-12-03T05:38:38.080Z">
+<meta property="article:author" content="Noctis64">
+<meta property="article:tag" content="CSAPP">
+<meta property="article:tag" content="NJU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125005619509.png">
+  
+  
+  
+  <title>NJU-ICS|PA1.0 - Zanarkand</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zanarkand</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="NJU-ICS|PA1.0"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-11-25 00:42" pubdate>
+          2022年11月25日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          13k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          107 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">NJU-ICS|PA1.0</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="开始之前"><a href="#开始之前" class="headerlink" title="开始之前"></a>开始之前</h1><h2 id="NEMU是什么"><a href="#NEMU是什么" class="headerlink" title="NEMU是什么"></a>NEMU是什么</h2><p>首先我们需要知道我们这个实验真正需要做什么————实现一个 FC 模拟器(双 厨 狂 喜)，他是一款经过简化的全系统模拟器。</p>
+<p>NEMU 是基于开源的 FC 模拟器项目 FCEUX 移植而来，在之前 Lab0 的体验中其实我们已经装好了 FCEUX 这个项目的（同时官方也很贴心地为我们将其加入到了 <code>.gitignore</code> 文件中，可以进去体验一下，这里我们就以移植过后的 <code>fceux-am</code> 这个项目为例先进行一个 RTFM 初步跑起来一个 FC 游戏，至于游戏这块，我选择小时候最喜欢玩的 <strong>加纳战机</strong> 作为 ROM（仅为学习交流使用，不要问我哪里找的XD）。</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125005619509.png" srcset="/img/loading.gif" lazyload alt="运行体验"></p>
+<p>初步的体验可以说是一切正常，而且不知道为啥总感觉 Linux 上玩画质更好（</p>
+<h2 id="运行的额外工作"><a href="#运行的额外工作" class="headerlink" title="运行的额外工作"></a>运行的额外工作</h2><h3 id="检查按键"><a href="#检查按键" class="headerlink" title="检查按键"></a>检查按键</h3><p>为了检查按键我们这里用一个讲义中同宫的新的子项目 <code>am-kernels</code> 来检查测试按键。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-built_in">cd</span> ics2022<br>bash init.sh am-kernels<br><span class="hljs-built_in">cd</span> am-kernels/tests/am-tests<br>make ARCH=native mainargs=k run<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125011127752.png" srcset="/img/loading.gif" lazyload></p>
+<p>这个其实就是一个键盘 IO 的测试工具，按下什么就显示什么，感觉可以抽时间单独研究一下代码。</p>
+<h3 id="多线程编译"><a href="#多线程编译" class="headerlink" title="多线程编译"></a>多线程编译</h3><p>由于 makefile 默认是采用单线程进行编译的，因此编译构建的速度可能会比较慢，但是由于我们现在基本都是多核 CPU 的时代了，因此想要提升速度可以通过在 make 的时候追加 <code>-j核心数</code> 的这个参数来采用多个线程进行编译加快速度。</p>
+<p>比如我这里是 2 core 的处理器，因此这里可以调动双线程进行编译加快速度。</p>
+<p>同时为了查看到底加快了多少，我们可以在 make 命令的前面追加一个 time 命令，这个 time 会对我们 make 的时间进行统计</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">time make -j2 ARCH=native run mainarg=GANA<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用缓存进行编译加快速度"><a href="#使用缓存进行编译加快速度" class="headerlink" title="使用缓存进行编译加快速度"></a>使用缓存进行编译加快速度</h3><p>此外我们发现因为程序的源码本身没有改变，那么编译出来的结果大多数情况下也是不会发生改变的，那么我们是不是可以这样：如果发现编译的结果和之前一样，我们就直接取出来，不再进行长时间工程项目的编译。</p>
+<p>这其实就是 <strong>缓存cache</strong> 的思想，在后续我们学习 CS 中会被广泛的运用上。</p>
+<p>讲义中提到了 ccache 这个缓存库，我们可以安装进行体验一下。</p>
+<h2 id="所以NEMU到底是什么"><a href="#所以NEMU到底是什么" class="headerlink" title="所以NEMU到底是什么"></a>所以NEMU到底是什么</h2><p>讲义中给出了这三个例子进行比较，他们分别是</p>
+<ul>
+<li>在GNU&#x2F;Linux中运行Hello World程序</li>
+<li>在GNU&#x2F;Linux中通过红白机模拟器玩马里奥</li>
+<li>在GNU&#x2F;Linux中通过NEMU运行Hello World程序</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java">                         +---------------------+  +---------------------+<br>                         |     Super Mario     |  |    <span class="hljs-string">&quot;Hello World&quot;</span>    |<br>                         +---------------------+  +---------------------+<br>                         |    Simulated NES    |  |      Simulated      |<br>                         |       hardware      |  |       hardware      |<br>+---------------------+  +---------------------+  +---------------------+<br>|    <span class="hljs-string">&quot;Hello World&quot;</span>    |  |     NES Emulator    |  |        NEMU         |<br>+---------------------+  +---------------------+  +---------------------+<br>|      GNU/Linux      |  |      GNU/Linux      |  |      GNU/Linux      |<br>+---------------------+  +---------------------+  +---------------------+<br>|    Real hardware    |  |    Real hardware    |  |    Real hardware    |<br>+---------------------+  +---------------------+  +---------------------+<br>          (a)                      (b)                     (c)<br></code></pre></td></tr></table></figure>
+
+<p>针对 a 情况，GNU&#x2F;Linux操作系统直接运行在真实的计算机硬件上, <strong>对计算机底层硬件进行了抽象</strong>, 同时向上层的用户程序提供接口和服务. <strong>因此 Hello World 程序输出信息的时候, 需要用到操作系统提供的接口</strong>。</p>
+<p>而针对 b 情况，会有些复杂，实际上在 a 情况的基础上我们把 Hello World 更换为了 NES 模拟器，这个无可厚非，但是这个 NES 模拟器本身作为软件的同时还可以模拟出硬件。实际上对于马里奥来说, <strong>它并不能区分自己是运行在真实的红白机硬件之上, 还是运行在模拟出来的红白机硬件之上</strong>, 这正是”模拟”的障眼法。</p>
+<p>那么再来看 c 情况，其实这个时候就很一目了然了，NEMU 本身其实也是和 NES 模拟器一样的存在，<strong>通过软件模拟出了一套硬件</strong>，并且在此基础上可以运行其它的软件系统。</p>
+<h2 id="选择ISA"><a href="#选择ISA" class="headerlink" title="选择ISA"></a>选择ISA</h2><p>PA 为我们提供提供了三种不同的 ISA 架构，分别是：</p>
+<ul>
+<li>x86</li>
+<li>mips32</li>
+<li>riscv32&#x2F;64</li>
+</ul>
+<p>具体选择的难易度如下表：(5星 - 容易, 1星 - 困难)</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221125153035685.png" srcset="/img/loading.gif" lazyload alt="image-20221125153035685"></p>
+<p>这里我们就直接选择 <code>riscv</code> 架构了，而且无论是哪一种架构，在学习的时候都是需要 RTFM 的。</p>
+<h2 id="什么是ISA"><a href="#什么是ISA" class="headerlink" title="什么是ISA"></a>什么是ISA</h2><p>简单来说，我们可以把计算机硬件比作不同尺寸的<strong>螺丝钉</strong>，把不同架构的程序软件比作是不同尺寸的<strong>螺母</strong>，如果一个软件程序要在特定架构的计算机上个运行，那么<strong>这个程序必须要满足同一套规范</strong>。</p>
+<p>因此这里的一个规范其实就是 ISA，ISA的存在形式既不是硬件电路, 也不是软件代码, 而是一本规范手册。</p>
+<p>和螺钉螺母的生产过程类似, <strong>计算机硬件是按照ISA规范手册构造出来的</strong>, 而<strong>程序也是按照ISA规范手册编写(或生成)出来的</strong>, 至于 ISA 规范里面都有哪些内容, 我们应该如何构造一个符合规范的计算机, 程序应该如何遵守这些规范来在计算机上运行, <strong>回答这些问题正是做 PA 的一个目标。</strong></p>
+<h1 id="开天辟地的篇章"><a href="#开天辟地的篇章" class="headerlink" title="开天辟地的篇章"></a>开天辟地的篇章</h1><h2 id="最简单的计算机组件"><a href="#最简单的计算机组件" class="headerlink" title="最简单的计算机组件"></a>最简单的计算机组件</h2><p>我们在程序设计这门课上其实都已经发现了，<strong>程序 &#x3D; 代码 + 数据</strong>. 数据是程序处理的对象，而代码则是代表程序如何处理这些数据。</p>
+<p>讲义中引出了一个最简单的计算机执行最简单的程序的这么一个 demo 案例介绍了最简单的计算机所需要的一些硬件组件。</p>
+<p>首先为了放程序，我们需要一个<strong>存储器</strong>，这个就是内存。程序加载进入了内存之后被 CPU 执行。</p>
+<p><strong>CPU</strong> 是计算机的大脑，负责处理数据的核心单元。</p>
+<p>但是除此之外还是有点不太够，我们的 CPU 还需要<strong>运算器</strong>，对数据进行各种算术处理。</p>
+<p>虽然说<strong>内存容量大，但是相比较于 CPU 的处理速度，还是比较慢</strong>，如果我们的程序需要对一个数据同时进行连续处理（比如一段程序求累加和的时候需要一个 sum 变量），我们就会需要<strong>寄存器</strong>，寄存器本身属于 CPU，<strong>它的定位和内存完全相反，可以装载的数据容量小，但是速度极快</strong>，让 CPU 把正在处理中的数据暂时存放在其中。</p>
+<p>同时为了可以控制 CPU 做程序想要做的任何事情，我们还需要 <code>指令</code> 来<strong>指示</strong> CPU 对数据进行怎样的处理。</p>
+<h2 id="自动化起来"><a href="#自动化起来" class="headerlink" title="自动化起来"></a>自动化起来</h2><p>有了指令之后，我们想着能不能让程序自动化地一行一行执行？显然这是可以的，因为我们的程序事实上就是自动地一行行执行的，我们来看下到底是底层通过什么来实现自动化执行的：</p>
+<p>自动化执行其实就是<strong>执行完一条指令后继续执行下一条指令</strong>，那么计算机怎么知道现在执行到了哪一条了？因此我们需要一个特殊的计数器:<code>PC (Program Counter) 程序计数器</code>。</p>
+<p>因此我们以后只需要把程序序列加载进入内存，然后让 PC 指向程序的第一行即可，整段程序执行的<strong>伪代码</strong>大致如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">while</span>(<span class="hljs-number">1</span>)<br>&#123;<br>     从当前PC所指向的内存位置中取出指令;<br>     执行指令;<br>     更新PC;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>下面的指令序列可以计算 <code>1+2+...+100</code>, 其中 <code>r1</code> 和 <code>r2</code> 是两个寄存器, 还有一个隐含的程序计数器 <code>PC</code> , 它的初值是<code>0</code></p>
+<p>为了便于理解，右边那块是 c 代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs assembly">// PC: instruction    | // label: statement<br>0: mov  r1, 0         |  pc0: r1 = 0;<br>1: mov  r2, 0         |  pc1: r2 = 0;<br>2: addi r2, r2, 1     |  pc2: r2 = r2 + 1;<br>3: add  r1, r1, r2    |  pc3: r1 = r1 + r2;<br>4: blt  r2, 100, 2    |  pc4: if (r2 &lt; 100) goto pc2;   // branch if less than<br>5: jmp 5              |  pc5: goto pc5;<br></code></pre></td></tr></table></figure>
+
+<p>我们可以发现上面的程序在计算完 100 之后就会一直停留在 pc5 这一指令中进入死循环，虽然是死循环，但是结果已经存放在了 r1 寄存器中，计算已经结束。</p>
+<blockquote>
+<p><strong>实验必做内容</strong></p>
+<p>在看到上述例子之前, 你可能会觉得指令是一个既神秘又难以理解的概念. 不过当你看到对应的C代码时, 你就会发现指令做的事情竟然这么简单! 而且看上去还有点蠢, 你随手写一个for循环都要比这段C代码看上去更高级.</p>
+<p>不过你也不妨站在计算机的角度来理解一下, 计算机究竟是怎么通过这种既简单又笨拙的方式来计算<code>1+2+...+100</code>的. 这种理解会使你建立”程序如何在计算机上运行”的最初原的认识.</p>
+</blockquote>
+<p>其实就是自己模拟一下上述的过程，我们可以发现本质上其实就是对应上述的工作方式：</p>
+<ul>
+<li>读取PC对应的指令</li>
+<li>执行指令</li>
+<li>更新PC</li>
+</ul>
+<p>最终将会进入图灵机的 <strong>halt</strong> 状态。</p>
+<p>今天的计算机**本质上还是”存储程序”**这种天然愚钝的工作方式。</p>
+<blockquote>
+<p>计算机是数组逻辑电路，如果从硬件视角来看，计算机本质上其实是由 时序逻辑电路(存储器，计数器，寄存器) + 组合逻辑电路（加法器）构成的，<strong>在每一个时钟周期到来的时候，计算机都会根据当前的时序逻辑状态，在组合逻辑电路组件的作用下，计算出下一时钟周期的新状态。</strong></p>
+</blockquote>
+<h2 id="程序本质是个状态机"><a href="#程序本质是个状态机" class="headerlink" title="程序本质是个状态机"></a>程序本质是个状态机</h2><p>在讲义中假设了一个计算机有 4 个 8 位的寄存器, 一个 4 位 PC , 以及一段 16 字节的内存(也就是存储器), 那么这个计算机可以表示比特总数为 <code>B = 4 * 8  + 4 + 16 * 8 = 164</code>，因此总共的状态数 N 为 2 的164 次方。我们这里就简单地以 N &#x3D; 50 来进行计算的话，也就是有五十种状态，一种可能的状态转移如下：</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/state-machine.png" srcset="/img/loading.gif" lazyload alt="state-machine"></p>
+<p>之所以会进行状态转移，本质上其实还就是因为每一段程序的执行本质上就会进行一次状态的转移。因此我们说执行程序的计算机本质上其实就是一个状态机。</p>
+<p>完整的定义为：给定一个程序, 把它放到计算机的内存中, <strong>就相当于在状态数量为 <code>N</code> 的状态转移图中</strong>指定了一个初始状态, 程序运行的过程就是从这个初始状态开始, <strong>每执行完一条指令, 就会进行一次确定的状态转移</strong>. 也就是说, 程序也可以看成一个状态机! 这个状态机是上文提到的大状态机(状态数量为 <code>N</code> )的子集.</p>
+<p><strong>下面举个例子</strong></p>
+<p>假设某程序在上图所示的计算机中运行, 其初始状态为上图左上角的 8 号状态, 那么这个程序对应的状态机为</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs clean"><span class="hljs-number">8</span>-&gt;<span class="hljs-number">1</span>-&gt;<span class="hljs-number">32</span>-&gt;<span class="hljs-number">31</span>-&gt;<span class="hljs-number">32</span>-&gt;<span class="hljs-number">31</span>-&gt;...<br></code></pre></td></tr></table></figure>
+
+<p>我们推测这个程序可能是:</p>
+<figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs avrasm">// PC: instruction    | // label: statement<br><span class="hljs-number">0</span>: addi <span class="hljs-built_in">r1</span>, <span class="hljs-built_in">r2</span>, <span class="hljs-number">2</span>     |  pc0: <span class="hljs-built_in">r1</span> = <span class="hljs-built_in">r2</span> + <span class="hljs-number">2</span><span class="hljs-comment">;</span><br><span class="hljs-number">1</span>: <span class="hljs-keyword">subi</span> <span class="hljs-built_in">r2</span>, <span class="hljs-built_in">r1</span>, <span class="hljs-number">1</span>     |  pc1: <span class="hljs-built_in">r2</span> = <span class="hljs-built_in">r1</span> - <span class="hljs-number">1</span><span class="hljs-comment">;</span><br><span class="hljs-number">2</span>: <span class="hljs-keyword">nop</span>                |  pc2: <span class="hljs-comment">;  // no operation</span><br><span class="hljs-number">3</span>: <span class="hljs-keyword">jmp</span> <span class="hljs-number">2</span>              |  pc3: goto pc2<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>实验必做内容：</strong></p>
+<p>以上一小节中<code>1+2+...+100</code>的指令序列为例, 尝试画出这个程序的状态机.</p>
+<p>这个程序比较简单, 需要更新的状态只包括<code>PC</code>和<code>r1</code>, <code>r2</code>这两个寄存器, 因此我们用一个三元组<code>(PC, r1, r2)</code>就可以表示程序的所有状态, 而无需画出内存的具体状态. 初始状态是<code>(0, x, x)</code>, 此处的<code>x</code>表示未初始化. 程序<code>PC=0</code>处的指令是<code>mov r1, 0</code>, 执行完之后<code>PC</code>会指向下一条指令, 因此下一个状态是<code>(1, 0, x)</code>. 如此类推, 我们可以画出执行前3条指令的状态转移过程:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&gt;(<span class="hljs-number">0</span>, x, x) -&gt; (<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, x) -&gt; (<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>) -&gt; (<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>)<br></code></pre></td></tr></table></figure>
+
+<p>请你尝试继续画出这个状态机, 其中程序中的循环只需要画出前两次循环和最后两次循环即可.</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">(<span class="hljs-number">0</span>, x, x) -&gt; (<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, x) -&gt; (<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>) -&gt; (<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>) -&gt; (<span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>) -&gt; (<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>) -&gt; (<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>) -&gt;  (<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>) -&gt;  (<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>) -&gt;  (<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>) -&gt;  (<span class="hljs-number">4</span>, <span class="hljs-number">6</span>, <span class="hljs-number">3</span>) -&gt; ... -&gt; (<span class="hljs-number">2</span>, <span class="hljs-number">4851</span>, <span class="hljs-number">98</span>) -&gt;  (<span class="hljs-number">3</span>, <span class="hljs-number">4851</span>, <span class="hljs-number">99</span>) -&gt;  (<span class="hljs-number">4</span>, <span class="hljs-number">4950</span>, <span class="hljs-number">99</span>) -&gt; (<span class="hljs-number">2</span>, <span class="hljs-number">4950</span>, <span class="hljs-number">99</span>) -&gt;  (<span class="hljs-number">3</span>, <span class="hljs-number">4950</span>, <span class="hljs-number">100</span>) -&gt;  (<span class="hljs-number">4</span>, <span class="hljs-number">5050</span>, <span class="hljs-number">100</span>) -&gt; (<span class="hljs-number">5</span>, <span class="hljs-number">5050</span>, <span class="hljs-number">100</span>)-&gt; (<span class="hljs-number">5</span>, <span class="hljs-number">5050</span>, <span class="hljs-number">100</span>)...<br></code></pre></td></tr></table></figure>
+
+<h1 id="RTFSC"><a href="#RTFSC" class="headerlink" title="RTFSC"></a>RTFSC</h1><h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><code class="hljs python">nemu<br>├── configs                    <span class="hljs-comment"># 预先提供的一些配置文件</span><br>├── include                    <span class="hljs-comment"># 存放全局使用的头文件</span><br>│   ├── common.h               <span class="hljs-comment"># 公用的头文件</span><br>│   ├── config                 <span class="hljs-comment"># 配置系统生成的头文件, 用于维护配置选项更新的时间戳</span><br>│   ├── cpu<br>│   │   ├── cpu.h<br>│   │   ├── decode.h           <span class="hljs-comment"># 译码相关</span><br>│   │   ├── difftest.h<br>│   │   └── ifetch.h           <span class="hljs-comment"># 取指相关</span><br>│   ├── debug.h                <span class="hljs-comment"># 一些方便调试用的宏</span><br>│   ├── device                 <span class="hljs-comment"># 设备相关</span><br>│   ├── difftest-<span class="hljs-keyword">def</span>.h<br>│   ├── generated<br>│   │   └── autoconf.h         <span class="hljs-comment"># 配置系统生成的头文件, 用于根据配置信息定义相关的宏</span><br>│   ├── isa.h                  <span class="hljs-comment"># ISA相关</span><br>│   ├── macro.h                <span class="hljs-comment"># 一些方便的宏定义</span><br>│   ├── memory                 <span class="hljs-comment"># 访问内存相关</span><br>│   └── utils.h<br>├── Kconfig                    <span class="hljs-comment"># 配置信息管理的规则</span><br>├── Makefile                   <span class="hljs-comment"># Makefile构建脚本</span><br>├── README.md<br>├── resource                   <span class="hljs-comment"># 一些辅助资源</span><br>├── scripts                    <span class="hljs-comment"># Makefile构建脚本</span><br>│   ├── build.mk<br>│   ├── config.mk<br>│   ├── git.mk                 <span class="hljs-comment"># git版本控制相关</span><br>│   └── native.mk<br>├── src                        <span class="hljs-comment"># 源文件</span><br>│   ├── cpu<br>│   │   └── cpu-<span class="hljs-built_in">exec</span>.c         <span class="hljs-comment"># 指令执行的主循环</span><br>│   ├── device                 <span class="hljs-comment"># 设备相关</span><br>│   ├── engine<br>│   │   └── interpreter        <span class="hljs-comment"># 解释器的实现</span><br>│   ├── filelist.mk<br>│   ├── isa                    <span class="hljs-comment"># ISA相关的实现</span><br>│   │   ├── mips32<br>│   │   ├── riscv32<br>│   │   ├── riscv64<br>│   │   └── x86<br>│   ├── memory                 <span class="hljs-comment"># 内存访问的实现</span><br>│   ├── monitor<br>│   │   ├── monitor.c<br>│   │   └── sdb                <span class="hljs-comment"># 简易调试器</span><br>│   │       ├── expr.c         <span class="hljs-comment"># 表达式求值的实现</span><br>│   │       ├── sdb.c          <span class="hljs-comment"># 简易调试器的命令处理</span><br>│   │       └── watchpoint.c   <span class="hljs-comment"># 监视点的实现</span><br>│   ├── nemu-main.c            <span class="hljs-comment"># 你知道的...</span><br>│   └── utils                  <span class="hljs-comment"># 一些公共的功能</span><br>│       ├── log.c              <span class="hljs-comment"># 日志文件相关</span><br>│       ├── rand.c<br>│       ├── state.c<br>│       └── timer.c<br>└── tools                      <span class="hljs-comment"># 一些工具</span><br>    ├── fixdep                 <span class="hljs-comment"># 依赖修复, 配合配置系统进行使用</span><br>    ├── gen-expr<br>    ├── kconfig                <span class="hljs-comment"># 配置系统</span><br>    ├── kvm-diff<br>    ├── qemu-diff<br>    └── spike-diff<br></code></pre></td></tr></table></figure>
+
+<p>这里官方把代码分为两大模块</p>
+<ul>
+<li>与 ISA 无关的基本框架</li>
+<li>不同 ISA 的具体实现</li>
+</ul>
+<p>通过抽象不同 ISA 的接口以及在 <code>nemu/include/isa.h</code> 中进行装配不同的 ISA ，来实现适配不同的 ISA 支持。</p>
+<h2 id="配置系统与项目构建"><a href="#配置系统与项目构建" class="headerlink" title="配置系统与项目构建"></a>配置系统与项目构建</h2><h3 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h3><h4 id="为什么需要配置系统"><a href="#为什么需要配置系统" class="headerlink" title="为什么需要配置系统"></a>为什么需要配置系统</h4><p>因为在一个完整的系统中，配置项可能会很多而且存在关联，我们<strong>需要一个系统来帮助我们自动化管理不同的配置以及修改配置后的关联修改</strong>，这个系统就是配置系统。</p>
+<h4 id="NEMU-的配置系统"><a href="#NEMU-的配置系统" class="headerlink" title="NEMU 的配置系统"></a>NEMU 的配置系统</h4><p>NEMU 使用的是来自 GNU&#x2F;Liunx 系的配置系统 <code>kconfig</code>，并进行了少量的简化操作，通过 kconfig 指定的描述语言，开发者可以在<strong>配置描述文件</strong>中进行描述以下的几种配置：</p>
+<ul>
+<li>配置选项的属性（比如某配置的类型以及默认值）</li>
+<li>不同配置选项的关联依赖</li>
+<li>配置选项的层级关系</li>
+</ul>
+<p>个人感觉这一套配置描述下来，其实大概就是我们软件中用到的 <code>setting</code> 这么一个基本需求了。</p>
+<p>NEMU 的配置描述文件为 <code>nemu/Kconfig</code>，当我们输入 <code>make menuconfig</code> 的时候，其实是通过 Makefile 自动化地帮助我们进行了配置描述文件的<strong>初始化</strong>以及<strong>用户在此之后进行的配置设置</strong>的<strong>整合</strong>。</p>
+<h4 id="配置系统过程中需要注意的"><a href="#配置系统过程中需要注意的" class="headerlink" title="配置系统过程中需要注意的"></a>配置系统过程中需要注意的</h4><ul>
+<li>上述的过程中会执行 <code>mconf nemu/Kconfig</code> 来通过解析 Kconfig 这个配置描述文件中的描述来生成展示各种用于用户设置的配置选项</li>
+<li>在用户设置完毕之后会自动生成一个 <code>.config</code> 文件来持久化用户刚刚的配置选择。</li>
+<li>配置系统在初始化以及用户配置持久化都完成之后，会执行 <code>conf --syncconfig nemu/Kconfig</code> 将配置描述文件 Kconfig 中的描述以及用户设置的结果 <code>nemu/.config</code> 进行结合，生成如下文件<ul>
+<li>可以被包含到C代码中的宏定义 <code>#define</code> (<code>nemu/include/generated/autoconf.h</code>), 这些宏的名称都是形如<code>CONFIG_xxx</code>的形式</li>
+<li>可以被包含到Makefile中的变量定义(<code>nemu/include/config/auto.conf</code>)</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221203102242796.png" srcset="/img/loading.gif" lazyload alt="image-20221203102242796"></p>
+<h3 id="项目构建Makefile"><a href="#项目构建Makefile" class="headerlink" title="项目构建Makefile"></a>项目构建Makefile</h3><p>NEMU 的 Makefile 很复杂，讲义中解析了他如下的几个功能</p>
+<h3 id="关联配置系统"><a href="#关联配置系统" class="headerlink" title="关联配置系统"></a>关联配置系统</h3><p>我们上面提到了配置系统会结合初始化配置 Kconfig 的描述以及用户配置自动生成可以被包含到Makefile中的变量定义(<code>nemu/include/config/auto.conf</code>)，因此如果用户通过 <code>menuconfig</code> 来进行配置的更新，Makefile 的变量也会发生改变，实现与配置系统的关联绑定。</p>
+<h3 id="文件列表filelist"><a href="#文件列表filelist" class="headerlink" title="文件列表filelist"></a>文件列表filelist</h3><p>在<code>nemu/src</code>及其子目录下存在很多名为<code>filelist.mk</code>的文件，这边以 <code>nemu/src/filelist.mk</code> 为例，我们先来理解一下这些文件的含义。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs makefile">SRCS-y += src/nemu-main.c<br>DIRS-y += src/cpu src/monitor src/utils<br>DIRS-<span class="hljs-variable">$(CONFIG_MODE_SYSTEM)</span> += src/memory<br>DIRS-BLACKLIST-<span class="hljs-variable">$(CONFIG_TARGET_AM)</span> += src/monitor/sdb<br><br>SHARE = <span class="hljs-variable">$(<span class="hljs-built_in">if</span> <span class="hljs-variable">$(CONFIG_TARGET_SHARE)</span>,1,0)</span><br>LIBS += <span class="hljs-variable">$(<span class="hljs-built_in">if</span> <span class="hljs-variable">$(CONFIG_TARGET_NATIVE_ELF)</span>,-lreadline -ldl -pie,)</span><br><br><span class="hljs-keyword">ifdef</span> mainargs<br>ASFLAGS += -DBIN_PATH=\<span class="hljs-string">&quot;<span class="hljs-variable">$(mainargs)\&quot;</span></span><br><span class="hljs-string">endif</span><br><span class="hljs-string">SRCS-<span class="hljs-variable">$(CONFIG_TARGET_AM)</span> += src/am-bin.S</span><br><span class="hljs-string">.PHONY: src/am-bin.S</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>SRCS-y</code> - 参与编译的源文件的候选集合</li>
+<li><code>SRCS-BLACKLIST-y</code> - 不参与编译的源文件的黑名单集合</li>
+<li><code>DIRS-y</code> - 参与编译的目录集合, 该目录下的所有文件都会被加入到<code>SRCS-y</code>中</li>
+<li><code>DIRS-BLACKLIST-y</code> - 不参与编译的目录集合, 该目录下的所有文件都会被加入到<code>SRCS-BLACKLIST-y</code>中</li>
+</ul>
+<p>同时我们也看到了 <code>DIRS-BLACKLIST-$(CONFIG_TARGET_AM) += src/monitor/sdb</code> 这种类似带有 <code>$</code> 取值的操作，具体取的值是与 <code>menuconfig</code> 的<strong>配置结果中的布尔选项</strong>进行关联。具体的工作模式是：</p>
+<ul>
+<li>当我们配置系统自动生成了 <code>nemu/include/config/auto.conf</code> 之后，Makefile 中会关联该文件中定义的变量。</li>
+<li>如果用户在 menuconfig 中选择了 <code>TARGET_AM</code> 相关的布尔选项时, kconfig 最终会在 <code>nemu/include/config/auto.conf</code> 中生成形如 <code>CONFIG_TARGET_AM=y</code> 的代码, 我们把变量进行带入展开后将会得到 <code>DIRS-BLACKLIST-y += src/monitor/sdb</code> ，对应其实就是将此文件夹加入黑名单备选。从而实现了<strong>在 menuconfig 中选中 TARGET_AM 时, nemu&#x2F;src&#x2F;monitor&#x2F;sdb 目录下的所有文件都不会参与编译</strong>.</li>
+<li>如果用户在 menuconfig 中<strong>未选择</strong> <code>TARGET_AM</code> 相关的布尔选项时, kconfig 将会生成形如 <code>CONFIG_TARGET_AM=n</code> 的代码, 或者未对 <code>CONFIG_TARGET_AM </code>进行定义, 此时将会得到 <code>DIRS-BLACKLIST-n += src/monitor/sdb</code> , 或者 <code>DIRS-BLACKLIST- += src/monitor/sdb</code> , 这两种情况都不会影响 <code>DIRS-BLACKLIST-y</code> 的值, <strong>因此 nemu&#x2F;src&#x2F;monitor&#x2F;sdb 目录下的所有文件都会参与编译</strong>.</li>
+</ul>
+<h3 id="编译和链接"><a href="#编译和链接" class="headerlink" title="编译和链接"></a>编译和链接</h3><p>讲义中指出对于类似的大型工程项目，Makefile的编译规则在 <code>nemu/scripts/build.mk</code> 中定义，我们可以看一下：</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs makefile">.DEFAULT_GOAL = app<br><br><span class="hljs-comment"># Add necessary options if the target is a shared library</span><br><span class="hljs-keyword">ifeq</span> (<span class="hljs-variable">$(SHARE)</span>,1)<br>SO = -so<br>CFLAGS  += -fPIC<br>LDFLAGS += -rdynamic -shared -fPIC<br><span class="hljs-keyword">endif</span><br><br>WORK_DIR  = <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> pwd)</span><br>BUILD_DIR = <span class="hljs-variable">$(WORK_DIR)</span>/build<br><br>INC_PATH := <span class="hljs-variable">$(WORK_DIR)</span>/<span class="hljs-keyword">include</span> <span class="hljs-variable">$(INC_PATH)</span><br>OBJ_DIR  = <span class="hljs-variable">$(BUILD_DIR)</span>/obj-<span class="hljs-variable">$(NAME)</span><span class="hljs-variable">$(SO)</span><br>BINARY   = <span class="hljs-variable">$(BUILD_DIR)</span>/<span class="hljs-variable">$(NAME)</span><span class="hljs-variable">$(SO)</span><br><br><span class="hljs-comment"># Compilation flags</span><br><span class="hljs-keyword">ifeq</span> (<span class="hljs-variable">$(CC)</span>,clang)<br>CXX := clang++<br><span class="hljs-keyword">else</span><br>CXX := g++<br><span class="hljs-keyword">endif</span><br>LD := <span class="hljs-variable">$(CXX)</span><br>INCLUDES = <span class="hljs-variable">$(<span class="hljs-built_in">addprefix</span> -I, <span class="hljs-variable">$(INC_PATH)</span>)</span><br>CFLAGS  := -O2 -MMD -Wall -Werror <span class="hljs-variable">$(INCLUDES)</span> <span class="hljs-variable">$(CFLAGS)</span><br>LDFLAGS := -O2 <span class="hljs-variable">$(LDFLAGS)</span><br><br>OBJS = $(SRCS:%.c=<span class="hljs-variable">$(OBJ_DIR)</span>/%.o) $(CXXSRC:%.cc=<span class="hljs-variable">$(OBJ_DIR)</span>/%.o)<br><br><span class="hljs-comment"># Compilation patterns</span><br><span class="hljs-variable">$(OBJ_DIR)</span>/%.o: %.c<br>	@echo + CC <span class="hljs-variable">$&lt;</span><br>	@mkdir -p <span class="hljs-variable">$(<span class="hljs-built_in">dir</span> <span class="hljs-variable">$@</span>)</span><br>	@<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(CFLAGS)</span> -c -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$&lt;</span><br>	<span class="hljs-variable">$(<span class="hljs-built_in">call</span> call_fixdep, $(@:.o=.d)</span>, <span class="hljs-variable">$@</span>)<br><br><span class="hljs-variable">$(OBJ_DIR)</span>/%.o: %.cc<br>	@echo + CXX <span class="hljs-variable">$&lt;</span><br>	@mkdir -p <span class="hljs-variable">$(<span class="hljs-built_in">dir</span> <span class="hljs-variable">$@</span>)</span><br>	@<span class="hljs-variable">$(CXX)</span> <span class="hljs-variable">$(CFLAGS)</span> <span class="hljs-variable">$(CXXFLAGS)</span> -c -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$&lt;</span><br>	<span class="hljs-variable">$(<span class="hljs-built_in">call</span> call_fixdep, $(@:.o=.d)</span>, <span class="hljs-variable">$@</span>)<br><br><span class="hljs-comment"># Depencies</span><br><span class="hljs-keyword">-include</span> $(OBJS:.o=.d)<br><br><span class="hljs-comment"># Some convenient rules</span><br><br><span class="hljs-meta"><span class="hljs-keyword">.PHONY</span>: app clean</span><br><br><span class="hljs-section">app: <span class="hljs-variable">$(BINARY)</span></span><br><br><span class="hljs-variable">$(BINARY)</span>: <span class="hljs-variable">$(OBJS)</span> <span class="hljs-variable">$(ARCHIVES)</span><br>	@echo + LD <span class="hljs-variable">$@</span><br>	@<span class="hljs-variable">$(LD)</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$(OBJS)</span> <span class="hljs-variable">$(LDFLAGS)</span> <span class="hljs-variable">$(ARCHIVES)</span> <span class="hljs-variable">$(LIBS)</span><br><br><span class="hljs-section">clean:</span><br>	-rm -rf <span class="hljs-variable">$(BUILD_DIR)</span><br></code></pre></td></tr></table></figure>
+
+<p>我们这里只关注具体的编译阶段</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-comment"># Compilation patterns</span><br><span class="hljs-variable">$(OBJ_DIR)</span>/%.o: %.c<br>	@echo + CC <span class="hljs-variable">$&lt;</span><br>	@mkdir -p <span class="hljs-variable">$(<span class="hljs-built_in">dir</span> <span class="hljs-variable">$@</span>)</span><br>	@<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(CFLAGS)</span> -c -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$&lt;</span>        <span class="hljs-comment">#主要是这一行</span><br>	<span class="hljs-variable">$(<span class="hljs-built_in">call</span> call_fixdep, $(@:.o=.d)</span>, <span class="hljs-variable">$@</span>)<br></code></pre></td></tr></table></figure>
+
+<p>确实是什么都看不懂，但是我们可以通过 <code>make -nB</code> 查看 <code>make</code> 过程中都执行了哪些操作：</p>
+<p>可以看到很多形如如下的编译操作</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">gcc -O2 -MMD -Wall -Werror -I/home/link/pa/ics2022/nemu/include -I/home/link/pa/ics2022/nemu/src/engine/interpreter -I/home/link/pa/ics2022/nemu/src/isa/riscv32/include -O2    -DITRACE_COND=<span class="hljs-literal">true</span> -D__GUEST_ISA__=riscv32 -c -o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/utils/timer.o src/utils/timer.c<br></code></pre></td></tr></table></figure>
+
+<p>我们可以知道</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-variable">$(CC)</span> -&gt; gcc<br><span class="hljs-variable">$@</span> -&gt; /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/utils/timer.o<br><span class="hljs-variable">$&lt;</span> -&gt; src/utils/timer.c<br><span class="hljs-variable">$(CFLAGS)</span> -&gt; 剩下的内容<br></code></pre></td></tr></table></figure>
+
+<p>因此我们可以根据上述输出结果和Makefile反推 <code>$(CFLAGS)</code> 的值是如何形成的。</p>
+<p>之后的链接过程，我们通过 <code>make -nB</code> 也可以看出</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs makefile"><span class="hljs-variable">$(BINARY)</span>: <span class="hljs-variable">$(OBJS)</span> <span class="hljs-variable">$(ARCHIVES)</span><br>	@echo + LD <span class="hljs-variable">$@</span><br>	@<span class="hljs-variable">$(LD)</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$(OBJS)</span> <span class="hljs-variable">$(LDFLAGS)</span> <span class="hljs-variable">$(ARCHIVES)</span> <span class="hljs-variable">$(LIBS)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">g++ -o /home/link/pa/ics2022/nemu/build/riscv32-nemu-interpreter /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/nemu-main.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/device/io/map.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/device/io/mmio.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/device/io/port-io.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/cpu-exec.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/difftest/dut.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/difftest/ref.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/expr.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/sdb.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/sdb/watchpoint.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/monitor.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/utils/rand.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/utils/log.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/utils/state.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/utils/timer.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/memory/vaddr.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/memory/paddr.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/engine/interpreter/init.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/engine/interpreter/hostcall.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/logo.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/init.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/difftest/dut.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/reg.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/system/intr.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/system/mmu.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/inst.o /home/link/pa/ics2022/nemu/build/obj-riscv32-nemu-interpreter/src/utils/disasm.o -O2 -O2     -lLLVM-14 -lreadline -ldl -pie<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CSAPP/">#CSAPP</a>
+      
+        <a href="/tags/NJU/">#NJU</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>NJU-ICS|PA1.0</div>
+      <div>http://example.com/2022/11/25/NJU-ICS-PA1-0/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Noctis64</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年11月25日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/04/CMU-15-213-Machine-Level-Programming-Control/" title="CMU 15-213|Machine Level Programming-Control">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CMU 15-213|Machine Level Programming-Control</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/11/23/%E5%86%99%E7%BB%99%E5%9B%A0%E4%B8%BA%E5%AE%B3%E6%80%95%E5%A4%B1%E7%9C%A0%E8%80%8C%E5%A4%B1%E7%9C%A0%E7%9A%84%E6%88%91%E5%92%8C%E4%BD%A0/" title="写给因为害怕失眠而失眠的我和你">
+                        <span class="hidden-mobile">写给因为害怕失眠而失眠的我和你</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,727 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Noctis64">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Leetcode数组算法刷题记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Leetcode|Array Problem Sets">
+<meta property="og:url" content="http://example.com/2023/05/20/Leetcode-Array-Problem-Sets/index.html">
+<meta property="og:site_name" content="Zanarkand">
+<meta property="og:description" content="Leetcode数组算法刷题记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230520210035964.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230521194752836.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230522155801238.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230605113114798.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230609210239610.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230609212445951.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230609225310260.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230610104242146.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230610110453891.png">
+<meta property="article:published_time" content="2023-05-20T13:20:39.000Z">
+<meta property="article:modified_time" content="2023-06-10T03:07:55.770Z">
+<meta property="article:author" content="Noctis64">
+<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Leetcode">
+<meta property="article:tag" content="Labuladong">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230520210035964.png">
+  
+  
+  
+  <title>Leetcode|Array Problem Sets - Zanarkand</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zanarkand</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Leetcode|Array Problem Sets"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-20 21:20" pubdate>
+          2023年5月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          44 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Leetcode|Array Problem Sets</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="快慢指针"><a href="#快慢指针" class="headerlink" title="快慢指针"></a>快慢指针</h1><h2 id="删除有序数组中的重复项"><a href="#删除有序数组中的重复项" class="headerlink" title="删除有序数组中的重复项"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/remove-duplicates-from-sorted-array/">删除有序数组中的重复项</a></h2><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230520210035964.png" srcset="/img/loading.gif" lazyload style="zoom: 67%;" />
+
+<h3 id="基础思路"><a href="#基础思路" class="headerlink" title="基础思路"></a>基础思路</h3><p>首先一个很暴力的思路就是把所有不重复的元素都找到，然后 copy 到一个新的数组里，这种做法最暴力，同时空间利用率也是最低的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">removeDuplicatesViolet</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>	<span class="hljs-keyword">if</span> (nums.length == <span class="hljs-number">0</span>) &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	&#125;<br>	<span class="hljs-comment">//开一个新数组来存取元素</span><br>	<span class="hljs-type">int</span>[] res = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[nums.length];<br>	<span class="hljs-comment">//记录上一个被标记的重复的元素</span><br>	<span class="hljs-type">int</span> <span class="hljs-variable">prev</span> <span class="hljs-operator">=</span> nums[<span class="hljs-number">0</span>];<br>	res[<span class="hljs-number">0</span>] = prev;<br>	<span class="hljs-comment">//记录新数组存取的索引idx</span><br>	<span class="hljs-type">int</span> <span class="hljs-variable">idx</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>	<span class="hljs-comment">//遍历原始数组如果发现有之前不一样的，就存储到新的数组里</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; nums.length; i++) &#123;<br>		<span class="hljs-keyword">if</span> (nums[i] != prev) &#123;<br>			res[++idx] = nums[i];<br>			prev = nums[i];<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">//因为会检查原有数组的元素，因此需要把新数组的元素重新复制进去一遍</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; idx; i++) &#123;<br>		nums[i] = res[i];<br>	&#125;<br>	<span class="hljs-keyword">return</span> idx + <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="双指针的快慢指针进行优化"><a href="#双指针的快慢指针进行优化" class="headerlink" title="双指针的快慢指针进行优化"></a>双指针的快慢指针进行优化</h3><p>上述的操作完全可以优化，通过对数组进行原地修改数据就可以实现，省去了额外的O(n)空间</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">removeDuplicates</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>	<span class="hljs-keyword">if</span> (nums.length == <span class="hljs-number">0</span>) &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	&#125;<br>	<span class="hljs-comment">//快慢指针</span><br>	<span class="hljs-type">int</span> <span class="hljs-variable">slow</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, fast = <span class="hljs-number">0</span>;<br>	<span class="hljs-comment">//快指针在前面探路</span><br>	<span class="hljs-keyword">while</span> (fast &lt; nums.length) &#123;<br>		<span class="hljs-comment">//只要发现不重复的元素，就更新 slow 并且存储</span><br>		<span class="hljs-keyword">if</span> (nums[slow] != nums[fast]) &#123;<br>                   <span class="hljs-comment">//慢指针充当了暴力方法中的 被标记的重复的元素</span><br>			nums[++slow] = nums[fast];<br>		&#125;<br>		fast++;<br>	&#125;<br>	<span class="hljs-keyword">return</span> slow + <span class="hljs-number">1</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这道题的一个核心思想其实就是 <font color='red'>记录上一个标记的重复的元素，遇到新的元素存取下来</font></p>
+<p><font color='red'>通过快慢指针优化了多的空间</font></p>
+<h2 id="移除元素"><a href="#移除元素" class="headerlink" title="移除元素"></a>移除元素</h2><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230521194752836.png" srcset="/img/loading.gif" lazyload style="zoom: 67%;" />
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">removeElement</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> val)</span> &#123;<br>	<span class="hljs-keyword">if</span> (nums.length == <span class="hljs-number">0</span>) &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>	&#125;<br>	<span class="hljs-comment">//双指针的快慢指针思想</span><br>	<span class="hljs-type">int</span> <span class="hljs-variable">slow</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, fast = <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span> (fast &lt; nums.length) &#123;<br>		<span class="hljs-comment">//只要不是要被删除的元素，就原地赋值到慢的那个指针的位置</span><br>		<span class="hljs-keyword">if</span> (nums[fast] != val) &#123;<br>			nums[slow++] = nums[fast];<br>		&#125;<br>		fast++;<br>	&#125;<br>	<span class="hljs-keyword">return</span> slow;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="还是经典的快慢指针思想"><a href="#还是经典的快慢指针思想" class="headerlink" title="还是经典的快慢指针思想"></a>还是经典的快慢指针思想</h3><p>其实和上面的本质思想是差不多的</p>
+<p>采取快慢指针的做法，<font color='red'>快指针扫描数组，只要是不是被删除的元素，就更新到慢指针上</font></p>
+<h2 id="移动零"><a href="#移动零" class="headerlink" title="移动零"></a>移动零</h2><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230522155801238.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="快慢指针思想适用于原地删除和移动数据的操作"><a href="#快慢指针思想适用于原地删除和移动数据的操作" class="headerlink" title="快慢指针思想适用于原地删除和移动数据的操作"></a>快慢指针思想适用于原地删除和移动数据的操作</h3><p>在这一题中，看似是移动所有的0</p>
+<p>实际上<font color='red'>我们可以把移动的过程等价转化为：先删除，之后再进行一轮赋值</font></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">moveZeroes</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>	<span class="hljs-keyword">if</span> (nums.length == <span class="hljs-number">0</span>) &#123;<br>		<span class="hljs-keyword">return</span>;<br>	&#125;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">slow</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, fast = <span class="hljs-number">0</span>;<br>	<span class="hljs-comment">//先把所有非零的数据移动到前面，相当于删除所有0</span><br>	<span class="hljs-keyword">while</span> (fast &lt; nums.length) &#123;<br>		<span class="hljs-keyword">if</span> (nums[fast] != <span class="hljs-number">0</span>) &#123;<br>			nums[slow++] = nums[fast];<br>		&#125;<br>		fast++;<br>	&#125;<br>	<span class="hljs-comment">//之后把所有的0补上</span><br>	<span class="hljs-comment">//非0数据的长度是slow，下标到slow-1，因此从slow下标开始全部置0</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> slow; i &lt; nums.length; i++) &#123;<br>		nums[i] = <span class="hljs-number">0</span>;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="左右指针"><a href="#左右指针" class="headerlink" title="左右指针"></a>左右指针</h1><h2 id="最经典的二分搜索"><a href="#最经典的二分搜索" class="headerlink" title="最经典的二分搜索"></a>最经典的二分搜索</h2><p>太经典了所以直接上代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">binarySearch</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> tar)</span> &#123;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">left</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, right = nums.length - <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">while</span> (left &lt;= right) &#123;<br>		<span class="hljs-type">int</span> <span class="hljs-variable">mid</span> <span class="hljs-operator">=</span> (left + right) / <span class="hljs-number">2</span>;<br>		<span class="hljs-keyword">if</span> (nums[mid] == tar) &#123;<br>			<span class="hljs-keyword">return</span> mid;<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[mid] &gt; tar) &#123;<br>			right = mid - <span class="hljs-number">1</span>;<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (nums[mid] &lt; tar) &#123;<br>			left = mid + <span class="hljs-number">1</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">//没找到</span><br>	<span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="两数之和-II-输入有序数组"><a href="#两数之和-II-输入有序数组" class="headerlink" title="两数之和 II - 输入有序数组"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/">两数之和 II - 输入有序数组</a></h2><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230605113114798.png" srcset="/img/loading.gif" lazyload alt="题目信息"></p>
+<h3 id="思路分析"><a href="#思路分析" class="headerlink" title="思路分析"></a>思路分析</h3><p>首先看到题目的<font color='red'>数组有序</font>，我们就应该想到使用<strong>二分</strong>，或者是<font color='red'>类似二分的左右指针思想</font></p>
+<p>这题也是给一个target数，其实很符合二分的应用场景</p>
+<p>我们可以类似的使用二分的思想，左右指针分别指向两个数据，每一次循环都不断调整左右指针和的范围，如果左右指针和比target大了，说明要往小的找，也就是左移right；如果左右指针和比target小了，说明要往大的找，也就是右移left。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span>[] twoSum(<span class="hljs-type">int</span>[] numbers, <span class="hljs-type">int</span> target) &#123;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">left</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, right = numbers.length - <span class="hljs-number">1</span>;<br>	<span class="hljs-comment">//题目要求是不能返回重复的元素，因此left和right指针不能重合</span><br>	<span class="hljs-keyword">while</span> (left &lt; right) &#123;<br>		<span class="hljs-comment">//类比二分计算mid的操作，这里借用的是二分的思想</span><br>		<span class="hljs-type">int</span> <span class="hljs-variable">sum</span> <span class="hljs-operator">=</span> numbers[left] + numbers[right];<br>		<span class="hljs-keyword">if</span> (sum == target) &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[] &#123;left + <span class="hljs-number">1</span>, right + <span class="hljs-number">1</span>&#125;;<br>		&#125;<br>		<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (sum &gt; target) &#123;<span class="hljs-comment">//左右指针的数据和比target大了，说明要变小，right指针左移</span><br>			right--;<br>		&#125;<br>		<span class="hljs-keyword">else</span> &#123;<br>			left++;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[] &#123;-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>&#125;;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="反转数组"><a href="#反转数组" class="headerlink" title="反转数组"></a>反转数组</h2><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230609210239610.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="思路分析-1"><a href="#思路分析-1" class="headerlink" title="思路分析"></a>思路分析</h3><p>有了之前的左右指针技巧积累，这题基本就是秒杀的了</p>
+<h3 id="代码实现-1"><a href="#代码实现-1" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">reverseString</span><span class="hljs-params">(<span class="hljs-type">char</span>[] s)</span> &#123;<br>	<span class="hljs-type">int</span> <span class="hljs-variable">l</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, r = s.length - <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">while</span> (l &lt; r) &#123;<br>		<span class="hljs-type">char</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> s[l];<br>		s[l] = s[r];<br>		s[r] = temp;<br>		l++;<br>		r--;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h2><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230609212445951.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="暴力思路"><a href="#暴力思路" class="headerlink" title="暴力思路"></a>暴力思路</h3><p>首先这题可以通过暴力的方式来处理，枚举所有的子串，然后判断所有子串是否为回文串，如果是回文，维护一个最长回文子串的变量用于记录结果</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> String <span class="hljs-title function_">longestPalindrome</span><span class="hljs-params">(String s)</span> &#123;<br>       <span class="hljs-keyword">if</span> (s.length()==<span class="hljs-number">1</span>)&#123;<br>		<span class="hljs-keyword">return</span> s;<br>	&#125;<br>	<span class="hljs-type">String</span>  <span class="hljs-variable">res</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; s.length(); i++) &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">j</span> <span class="hljs-operator">=</span> i+<span class="hljs-number">1</span>; j &lt;=s.length(); j++) &#123;<br>                   <span class="hljs-comment">//data就是所有的子串</span><br>			<span class="hljs-type">String</span> <span class="hljs-variable">data</span> <span class="hljs-operator">=</span> s.substring(i, j);<br>                   <span class="hljs-comment">//判断子串是否是回文</span><br>			<span class="hljs-keyword">if</span> (checkPalindrome(data)) &#123;<br>                        <span class="hljs-comment">//如果是更新记录</span><br>				<span class="hljs-keyword">if</span> (res.length()&lt;data.length())&#123;<br>					res=data;<br>				&#125;<br>			&#125;<br>		&#125;<br>	&#125;<br>	<span class="hljs-keyword">return</span>  res;<br>&#125;<br>   <span class="hljs-keyword">private</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">checkPalindrome</span><span class="hljs-params">(String s)</span>&#123;<br>       <span class="hljs-type">int</span> <span class="hljs-variable">l</span> <span class="hljs-operator">=</span><span class="hljs-number">0</span>,r=s.length()-<span class="hljs-number">1</span>;<br>       <span class="hljs-keyword">while</span>(l&lt;r)&#123;<br>           <span class="hljs-keyword">if</span>(s.charAt(l)!=s.charAt(r))&#123;<br>               <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>           &#125;<br>           l++;<br>           r--;<br>       &#125;<br>       <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>   &#125;<br></code></pre></td></tr></table></figure>
+
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230609225310260.png" srcset="/img/loading.gif" lazyload alt="TLE了，悲"></p>
+<h3 id="从中心扩散的双指针"><a href="#从中心扩散的双指针" class="headerlink" title="从中心扩散的双指针"></a>从中心扩散的双指针</h3><p>由于是回文串，最简单的回文串可以通过左右双指针来进行判断</p>
+<p>但是这里是要求出<strong>所有的回文串</strong>同时还要是<strong>子串</strong>，子串连续的位置可以任意定，因此<strong>左右指针相向行驶的情况就不能覆盖到所有的子串</strong></p>
+<p>针对这一个限制我们可以尝试<strong>从中心往外扩散的双指针技巧</strong></p>
+<p>对于任意的回文串，长度可能是奇数或者是偶数，但是从回文串的<strong>中心</strong>（长度为偶数就认为有两个中心，其实都是相等的字符）出发一定都保证扩散的过程中是回文的。</p>
+<p>因此我们可以<strong>枚举所有的中心点</strong>，<strong>在每一个中心点都找最长的奇数长度回文子串和偶数长度回文子串</strong>，不断更新记录</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> String <span class="hljs-title function_">longestPalindrome</span><span class="hljs-params">(String s)</span> &#123;<br>	<span class="hljs-type">String</span>  <span class="hljs-variable">res</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;&quot;</span>;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; s.length(); i++) &#123;<br>		<span class="hljs-type">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> findPalindromeFromCenter(s, i, i + <span class="hljs-number">1</span>);<br>		<span class="hljs-type">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> findPalindromeFromCenter(s, i, i);<br>		s1=s1.length()&gt;s2.length()?s1:s2;<br>		res=res.length()&gt;s1.length()?res:s1;<br>	&#125;<br>	<span class="hljs-keyword">return</span>  res;<br>&#125;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 在s中寻找以l和r为中心的最长回文串</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">private</span> String <span class="hljs-title function_">findPalindromeFromCenter</span><span class="hljs-params">(String s, <span class="hljs-type">int</span> l, <span class="hljs-type">int</span> r)</span> &#123;<br>	<span class="hljs-keyword">while</span> (l &gt;= <span class="hljs-number">0</span> &amp;&amp; r &lt; s.length() &amp;&amp; s.charAt(l) == s.charAt(r)) &#123;<br>		<span class="hljs-comment">//双指针向两边展开</span><br>		l--;<br>		r++;<br>	&#125;<br>	<span class="hljs-comment">//此时l和r内部的串就是最长回文串（l和r端点不包含在内，因此是subString(l+1,r)）</span><br>	<span class="hljs-keyword">return</span> s.substring(l+<span class="hljs-number">1</span>,r);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>如果说二分的应用场景适用于有序数组，看到有序数组就要想到二分。</p>
+<p>那么前缀和这一个算法技巧则是适用于频繁出现  <strong>计算某个区间内元素的和</strong> 的情况</p>
+<p>先用一个简单题来感受一下</p>
+<h2 id="区域和检索，数组不可变"><a href="#区域和检索，数组不可变" class="headerlink" title="区域和检索，数组不可变"></a>区域和检索，数组不可变</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/range-sum-query-immutable/">303. 区域和检索 - 数组不可变 - 力扣（LeetCode）</a></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230610104242146.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="最暴力的做法，可能会TLE"><a href="#最暴力的做法，可能会TLE" class="headerlink" title="最暴力的做法，可能会TLE"></a>最暴力的做法，可能会TLE</h3><p>最暴力的做法就是不用前缀和数组，每一次sumRange的时候都通过一轮遍历计算sum，之后相减得到结果，这种做法很明显是要O(n)的时间的</p>
+<h3 id="前缀和数组做法"><a href="#前缀和数组做法" class="headerlink" title="前缀和数组做法"></a>前缀和数组做法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NumArray</span> &#123;<br>	<span class="hljs-comment">//前缀和数组</span><br>	<span class="hljs-type">int</span>[] preSum = <span class="hljs-literal">null</span>;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">NumArray</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>		<span class="hljs-comment">//初始化前缀和数组</span><br>		preSum = <span class="hljs-keyword">new</span> <span class="hljs-title class_">int</span>[nums.length+<span class="hljs-number">1</span>];<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>; i &lt; preSum.length; i++) &#123;<br>			preSum[i] = nums[i-<span class="hljs-number">1</span>]+preSum[i - <span class="hljs-number">1</span>];<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">sumRange</span><span class="hljs-params">(<span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right)</span> &#123;<br>          <span class="hljs-comment">//O(1)的查询处理</span><br>		<span class="hljs-keyword">return</span> preSum[right+<span class="hljs-number">1</span>] - preSum[left];<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>需要注意几个关键点：</p>
+<ul>
+<li>前缀和数组的长度要比原始数组长度多1个单位，<font color='red'>我们约定，preSum[i]记录的是从nums[0]-nums[i-1]的所有元素之和</font></li>
+</ul>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20230610110453891.png" srcset="/img/loading.gif" lazyload alt="前缀和数组举例"></p>
+<ul>
+<li>在最终返回结果的时候，需要注意索引关系<ul>
+<li>以left&#x3D;2,right&#x3D;4为例，实际上计算的是nums[2]~nums[4]之间所有的元素之和</li>
+<li>对应的preSum[5]&#x3D;nums[0]~nums[4]</li>
+<li>而preSum[2]&#x3D;nums[0]~nums[1]</li>
+<li>preSum[5]-preSum[2]就是我们想要的结果，nums[2]~nums[4]</li>
+<li>因此最终结果通过找出规律应当是<strong>preSum[right+1]-preSum[left]</strong></li>
+</ul>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Algorithm/">#Algorithm</a>
+      
+        <a href="/tags/Leetcode/">#Leetcode</a>
+      
+        <a href="/tags/Labuladong/">#Labuladong</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Leetcode|Array Problem Sets</div>
+      <div>http://example.com/2023/05/20/Leetcode-Array-Problem-Sets/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Noctis64</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/11/LeetCode-Tree-Problem-Sets/" title="LeetCode|Tree Problem Sets">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">LeetCode|Tree Problem Sets</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/26/%E7%BB%99%E6%9C%AA%E6%9D%A5%E7%9A%84%E8%87%AA%E5%B7%B1/" title="给未来的自己">
+                        <span class="hidden-mobile">给未来的自己</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

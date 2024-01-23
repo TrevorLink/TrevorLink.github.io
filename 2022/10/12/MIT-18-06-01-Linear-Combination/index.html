@@ -1,0 +1,713 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Noctis64">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MIT线性代数第一讲：从几何角度看待方程组">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MIT-18.06|01-Linear Combination">
+<meta property="og:url" content="http://example.com/2022/10/12/MIT-18-06-01-Linear-Combination/index.html">
+<meta property="og:site_name" content="Zanarkand">
+<meta property="og:description" content="MIT线性代数第一讲：从几何角度看待方程组">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220716231556969.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220717162929274.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220717163118372.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003144602224.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150456022.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150537428.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150555101.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003151113109.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003151348896.png">
+<meta property="article:published_time" content="2022-10-12T08:06:09.000Z">
+<meta property="article:modified_time" content="2022-10-30T01:39:04.526Z">
+<meta property="article:author" content="Noctis64">
+<meta property="article:tag" content="MIT">
+<meta property="article:tag" content="Linear Algebra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220716231556969.png">
+  
+  
+  
+  <title>MIT-18.06|01-Linear Combination - Zanarkand</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zanarkand</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="MIT-18.06|01-Linear Combination"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-12 16:06" pubdate>
+          2022年10月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">MIT-18.06|01-Linear Combination</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="方程组的几何解释"><a href="#方程组的几何解释" class="headerlink" title="方程组的几何解释"></a>方程组的几何解释</h1><h2 id="大纲"><a href="#大纲" class="headerlink" title="大纲"></a>大纲</h2><p>从最经典的n个未知数n个方程开始讲起(一定有解！)</p>
+<p>可以从三个维度进行描述</p>
+<ul>
+<li>row pic </li>
+<li>column pic</li>
+<li>matrix form</li>
+</ul>
+<h2 id="最简单的二元一次方程"><a href="#最简单的二元一次方程" class="headerlink" title="最简单的二元一次方程"></a>最简单的二元一次方程</h2><h3 id="这里情不自禁直接把-Matrix-Form-给写出来了"><a href="#这里情不自禁直接把-Matrix-Form-给写出来了" class="headerlink" title="这里情不自禁直接把 Matrix Form 给写出来了"></a>这里情不自禁直接把 Matrix Form 给写出来了</h3><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220716231556969.png" srcset="/img/loading.gif" lazyload alt="image-20220716231556969"></p>
+<h3 id="row-pic"><a href="#row-pic" class="headerlink" title="row pic"></a>row pic</h3><p>核心在于针对我们的方程组，<strong>一次只取一行</strong>，作图于xy平面</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220717162929274.png" srcset="/img/loading.gif" lazyload alt="image-20220717162929274" style="zoom:50%;" />
+
+<p>通过作图我们就可以得到，两条直线的交点就是方程组的解(1,2)(对应未知数矩阵)</p>
+<h3 id="column-pic"><a href="#column-pic" class="headerlink" title="column pic"></a>column pic</h3><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20220717163118372.png" srcset="/img/loading.gif" lazyload alt="image-20220717163118372" style="zoom:50%;" />
+
+<p>方法是一列一列获取元素，本质是通过<strong>把系数矩阵 A 进行拆分</strong>，但是右边的 b 不变</p>
+<p>现在的问题就转换为<strong>找到一组合适的组合&#x2F;解x和y，可以使得等式成立</strong></p>
+<p>也即 <strong>AxAx 就是对 AA 的列向量进行 xx 对应的组合（这种组合显然是线性的）</strong></p>
+<p>这个思想方法是后来很重要的一个<code>线性组合</code>(linear combination)</p>
+<p>这里有两个列式向量[2,-1]和[-1,2]，我通过x和y<strong>以某种线性的方式来进行组合相加</strong>，这就是 <code>linear combination</code></p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003144602224.png" srcset="/img/loading.gif" lazyload alt="image-20221003144602224" style="zoom:50%;" />
+
+<p>通过作图，我们可以很容易的得出结果，蓝色实线与红色实线作为不平行的二维空间基底，可以通过构造2x红色+1x蓝色来得到最终的 b 向量</p>
+<h2 id="延伸到三元一次方程"><a href="#延伸到三元一次方程" class="headerlink" title="延伸到三元一次方程"></a>延伸到三元一次方程</h2><p>教授给出了一副三元一次方程</p>
+<p>三个未知数，三个方程，一定有解！</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150456022.png" srcset="/img/loading.gif" lazyload alt="image-20221003150456022" style="zoom:50%;" />
+
+<h3 id="Row-pic"><a href="#Row-pic" class="headerlink" title="Row pic"></a>Row pic</h3><p>这种方式直接进行画图其实就比较难了，由于现在是三维空间，每一行取出来都是表示一个三维空间的平面(plane)，因此画图很困难，<strong>无法直接通过每一行进行作图来画出解</strong></p>
+<p>不过值得明确的是，由于这三个平面一定不会平行，因此三个平面相交，一定是可以确定一个三维空间的点的，一定是有解！</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150537428.png" srcset="/img/loading.gif" lazyload alt="image-20221003150537428" style="zoom:33%;" />
+
+<h3 id="Column-pic"><a href="#Column-pic" class="headerlink" title="Column pic"></a>Column pic</h3><p>通过将系数矩阵A的列进行提取，我们可以得到下面的column pic</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003150555101.png" srcset="/img/loading.gif" lazyload alt="image-20221003150555101" style="zoom: 50%;" />
+
+<p>由于老师这里专门设计了一下，我们一眼就能看出原方程组的解为(0,0,1)，这也从侧面体现出了，采用<code>column pic</code>作为解决方式的快捷与直观</p>
+<p>教授也引出了一个探讨的话题：</p>
+<blockquote>
+<p>对于<code>Ax=b</code>，是不是对于任何的b都有解？</p>
+<p>如果用线性组合(<code>linear combination</code>)的角度来看待这个问题，问题也可以转化为：系数矩阵中每一列的线性组合是否可以覆盖全部的空间(在这里三元是对应三维空间)</p>
+</blockquote>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003151113109.png" srcset="/img/loading.gif" lazyload alt="image-20221003151113109" style="zoom:50%;" />
+
+<p>这其实是取决于我们的A的，因为在 <code>Column pic</code> 中，如果是三元方程组，理论上有解的 column pic 中一定是<strong>存在三个互不共面的向量来作为三个基底的</strong>，如果发现题目给的数据中存在三个向量abc，其中c可以通过ab的线性组合得来，说明他们就不共面了，<strong>因此实际上相当于你只有两个有效的方程组，三个未知数，是没有唯一解的</strong></p>
+<h2 id="延申问题到九维空间"><a href="#延申问题到九维空间" class="headerlink" title="延申问题到九维空间"></a>延申问题到九维空间</h2><p>还是那个问题，对于<code>Ax=b</code>，是不是对于任何的b都有解？</p>
+<p>通过迁移，其实我们也可以举一反三了，只要系数矩阵中的9个列元素都可以作为九维空间的基底（不存在说其中的某一个可以被剩下八个向量表示的情况）那么我们就一定可以通过<code>linear combination</code>来对这九个向量组合，得到空间的任意一个向量b</p>
+<h2 id="矩阵的乘法"><a href="#矩阵的乘法" class="headerlink" title="矩阵的乘法"></a>矩阵的乘法</h2><p>由于之前提到过矩阵的<code>Matrix Form</code>，因此教授还对矩阵的乘法，形如<code>Ax=b</code>的乘法来进行一个讲解</p>
+<p>例题如下：</p>
+<img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221003151348896.png" srcset="/img/loading.gif" lazyload alt="image-20221003151348896" style="zoom: 33%;" />
+
+<p>从<code>row pic</code>以及<code>column pic</code>的角度出发，其实还是有两种角度来看待</p>
+<h3 id="row-pic的角度"><a href="#row-pic的角度" class="headerlink" title="row pic的角度"></a>row pic的角度</h3><p>row pic 的核心思想在于一次取一行，因此我们取第一行[2,5]，点乘[1,2]^T^，得到的就是2*1+5*2&#x3D;12</p>
+<p>同理下面的就是1*1+3*2&#x3D;7</p>
+<h3 id="column-pic的角度"><a href="#column-pic的角度" class="headerlink" title="column pic的角度"></a>column pic的角度</h3><p>column pic的思想在于每次取的是系数矩阵的每一列，而最核心的辅助于他的实际上是<code>linear combination</code>这个核心概念</p>
+<p>我们在乘法的时候也可以运用上这个核心的思想</p>
+<p>上述的题目就相当于是：最终的结果&#x3D;1倍的[2,1]与2倍的[5,3]进行<code>linear combination</code>组合得来的，直接秒杀得到[12,7]</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>教授通过上述的问题在第一节课就提出了线性代数中很重要的一个概念：<code>linear combination</code></p>
+<p>同时也引出一个很重要的问题，是不是对于<code>Ax=b</code>，是不是对于任何的b都有解？</p>
+<p>为后续<code>奇异</code>，<code>可逆</code>的矩阵性质埋下伏笔</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a><strong>参考</strong></h3><p>部分图片来自大佬的博客：<a target="_blank" rel="noopener" href="https://rqtn.github.io/2019/08/11/LA-Lec01/">Lec01 - 方程组的几何解释</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/MIT/">#MIT</a>
+      
+        <a href="/tags/Linear-Algebra/">#Linear Algebra</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>MIT-18.06|01-Linear Combination</div>
+      <div>http://example.com/2022/10/12/MIT-18-06-01-Linear-Combination/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Noctis64</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/12/MIT18-06-02-Elimination/" title="MIT-18.06|02-Elimination">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MIT-18.06|02-Elimination</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/12/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E5%A4%8D%E5%88%B6%E6%A8%A1%E5%9E%8B-%E4%B8%8A/" title="分布式系统数据复制模型(上)">
+                        <span class="hidden-mobile">分布式系统数据复制模型(上)</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
