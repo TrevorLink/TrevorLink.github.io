@@ -19,7 +19,7 @@
     <meta name="description" content="CMU 15-213 Machine Level Programming 第一讲">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CMU 15-213|Machine Level Programming-Basic">
-<meta property="og:url" content="http://example.com/2022/11/19/CMU-15-213-Machine-Level-Programming-Basic/index.html">
+<meta property="og:url" content="http://example.com/2024/01/23/CMU-15-213-Machine-Level-Programming-Basic/index.html">
 <meta property="og:site_name" content="Zanarkand">
 <meta property="og:description" content="CMU 15-213 Machine Level Programming 第一讲">
 <meta property="og:locale" content="zh_CN">
@@ -38,8 +38,8 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119200226254.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205107592.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205114071.png">
-<meta property="article:published_time" content="2022-11-19T06:23:58.000Z">
-<meta property="article:modified_time" content="2022-12-04T07:36:07.837Z">
+<meta property="article:published_time" content="2024-01-23T05:23:58.000Z">
+<meta property="article:modified_time" content="2024-01-23T05:55:51.372Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CMU">
 <meta property="article:tag" content="CSAPP">
@@ -224,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-19 14:23" pubdate>
-          2022年11月19日 下午
+        <time datetime="2024-01-23 13:23" pubdate>
+          2024年1月23日 下午
         </time>
       </span>
     
@@ -310,8 +310,8 @@
 <p>简单来说就是在处理器设计中<strong>需要理解或编写汇编&#x2F;机器代码的部分</strong>。</p>
 <p>常见的ISA：</p>
 <ul>
-<li>Intel家的：x86, IA32, Itanium，X86-64。</li>
-<li>ARM架构（手机，MAC）。</li>
+<li>Intel家的：x86, IA32, Itanium，X86-64</li>
+<li>ARM架构（手机，MAC）</li>
 </ul>
 <h2 id="CPU-Memory-Architecture-Overview"><a href="#CPU-Memory-Architecture-Overview" class="headerlink" title="CPU-Memory Architecture Overview"></a>CPU-Memory Architecture Overview</h2><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221020213553244.png" srcset="/img/loading.gif" lazyload alt="image-20221020213553244"></p>
 <p>图中出现的都很重要</p>
@@ -327,7 +327,7 @@
 <li>操作系统实现的这个<strong>虚拟内存</strong>，这使得每个程序<strong>看起来</strong>似乎是有自己的一块独立内存用于程序访，可以实现每个程序共享同一块物理内存。</li>
 <li>CPU高速缓存？</li>
 </ul>
-<h2 id="Practice-c-code-to-object-code"><a href="#Practice-c-code-to-object-code" class="headerlink" title="Practice:c code to object code"></a>Practice:c code to object code</h2><p>这部分主要是熟悉一下gcc编译器的使用。</p>
+<h2 id="Practice-c-code-to-object-code"><a href="#Practice-c-code-to-object-code" class="headerlink" title="Practice: c code to object code"></a>Practice: c code to object code</h2><p>这部分主要是熟悉一下gcc编译器的使用。</p>
 <p>在正式的实践之前我们可以先看一下具体的代码，这个代码很典型，是最基础的求和并且存储到具体的一个值的案例。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">long</span> <span class="hljs-title function_">plus</span><span class="hljs-params">(<span class="hljs-type">long</span> x, <span class="hljs-type">long</span> y)</span><br>&#123;<br>  <span class="hljs-keyword">return</span> x + y;<br>&#125;<br><br><span class="hljs-type">void</span> <span class="hljs-title function_">sumstore</span><span class="hljs-params">(<span class="hljs-type">long</span> x, <span class="hljs-type">long</span> y, <span class="hljs-type">long</span> *dest)</span><br>&#123;<br>  <span class="hljs-type">long</span> t = plus(x, y);<br>  *dest = t;<br>&#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">int</span> argc, <span class="hljs-type">char</span> *argv[])</span><br>&#123;<br>  <span class="hljs-type">long</span> x = atoi(argv[<span class="hljs-number">1</span>]);<br>  <span class="hljs-type">long</span> y = atoi(argv[<span class="hljs-number">2</span>]);<br>  <span class="hljs-type">long</span> z;<br>  <span class="hljs-comment">//sumstore求和并且存值</span><br>  sumstore(x, y, &amp;z);<br>  <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%ld + %ld --&gt; %ldd\n&quot;</span>, x, y, z);<br>  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -565,7 +565,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>CMU 15-213|Machine Level Programming-Basic</div>
-      <div>http://example.com/2022/11/19/CMU-15-213-Machine-Level-Programming-Basic/</div>
+      <div>http://example.com/2024/01/23/CMU-15-213-Machine-Level-Programming-Basic/</div>
     </div>
     <div class="license-meta">
       
@@ -577,7 +577,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月19日</div>
+          <div>2024年1月23日</div>
         </div>
       
       
@@ -609,9 +609,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/22/Compiler-Overview-Architecture-Phase/" title="Compiler|Overview &amp; Architecture &amp; Phase">
+                      <a href="/2024/01/23/CMU-15-213-Machine-Level-Programming-Control/" title="CMU 15-213|Machine Level Programming-Control">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Compiler|Overview &amp; Architecture &amp; Phase</span>
+                        <span class="hidden-mobile">CMU 15-213|Machine Level Programming-Control</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -619,8 +619,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/11/03/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E5%90%8C%E6%AD%A5PS2%E5%AE%9E%E6%9C%BA%E8%AE%B0%E5%BF%86%E5%8D%A1%E5%92%8C%E6%A8%A1%E6%8B%9F%E5%99%A8%E7%9A%84%E5%AD%98%E6%A1%A3/" title="手把手教你同步PS2实机记忆卡和模拟器的存档">
-                        <span class="hidden-mobile">手把手教你同步PS2实机记忆卡和模拟器的存档</span>
+                      <a href="/2024/01/05/Java%20%E9%9D%A2%E8%AF%95/" title="Java 八股">
+                        <span class="hidden-mobile">Java 八股</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
