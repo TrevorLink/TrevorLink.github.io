@@ -4,6 +4,83 @@
   
   
   <entry>
+    <title>Tales of Eternia | 攻略心得</title>
+    <link href="/2024/03/09/Tales-of-Eternia-%E6%94%BB%E7%95%A5%E5%BF%83%E5%BE%97/"/>
+    <url>/2024/03/09/Tales-of-Eternia-%E6%94%BB%E7%95%A5%E5%BF%83%E5%BE%97/</url>
+    
+    <content type="html"><![CDATA[<h1 id="战斗相关"><a href="#战斗相关" class="headerlink" title="战斗相关"></a>战斗相关</h1><h2 id="手动和半自动"><a href="#手动和半自动" class="headerlink" title="手动和半自动"></a>手动和半自动</h2><p>手动模式的战斗操作比较灵活，防御需要自己防御，不再有自动防御，移动也是全靠自己来移动</p><p>此外战斗施法也是有手动和半自动，可以在Δ菜单中进行选择</p><h2 id="号令"><a href="#号令" class="headerlink" title="号令"></a>号令</h2><p>号令可以对<strong>全体同伴</strong>进行战斗策略指示</p><ul><li><p>比如敌人太强来听我的</p></li><li><p>或者敌人太简单，使用 TP 有点浪费</p></li></ul><p><strong>只对这一场战斗生效</strong>，并且旧的号令会被新的号令所替换</p><h3 id="作战"><a href="#作战" class="headerlink" title="作战"></a>作战</h3><p>作战位于Δ菜单中的一个单独板块，可以指定每个角色的作战策略</p><p>并且在 技·术 板块中，按下 🟦可以选择不用某个技能</p><p>这样<strong>可以保证队友一定能放出某个技能</strong></p><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>队列可以在菜单中进行选择，合适的队列有助于战斗</p><p>在战斗中按下 <code>L1</code> 可以快速变更队列</p><p>此外，按下<code>L1</code>+↓ 可以集合队列，按住就是原地不动</p><p>按下<code>L1</code>+↑ 可以控制队列跳跃</p><p>但是这些控制对于<strong>正在施法</strong>的队友而言都是无效的</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Game</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>PS1</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>多设备同步hexo实现</title>
+    <link href="/2024/03/09/%E5%A4%9A%E8%AE%BE%E5%A4%87%E5%90%8C%E6%AD%A5hexo%E5%AE%9E%E7%8E%B0/"/>
+    <url>/2024/03/09/%E5%A4%9A%E8%AE%BE%E5%A4%87%E5%90%8C%E6%AD%A5hexo%E5%AE%9E%E7%8E%B0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>考虑到后面上班以及回家办公可能需要记录一些东西</p><p>但是家里主要是台式机，笔记本可能会直接放公司，因此需要 <strong>在多台设备上实现 hexo 笔记的同步</strong></p><p>实现的思路也很简单，由于 hexo 部署到 github page 的时候是已经生成好了的静态页面，因此想要实现同步需要找个地方同步源文件</p><p>看了一下网上的说法是搞个新的分支，我寻思既然都新分支了，也不要放在 public 的仓库了，直接开个新仓库不就得了 XD</p><h1 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h1><p>具体实现其实就是创建一个新的仓库，这里顺便也刚好复习一下新环境的 git | github | hexo 配置</p><h2 id="Git-配置"><a href="#Git-配置" class="headerlink" title="Git 配置"></a>Git 配置</h2><p>首先去官网下载和安装好 git 下一步进行配置</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">//1、设置用户名和邮箱<br>git config --global user.name &#x27;用户名&#x27;<br>git config --global user.email &#x27;邮箱&#x27;<br>//2、查看设置的用户名与邮箱<br>git config --global user.name<br>git config --global user.email<br>//3、生成gitlab上配置的ssh公钥：<br>ssh-keygen -t rsa -C &#x27;邮箱&#x27;<br></code></pre></td></tr></table></figure><p>注意⚠️：输入命令后，三个连续的回车，表示默认存储位置、密码为空、确认密码</p><p>进入默认存储位置 (C&#x2F;用户&#x2F;当前用户名称&#x2F;.ssh目录)下，用记事本打开 <code>id_rsa.pub</code> 文件，并全选复制里面的内容到 github 的主页设置里，在 SSH 中加入即可</p><h2 id="git-提交"><a href="#git-提交" class="headerlink" title="git 提交"></a>git 提交</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs shell">/*初始化一个新的Git仓库,<br>并将当前目录下的所有文件添加到Git的暂存区，最后提交到本地仓库，<br>并附上一条提交信息&quot;项目构建&quot;<br>*/<br>git init<br>git add .<br>git commit -m &quot;项目构建&quot;<br><br>/*这个命令是用来重命名当前所在的分支为&quot;main&quot;。<br>很多人创建仓库是默认分支为master,但2020年10月github官网要求要使用main，据说是为了避免政治正确的元素，彩棉场の回忆XD<br>这是因为很多人安装git的时候没有选择默认为main,而是选择默认为master<br>*/<br>git branch -M main<br><br>//先查看是否存在运程仓库(你的github仓库，git有了这个才知道往哪上传，一般返回两条命令)<br>git remote -v<br><br>//如果有且正确直接推送就好，仓库不对想换成别的就先删除再添加；如果没有就直接执行第二条来添加<br>git remote remove origin<br>git remote add origin git@github.com:你自己的用户名/你自己的仓库名.git<br><br>/*推送你的代码到远程仓库的&quot;main&quot;分支（-u 选项是 --set-upstream 的简写，<br>本地的 main 分支就会与远程仓库 origin 上的 main 分支建立起跟踪关系。<br>这意味着，以后你在该本地分支上执行 git pull、git push、git status 等命令时，<br>Git 会默认使用这个远程分支。）<br>*/<br>git push -u origin main<br><br><br>针对之后的每一次修改提交<br>//添加修改到暂存区<br>git add .<br>//提交修改到本地仓库<br>git commit -m &quot;描述你的修改&quot;<br>//推送到远程仓库<br>git push origin main<br></code></pre></td></tr></table></figure><p>在之前的旧设备上，新建仓库，关联远程仓库，推送到远程仓库即可 </p><h2 id="Node-Hexo"><a href="#Node-Hexo" class="headerlink" title="Node| Hexo"></a>Node| Hexo</h2><p>由于 Hexo 是基于 node.js 的，因此先去官网安装 Node 全套配件</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">npm install -g hexo-cli<br>git clone //之前新建的远程仓库blog<br>cd blog<br>npm install //根据packge.json安装依赖<br></code></pre></td></tr></table></figure><h2 id="之后的操作"><a href="#之后的操作" class="headerlink" title="之后的操作"></a>之后的操作</h2><p>之后的操作其实就是不管在那一台设备上，部署了新的文章的时候都要先 git 拉一下看看有没有更新，推送一下然后再 hexo 部署</p><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a href="https://blog.csdn.net/weixin_52520066/article/details/135580965">2024代码上传到github,详细解释命令-CSDN博客</a></p><p><a href="https://blog.csdn.net/ChaoticNg/article/details/108337356">git入门：初始化、拉取项目、提交代码_git初始化-CSDN博客</a></p><p><a href="https://xuexuan.site/2021/02/04/hexo%E5%8D%9A%E5%AE%A2%E5%A4%9A%E8%AE%BE%E5%A4%87%E5%90%8C%E6%AD%A5/">hexo博客多设备同步 | 薛轩的个人博客 (xuexuan.site)</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>环境配置</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>hexo</tag>
+      
+      <tag>git</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>RetroArch | CRT shaders &amp; Bazels</title>
+    <link href="/2024/03/07/RetroArch-CRT-shaders-Bazels/"/>
+    <url>/2024/03/07/RetroArch-CRT-shaders-Bazels/</url>
+    
+    <content type="html"><![CDATA[<h1 id="RA基础教程"><a href="#RA基础教程" class="headerlink" title="RA基础教程"></a>RA基础教程</h1><h2 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h2><p>1）一台能上网的电脑，<strong>最好</strong>有独显，在开启 crt shader 的时候最主要的就是显卡在渲染扫描线，后面的截图都是在 3060ti 下渲染出来的，可以参考一下</p><p>2）<strong>推荐</strong>：在显示分辨率为 4K 分辨率以上进行食用，因为<strong>更高的分辨率可以在图形后处理方面实现更多像素点上的扫面线渲染，效果更加接近 CRT 实际的效果</strong>（甚至更好）</p><hr><p>Retroarch (后文简称 RA ) 作为一个强大的模拟器前端，可以部署在多个平台，功能强大，自带快进，CRT着色器滤镜，成就系统，甚至还能联机。但是使用起来可以说不是那么好上手，所以自己也记录一下</p><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>去官网下载解压，选择你要的版本</p><p><a href="https://www.retroarch.com/index.php?page=platforms">RetroArch</a></p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240309112611189.png"></p><p>不推荐 steam 直接下载，因为为了上架 steam 商店，很多模拟器核心缺失下载不到</p><p>点开后第一件事情先调中文</p><p><code>Settings-User-Language : Simplified Chinese</code></p><h2 id="下载核心"><a href="#下载核心" class="headerlink" title="下载核心"></a>下载核心</h2><p>RA 中的核心其实就是模拟器本体，RA 作为前端管理多个核心</p><p><code>菜单-在线更新-核心下载-选择你想要的模拟器核心</code></p><h2 id="配置BIOS"><a href="#配置BIOS" class="headerlink" title="配置BIOS"></a>配置BIOS</h2><p>模拟器运行所必须的 BIOS 默认放在 retroarch&#x2F;system 文件夹下</p><p>部分需要额外配置的（如 PS2 模拟器 BIOS 参见官方文档）<a href="https://docs.libretro.com/library/pcsx2/#other-required-files-and-directories">PS2模拟器其他一些需要的文件</a></p><h2 id="游戏导入"><a href="#游戏导入" class="headerlink" title="游戏导入"></a>游戏导入</h2><p>准备好游戏 ROM </p><p>选择菜单的 导入-手动扫描</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240309110313549.png"></p><p>这里说一下系统名称，这里的系统名称简单来说就是合集名称，在系统名称里可以选择对应平台名称来作为合集名称，比如 Sony-Playstation</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240309110651322.png"></p><p>最后点最下方的开始扫描即可</p><p>扫描之后就可以在菜单中看到之前选择的合集名称以及所对应的游戏列表</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240309110528138.png"></p><h1 id="RA自带的shaders-overlay"><a href="#RA自带的shaders-overlay" class="headerlink" title="RA自带的shaders+overlay"></a>RA自带的shaders+overlay</h1><p>RA其实是有自带 shader 以及 overlays 的，具体的效果其实也不差</p><p>这里简单说一下如何使用自带的 overlay + shader</p><p><code>RA 主菜单-在线更新-更新遮罩-更新 Slang 着色器</code></p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240307173653541.png"></p><p>更新下载完毕之后，通过 <code>主页设置-驱动-视频</code> 中确认一下当前 RA 使用的图形后端 API 是哪一种（后面用的上），我一直用的是 vulkan</p><p>之后进入游戏内 F1 呼出主菜单，拉到最下方选择你想要的 shaders 以及 overlays 即可</p><h2 id="Shaders"><a href="#Shaders" class="headerlink" title="Shaders"></a>Shaders</h2><p>选择 overlays 注意需要根据自己 RA 所使用的后端图形 API 来进行选择，openGL 的选择 glsl 目录下的，vulkan 选择 slang 目录下的</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240307173237796.png"></p><p>shaders里 对于硬件较好的朋友首推 <code>crt-royale</code> ，仿真效果极好，参数细节可以进行调整</p><p>具体的 Shaders 这一块参数以及选用，可以参考 <a href="https://www.bilibili.com/read/cv3065212">Lunamos 大佬的文章</a></p><p>如果硬件渲染压力过大，推荐降低使用分辨率或者是换用配置需求更低的 shaders</p><h2 id="Overlays"><a href="#Overlays" class="headerlink" title="Overlays"></a>Overlays</h2><p><code>F1-遮罩-遮罩预设</code></p><p>之后进文件夹选择你想要的屏幕遮罩</p><p>在遮住大黑边的同时还能起到装饰效果，甚至有的遮罩带有触摸效果，鼠标点击遮罩的图标 可以直接映射到手柄动作</p><p>配合上面选择的 shaders 效果更佳</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240307173904227.png"></p><p>这里我嫌懒用的核显笔记本截图，配置带不动 <code>crt-royale</code> 因此选择了效果差一点的预设 <code>crt-easymode</code>，效果其实也不错，凑合够用</p><h1 id="使用-MEGA-Bazel-实现-CRT-滤镜-反射边框"><a href="#使用-MEGA-Bazel-实现-CRT-滤镜-反射边框" class="headerlink" title="使用 MEGA Bazel 实现 CRT 滤镜+反射边框"></a>使用 MEGA Bazel 实现 CRT 滤镜+反射边框</h1><h2 id="材料准备-1"><a href="#材料准备-1" class="headerlink" title="材料准备"></a>材料准备</h2><p><code>RA 菜单-在线更新-更新 Slang 着色器</code></p><p>去 github 下载最新的 release， 第一个是适配各种游戏主机的电视边框，另一个是各种老电视的背景边框</p><ul><li><a href="https://github.com/Duimon/Duimon-Mega-Bezel/releases/">Releases · Duimon&#x2F;Duimon-Mega-Bezel</a></li><li><a href="https://github.com/soqueroeu/Soqueroeu-TV-Backgrounds_V2.0">soqueroeu&#x2F;Soqueroeu-TV-Backgrounds_V2.0</a></li></ul><p>解压压缩包内容到 <code>retroarch/shaders</code> 目录下</p><h2 id="修改-RA-配置"><a href="#修改-RA-配置" class="headerlink" title="修改 RA 配置"></a>修改 RA 配置</h2><p>打开 RA 菜单</p><p><code>设置-界面-显示高级设置：开</code></p><p><code>设置-视频-缩放-宽高比：全双工，整数缩放：关</code></p><p><code>设置-视频-输出-屏幕旋转：正常</code></p><p><code>设置-核心-允许旋转：关闭</code></p><h2 id="游戏内开启"><a href="#游戏内开启" class="headerlink" title="游戏内开启"></a>游戏内开启</h2><p>至此所有配置已经结束，进游戏内还是按下 F1 呼出主菜单，拉到最下方选择 着色器，可以看到刚刚解压好的两个文件夹</p><p>Duimon-Mega-Bezel 涵盖了很多主机的老电视效果以及 CRT 扫描线滤镜</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Game</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>RetroArch</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>PS1|レガイア伝説 攻略</title>
     <link href="/2024/02/29/PS1-%E3%83%AC%E3%82%AC%E3%82%A4%E3%82%A2%E4%BC%9D%E8%AA%AC-%E5%89%A7%E6%83%85%E5%B0%8F%E8%AF%B4/"/>
     <url>/2024/02/29/PS1-%E3%83%AC%E3%82%AC%E3%82%A4%E3%82%A2%E4%BC%9D%E8%AA%AC-%E5%89%A7%E6%83%85%E5%B0%8F%E8%AF%B4/</url>
