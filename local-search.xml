@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Julia</title>
+    <link href="/2024/03/09/Julia/"/>
+    <url>/2024/03/09/Julia/</url>
+    
+    <content type="html"><![CDATA[<h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><h2 id="Julia-安装"><a href="#Julia-安装" class="headerlink" title="Julia 安装"></a>Julia 安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">winget install julia -s msstore<br></code></pre></td></tr></table></figure><p>这种方式默认不会直接安装 julia 本体，而是安装 <code>juliaup</code> 管理工具</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 查看 julia 当前安装状态 </span><br>juliaup status <span class="hljs-comment">#可以看到并未安装</span><br> Default  Channel  Version  Update<br>-----------------------------------<br><span class="hljs-comment"># 查看可以安装的版本</span><br>juliaup list<br> Channel            Version<br>----------------------------------------------------<br> 0                  0.7.0+0.x64.w64.mingw32<br> 0.7                0.7.0+0.x64.w64.mingw32<br> 0.7.0              0.7.0+0.x64.w64.mingw32<br> 0.7.0~x64          0.7.0+0.x64.w64.mingw32<br> 0.7.0~x86          0.7.0+0.x86.w64.mingw32<br> 0.7~x64            0.7.0+0.x64.w64.mingw32<br> <br> <span class="hljs-comment"># 安装</span><br> julia add <span class="hljs-string">&#x27;1.10&#x27;</span><br></code></pre></td></tr></table></figure><p>之后安装好了就可以直接通过 julia 命令运行了</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240309231947971.png"></p><h2 id="Pluto-安装"><a href="#Pluto-安装" class="headerlink" title="Pluto 安装"></a>Pluto 安装</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment">#先进入 Julia</span><br>julia<br><span class="hljs-comment">#安装 Pluto.jl 所有的包和依赖，静待下载完毕</span><br>using Pkg<br>Pkg.add(<span class="hljs-string">&quot;Pluto&quot;</span>)<br><span class="hljs-comment">#启动Pluto</span><br>using Pluto<br><span class="hljs-comment">#得到如下信息</span><br>┌ Info:<br>│   Welcome to Pluto v0.19.40 🎈<br>│   Start a notebook server using:<br>│<br>│ julia&gt; Pluto.run()<br>│<br>│   Have a look at the FAQ:<br>│   https://github.com/fonsp/Pluto.jl/wiki<br><span class="hljs-comment">#启动</span><br>Pluto.run()<br></code></pre></td></tr></table></figure><p>此时会在默认浏览器中启动一个很漂亮的前端，这里就可以编写代码了</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240309232637165.png"></p><p>在终端中也可以看到对应的 INFO 以及 DEBUG 信息</p><h1 id="编写代码"><a href="#编写代码" class="headerlink" title="编写代码"></a>编写代码</h1><p>创建新的或者是打开已有的 notebook 后，选择这个加号插入新的代码块</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240310184114265.png"></p><p>之后就可以在代码段里编写代码了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>CS_Basic</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Julia</tag>
+      
+      <tag>AI</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Tales of Eternia | 攻略心得</title>
     <link href="/2024/03/09/Tales-of-Eternia-%E6%94%BB%E7%95%A5%E5%BF%83%E5%BE%97/"/>
     <url>/2024/03/09/Tales-of-Eternia-%E6%94%BB%E7%95%A5%E5%BF%83%E5%BE%97/</url>
