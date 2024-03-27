@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Xenia | Quick Start Guide</title>
+    <link href="/2024/03/27/Xenia-Quick-Start-Guide/"/>
+    <url>/2024/03/27/Xenia-Quick-Start-Guide/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://github.com/xenia-canary/xenia-canary/releases">Releases · xenia-canary&#x2F;xenia-canary</a></p><p>Xenia 分为两个版本，一个是稳定版 master 另一个是 最新的持续更新版canary（几乎每天都在更新，需要注意的是 Canary 和 Master 是分开两个仓库进行管理的，不是分支关系）</p><blockquote><p>Xenia Canary is a fork of Xenia with changes not present in master that may or may not fix games.</p></blockquote><p>直接下载解压，得到一个 exe 文件即可</p><p>如果下载的是老版本的 Xenia，在运行游戏的时候提示存档找不到或者存储设备报错，请在 exe 文件目录同级下创建 <code>portable.txt</code> 文件</p><p>这里也推荐无论如何在运行之前都在 exe 同级目录下创建 <code>portable.txt</code> 文件，这样以后所有的系统存档都会放置在 <code>Xenia安装目录\content</code> 而不是 <code>C:\Documents\xenia\content</code></p><p>初次运行后什么也不用管直接关闭，会发现目录下多出了一个 <code>toml</code> 系统配置文件，以后所有的配置都在这里手动进行修改</p><h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>游戏这块自己寻找备份</p><p>xbox360就算不进行破解也是可以直接备份正版游戏的，<a href="https://github.com/xenia-project/xenia/wiki/Quickstart#how-to-rip-games">具体操作见</a></p><p>需要注意的是 Xenia 只能运行 ISO 文件的游戏，大部分直接备份的格式都是 GOD 格式，因此需要 GOD2ISO 来进行转换</p><p><a href="https://github.com/raburton/god2iso/releases">Releases · raburton&#x2F;god2iso</a></p><p>具体使用也很简单，不需要选择所有的 GOD 内容，只需要选择 GOD 文件夹内同级的那个文件即可</p><p>启动游戏后可以看到游戏的编号，名称 以及模拟器 build 版本，我这里使用的是最新的 Canary Build</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c5d6d0597855d2117d96c12fa3d76a91.png"></p><h1 id="Apply-Game-Patches"><a href="#Apply-Game-Patches" class="headerlink" title="Apply Game Patches"></a>Apply Game Patches</h1><p><a href="https://github.com/xenia-canary/game-patches">GitHub - xenia-canary&#x2F;game-patches: Game patches for the Xenia emulator</a></p><p>下载其中的 patches 文件夹，解压到同级目录</p><p>解压后具体的目录树如下</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">└─── Xenia Canary<br>    |  ...<br>    │  xenia_canary.exe<br>    |  ...<br>    └─── patches<br>            ...<br>            584111F7 - Minecraft (XBLA, TU0).patch.toml<br>            ...<br></code></pre></td></tr></table></figure><p>具体的使用方法，在 Xenia 的全局配置文件中，确保 <code>enable_patches = true</code> 后，进到对应需要开启补丁的游戏配置文件中，默认每一项补丁都是 <code>false</code> 关闭状态，这个时候选择想要开启的直接改为 <code>true</code> 即可</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">[[patch]]<br>    name = <span class="hljs-string">&quot;60 FPS&quot;</span><br>    desc = <span class="hljs-string">&quot;Description&quot;</span><br>    author = <span class="hljs-string">&quot;Author&quot;</span><br>    is_enabled = <span class="hljs-literal">false</span> <span class="hljs-comment">#这里改为 true 就是开启了</span><br><br>    [[patch.be8]]<br>        address = 0x<span class="hljs-comment">########</span><br>        value = 0x<span class="hljs-comment">##</span><br></code></pre></td></tr></table></figure><h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a href="https://www.youtube.com/watch?v=382YN-Ql_VI">Xenia Quick Start</a></p><p><a href="https://www.youtube.com/watch?v=kqlIqOdrLUY">如何开启补丁</a></p><p><a href="https://www.youtube.com/watch?v=m9R5nax95os">战争机器 60 帧补丁</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Game</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Xenia</tag>
+      
+      <tag>xbox360</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>PS3|DualShock3 on PC</title>
     <link href="/2024/03/22/PS3-DualShock3-on-PC/"/>
     <url>/2024/03/22/PS3-DualShock3-on-PC/</url>
@@ -60,7 +87,7 @@
     <link href="/2024/03/09/Tales-of-Eternia-%E6%94%BB%E7%95%A5%E5%BF%83%E5%BE%97/"/>
     <url>/2024/03/09/Tales-of-Eternia-%E6%94%BB%E7%95%A5%E5%BF%83%E5%BE%97/</url>
     
-    <content type="html"><![CDATA[<h1 id="战斗相关"><a href="#战斗相关" class="headerlink" title="战斗相关"></a>战斗相关</h1><h2 id="手动和半自动"><a href="#手动和半自动" class="headerlink" title="手动和半自动"></a>手动和半自动</h2><p>手动模式的战斗操作比较灵活，防御需要自己防御，不再有自动防御，移动也是全靠自己来移动</p><p>此外战斗施法也是有手动和半自动，可以在Δ菜单中进行选择</p><h2 id="号令"><a href="#号令" class="headerlink" title="号令"></a>号令</h2><p>号令可以对<strong>全体同伴</strong>进行战斗策略指示</p><ul><li><p>比如敌人太强来听我的</p></li><li><p>或者敌人太简单，使用 TP 有点浪费</p></li></ul><p><strong>只对这一场战斗生效</strong>，并且旧的号令会被新的号令所替换</p><h3 id="作战"><a href="#作战" class="headerlink" title="作战"></a>作战</h3><p>作战位于Δ菜单中的一个单独板块，可以指定每个角色的作战策略</p><p>并且在 技·术 板块中，按下 🟦可以选择不用某个技能</p><p>这样<strong>可以保证队友一定能放出某个技能</strong></p><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>队列可以在菜单中进行选择，合适的队列有助于战斗</p><p>在战斗中按下 <code>L1</code> 可以快速变更队列</p><p>此外，按下<code>L1</code>+↓ 可以集合队列，按住就是原地不动</p><p>按下<code>L1</code>+↑ 可以控制队列跳跃</p><p>但是这些控制对于<strong>正在施法</strong>的队友而言都是无效的</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="战斗相关"><a href="#战斗相关" class="headerlink" title="战斗相关"></a>战斗相关</h1><h2 id="手动和半自动"><a href="#手动和半自动" class="headerlink" title="手动和半自动"></a>手动和半自动</h2><p>手动模式的战斗操作比较灵活，防御需要自己防御，不再有自动防御，移动也是全靠自己来移动</p><p>此外战斗施法也是有全自动，手动和半自动，可以在Δ菜单中进行选择</p><h2 id="号令"><a href="#号令" class="headerlink" title="号令"></a>号令</h2><p>号令可以对<strong>全体同伴</strong>进行战斗策略指示</p><ul><li><p>比如敌人太强来听我的</p></li><li><p>或者敌人太简单，使用 TP 有点浪费</p></li></ul><p><strong>只对这一场战斗生效</strong>，并且旧的号令会被新的号令所替换</p><h3 id="作战"><a href="#作战" class="headerlink" title="作战"></a>作战</h3><p>作战位于Δ菜单中的一个单独板块，可以指定每个角色的作战策略</p><p>并且在 技·术 板块中，按下 🟦可以选择不用某个技能</p><p>这样<strong>可以保证队友一定能放出某个技能</strong></p><h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>队列可以在菜单中进行选择，合适的队列有助于战斗</p><p>在战斗中按下 <code>L1</code> 可以快速变更队列</p><p>此外，按下<code>L1</code>+↓ 可以集合队列，按住就是原地不动</p><p>按下<code>L1</code>+↑ 可以控制队列跳跃</p><p>但是这些控制对于<strong>正在施法</strong>的队友而言都是无效的</p><h2 id="武器选择"><a href="#武器选择" class="headerlink" title="武器选择"></a>武器选择</h2><p>斧斩击(平A)伤害高</p><p>枪突刺(↓+O)伤害高</p><p>剑各项都很均衡</p><h3 id="战斗的连击心得"><a href="#战斗的连击心得" class="headerlink" title="战斗的连击心得"></a>战斗的连击心得</h3><p>对于主角而言，斩击——突刺——上挑 这一套下来可以进行3次连击的连招</p>]]></content>
     
     
     <categories>
