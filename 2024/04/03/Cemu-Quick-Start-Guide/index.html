@@ -16,25 +16,27 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="xbox360 模拟器 使用记录">
+    <meta name="description" content="Wii U 模拟器 使用记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Xenia | Quick Start Guide">
-<meta property="og:url" content="http://example.com/2024/03/27/Xenia-Quick-Start-Guide/index.html">
+<meta property="og:title" content="Cemu | Quick Start Guide">
+<meta property="og:url" content="http://example.com/2024/04/03/Cemu-Quick-Start-Guide/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="xbox360 模拟器 使用记录">
+<meta property="og:description" content="Wii U 模拟器 使用记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c5d6d0597855d2117d96c12fa3d76a91.png">
-<meta property="article:published_time" content="2024-03-27T02:46:37.000Z">
-<meta property="article:modified_time" content="2024-03-27T03:28:31.412Z">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240403143229348.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240403144514829.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240403150630394.png">
+<meta property="article:published_time" content="2024-04-03T05:45:09.000Z">
+<meta property="article:modified_time" content="2024-04-08T04:37:26.224Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="Xenia">
-<meta property="article:tag" content="xbox360">
+<meta property="article:tag" content="Cemu">
+<meta property="article:tag" content="Wii U">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c5d6d0597855d2117d96c12fa3d76a91.png">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240403143229348.png">
   
   
   
-  <title>Xenia | Quick Start Guide - Zanarkand</title>
+  <title>Cemu | Quick Start Guide - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Xenia | Quick Start Guide"></span>
+            <span id="subtitle" data-typed-text="Cemu | Quick Start Guide"></span>
           
         </div>
 
@@ -210,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-03-27 10:46" pubdate>
-          2024年3月27日 上午
+        <time datetime="2024-04-03 13:45" pubdate>
+          2024年4月3日 下午
         </time>
       </span>
     
@@ -222,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.9k 字
         
       </span>
     
@@ -233,7 +235,7 @@
         
         
         
-          11 分钟
+          17 分钟
         
       </span>
     
@@ -271,38 +273,74 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Xenia | Quick Start Guide</h1>
+            <h1 style="display: none">Cemu | Quick Start Guide</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a target="_blank" rel="noopener" href="https://github.com/xenia-canary/xenia-canary/releases">Releases · xenia-canary&#x2F;xenia-canary</a></p>
-<p>Xenia 分为两个版本，一个是稳定版 master 另一个是 最新的持续更新版canary（几乎每天都在更新，需要注意的是 Canary 和 Master 是分开两个仓库进行管理的，不是分支关系）</p>
+                <h1 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h1><h2 id="运行前配置"><a href="#运行前配置" class="headerlink" title="运行前配置"></a>运行前配置</h2><p>去 cemu 官网下载最新的 Release 包解压运行</p>
+<p>在开始运行之前，需要一些准备：</p>
+<ol>
+<li>右键单击 Cemu .exe</li>
+<li>点击<code>属性</code></li>
+<li>导航到选项卡<code>兼容</code></li>
+<li>启用选项“禁用全屏优化”</li>
+<li>点击<code>更改高 DPI 设置</code></li>
+</ol>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240403143229348.png" srcset="/img/loading.gif" lazyload></p>
+<p>设置这些选项是为了帮助避免各种 Windows 版本和显示分辨率上的问题。也就是说，这些选项中的一个或多个并非对于每个人都是必需的，但如果不设置它们可能会导致一些问题</p>
+<h2 id="启动初始化"><a href="#启动初始化" class="headerlink" title="启动初始化"></a>启动初始化</h2><ol>
+<li>双击 Cemu 应用程序</li>
+<li>现在，您将看到 Cemu 快速入门指南</li>
+<li>首先是确定“<a target="_blank" rel="noopener" href="https://cemu.cfw.guide/faq/#what-is-the-mlc01-folder">mlc01</a>”(主要是用来存储用户存档以及 dlc 安装档案等)的存储位置，默认就是在 Cemu 的根目录下，我是直接用默认，方便管理</li>
+<li>将“游戏路径”字段留空</li>
+<li>点击“<a target="_blank" rel="noopener" href="https://cemu.cfw.guide/faq/#what-are-community-graphics-packs">下载社区图形包</a>“</li>
+<li>点击下一步</li>
+</ol>
+<p>社区图形包提供了大部分游戏的图形增强，并且都是模拟器社区测试过的，基本不会有什么恶性问题</p>
+<p>我们也可以自定义增强补丁，后面的 <a href="#%E6%B1%89%E5%8C%96%E8%A1%A5%E4%B8%81">汉化补丁</a> 中也会进行强调</p>
+<h1 id="手柄配置"><a href="#手柄配置" class="headerlink" title="手柄配置"></a>手柄配置</h1><p>Cemu 支持手柄的体感控制，只需要在手柄设置中将手柄的 API 选择为 SDL API 即可适配体感控制</p>
+<p>我这里使用的是 Switch Pro 手柄，亲测是完全正常的</p>
 <blockquote>
-<p>Xenia Canary is a fork of Xenia with changes not present in master that may or may not fix games.</p>
+<p>需要注意如果想要使用体感，模拟 WiiU 手柄则必须选择 <code>WiiU Gamepad</code> 因为只有 Gamepad 才有体感， WiiU Pro 手柄是没有体感的，即使你使用的手柄支持体感，被模拟的手柄如果不是 Gamepad 就不会有体感的效果</p>
 </blockquote>
-<p>直接下载解压，得到一个 exe 文件即可</p>
-<p>如果下载的是老版本的 Xenia，在运行游戏的时候提示存档找不到或者存储设备报错，请在 exe 文件目录同级下创建 <code>portable.txt</code> 文件</p>
-<p>这里也推荐无论如何在运行之前都在 exe 同级目录下创建 <code>portable.txt</code> 文件，这样以后所有的系统存档都会放置在 <code>Xenia安装目录\content</code> 而不是 <code>C:\Documents\xenia\content</code></p>
-<p>初次运行后什么也不用管直接关闭，会发现目录下多出了一个 <code>toml</code> 系统配置文件，以后所有的配置都在这里手动进行修改</p>
-<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p>游戏这块自己寻找备份</p>
-<p>xbox360就算不进行破解也是可以直接备份正版游戏的，<a target="_blank" rel="noopener" href="https://github.com/xenia-project/xenia/wiki/Quickstart#how-to-rip-games">具体操作见</a></p>
-<p>需要注意的是 Xenia 只能运行 ISO 文件的游戏，大部分直接备份的格式都是 GOD 格式，因此需要 GOD2ISO 来进行转换</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/raburton/god2iso/releases">Releases · raburton&#x2F;god2iso</a></p>
-<p>具体使用也很简单，不需要选择所有的 GOD 内容，只需要选择 GOD 文件夹内同级的那个文件即可</p>
-<p>启动游戏后可以看到游戏的编号，名称 以及模拟器 build 版本，我这里使用的是最新的 Canary Build</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/c5d6d0597855d2117d96c12fa3d76a91.png" srcset="/img/loading.gif" lazyload></p>
-<h1 id="Apply-Game-Patches"><a href="#Apply-Game-Patches" class="headerlink" title="Apply Game Patches"></a>Apply Game Patches</h1><p><a target="_blank" rel="noopener" href="https://github.com/xenia-canary/game-patches">GitHub - xenia-canary&#x2F;game-patches: Game patches for the Xenia emulator</a></p>
-<p>下载其中的 patches 文件夹，解压到同级目录</p>
-<p>解压后具体的目录树如下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">└─── Xenia Canary<br>    |  ...<br>    │  xenia_canary.exe<br>    |  ...<br>    └─── patches<br>            ...<br>            584111F7 - Minecraft (XBLA, TU0).patch.toml<br>            ...<br></code></pre></td></tr></table></figure>
+<p>后面就是一些正常的按键匹配了，我只分别用 Xbox 和 Switch Pro 手柄测试了 <code>XIput</code> 和 <code>SDL</code> 这两个 API，都是正常使用</p>
+<h1 id="安装游戏"><a href="#安装游戏" class="headerlink" title="安装游戏"></a>安装游戏</h1><h2 id="游戏格式"><a href="#游戏格式" class="headerlink" title="游戏格式"></a>游戏格式</h2><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240403144514829.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>WUD：实机可以直接安装的，是加密过的游戏格式，直接从光盘 Dump 出来的，模拟器需要解密才能使用</li>
+<li>WUP格式：也是一种加密文件格式，特征是有很多.h3，.app的文件，直接从黑商店&#x2F;WiiU USB Helper 下载的格式</li>
+<li>RPX：由 WUP 格式解密而来的格式，通常由code，content，meta三个文件夹组成，也叫loadiine格式，<strong>模拟器可以直接使用的格式</strong></li>
+</ul>
+<h2 id="游戏导入"><a href="#游戏导入" class="headerlink" title="游戏导入"></a>游戏导入</h2><ol>
+<li>在顶部栏上，单击 <code>文件</code> -&gt; <code>安装档案、升级档或DLC</code></li>
+<li>打开您要安装的游戏、更新或 DLC 的文件夹</li>
+<li><strong>打开文件夹，然后选择 meta 文件夹即可，到这就行了</strong></li>
+<li>Cemu 会自动安装导入</li>
+</ol>
+<h1 id="汉化补丁"><a href="#汉化补丁" class="headerlink" title="汉化补丁"></a>汉化补丁</h1><p>模拟器的汉化和实机不一样</p>
+<p>实机可以通过脚本汉化或是将汉化补丁放在 SD 卡指定位置通过运行 SD Cafine  外挂汉化(我用的这一种)</p>
+<p>但是汉化组发布的汉化补丁只有部分游戏可以支持实机的外挂汉化（例如：幻影异闻录可以运行日版光盘外挂汉化补丁，但是塞尔达风之杖和黄昏公主均无法外挂），而模拟器可以无视这些约束</p>
+<h2 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h2><p>Cemu 的汉化补丁基于 Cemu 的社区图形插件实现（你没看错，汉化补丁需要在图形插件中加载</p>
+<p>首先找到汉化组发布的汉化补丁，大部分都以 content 命名，内部子目录因游戏而异</p>
+<p>在 content 同级目录下创建 rules.txt 文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh">[Definition]<br>titleIds = 000500001019C800<br>name = CHS<br>path = <span class="hljs-string">&quot;The Legend of Zelda: Twilight Princess HD/Language/CHS&quot;</span><br>description = Note: Chinese Language Patch Made by ACG Group<br>version = 3<br></code></pre></td></tr></table></figure>
 
-<p>具体的使用方法，在 Xenia 的全局配置文件中，确保 <code>enable_patches = true</code> 后，进到对应需要开启补丁的游戏配置文件中，默认每一项补丁都是 <code>false</code> 关闭状态，这个时候选择想要开启的直接改为 <code>true</code> 即可</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sh">[[patch]]<br>    name = <span class="hljs-string">&quot;60 FPS&quot;</span><br>    desc = <span class="hljs-string">&quot;Description&quot;</span><br>    author = <span class="hljs-string">&quot;Author&quot;</span><br>    is_enabled = <span class="hljs-literal">false</span> <span class="hljs-comment">#这里改为 true 就是开启了</span><br><br>    [[patch.be8]]<br>        address = 0x<span class="hljs-comment">########</span><br>        value = 0x<span class="hljs-comment">##</span><br></code></pre></td></tr></table></figure>
+<p>其中 titleIds 指定汉化补丁对应的游戏 id ，不知道游戏 id 请去<a target="_blank" rel="noopener" href="https://wiiubrew.org/wiki/Title_database">这里</a>查找</p>
+<blockquote>
+<p>注意：同一个游戏的日版和美版的 title id 不同，需要注意汉化组在发布的时候说明的汉化补丁适用哪一个版本的游戏本体</p>
+</blockquote>
+<p>name 指定这个补丁具体名称，想写什么都可以，这里便于管理取名 CHS</p>
+<p>path 指定这个补丁在 Cemu 的图形插件菜单中的位置，以上述配置为例，最终会在 <code>The Legend of Zelda: Twilight Princess HD</code> 下的 <code>Language</code> 目录下的 <code>CHS</code> 中找到</p>
+<p>description 指定插件补丁具体的描述</p>
+<p>编写完成后将 content 目录以及 <code>rules.txt</code> 打包放入一个便于记忆名称的目录下，以我的为例，最终的目录树结构如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sh">└─The Legend of Zelda Wind Waker HD_CHS<br>    └─content<br>        └─res<br>            ├─Fontjp<br>            ├─Msgjp<br>            └─Object<br>    └─rules.txt<br></code></pre></td></tr></table></figure>
 
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=382YN-Ql_VI">Xenia Quick Start</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=kqlIqOdrLUY">如何开启补丁</a></p>
-<p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=m9R5nax95os">战争机器 60 帧补丁</a></p>
+<p>最后将目录丢到  <code>Cemu\graphicPacks</code> 目录下</p>
+<p>最终的目录树如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">├─graphicPacks<br>   ├─The Legend of Zelda Twilight Princess HD_CHS<br>     └─content<br>         └─res<br>             ├─Fontjp<br>             ├─Msgjp<br>             └─Object<br>     └─rules.txt<br></code></pre></td></tr></table></figure>
+
+<h2 id="启用补丁"><a href="#启用补丁" class="headerlink" title="启用补丁"></a>启用补丁</h2><p>选中游戏，右键 编辑图形插件，可以看到插件就是在之前的 <code>rules.txt</code> 配置文件中描述的一样</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240403150630394.png" srcset="/img/loading.gif" lazyload></p>
 
                 
               </div>
@@ -336,9 +374,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Xenia/">#Xenia</a>
+        <a href="/tags/Cemu/">#Cemu</a>
       
-        <a href="/tags/xbox360/">#xbox360</a>
+        <a href="/tags/Wii-U/">#Wii U</a>
       
     </div>
   
@@ -350,8 +388,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Xenia | Quick Start Guide</div>
-      <div>http://example.com/2024/03/27/Xenia-Quick-Start-Guide/</div>
+      <div>Cemu | Quick Start Guide</div>
+      <div>http://example.com/2024/04/03/Cemu-Quick-Start-Guide/</div>
     </div>
     <div class="license-meta">
       
@@ -363,7 +401,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年3月27日</div>
+          <div>2024年4月3日</div>
         </div>
       
       
@@ -395,9 +433,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/04/03/Cemu-Quick-Start-Guide/" title="Cemu | Quick Start Guide">
+                      <a href="/2024/04/06/%E5%9C%A8%E7%A2%8E%E7%89%87%E5%8C%96%E6%97%B6%E4%BB%A3%E9%87%8D%E6%8B%BE%E6%B3%A8%E6%84%8F%E5%8A%9B/" title="在碎片化时代重拾注意力">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Cemu | Quick Start Guide</span>
+                        <span class="hidden-mobile">在碎片化时代重拾注意力</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -405,8 +443,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/22/PS3-DualShock3-on-PC/" title="PS3|DualShock3 on PC">
-                        <span class="hidden-mobile">PS3|DualShock3 on PC</span>
+                      <a href="/2024/03/27/Xenia-Quick-Start-Guide/" title="Xenia | Quick Start Guide">
+                        <span class="hidden-mobile">Xenia | Quick Start Guide</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
