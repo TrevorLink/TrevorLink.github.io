@@ -4,6 +4,60 @@
   
   
   <entry>
+    <title>MIT6.824|Introduction</title>
+    <link href="/2024/04/25/MIT6-824-Introduction/"/>
+    <url>/2024/04/25/MIT6-824-Introduction/</url>
+    
+    <content type="html"><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="课程关注的内容"><a href="#课程关注的内容" class="headerlink" title="课程关注的内容"></a>课程关注的内容</h2><p>课程主要关注两个部分的内容：</p><ul><li>性能</li><li>容错 Fault Tolerance</li></ul><h2 id="分布式系统的抽象"><a href="#分布式系统的抽象" class="headerlink" title="分布式系统的抽象"></a>分布式系统的抽象</h2><p>这门课程讲述的都是基础架构的东西，我们针对基础架构的研究一般是包含：</p><ul><li>存储（分布式存储服务）</li><li>通信（一般都是用现成的通信模型）</li><li>计算（MapReduce 分布式计算模型）</li></ul><p>其中分布式系统的一个核心抽象目标就是：<strong>对外提供服务接口并且极大程度隐藏分布式的特性</strong>，简单来说就是：</p><p>从应用程序的角度来看，整个系统是一个非分布式的系统，就像一个文件系统或者一个大家知道如何编程的普通系统，并且有一个非常简单的模型语句。但是实际上又是一个有极高的性能和容错性的分布式系统</p><p>在学习这门课程的过程中我们会逐步体会到研究者在这一个抽象目标上所做出的努力</p><h2 id="构建分布式应用程序的常用工具"><a href="#构建分布式应用程序的常用工具" class="headerlink" title="构建分布式应用程序的常用工具"></a>构建分布式应用程序的常用工具</h2><ul><li>RPC：掩盖了我们是基于不可靠的网络进行通信的这一个事实</li><li>线程：实际上是提供给开发者操作多核心CPU的一个手段</li><li>Concurrency Control：分布式领域中常常需要解决的问题</li></ul><p>上述这些实现思想会在课程中出现，我们也会在许多论文中看到，同时也是我们在课程的实验中需要不断去关注和处理的</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>CS_Basic</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MIT</tag>
+      
+      <tag>Distributed System</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>CMU 15-213|Overview &amp; Bits Representation</title>
+    <link href="/2024/04/22/CMU-15-213-Overview-Bits-Representation/"/>
+    <url>/2024/04/22/CMU-15-213-Overview-Bits-Representation/</url>
+    
+    <content type="html"><![CDATA[<h1 id="冯诺依曼架构"><a href="#冯诺依曼架构" class="headerlink" title="冯诺依曼架构"></a>冯诺依曼架构</h1><h2 id="组成部分"><a href="#组成部分" class="headerlink" title="组成部分"></a>组成部分</h2><p>最经典的计算机架构，包含五个重要组成部分</p><ul><li>存储器</li><li>控制器</li><li>运算器</li><li>输入</li><li>输出</li></ul><p>现在的计算机也基本是基于这个架构的，只是运算器和控制器统一交由 CPU 来进行处理。</p><p>但是和冯诺依曼体系结构对应的当年还有一个叫做<strong>哈佛结构</strong>的：它和冯诺依曼架构最大的区别在于<strong>能够同时访问数据和指令</strong>，虽然哈佛结构很快就黯然退场了，但是如今在移动端市场流行的 ARM 架构也是由此演变而来。</p><h2 id="设计缺陷"><a href="#设计缺陷" class="headerlink" title="设计缺陷"></a>设计缺陷</h2><p>可以说如今计算机系统出现的诸多不稳定，是在冯诺依曼架构<strong>设计之初就注定的</strong>。</p><p>缓存溢出可以执行攻击者预订好的程序（游戏机设备的 jailbreak 有些就来自于此）</p><blockquote><p>甚至采用 <strong>返回导向编程</strong> 的堆栈溢出攻击，在出现之后长达十多年里，主流操作系统都毫无防范之力</p></blockquote><p>在 CSAPP 的实验中，我们将会亲自体验一番漏洞攻击，黑客模拟器XD</p><h2 id="这门课程的必要性"><a href="#这门课程的必要性" class="headerlink" title="这门课程的必要性"></a>这门课程的必要性</h2><p>程序的执行不仅仅是编写代码这么简单，代码写的好并不代表最终的执行就会正常。</p><p>我们对于一个事物的认知决定了如何更好的利用这个事物。</p><p>程序的执行除了代码本身，还需要结合内存，缓存，运算器等等部件，同时编译器，计算机系统的其他概念也会影响程序的最终执行，这门课程可以让我们从里到外的理解程序到底是如何执行的，这样才能写出更好更高效的代码。</p><h1 id="数据的机器级表示"><a href="#数据的机器级表示" class="headerlink" title="数据的机器级表示"></a>数据的机器级表示</h1><h2 id="无符号和有符号"><a href="#无符号和有符号" class="headerlink" title="无符号和有符号"></a>无符号和有符号</h2><p>他们所能表示的数之间的关系可以直观的看下图：</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240424175947431.png"></p><p>这里其实有一种偏移 bias 的感觉，那就是如果讨论表示范围，对于同一个二进制的数据，有符号和无符号数据范围存在一定的 bias</p><p>目前主流的编程语言，默认都是有符号数，为了便于保存负数，但是 c 提供了无符号的声明形式</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a_signed_number = <span class="hljs-number">-15213</span>;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> a_unsigned_number = <span class="hljs-number">15213U</span>;<br></code></pre></td></tr></table></figure><h3 id="转换操作"><a href="#转换操作" class="headerlink" title="转换操作"></a>转换操作</h3><p>无符号数和有符号数在计算机的底层硬件表示中都是二进制存在的，只是计算机<strong>针对我们理解的无符号和有符号</strong>，<strong>解释的方式不同</strong></p><p>因此转换操作本身并不会改变二进制数据的实际内容，改变的只是<strong>计算机解释当前数值的方式</strong></p><p>在进行互相转换的时候需注意：如果同时出现有符号和无符号的运算&#x2F;比较，计算机在解释的时候会<strong>统一转化为无符号</strong>来进行解析</p><h3 id="运算和溢出"><a href="#运算和溢出" class="headerlink" title="运算和溢出"></a>运算和溢出</h3><p>无论是无符号数还是有符号数，一旦用来表示数值的最高位发生了进位&#x2F;超出了表达形式&#x2F;改变了符号位，就会发生<strong>溢出</strong></p><h4 id="无符号数溢出"><a href="#无符号数溢出" class="headerlink" title="无符号数溢出"></a>无符号数溢出</h4><p>实际上是 mod 操作，因为无符号本身并不需要牺牲一个 bit 的位置来表示符号，因此如果超出数据范围了，例如 3 bit 下， 110+111 &#x3D; 6+7 &#x3D; 13 &#x3D; 1101 ，但是由于只能存储三位，因此实际存储的数据只有 101 因此最终结果实际上只有 13%8 &#x3D; 5</p><h4 id="有符号数溢出"><a href="#有符号数溢出" class="headerlink" title="有符号数溢出"></a>有符号数溢出</h4><p>分为正溢出和负溢出两种</p><p>还是以 3 bit 举例，对于有符号数能表示的范围应当是 -4 ~ 3，以 011+010 &#x3D; 3+2 &#x3D; 5 &#x3D; 101，但是在二进制的解释下最终结果是 -4+1 &#x3D;-3，这种情况就是正溢出（<strong>我们认为的5超出了能表示的范围，虽然 bit 位数没有超出，但是有符号数解释的最高位符号位收到了影响，溢出为了负数</strong>）</p><h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>浮点数的IEEE存储形式定义</p><h3 id="规范化值"><a href="#规范化值" class="headerlink" title="规范化值"></a>规范化值</h3><p>M默认心里有一个1，这个1不需要实际的编码位置，只需要默认心里记住</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>CS_Basic</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>CMU</tag>
+      
+      <tag>CSAPP</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>在碎片化时代重拾注意力</title>
     <link href="/2024/04/06/%E5%9C%A8%E7%A2%8E%E7%89%87%E5%8C%96%E6%97%B6%E4%BB%A3%E9%87%8D%E6%8B%BE%E6%B3%A8%E6%84%8F%E5%8A%9B/"/>
     <url>/2024/04/06/%E5%9C%A8%E7%A2%8E%E7%89%87%E5%8C%96%E6%97%B6%E4%BB%A3%E9%87%8D%E6%8B%BE%E6%B3%A8%E6%84%8F%E5%8A%9B/</url>

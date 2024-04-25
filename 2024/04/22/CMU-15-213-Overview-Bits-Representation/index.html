@@ -16,27 +16,25 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Lunaticmosfet 注意力讨论专题笔记">
+    <meta name="description" content="CMU 15-213 CSAPP 总览">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在碎片化时代重拾注意力">
-<meta property="og:url" content="http://example.com/2024/04/06/%E5%9C%A8%E7%A2%8E%E7%89%87%E5%8C%96%E6%97%B6%E4%BB%A3%E9%87%8D%E6%8B%BE%E6%B3%A8%E6%84%8F%E5%8A%9B/index.html">
+<meta property="og:title" content="CMU 15-213|Overview &amp; Bits Representation">
+<meta property="og:url" content="http://example.com/2024/04/22/CMU-15-213-Overview-Bits-Representation/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="Lunaticmosfet 注意力讨论专题笔记">
+<meta property="og:description" content="CMU 15-213 CSAPP 总览">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406121023607.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406121313783.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406121715245.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406122032135.png">
-<meta property="article:published_time" content="2024-04-06T04:07:17.000Z">
-<meta property="article:modified_time" content="2024-04-12T02:33:14.893Z">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240424175947431.png">
+<meta property="article:published_time" content="2024-04-22T15:07:04.259Z">
+<meta property="article:modified_time" content="2024-04-25T06:37:48.873Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="夜读">
+<meta property="article:tag" content="CMU">
+<meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406121023607.png">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240424175947431.png">
   
   
   
-  <title>在碎片化时代重拾注意力 - Zanarkand</title>
+  <title>CMU 15-213|Overview &amp; Bits Representation - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="在碎片化时代重拾注意力"></span>
+            <span id="subtitle" data-typed-text="CMU 15-213|Overview &amp; Bits Representation"></span>
           
         </div>
 
@@ -212,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-06 12:07" pubdate>
-          2024年4月6日 中午
+        <time datetime="2024-04-22 23:07" pubdate>
+          2024年4月22日 晚上
         </time>
       </span>
     
@@ -273,57 +271,45 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">在碎片化时代重拾注意力</h1>
+            <h1 style="display: none">CMU 15-213|Overview &amp; Bits Representation</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV14q421P7Yw">本文是 Lunaticmosfet 大佬在注意力专题中针对当前时代注意力话题的一个讨论，当作笔记心得记录同时固化学习到的方法论</a></p>
-<h1 id="福格行为模型"><a href="#福格行为模型" class="headerlink" title="福格行为模型"></a>福格行为模型</h1><p>我们将注意力转移的过程通过一些数学表达式来刻画</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406121023607.png" srcset="/img/loading.gif" lazyload></p>
-<p><strong>很多时候我们实际上是从一个当下自认为比较有意义的事情中，转移到一个不那么有意义的事情做去</strong></p>
-<p>这似乎听起来不那么可能，但是实际上确实常常发生，例如经常在工作中时不时就刷手机去了，点一个外卖，点着点着就玩手机和别人聊天刷短视频去了</p>
-<p>著名的行为设计理论:福格模型可以解释这一个现象</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406121313783.png" srcset="/img/loading.gif" lazyload alt="福格模型"></p>
-<p>动机是执行行为的欲望，能力是做这个行为的执行能力，而提示则是指引你做出行为的一个<strong>确定的信号</strong></p>
-<p>当动机、能力和提示同时出现的时候，行为就会发生</p>
-<h1 id="基于福格模型的注意力转移模型"><a href="#基于福格模型的注意力转移模型" class="headerlink" title="基于福格模型的注意力转移模型"></a>基于福格模型的注意力转移模型</h1><p>为了更具体的体现出福格模型中各个变量对于行为的影响，我们假设：P的值是一个确定的信号，非0即1</p>
-<p>那么变量λ我们可以这么刻画</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406121715245.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="消除短效活动提示Pj"><a href="#消除短效活动提示Pj" class="headerlink" title="消除短效活动提示Pj"></a>消除短效活动提示Pj</h2><h3 id="原因分析：相当常见的场景"><a href="#原因分析：相当常见的场景" class="headerlink" title="原因分析：相当常见的场景"></a>原因分析：相当常见的场景</h3><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240406122032135.png" srcset="/img/loading.gif" lazyload></p>
-<p>在不知不觉间，时间就被送入了黑洞，实际上这些东西你并不一定需要，更多的也是资本主义为你创造出的需求</p>
-<p>具体关于设备需求以及消费观的讨论，可以参见<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Y642137Tc">这一期</a></p>
-<h3 id="解决方案1：集中查看社交网络内容"><a href="#解决方案1：集中查看社交网络内容" class="headerlink" title="解决方案1：集中查看社交网络内容"></a>解决方案1：集中查看社交网络内容</h3><p>没有人会认为你一定需要守着一个随机出现通知的东西</p>
-<p><strong>赛博酒馆并不会因为一个人的退场而变得不那么热闹，也不会因为一个人的入场而以他为主体</strong></p>
-<p>可以考虑每天安排固定的时间集中观看社交网络的时间线上的信息</p>
-<p>比较难处理的可能是工作上的信息，但是<strong>实际上这些看似紧急的，需要你立刻做出回复的信息也不需要立刻回复</strong>，因为真有急事直接找你了</p>
-<p>同时如果自己的工作是经常需要<strong>必须放下手上正在专注的事情去立刻回复信息</strong>的话，那么可能对于自己未来职业发展有一定的局限性和影响</p>
-<p>因此想要成为职业领域的拔尖成员，必须要具备长效专注在一件事情的能力，这也是<strong>构筑不可替代性的关键</strong></p>
-<h3 id="解决方案2：避免现实试听提示"><a href="#解决方案2：避免现实试听提示" class="headerlink" title="解决方案2：避免现实试听提示"></a>解决方案2：避免现实试听提示</h3><p>在执行工作之前，桌面上哪些会扰乱思绪的东西尽量整理（比如 手柄，手办</p>
-<p>在选择 BGM 的时候也不要去听哪些会引起内心波澜的游戏音乐</p>
-<h2 id="减少短效活动的能力Aj"><a href="#减少短效活动的能力Aj" class="headerlink" title="减少短效活动的能力Aj"></a>减少短效活动的能力Aj</h2><p>旅途中 &#x3D; 断电断网，掌机启动！</p>
-<h3 id="解决方案1：卸载"><a href="#解决方案1：卸载" class="headerlink" title="解决方案1：卸载"></a>解决方案1：卸载</h3><p>卸载哪些会影响你去做短效活动的上瘾的 app</p>
-<h3 id="解决方案2：寻找环境"><a href="#解决方案2：寻找环境" class="headerlink" title="解决方案2：寻找环境"></a>解决方案2：寻找环境</h3><p>社会工作人士类似会去<strong>图书馆，星巴克</strong>这类的地方，为的就是环境带来的氛围，在这样的环境下，我们很难去刷手机打游戏让思绪随意飞扬</p>
-<h2 id="减少短效活动的动机Mj"><a href="#减少短效活动的动机Mj" class="headerlink" title="减少短效活动的动机Mj"></a>减少短效活动的动机Mj</h2><p>实际上这部分还是之前说的<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1UN411p7sp">这一期</a></p>
+                <h1 id="冯诺依曼架构"><a href="#冯诺依曼架构" class="headerlink" title="冯诺依曼架构"></a>冯诺依曼架构</h1><h2 id="组成部分"><a href="#组成部分" class="headerlink" title="组成部分"></a>组成部分</h2><p>最经典的计算机架构，包含五个重要组成部分</p>
 <ul>
-<li>随机性带来的注意力涣散</li>
-<li>时效性带来的海量无效信息</li>
-<li>碎片性带来的必然遗忘</li>
+<li>存储器</li>
+<li>控制器</li>
+<li>运算器</li>
+<li>输入</li>
+<li>输出</li>
 </ul>
-<h3 id="互联网生意的本质"><a href="#互联网生意的本质" class="headerlink" title="互联网生意的本质"></a>互联网生意的本质</h3><p>争夺注意力资源，个性化推送，看广告盈利</p>
-<p>现在的很多 app 在设计之初就是为了让你上瘾</p>
-<h3 id="监控资本主义"><a href="#监控资本主义" class="headerlink" title="监控资本主义"></a>监控资本主义</h3><p>企业对个人信息进行收集和商品化</p>
-<p>寻找注意力的薄弱点</p>
-<p>将争夺的注意力的资源贩卖给广告商</p>
-<h3 id="不是抬头而是埋头"><a href="#不是抬头而是埋头" class="headerlink" title="不是抬头而是埋头"></a>不是抬头而是埋头</h3><p>和社交网络的斯金纳箱解绑</p>
-<p>埋头专注一段时间，世界才会变化，才能自我提升，对世界也有更多的了解</p>
-<h2 id="双线程长效活动-amp-RSS"><a href="#双线程长效活动-amp-RSS" class="headerlink" title="双线程长效活动 &amp; RSS"></a>双线程长效活动 &amp; RSS</h2><p>也可以尝试进行双线程的长效活动，例如专注工作项目结束后，专注学习新的 CS 基础课</p>
-<p>推荐一些 RSS 聚合信息应用：</p>
-<ul>
-<li>Inoreader</li>
-<li>Rss Hub</li>
-</ul>
-<p>也可以尝试视频网站自带的稍后再看功能</p>
+<p>现在的计算机也基本是基于这个架构的，只是运算器和控制器统一交由 CPU 来进行处理。</p>
+<p>但是和冯诺依曼体系结构对应的当年还有一个叫做<strong>哈佛结构</strong>的：它和冯诺依曼架构最大的区别在于<strong>能够同时访问数据和指令</strong>，虽然哈佛结构很快就黯然退场了，但是如今在移动端市场流行的 ARM 架构也是由此演变而来。</p>
+<h2 id="设计缺陷"><a href="#设计缺陷" class="headerlink" title="设计缺陷"></a>设计缺陷</h2><p>可以说如今计算机系统出现的诸多不稳定，是在冯诺依曼架构<strong>设计之初就注定的</strong>。</p>
+<p>缓存溢出可以执行攻击者预订好的程序（游戏机设备的 jailbreak 有些就来自于此）</p>
+<blockquote>
+<p>甚至采用 <strong>返回导向编程</strong> 的堆栈溢出攻击，在出现之后长达十多年里，主流操作系统都毫无防范之力</p>
+</blockquote>
+<p>在 CSAPP 的实验中，我们将会亲自体验一番漏洞攻击，黑客模拟器XD</p>
+<h2 id="这门课程的必要性"><a href="#这门课程的必要性" class="headerlink" title="这门课程的必要性"></a>这门课程的必要性</h2><p>程序的执行不仅仅是编写代码这么简单，代码写的好并不代表最终的执行就会正常。</p>
+<p>我们对于一个事物的认知决定了如何更好的利用这个事物。</p>
+<p>程序的执行除了代码本身，还需要结合内存，缓存，运算器等等部件，同时编译器，计算机系统的其他概念也会影响程序的最终执行，这门课程可以让我们从里到外的理解程序到底是如何执行的，这样才能写出更好更高效的代码。</p>
+<h1 id="数据的机器级表示"><a href="#数据的机器级表示" class="headerlink" title="数据的机器级表示"></a>数据的机器级表示</h1><h2 id="无符号和有符号"><a href="#无符号和有符号" class="headerlink" title="无符号和有符号"></a>无符号和有符号</h2><p>他们所能表示的数之间的关系可以直观的看下图：</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240424175947431.png" srcset="/img/loading.gif" lazyload></p>
+<p>这里其实有一种偏移 bias 的感觉，那就是如果讨论表示范围，对于同一个二进制的数据，有符号和无符号数据范围存在一定的 bias</p>
+<p>目前主流的编程语言，默认都是有符号数，为了便于保存负数，但是 c 提供了无符号的声明形式</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> a_signed_number = <span class="hljs-number">-15213</span>;<br><span class="hljs-type">unsigned</span> <span class="hljs-type">int</span> a_unsigned_number = <span class="hljs-number">15213U</span>;<br></code></pre></td></tr></table></figure>
+
+<h3 id="转换操作"><a href="#转换操作" class="headerlink" title="转换操作"></a>转换操作</h3><p>无符号数和有符号数在计算机的底层硬件表示中都是二进制存在的，只是计算机<strong>针对我们理解的无符号和有符号</strong>，<strong>解释的方式不同</strong></p>
+<p>因此转换操作本身并不会改变二进制数据的实际内容，改变的只是<strong>计算机解释当前数值的方式</strong></p>
+<p>在进行互相转换的时候需注意：如果同时出现有符号和无符号的运算&#x2F;比较，计算机在解释的时候会<strong>统一转化为无符号</strong>来进行解析</p>
+<h3 id="运算和溢出"><a href="#运算和溢出" class="headerlink" title="运算和溢出"></a>运算和溢出</h3><p>无论是无符号数还是有符号数，一旦用来表示数值的最高位发生了进位&#x2F;超出了表达形式&#x2F;改变了符号位，就会发生<strong>溢出</strong></p>
+<h4 id="无符号数溢出"><a href="#无符号数溢出" class="headerlink" title="无符号数溢出"></a>无符号数溢出</h4><p>实际上是 mod 操作，因为无符号本身并不需要牺牲一个 bit 的位置来表示符号，因此如果超出数据范围了，例如 3 bit 下， 110+111 &#x3D; 6+7 &#x3D; 13 &#x3D; 1101 ，但是由于只能存储三位，因此实际存储的数据只有 101 因此最终结果实际上只有 13%8 &#x3D; 5</p>
+<h4 id="有符号数溢出"><a href="#有符号数溢出" class="headerlink" title="有符号数溢出"></a>有符号数溢出</h4><p>分为正溢出和负溢出两种</p>
+<p>还是以 3 bit 举例，对于有符号数能表示的范围应当是 -4 ~ 3，以 011+010 &#x3D; 3+2 &#x3D; 5 &#x3D; 101，但是在二进制的解释下最终结果是 -4+1 &#x3D;-3，这种情况就是正溢出（<strong>我们认为的5超出了能表示的范围，虽然 bit 位数没有超出，但是有符号数解释的最高位符号位收到了影响，溢出为了负数</strong>）</p>
+<h2 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h2><p>浮点数的IEEE存储形式定义</p>
+<h3 id="规范化值"><a href="#规范化值" class="headerlink" title="规范化值"></a>规范化值</h3><p>M默认心里有一个1，这个1不需要实际的编码位置，只需要默认心里记住</p>
 
                 
               </div>
@@ -342,7 +328,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%9D%82%E8%B0%88-%E4%BA%BA%E7%94%9F%E5%93%B2%E5%AD%A6/" class="category-chain-item">杂谈&amp;人生哲学</a>
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
   
   
 
@@ -357,7 +343,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E5%A4%9C%E8%AF%BB/">#夜读</a>
+        <a href="/tags/CMU/">#CMU</a>
+      
+        <a href="/tags/CSAPP/">#CSAPP</a>
       
     </div>
   
@@ -369,8 +357,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>在碎片化时代重拾注意力</div>
-      <div>http://example.com/2024/04/06/在碎片化时代重拾注意力/</div>
+      <div>CMU 15-213|Overview &amp; Bits Representation</div>
+      <div>http://example.com/2024/04/22/CMU-15-213-Overview-Bits-Representation/</div>
     </div>
     <div class="license-meta">
       
@@ -382,7 +370,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月6日</div>
+          <div>2024年4月22日</div>
         </div>
       
       
@@ -414,9 +402,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/04/22/CMU-15-213-Overview-Bits-Representation/" title="CMU 15-213|Overview &amp; Bits Representation">
+                      <a href="/2024/04/25/MIT6-824-Introduction/" title="MIT6.824|Introduction">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CMU 15-213|Overview &amp; Bits Representation</span>
+                        <span class="hidden-mobile">MIT6.824|Introduction</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -424,8 +412,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/03/Cemu-Quick-Start-Guide/" title="Cemu | Quick Start Guide">
-                        <span class="hidden-mobile">Cemu | Quick Start Guide</span>
+                      <a href="/2024/04/06/%E5%9C%A8%E7%A2%8E%E7%89%87%E5%8C%96%E6%97%B6%E4%BB%A3%E9%87%8D%E6%8B%BE%E6%B3%A8%E6%84%8F%E5%8A%9B/" title="在碎片化时代重拾注意力">
+                        <span class="hidden-mobile">在碎片化时代重拾注意力</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
