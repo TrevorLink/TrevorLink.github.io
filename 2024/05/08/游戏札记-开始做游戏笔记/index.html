@@ -16,26 +16,22 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MIT6.824 分布式系统 &amp; MapReduce">
+    <meta name="description" content="游戏札记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MIT6.824|Introduction">
-<meta property="og:url" content="http://example.com/2024/04/25/MIT6-824-Introduction/index.html">
+<meta property="og:title" content="游戏札记|开始做游戏笔记">
+<meta property="og:url" content="http://example.com/2024/05/08/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-%E5%BC%80%E5%A7%8B%E5%81%9A%E6%B8%B8%E6%88%8F%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="MIT6.824 分布式系统 &amp; MapReduce">
+<meta property="og:description" content="游戏札记">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240425153146274.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240425162642980.png">
-<meta property="article:published_time" content="2024-04-25T06:37:05.000Z">
-<meta property="article:modified_time" content="2024-05-05T13:05:10.836Z">
+<meta property="article:published_time" content="2024-05-08T06:36:51.000Z">
+<meta property="article:modified_time" content="2024-05-08T14:48:36.301Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="MIT">
-<meta property="article:tag" content="Distributed System">
+<meta property="article:tag" content="Review">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240425153146274.png">
   
   
   
-  <title>MIT6.824|Introduction - Zanarkand</title>
+  <title>游戏札记|开始做游戏笔记 - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +196,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="MIT6.824|Introduction"></span>
+            <span id="subtitle" data-typed-text="游戏札记|开始做游戏笔记"></span>
           
         </div>
 
@@ -211,8 +207,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-04-25 14:37" pubdate>
-          2024年4月25日 下午
+        <time datetime="2024-05-08 14:36" pubdate>
+          2024年5月8日 下午
         </time>
       </span>
     
@@ -223,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.9k 字
+          984 字
         
       </span>
     
@@ -234,7 +230,7 @@
         
         
         
-          25 分钟
+          9 分钟
         
       </span>
     
@@ -272,81 +268,44 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">MIT6.824|Introduction</h1>
+            <h1 style="display: none">游戏札记|开始做游戏笔记</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><h2 id="课程关注的内容"><a href="#课程关注的内容" class="headerlink" title="课程关注的内容"></a>课程关注的内容</h2><p>课程主要关注两个部分的内容：</p>
-<ul>
-<li>性能</li>
-<li>容错 Fault Tolerance</li>
-</ul>
-<h2 id="分布式系统的抽象"><a href="#分布式系统的抽象" class="headerlink" title="分布式系统的抽象"></a>分布式系统的抽象</h2><p>这门课程讲述的都是基础架构的东西，我们针对基础架构的研究一般是包含：</p>
-<ul>
-<li>存储（分布式存储服务）</li>
-<li>通信（一般都是用现成的通信模型）</li>
-<li>计算（MapReduce 分布式计算模型）</li>
-</ul>
-<p>其中分布式系统的一个核心抽象目标就是：<strong>对外提供服务接口并且极大程度隐藏分布式的特性</strong>，简单来说就是：</p>
-<p>从应用程序的角度来看，整个系统是一个非分布式的系统，就像一个文件系统或者一个大家知道如何编程的普通系统，并且有一个非常简单的模型语句。但是实际上又是一个有极高的性能和容错性的分布式系统</p>
-<p>在学习这门课程的过程中我们会逐步体会到研究者在这一个抽象目标上所做出的努力</p>
-<h2 id="构建分布式应用程序的常用工具"><a href="#构建分布式应用程序的常用工具" class="headerlink" title="构建分布式应用程序的常用工具"></a>构建分布式应用程序的常用工具</h2><ul>
-<li>RPC：掩盖了我们是基于不可靠的网络进行通信的这一个事实</li>
-<li>线程：实际上是提供给开发者操作多核心CPU的一个手段</li>
-<li>Concurrency Control：分布式领域中常常需要解决的问题</li>
-</ul>
-<p>上述这些实现思想会在课程中出现，我们也会在许多论文中看到，同时也是我们在课程的实验中需要不断去关注和处理的</p>
-<h1 id="Scalability"><a href="#Scalability" class="headerlink" title="Scalability"></a>Scalability</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>这里说的可扩展性和我们日常讨论的软件可扩展性还是有一些细微区别的</p>
-<p>并不是我们说的代码可扩展易于维护或者说是SPI这种组件化的开发方式便于扩展功能</p>
-<p>而是说我们从一台计算机系统扩展到十台分布式计算机系统后，可以获得原先十倍的工作量&#x2F;十分之一的处理相同任务的时间，也就是十倍的<strong>系统吞吐量</strong>，这样的设计角度如果可以实现的话将会是十分强大的，因为我们只需要花钱来购买一定数量的计算机，相比较于花钱来聘请程序员进行软件的重构以优化性能而言，这种方式最为简单粗暴以及强大。</p>
-<p>但是实际上在现实应用中这种情况也需要一定程度上的系统设计来确保性能的扩展提升。</p>
-<blockquote>
-<p>只要单台web服务器没有给数据库带来太多的压力，你可以在出现问题前添加很多web服务器，但是这种可扩展性并不是无限的。很可能在某个时间点你有了10台，20台，甚至100台web服务器，它们都在和同一个数据库通信。现在，数据库突然成为了瓶颈，并且增加更多的web服务器都无济于事了。所以很少有可以通过无限增加计算机来获取完整的可扩展性的场景。因为在某个临界点，你在系统中添加计算机的位置将不再是瓶颈了。在我们的例子中，如果你有了很多的web服务器，那么瓶颈就会转移到了别的地方，这里是从web服务器移到了数据库。</p>
+                <h1 id="从复盘记录到知识固化"><a href="#从复盘记录到知识固化" class="headerlink" title="从复盘记录到知识固化"></a>从复盘记录到知识固化</h1><blockquote>
+<p>本文心得主要来自 <strong>Lunaticmosfet</strong> 的 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1MP4y1279Y">怀旧电台#14 的游戏笔记部分</a></p>
 </blockquote>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240425153146274.png" srcset="/img/loading.gif" lazyload alt="DB成为系统的瓶颈了，因此需要对DB进行拆分重构构建分布式存储"></p>
-<p>总结：在扩展性方面，我们希望能够实现随随意增加分布式系统中计算机的数目来实现等倍数的系统吞吐量，但是在实际应用中往往有多种因素的干扰（如上面的图例）因此需要进行合理的架构设计来确保扩容对于系统性能的提升</p>
-<h1 id="Fault-Tolerance"><a href="#Fault-Tolerance" class="headerlink" title="Fault Tolerance"></a>Fault Tolerance</h1><p>容错性主要的目标主要有以下，实现的难度分别递减：</p>
+<p>人类是一个善于记忆但是同时也善于遗忘的动物</p>
+<p>游戏其实本质上和书和电影一样都值得细细品味，我们玩过的很多游戏，有的时候玩过就放掉了，虽然看似没什么问题，但是从游戏中体会到的高峰体验的闪光记忆却没有被留存下来，加之现实生活中的琐事缠身，属于游戏的体验和记忆很快就会被大脑所遗忘</p>
+<p>如果在游戏的过程中进行记录，在每次玩游戏之后的一段时间以及通关之后进行复盘和编写 Review，那么就能最大程度发挥游戏作为第九艺术的作用</p>
+<p>采取笔记札记的方式，可以进一步加深这些知识在大脑中的固化，让我们玩游戏的时候不仅是在打发时间，而是真正能获得游戏的乐趣。此外，在记录的同时本身也是一件充满乐趣的事情。同时，对游戏进行笔记记录，也能更好的让我们审视这个游戏，提升自己的游戏审美和判别能力</p>
+<h1 id="游戏笔记的三种方式"><a href="#游戏笔记的三种方式" class="headerlink" title="游戏笔记的三种方式"></a>游戏笔记的三种方式</h1><p>在游玩的过程中进行笔记记录，多少都会影响沉浸感，影响不那么大的，主要有三种方式：</p>
 <ul>
-<li>可用性：系统某节点宕机但是还有副本继续提供服务</li>
-<li>可恢复性：系统节点都宕机了，在恢复的期间内不能接受请求，但是在恢复之后仍能继续工作，并且<strong>在系统恢复前后数据仍然保持正确性</strong></li>
+<li>截图</li>
+<li>录像</li>
+<li>录音</li>
 </ul>
-<p>因此可以说 可用性的容错性&gt;可恢复性</p>
-<p>并且，一个好的具备可用性的系统，也需要具备可恢复性，因为<strong>可用的系统仅仅是在一定的故障范围内才可用，如果故障太多，可用系统也会停止工作，停止一切响应。但是当足够的故障被修复之后，系统还是需要能继续工作</strong></p>
-<h3 id="实现容错性的工具"><a href="#实现容错性的工具" class="headerlink" title="实现容错性的工具"></a>实现容错性的工具</h3><ul>
-<li>采用非易失性存储：但是要避免大量读写场景，因为硬盘的写入还需要考虑转动机械臂等因素，频繁写入对性能有影响</li>
-<li>主从复制：引入一个副本实现容错，但是<strong>副本之间的数据同步（副本管理）</strong>，drift out of sync 也是一个很棘手的问题（Lab2就需要实现一个主从复制的分布式系统模型来实现容错性）</li>
-</ul>
-<h1 id="Consistency"><a href="#Consistency" class="headerlink" title="Consistency"></a>Consistency</h1><p>以一个最简单的 KV 存储为例</p>
-<p>假设服务器有两个副本，那么他们都有一个key-value表单，两个表单中key 1对应的值都是20</p>
-<p>现在某个客户端发送了一个put请求，并希望将key 1改成值21。这里或许是KV服务里面的一个计数器。这个put请求发送给了第一台服务器</p>
-<p>之后客户端的同一个请求会发送给第二台服务器，<strong>因为相同的put请求需要发送给两个副本，这样这两个副本才能保持同步</strong>。但是就在客户端准备给第二台服务器发送相同请求时，这个客户端故障了，可能是电源故障或者操作系统的bug之类的</p>
-<p>这种情况不是我们想看到的，我们发送了一个put请求，更新了一个副本的值是21，但是另一个副本的值仍然是20</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240425162642980.png" srcset="/img/loading.gif" lazyload></p>
-<p>因此针对 KV 的 put 和 get 操作，很显然我们需要定义一些特殊的规则来实现分布式系统中的一致性，这种被定义规则的一致性，我们分为强一致性和弱一致性</p>
-<h2 id="强一致性和弱一致性"><a href="#强一致性和弱一致性" class="headerlink" title="强一致性和弱一致性"></a>强一致性和弱一致性</h2><h3 id="强一致性"><a href="#强一致性" class="headerlink" title="强一致性"></a>强一致性</h3><p>需要<strong>牺牲性能</strong>来实现，因为强一致性的实现需要系统中节点进行频繁的通信</p>
-<p>以上述的 KV 存储为例，强一致性的实现规则可以是：每次的 GET 读取操作读取<strong>最近一次的 PUT 操作的数据</strong></p>
-<p>具体的实现可以是：客户端轮询系统中所有的副本，比对数据的 PUT 修改时间，选择最近的一个数据作为最终的结果，这样的场景需要大量的通信，对性能造成巨大的开销</p>
-<p>因此就引出了弱一致性</p>
-<h3 id="弱一致性"><a href="#弱一致性" class="headerlink" title="弱一致性"></a>弱一致性</h3><p>弱一致性不保证不会读到旧数据，在上述的 KV 存储例子中，就是有可能会读取到旧的那个值为 20 的数据</p>
-<p>在构建距离较远，系统一致性需求不强的场景下可以考虑采用弱一致性的实现</p>
-<h3 id="尽可能避免使用强一致性的设计-amp-弱一致性也不差"><a href="#尽可能避免使用强一致性的设计-amp-弱一致性也不差" class="headerlink" title="尽可能避免使用强一致性的设计 &amp; 弱一致性也不差"></a>尽可能避免使用强一致性的设计 &amp; 弱一致性也不差</h3><p>在上面我们也提过了，强一致性的设计可能会影响系统的性能</p>
-<p>因为分布式系统中的副本往往都不可能部署在一个机架甚至是一个机房内，因为如果实在同一个数据中心中，往往可能一挂就是都挂了，因此我们的数据副本往往会部署在多个距离很远的数据中心，随便一个通信也是超远距离的数据包传输，最少也需要几十毫秒的响应时间，<strong>现在的处理器每秒可以执行数十亿条指令，等待几十毫秒会大大影响系统的处理速度</strong></p>
-<p>此外，在学术界以及实际应用中，有大量关于构建弱一致性保证的研究，弱一致性并不代表不一致，我们可以增加许多的约束和规则来实现弱一致性的数据保证</p>
-<h1 id="MapReduce"><a href="#MapReduce" class="headerlink" title="MapReduce"></a>MapReduce</h1><h2 id="分布式计算任务框架需求"><a href="#分布式计算任务框架需求" class="headerlink" title="分布式计算任务框架需求"></a>分布式计算任务框架需求</h2><p>最早的时候其实是 Google 提出的一个用于解决自己建立全网网页索引需求的一个实现方案</p>
-<p>由于全网的网页索引太多了是TB级别的海量数据，如果单机处理则需要很长的运行时间</p>
-<p>谷歌希望能够将这些构建索引的计算任务分配到海量的计算机上进行操作，虽然当时他们完全可以编写专用的分布式系统软件来实现这一点，但是谷歌更希望能够构建出一个更为通用的分布式应用框架，让<strong>使用者无需关心具体的分布式底层通信等逻辑，只需要提供 map 和 reduce 函数</strong>，就能够将自己的分布式计算需求分配到多个计算机系统上，能够进行任意的数据分析，例如排序，网络索引器，链接分析器以及任何的运算</p>
-<blockquote>
-<p>使用 MapReduce 框架的工程师 只需要实现应用程序的核心，就能将应用程序运行在数千台计算机上，而<strong>不用考虑如何将运算工作分发到数千台计算机，如何组织这些计算机，如何移动数据，如何处理故障</strong>等等这些细节</p>
-</blockquote>
-<h2 id="MapReduce实现方式"><a href="#MapReduce实现方式" class="headerlink" title="MapReduce实现方式"></a>MapReduce实现方式</h2><p>MapReduce 的核心包含几个概念：</p>
-<ul>
-<li>Map Function</li>
-<li>Intermidiant</li>
-<li>Reduce Function</li>
-</ul>
-<p>我们以最简单的 Word Cound 为例来解释这些概念</p>
-<h2 id="Map函数实现"><a href="#Map函数实现" class="headerlink" title="Map函数实现"></a>Map函数实现</h2><h2 id="Reduce函数实现"><a href="#Reduce函数实现" class="headerlink" title="Reduce函数实现"></a>Reduce函数实现</h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2>
+<h2 id="截图"><a href="#截图" class="headerlink" title="截图"></a>截图</h2><p>截图这个方式是最简单的一种</p>
+<p>但是能记录的信息往往有限</p>
+<p>此外如果在游戏中特别的沉浸专注或者是忙不过来（比如boss战）的话，往往可能会错过截图的实机</p>
+<h2 id="录像"><a href="#录像" class="headerlink" title="录像"></a>录像</h2><p>这种方式能记录的信息最多</p>
+<p>但是通常情况下可能我们也不怎么看录像，在长流程视频中寻找高光时刻往往也较为困难</p>
+<p>可以考虑结合录音的方式进行</p>
+<h2 id="录音"><a href="#录音" class="headerlink" title="录音"></a>录音</h2><p>将录音和录像结合起来</p>
+<p>在游玩的过程中产生出的自发的吐槽或者是感悟，往往也充当了高峰游戏体验的标记点</p>
+<hr>
+<p>在复盘的时候基于上述三种方式进行游戏笔记的记录，可以让我们在<strong>第一时间</strong>将自己一手的游戏体验以知识固化的方式留存在记忆中</p>
+<h1 id="游戏笔记的主要内容"><a href="#游戏笔记的主要内容" class="headerlink" title="游戏笔记的主要内容"></a>游戏笔记的主要内容</h1><p>这里主要以 RPG 游戏为例，但是个人认为从第七世代开始，随着游戏开发的规模和内容体量的上升，不少的游戏就算不明显包含 RPG 的要素，也能够适用如下的法则</p>
+<h2 id="人物"><a href="#人物" class="headerlink" title="人物"></a>人物</h2><p>游戏剧情中关键人物的信息，身份</p>
+<p>你对这个人物的态度和看法，如果让你用简单几句话概括这个人物会如何描述</p>
+<h2 id="剧情"><a href="#剧情" class="headerlink" title="剧情"></a>剧情</h2><p>往往和人物有关</p>
+<p>每一次复盘可以尝试记录游戏剧情的关键走向</p>
+<h2 id="玩法-amp-系统"><a href="#玩法-amp-系统" class="headerlink" title="玩法&amp;系统"></a>玩法&amp;系统</h2><p>这部分的内容可能不那么容易产出</p>
+<p>对于某些带有解密要素的游戏，也可以进行解密的攻略内容编写</p>
+<p>初期可以尝试以杂志小编的身份编写游戏中关键关卡&#x2F;流程的破关攻略</p>
+<p><strong>在之后游玩的过程中，循序渐进的对整个游戏核心玩法系统有了更深入的了解，尝试赏析游戏系统和用户体验交互设计的精妙之处</strong></p>
+
                 
               </div>
             
@@ -364,7 +323,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
+  <a href="/categories/Game/" class="category-chain-item">Game</a>
   
   
 
@@ -379,9 +338,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/MIT/">#MIT</a>
-      
-        <a href="/tags/Distributed-System/">#Distributed System</a>
+        <a href="/tags/Review/">#Review</a>
       
     </div>
   
@@ -393,8 +350,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>MIT6.824|Introduction</div>
-      <div>http://example.com/2024/04/25/MIT6-824-Introduction/</div>
+      <div>游戏札记|开始做游戏笔记</div>
+      <div>http://example.com/2024/05/08/游戏札记-开始做游戏笔记/</div>
     </div>
     <div class="license-meta">
       
@@ -406,7 +363,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年4月25日</div>
+          <div>2024年5月8日</div>
         </div>
       
       
@@ -438,9 +395,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/08/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-%E5%BC%80%E5%A7%8B%E5%81%9A%E6%B8%B8%E6%88%8F%E7%AC%94%E8%AE%B0/" title="游戏札记|开始做游戏笔记">
+                      <a href="/2024/05/09/Whisper-Quick-Start/" title="Whisper|Quick Start">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">游戏札记|开始做游戏笔记</span>
+                        <span class="hidden-mobile">Whisper|Quick Start</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -448,8 +405,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/04/22/CMU-15-213-Overview-Bits-Representation/" title="CMU 15-213|Overview &amp; Bits Representation">
-                        <span class="hidden-mobile">CMU 15-213|Overview &amp; Bits Representation</span>
+                      <a href="/2024/04/25/MIT6-824-Introduction/" title="MIT6.824|Introduction">
+                        <span class="hidden-mobile">MIT6.824|Introduction</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
