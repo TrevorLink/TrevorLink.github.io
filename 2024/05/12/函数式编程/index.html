@@ -16,23 +16,23 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="OpenAI 开源语音识别模型 Whisper 本地部署记录">
+    <meta name="description" content="函数式编程杂谈">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Whisper|Quick Start">
-<meta property="og:url" content="http://example.com/2024/05/09/Whisper-Quick-Start/index.html">
+<meta property="og:title" content="函数式编程">
+<meta property="og:url" content="http://example.com/2024/05/12/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="OpenAI 开源语音识别模型 Whisper 本地部署记录">
+<meta property="og:description" content="函数式编程杂谈">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-05-09T06:40:45.000Z">
-<meta property="article:modified_time" content="2024-05-09T06:57:02.059Z">
+<meta property="article:published_time" content="2024-05-12T05:59:28.000Z">
+<meta property="article:modified_time" content="2024-05-12T06:53:51.864Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="Whisper">
-<meta property="article:tag" content="OpenAI">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Programming Language">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Whisper|Quick Start - Zanarkand</title>
+  <title>函数式编程 - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Whisper|Quick Start"></span>
+            <span id="subtitle" data-typed-text="函数式编程"></span>
           
         </div>
 
@@ -208,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-09 14:40" pubdate>
-          2024年5月9日 下午
+        <time datetime="2024-05-12 13:59" pubdate>
+          2024年5月12日 下午
         </time>
       </span>
     
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          2.3k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          9 分钟
+          20 分钟
         
       </span>
     
@@ -269,89 +269,51 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Whisper|Quick Start</h1>
+            <h1 style="display: none">函数式编程</h1>
             
             
               <div class="markdown-body">
                 
-                <p>AI小白，由于最近有个英语&#x2F;西班牙语录音转记的需求，因此选择 Whisper 开源模型，记录一下折腾的过程</p>
-<p>本地部署的硬件环境：</p>
+                <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>函数式编程是一种编程思想，并且被很多当今主流的编程语言所纳入实现对应的 库和API 供开发者调用</p>
+<p><strong>大部分语言都支持的函数式编程三套件：Map、Reduce、Filter</strong></p>
+<p>同时在分布式系统课程的第一节 MapReduce 中也经由 Map 和 Reduce 函数的实现中提到了一些函数式编程的思想</p>
+<h1 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h1><p>函数式编程的核心思想是描述 <strong>做什么</strong> 而不是 怎么做</p>
+<p>在函数式编程中，函数被视为第一类对象，<strong>可以作为参数传递给其他函数，也可以从其他函数返回</strong></p>
+<p>例如下面这段 Java 代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Lambda 表达式作为参数传递给函数</span><br>List&lt;Integer&gt; numbers = Arrays.asList(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>);<br>numbers.forEach(number -&gt; System.out.println(number));<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Lambda 表达式作为返回值</span><br>Function&lt;Integer, Integer&gt; square = x -&gt; x * x;<br>System.out.println(square.apply(<span class="hljs-number">5</span>)); <span class="hljs-comment">// 输出 25</span><br></code></pre></td></tr></table></figure>
+
+<p>通过 Function 接口实例化了一个不同寻常意义的<strong>函数</strong>，这个函数接收输入并且输出输入的平方</p>
+<p>JDK8 中引入了 Function 这个<strong>函数式接口</strong>，引入了函数<strong>对象</strong>，可以说是用面向对象的方式来处理函数式编程的核心</p>
+<h2 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h2><p>函数式编程的其中一个核心概念是纯函数</p>
+<p>纯函数的意思是：</p>
 <ul>
-<li>CPU：Ryzen 5600</li>
-<li>GPU：RTX 3060Ti</li>
+<li>输出的结果只和输入参数有关</li>
+<li>函数没有任何副作用（这里的副作用是指<strong>不修改除了函数之外的任何变量</strong>）</li>
 </ul>
-<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/595691785">开源免费离线语音识别神器whisper如何安装</a></p>
-<p><a target="_blank" rel="noopener" href="https://discuss.pytorch.org/t/error-loading-lib-site-packages-torch-lib-shm-dll-or-one-of-its-dependencie/201695">Error loading “\lib\site-packages\torch\lib\shm.dll” or one of its dependencie - PyTorch Forums</a></p>
-<h1 id="Environments"><a href="#Environments" class="headerlink" title="Environments"></a>Environments</h1><p>部署所需要的软件环境如下：</p>
-<p>OS：Win11</p>
-<p>Pytorch 2.2.2 CUDA 11.6</p>
-<p>Python 3.9</p>
-<p>Ffmpeg</p>
-<p>Git</p>
-<h1 id="Ffmpeg"><a href="#Ffmpeg" class="headerlink" title="Ffmpeg"></a>Ffmpeg</h1><p>下载最新的 ffmpeg release 追加环境变量</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/BtbN/FFmpeg-Builds/releases">Releases · BtbN&#x2F;FFmpeg-Builds</a></p>
-<h1 id="Pytorch"><a href="#Pytorch" class="headerlink" title="Pytorch"></a>Pytorch</h1><p>需要根据对应的 Python 版本选择对应的 Pytorch 版本 <a target="_blank" rel="noopener" href="https://pytorch.org/get-started/previous-versions/">Previous PyTorch Versions | PyTorch</a></p>
-<p>这里用最新的2.3会报错不知道为什么，已经保证了对应 Python 版本是3.8+(3.9)，但是运行 Whisper 的时候还是报错：</p>
-<p><code>Error loading “\lib\site-packages\torch\lib\shm.dll” or one of its dependencies</code></p>
-<p>pip 卸载 2.3 版本的 Pytorch 后重新安装 2.2.2 的成功运行</p>
-<h1 id="Whisper"><a href="#Whisper" class="headerlink" title="Whisper"></a>Whisper</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">pip install git+https://github.com/openai/whisper.git<br>pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/whisper.git<br></code></pre></td></tr></table></figure>
+<p>纯函数举例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LambdaTest</span> &#123;<br>	<span class="hljs-type">int</span> idx;<br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">pureFunctionAddOne</span><span class="hljs-params">(<span class="hljs-type">int</span> num)</span>&#123;<br>		<span class="hljs-keyword">return</span> num+<span class="hljs-number">1</span>;<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">notPureFunctionAddOne</span><span class="hljs-params">(<span class="hljs-type">int</span> num)</span>&#123;<br>		idx += num+<span class="hljs-number">1</span>; <span class="hljs-comment">//修改了其他变量，有副作用</span><br>		<span class="hljs-keyword">return</span> idx; <span class="hljs-comment">//输出不仅仅之和输入有关</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>Whisper支持的模型如下：</p>
-<table>
-<thead>
-<tr>
-<th>Size</th>
-<th>Parameters</th>
-<th>English-only model</th>
-<th>Multilingual model</th>
-<th>Required VRAM</th>
-<th>Relative speed</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>tiny</td>
-<td>39 M</td>
-<td><code>tiny.en</code></td>
-<td><code>tiny</code></td>
-<td>~1 GB</td>
-<td>~32x</td>
-</tr>
-<tr>
-<td>base</td>
-<td>74 M</td>
-<td><code>base.en</code></td>
-<td><code>base</code></td>
-<td>~1 GB</td>
-<td>~16x</td>
-</tr>
-<tr>
-<td>small</td>
-<td>244 M</td>
-<td><code>small.en</code></td>
-<td><code>small</code></td>
-<td>~2 GB</td>
-<td>~6x</td>
-</tr>
-<tr>
-<td>medium</td>
-<td>769 M</td>
-<td><code>medium.en</code></td>
-<td><code>medium</code></td>
-<td>~5 GB</td>
-<td>~2x</td>
-</tr>
-<tr>
-<td>large</td>
-<td>1550 M</td>
-<td>N&#x2F;A</td>
-<td><code>large</code></td>
-<td>~10 GB</td>
-<td>1x</td>
-</tr>
-</tbody></table>
-<p>默认是 small，这里显存还够用就选用 medium 模型来跑，亲测15分钟左右的英文录音转写大约花费2-4分钟</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">whisper audio.mp3 --model medium<br></code></pre></td></tr></table></figure>
+<h2 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@FunctionalInterface</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Function</span>&lt;T, R&gt; &#123;<br>    R <span class="hljs-title function_">apply</span><span class="hljs-params">(T t)</span>;<br>     <br>    <span class="hljs-keyword">default</span> &lt;V&gt; Function&lt;V, R&gt; <span class="hljs-title function_">compose</span><span class="hljs-params">(Function&lt;? <span class="hljs-built_in">super</span> V, ? extends T&gt; before)</span> &#123;<br>        Objects.requireNonNull(before);<br>        <span class="hljs-keyword">return</span> (V v) -&gt; apply(before.apply(v));<br>    &#125;<br><br>    <span class="hljs-keyword">default</span> &lt;V&gt; Function&lt;T, V&gt; <span class="hljs-title function_">andThen</span><span class="hljs-params">(Function&lt;? <span class="hljs-built_in">super</span> R, ? extends V&gt; after)</span> &#123;<br>        Objects.requireNonNull(after);<br>        <span class="hljs-keyword">return</span> (T t) -&gt; after.apply(apply(t));<br>    &#125;<br><br>    <span class="hljs-keyword">static</span> &lt;T&gt; Function&lt;T, T&gt; <span class="hljs-title function_">identity</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> t -&gt; t;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<p>可以看到在 Function 接口中只有一个抽象方法，剩下的都是这种<strong>有且只有一个抽象方法的接口叫做函数式接口</strong></p>
+<p>这里的 <code>@FunctionalInterface</code> 起到了一个标注作用，针对这个注解修饰的接口，编译器会强制检查该接口是否满足函数式接口的要求：“<strong>确实有且仅有一个抽象方法</strong>”，否则将会报错。</p>
+<blockquote>
+<p>即使不使用该注解，只要一个接口满足函数式接口的要求，那它仍然是一个函数式接口，使用起来都一样。该注解只起到标记接口，指示编译器对其进行检查的作用</p>
+</blockquote>
+<h1 id="其他的函数式接口"><a href="#其他的函数式接口" class="headerlink" title="其他的函数式接口"></a>其他的函数式接口</h1><h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h2><p>最常见的以及最核心的函数式接口：<code>java.util.function.Function</code>，<code>Function</code> 接口表示一个接受单个参数并返回单个值的函数（方法）</p>
+<p>在上面的例子中我们也提到过，这里再看一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Lambda 表达式作为返回值</span><br>Function&lt;Integer, Integer&gt; square = x -&gt; x * x; <span class="hljs-comment">//接收单个参数 x 并返回单个值 x*x</span><br>System.out.println(square.apply(<span class="hljs-number">5</span>)); <span class="hljs-comment">// 输出 25</span><br></code></pre></td></tr></table></figure>
+
+<p>这里的 Lambda表达式就是相当于一个匿名实现类，相当于是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SquareFunction</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Function</span>&lt;Integer,Integer&gt;&#123;<br>   <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Integer <span class="hljs-title function_">apply</span><span class="hljs-params">(Integer x)</span> &#123;<br>        <span class="hljs-keyword">return</span> x*x;<br>    &#125;<br>     <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123;<br>          Function&lt;Integer,Integer&gt; square = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SquareFunction</span>();<br>	    System.out.println(square.apply(<span class="hljs-number">5</span>)); <span class="hljs-comment">// 输出 25</span><br>     &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><p>有点类似 Map Reduce 中提到的 Map 和 Reduce 函数了</p>
+<p>JDK8 Stream API 中的 map 方是接收一个参数，并返回一个值的函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">stream.map((value) -&gt; value.toUpperCase())<br></code></pre></td></tr></table></figure>
+
+<h1 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h1><h2 id="缓存查询"><a href="#缓存查询" class="headerlink" title="缓存查询"></a>缓存查询</h2><p>实现一个通用的缓存模板。查询一个值，先找缓存，找到则返回，没找到通过接口获取，结果保存到缓存后返回</p>
 
                 
               </div>
@@ -370,7 +332,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/AI/" class="category-chain-item">AI</a>
+  <a href="/categories/CS-Basic/" class="category-chain-item">CS_Basic</a>
   
   
 
@@ -385,9 +347,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Whisper/">#Whisper</a>
+        <a href="/tags/Java/">#Java</a>
       
-        <a href="/tags/OpenAI/">#OpenAI</a>
+        <a href="/tags/Programming-Language/">#Programming Language</a>
       
     </div>
   
@@ -399,8 +361,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Whisper|Quick Start</div>
-      <div>http://example.com/2024/05/09/Whisper-Quick-Start/</div>
+      <div>函数式编程</div>
+      <div>http://example.com/2024/05/12/函数式编程/</div>
     </div>
     <div class="license-meta">
       
@@ -412,7 +374,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月9日</div>
+          <div>2024年5月12日</div>
         </div>
       
       
@@ -444,18 +406,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/12/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/" title="函数式编程">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">函数式编程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/08/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-%E5%BC%80%E5%A7%8B%E5%81%9A%E6%B8%B8%E6%88%8F%E7%AC%94%E8%AE%B0/" title="游戏札记|开始做游戏笔记">
-                        <span class="hidden-mobile">游戏札记|开始做游戏笔记</span>
+                      <a href="/2024/05/09/Whisper-Quick-Start/" title="Whisper|Quick Start">
+                        <span class="hidden-mobile">Whisper|Quick Start</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
