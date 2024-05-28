@@ -4,11 +4,38 @@
   
   
   <entry>
+    <title>Git|GitLab</title>
+    <link href="/2024/05/28/Git-GitLab/"/>
+    <url>/2024/05/28/Git-GitLab/</url>
+    
+    <content type="html"><![CDATA[<h1 id="账户配置"><a href="#账户配置" class="headerlink" title="账户配置"></a>账户配置</h1><p>首先需要保证配置好公司发给你的邮箱和账号，不能用自己私人的</p><p>那样子百分百是没有权限 access denied</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ git config --global user.name <span class="hljs-string">&quot;username&quot;</span><br>$ git config --global user.email <span class="hljs-string">&quot;分配的邮箱&quot;</span><br></code></pre></td></tr></table></figure><p>设置完了可以再检查一下</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ git config --list<br></code></pre></td></tr></table></figure><h1 id="创建-ssh-key"><a href="#创建-ssh-key" class="headerlink" title="创建 ssh key"></a>创建 ssh key</h1><p>这里的配置其实和 github 类似</p><p>都是需要在本机创建一个 ssh key </p><p>将这个 ssh key 在线绑定到 GitLab 的系统上</p><p>之后拉代码的时候通过比对 ssh key 来判断是否具有权限（猜测 ssh key 的生成算法就是基于用户名和邮箱的，因此如果在之前第一步配置账户的时候配置错了 git 全局账户信息，那么 ssh key 就会验证失败，账户不匹配就没有权限）</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">$ ssh-keygen -t rsa -C <span class="hljs-string">&quot;分配的邮箱&quot;</span><br></code></pre></td></tr></table></figure><p>三个回车后找到生成好的 ssh key，文件名为  <code>ssh_rsa.pub</code></p><p>复制内容到自己的 GitLab 账户的 Settings 配置中</p><p>这样就算是我们本机的设备与 GitLab 做好了绑定</p><h1 id="总结思路"><a href="#总结思路" class="headerlink" title="总结思路"></a>总结思路</h1><p>一般来说公司的代码托管都是采取 GitLab 部署在内网环境，外网无法直接访问</p><p>可以简单粗暴的理解为，GitLab 就是一个单机部署和公司团队离线使用的 Github，更为私人和商业化</p><p>我们在能够访问内网的环境下（公司网络或者是挂公司代理）拉取部署在内网环境的仓库代码</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>环境配置</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>git</tag>
+      
+      <tag>gitlab</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>游戏札记|女神异闻录4 The Golden</title>
     <link href="/2024/05/16/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-%E5%A5%B3%E7%A5%9E%E5%BC%82%E9%97%BB%E5%BD%954-The-Golden/"/>
     <url>/2024/05/16/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-%E5%A5%B3%E7%A5%9E%E5%BC%82%E9%97%BB%E5%BD%954-The-Golden/</url>
     
-    <content type="html"><![CDATA[<h1 id="人物角色"><a href="#人物角色" class="headerlink" title="人物角色"></a>人物角色</h1><h2 id="主人公"><a href="#主人公" class="headerlink" title="主人公"></a>主人公</h2><p>城里人转来偏僻小镇的转学生</p><h2 id="雪子"><a href="#雪子" class="headerlink" title="雪子"></a>雪子</h2><h1 id="社群Coop系统"><a href="#社群Coop系统" class="headerlink" title="社群Coop系统"></a>社群Coop系统</h1><p>午休的时候会收到邀约，这时同意更容易增进感情，但是也意味着容错率没了，下午的时间提前锁定。拒绝他还能找他，但是好感度加的会少一点</p><h1 id="主角属性维度"><a href="#主角属性维度" class="headerlink" title="主角属性维度"></a>主角属性维度</h1><p>成绩好的话同时也会人缘很好，对社群 Coop 的成长也会有帮助</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="人物角色"><a href="#人物角色" class="headerlink" title="人物角色"></a>人物角色</h1><h2 id="主人公"><a href="#主人公" class="headerlink" title="主人公"></a>主人公</h2><p>城里人转来偏僻小镇的转学生</p><h1 id="社群Coop系统"><a href="#社群Coop系统" class="headerlink" title="社群Coop系统"></a>社群Coop系统</h1><p>午休的时候会收到邀约，这时同意更容易增进感情，但是也意味着容错率没了，下午的时间提前锁定。拒绝他还能找他，但是好感度加的会少一点</p><h1 id="主角属性维度"><a href="#主角属性维度" class="headerlink" title="主角属性维度"></a>主角属性维度</h1><p>成绩好的话同时也会人缘很好，对社群 Coop 的成长也会有帮助</p><h1 id="电视购物"><a href="#电视购物" class="headerlink" title="电视购物"></a>电视购物</h1><p>每周日开始的三天，周日周一周二可以电视购物</p>]]></content>
     
     
     <categories>
