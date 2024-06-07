@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/hello-world2.png">
 <meta property="article:published_time" content="2024-05-28T02:54:25.000Z">
-<meta property="article:modified_time" content="2024-05-30T08:40:21.050Z">
+<meta property="article:modified_time" content="2024-06-05T00:50:42.490Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="EDA">
 <meta property="article:tag" content="Distribued System">
@@ -73,7 +73,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.3","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -117,9 +117,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/">
+              <a class="nav-link" href="/" target="_self">
                 <i class="iconfont icon-home-fill"></i>
-                首页
+                <span>首页</span>
               </a>
             </li>
           
@@ -129,9 +129,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/archives/">
+              <a class="nav-link" href="/archives/" target="_self">
                 <i class="iconfont icon-archive-fill"></i>
-                归档
+                <span>归档</span>
               </a>
             </li>
           
@@ -141,9 +141,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/categories/">
+              <a class="nav-link" href="/categories/" target="_self">
                 <i class="iconfont icon-category-fill"></i>
-                分类
+                <span>分类</span>
               </a>
             </li>
           
@@ -153,9 +153,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/tags/">
+              <a class="nav-link" href="/tags/" target="_self">
                 <i class="iconfont icon-tags-fill"></i>
-                标签
+                <span>标签</span>
               </a>
             </li>
           
@@ -165,9 +165,9 @@
           
           
             <li class="nav-item">
-              <a class="nav-link" href="/about/">
+              <a class="nav-link" href="/about/" target="_self">
                 <i class="iconfont icon-user-fill"></i>
-                关于
+                <span>关于</span>
               </a>
             </li>
           
@@ -175,15 +175,16 @@
         
           <li class="nav-item" id="search-btn">
             <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
-              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+              <i class="iconfont icon-search"></i>
             </a>
           </li>
           
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
-                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
           </li>
         
       </ul>
@@ -223,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          11k 字
+          2.8k 字
         
       </span>
     
@@ -234,7 +235,7 @@
         
         
         
-          92 分钟
+          24 分钟
         
       </span>
     
@@ -271,8 +272,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <!-- SEO header -->
-            <h1 style="display: none">Akka|Introduction</h1>
+            <h1 id="seo-header">Akka|Introduction</h1>
             
             
               <div class="markdown-body">
@@ -343,9 +343,10 @@
 </ul>
 <h1 id="Mediator模型"><a href="#Mediator模型" class="headerlink" title="Mediator模型"></a>Mediator模型</h1><p>我们以用户订阅股票价格数据变动为例来作为应用场景</p>
 <h2 id="消息实体类"><a href="#消息实体类" class="headerlink" title="消息实体类"></a>消息实体类</h2><p>这里定义用于 Akka Actor 之间通信的消息实体类</p>
-<p>包含 symbol 股票符号，price 股票价格</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Messages</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">StockPriceUpdate</span> &#123;<br>		<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> String symbol;<br>		<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-type">double</span> price;<br><br>		<span class="hljs-keyword">public</span> <span class="hljs-title function_">StockPriceUpdate</span><span class="hljs-params">(String symbol, <span class="hljs-type">double</span> price)</span> &#123;<br>			<span class="hljs-built_in">this</span>.symbol = symbol;<br>			<span class="hljs-built_in">this</span>.price = price;<br>		&#125;<br>	&#125;<br><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Subscribe</span> &#123;<br>		<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> String symbol;<br><br>		<span class="hljs-keyword">public</span> <span class="hljs-title function_">Subscribe</span><span class="hljs-params">(String symbol)</span> &#123;<br>			<span class="hljs-built_in">this</span>.symbol = symbol;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//消息中分为两类</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Messages</span> &#123;<br>	<span class="hljs-comment">//股票价格更新消息实体</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">StockPriceUpdate</span> &#123;<br>		<span class="hljs-comment">//初始化后就无法再被修改</span><br>		<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> String symbol;<br>		<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-type">double</span> price;<br><br>		<span class="hljs-keyword">public</span> <span class="hljs-title function_">StockPriceUpdate</span><span class="hljs-params">(String symbol, <span class="hljs-type">double</span> price)</span> &#123;<br>			<span class="hljs-built_in">this</span>.symbol = symbol;<br>			<span class="hljs-built_in">this</span>.price = price;<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">//股票价格订阅消息实体</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Subscribe</span> &#123;<br>		<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> String symbol;<br><br>		<span class="hljs-keyword">public</span> <span class="hljs-title function_">Subscribe</span><span class="hljs-params">(String symbol)</span> &#123;<br>			<span class="hljs-built_in">this</span>.symbol = symbol;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<p>其中，StockPriceUpdate 是股票价格更新实体类，在系统中传递股票价格更新的消息。<strong>当股票价格更新时，这个类的实例可以被创建并发送到订阅者</strong>，以通知他们最新的价格。</p>
+<p>Subscribe 是用来订阅股票价格更新的消息。<strong>系统中的客户端希望订阅指定股票的价格更新时，这个类的实例可以被创建并发送到发布-订阅系统，以注册订阅请求</strong></p>
 <h2 id="订阅者"><a href="#订阅者" class="headerlink" title="订阅者"></a>订阅者</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">StockSubscriber</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractActor</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">LoggingAdapter</span> <span class="hljs-variable">log</span> <span class="hljs-operator">=</span> Logging.getLogger(getContext().getSystem(), <span class="hljs-built_in">this</span>);<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">ActorRef</span> <span class="hljs-variable">mediator</span> <span class="hljs-operator">=</span> DistributedPubSub.get(getContext().system()).mediator();<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String symbol;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">StockSubscriber</span><span class="hljs-params">(String symbol)</span> &#123;<br>        <span class="hljs-built_in">this</span>.symbol = symbol;<br>    &#125;<br><br>    <span class="hljs-comment">//订阅注册到Mediator</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">preStart</span><span class="hljs-params">()</span> &#123;<br>        mediator.tell(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DistributedPubSubMediator</span>.Subscribe(symbol, getSelf()), getSelf());<br>    &#125;<br><br>    <span class="hljs-comment">//消费消息逻辑</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Receive <span class="hljs-title function_">createReceive</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> receiveBuilder()<br>                .match(Messages.StockPriceUpdate.class, msg -&gt; &#123;<br>                    log.info(<span class="hljs-string">&quot;Received stock price update: &#123;&#125; - &#123;&#125;&quot;</span>, msg.symbol, msg.price);<br>                &#125;)<br>                .build();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>这里的一个核心操作就是 <code>mediator.tell(new DistributedPubSubMediator.Subscribe(symbol, getSelf()), getSelf());</code> </p>
@@ -386,11 +387,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/EDA/">#EDA</a>
+        <a href="/tags/EDA/" class="print-no-link">#EDA</a>
       
-        <a href="/tags/Distribued-System/">#Distribued System</a>
+        <a href="/tags/Distribued-System/" class="print-no-link">#Distribued System</a>
       
-        <a href="/tags/Akka/">#Akka</a>
+        <a href="/tags/Akka/" class="print-no-link">#Akka</a>
       
     </div>
   
@@ -426,7 +427,7 @@
             
               
               
-                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
                   <span class="hint--top hint--rounded" aria-label="BY - 署名">
                     <i class="iconfont icon-by"></i>
                   </span>
@@ -478,7 +479,10 @@
       
   <aside class="sidebar" style="margin-left: -1rem">
     <div id="toc">
-  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
   <div class="toc-body" id="toc-body"></div>
 </div>
 
