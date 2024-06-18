@@ -16,26 +16,22 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Quartz定时任务快速上手">
+    <meta name="description" content="游戏札记#03 荒野大镖客2 救赎 游戏笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Quartz|定时任务">
-<meta property="og:url" content="http://example.com/2024/06/14/Quartz-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/index.html">
+<meta property="og:title" content="游戏札记|RDR2">
+<meta property="og:url" content="http://example.com/2024/06/15/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-RDR2/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="Quartz定时任务快速上手">
+<meta property="og:description" content="游戏札记#03 荒野大镖客2 救赎 游戏笔记">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/Pictures/Markdown_Pic/Quartz-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/91b3dfeeb5b84277bef72ab9f79838a1.png">
-<meta property="article:published_time" content="2024-06-14T07:11:15.000Z">
-<meta property="article:modified_time" content="2024-06-14T09:03:50.453Z">
+<meta property="article:published_time" content="2024-06-15T03:10:41.000Z">
+<meta property="article:modified_time" content="2024-06-16T01:56:02.079Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="EDA">
-<meta property="article:tag" content="定时任务">
-<meta property="article:tag" content="Quartz">
+<meta property="article:tag" content="Review">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/Pictures/Markdown_Pic/Quartz-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/91b3dfeeb5b84277bef72ab9f79838a1.png">
   
   
   
-  <title>Quartz|定时任务 - Zanarkand</title>
+  <title>游戏札记|RDR2 - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -201,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Quartz|定时任务"></span>
+            <span id="subtitle" data-typed-text="游戏札记|RDR2"></span>
           
         </div>
 
@@ -212,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-06-14 15:11" pubdate>
-          2024年6月14日 下午
+        <time datetime="2024-06-15 11:10" pubdate>
+          2024年6月15日 上午
         </time>
       </span>
     
@@ -224,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          146 字
+          669 字
         
       </span>
     
@@ -235,7 +231,7 @@
         
         
         
-          2 分钟
+          6 分钟
         
       </span>
     
@@ -272,25 +268,37 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Quartz|定时任务</h1>
+            <h1 id="seo-header">游戏札记|RDR2</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="应用场景-amp-组件"><a href="#应用场景-amp-组件" class="headerlink" title="应用场景&amp;组件"></a>应用场景&amp;组件</h1><p>实际开发中定时任务场景十分常见</p>
-<ul>
-<li>每日跑批，日初日终结算</li>
-<li>30分钟未支付取消订单</li>
-</ul>
-<p>在 Quartz 中有三个很重要的组件&amp;概念</p>
-<ul>
-<li>Job 描述定时任务要做什么，<strong>做什么</strong></li>
-<li>JobDetail 定时任务的元数据信息，例如配置定时任务的名字，群组之类</li>
-<li>Trigger 定时任务如何触发，<strong>什么时候做</strong>（常见的结合Spring的有 Cron 表达式，Cron Trigger）</li>
-<li>Scheduler <strong>任务调度、组织编排</strong>，什么时候做什么</li>
-</ul>
-<p>Quartz的逻辑架构如下</p>
-<p><img src="/../../../../Pictures/Markdown_Pic/Quartz-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/91b3dfeeb5b84277bef72ab9f79838a1.png" srcset="/img/loading.gif" lazyload></p>
+                <h1 id="核心系统"><a href="#核心系统" class="headerlink" title="核心系统"></a>核心系统</h1><h2 id="营地系统"><a href="#营地系统" class="headerlink" title="营地系统"></a>营地系统</h2><h2 id="打猎系统"><a href="#打猎系统" class="headerlink" title="打猎系统"></a>打猎系统</h2><p>有一个气味的特性，<strong>如果气味的流向和目标猎物所在方向一致，猎物就会提前感知逃跑</strong></p>
+<p>因此玩家在打猎的时候需要时刻注意自身气味方向，</p>
+<p>此外一些高级猎物例如熊之类的，马匹在靠近时会受到惊吓，需要按下 LS 进行安抚</p>
+<h2 id="善恶系统"><a href="#善恶系统" class="headerlink" title="善恶系统"></a>善恶系统</h2><p>玩家控制的主角在世界中的一举一动都会对自身的善恶值有影响（当然早年的 Fable，老滚系列也都有，而且也不是 R星的游戏第一次出现了）</p>
+<p>在营地帮帮派干杂活，与城镇酒馆的客人攀谈，帮助无家可归的流浪汉，和失去亲友的军人聊天….都会提升自身的声望值和好感度</p>
+<h2 id="动态世界系统"><a href="#动态世界系统" class="headerlink" title="动态世界系统"></a>动态世界系统</h2><p>R星经典随机事件，在动态的世界中与陌生人相遇</p>
+<p>有些是伸张正义，还有一些是陌生人系列任务</p>
+<h1 id="主要登场角色"><a href="#主要登场角色" class="headerlink" title="主要登场角色"></a>主要登场角色</h1><h2 id="亚瑟摩根"><a href="#亚瑟摩根" class="headerlink" title="亚瑟摩根"></a>亚瑟摩根</h2><p>游戏的主人公，范德蒙帮派的二把手</p>
+<p>十二来岁的时候被达奇收留一直到现在</p>
+<p>对黑水镇事件的来龙去脉不是很清楚但是非常想要了解</p>
+<p>在大部分会展现出仁慈的一面（玩家选择）</p>
+<h2 id="达奇"><a href="#达奇" class="headerlink" title="达奇"></a>达奇</h2><p>老大哥</p>
+<h2 id="约翰马斯顿"><a href="#约翰马斯顿" class="headerlink" title="约翰马斯顿"></a>约翰马斯顿</h2><p>一代主人公</p>
+<p>由于二代是一代的前传，因此在二代中也有出场</p>
+<p><strong>和亚瑟摩根之间存在着某些说来话长的渊源</strong></p>
+<h2 id="查尔斯"><a href="#查尔斯" class="headerlink" title="查尔斯"></a>查尔斯</h2><p>父亲是黑人，母亲也是有色人种</p>
+<p>因为在范德蒙帮派中没有因为自己的出身而受到歧视，因此心存感激</p>
+<p>擅长狩猎，但是在游戏开场手受伤，因此也成为教会亚瑟学打猎的一个契机</p>
+<h1 id="有趣的事件"><a href="#有趣的事件" class="headerlink" title="有趣的事件"></a>有趣的事件</h1><h2 id="盖房子的兄弟"><a href="#盖房子的兄弟" class="headerlink" title="盖房子的兄弟"></a>盖房子的兄弟</h2><p>在 Valentine 出来向营地的方向走出不远，可以看到一处篝火，走进就是两个兄弟和一位父亲的家</p>
+<p>父亲安排两个儿子为他们盖一座房子</p>
+<p>但是亚瑟和父亲攀谈没多久，盖好的梁柱就塌了🤣</p>
+<p>父亲的责骂让两个儿子很不爽，但是两个儿子收拾好心情还是继续选择为自己的新房子出力</p>
+<blockquote>
+<p>此处有些糖果雪茄，注意不要在儿子面前就拿，不然上来就会说你是小偷然后给你一拳🤣</p>
+</blockquote>
+<h2 id="失去亲友的断臂退役军人"><a href="#失去亲友的断臂退役军人" class="headerlink" title="失去亲友的断臂退役军人"></a>失去亲友的断臂退役军人</h2><p>在 Valentine 闲逛，遇到了一个穿着蓝色衣服的断臂退役军人</p>
 
                 
               </div>
@@ -309,7 +317,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
+  <a href="/categories/Game/" class="category-chain-item">Game</a>
   
   
 
@@ -324,11 +332,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/EDA/" class="print-no-link">#EDA</a>
-      
-        <a href="/tags/%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" class="print-no-link">#定时任务</a>
-      
-        <a href="/tags/Quartz/" class="print-no-link">#Quartz</a>
+        <a href="/tags/Review/" class="print-no-link">#Review</a>
       
     </div>
   
@@ -340,8 +344,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Quartz|定时任务</div>
-      <div>http://example.com/2024/06/14/Quartz-定时任务/</div>
+      <div>游戏札记|RDR2</div>
+      <div>http://example.com/2024/06/15/游戏札记-RDR2/</div>
     </div>
     <div class="license-meta">
       
@@ -353,7 +357,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年6月14日</div>
+          <div>2024年6月15日</div>
         </div>
       
       
@@ -385,9 +389,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/06/15/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-RDR2/" title="游戏札记|RDR2">
+                      <a href="/2024/06/17/CMU-15-213-Machine-Level-Programming-Basic/" title="CMU 15-213|Machine Level Programming-Basic">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">游戏札记|RDR2</span>
+                        <span class="hidden-mobile">CMU 15-213|Machine Level Programming-Basic</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -395,8 +399,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/06/07/Git-Git-Playground/" title="Git|Git Playground">
-                        <span class="hidden-mobile">Git|Git Playground</span>
+                      <a href="/2024/06/14/Quartz-%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1/" title="Quartz|定时任务">
+                        <span class="hidden-mobile">Quartz|定时任务</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

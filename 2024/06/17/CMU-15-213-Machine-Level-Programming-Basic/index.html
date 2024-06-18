@@ -19,7 +19,7 @@
     <meta name="description" content="CMU 15-213 Machine Level Programming 第一讲">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CMU 15-213|Machine Level Programming-Basic">
-<meta property="og:url" content="http://example.com/2024/01/23/CMU-15-213-Machine-Level-Programming-Basic/index.html">
+<meta property="og:url" content="http://example.com/2024/06/17/CMU-15-213-Machine-Level-Programming-Basic/index.html">
 <meta property="og:site_name" content="Zanarkand">
 <meta property="og:description" content="CMU 15-213 Machine Level Programming 第一讲">
 <meta property="og:locale" content="zh_CN">
@@ -28,6 +28,7 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117133916143.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023145020917.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023155421732.png">
+<meta property="og:image" content="http://example.com/Pictures/Markdown_Pic/CMU-15-213-Machine-Level-Programming-Basic/image-20240618111024587.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023155821553.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023160759106.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163034794.png">
@@ -38,8 +39,8 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119200226254.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205107592.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205114071.png">
-<meta property="article:published_time" content="2024-01-23T05:23:58.000Z">
-<meta property="article:modified_time" content="2024-01-23T05:55:51.372Z">
+<meta property="article:published_time" content="2024-06-17T05:23:58.000Z">
+<meta property="article:modified_time" content="2024-06-18T03:48:36.630Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CMU">
 <meta property="article:tag" content="CSAPP">
@@ -225,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-01-23 13:23" pubdate>
-          2024年1月23日 下午
+        <time datetime="2024-06-17 13:23" pubdate>
+          2024年6月17日 下午
         </time>
       </span>
     
@@ -237,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.1k 字
+          3.9k 字
         
       </span>
     
@@ -248,7 +249,7 @@
         
         
         
-          26 分钟
+          33 分钟
         
       </span>
     
@@ -317,9 +318,9 @@
 <p>图中出现的都很重要</p>
 <p>CPU</p>
 <ul>
-<li>PC：Program Counter 程序计数器————用于指令寻址。</li>
+<li>PC：Program Counter 程序计数器————用于指令寻址，CPU的操作可以概括为取址执行</li>
 <li>Registers：寄存器————用于存储需要使用的数据，一般我们<strong>以名称来进行助记。</strong></li>
-<li>状态码：最近一些程序指令的结果。</li>
+<li>状态码：最近一些程序指令的结果，常用于进行条件转移，实现代码分支</li>
 </ul>
 <p>Memory</p>
 <ul>
@@ -336,42 +337,47 @@
 <p><code>-O</code>参数表示 <code>optimise</code> 开启编译器的优化，而<code>-S</code>则表示 <code>stop</code> ，意思是说到了汇编代码就停止，只输出汇编代码（因为我们之前说了 <code>gcc</code> 编译器其实启动的是一系列的程序，不仅仅是生成汇编代码，同时还有生成二进制指令，linker 等程序。</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117133916143.png" srcset="/img/loading.gif" lazyload alt="image-20221117133916143"></p>
 <p>我们可以得到如下的汇编代码。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs assembly">	.file	&quot;sum.c&quot;<br>	.text<br>	.globl	plus<br>	.def	plus;	.scl	2;	.type	32;	.endef<br>	.seh_proc	plus<br>plus:<br>	.seh_endprologue<br>	leal	(%rcx,%rdx), %eax<br>	ret<br>	.seh_endproc<br>	.globl	sumstore<br>	.def	sumstore;	.scl	2;	.type	32;	.endef<br>	.seh_proc	sumstore<br>sumstore:<br>	pushq	%rbx<br>	.seh_pushreg	%rbx<br>	subq	$32, %rsp<br>	.seh_stackalloc	32<br>	.seh_endprologue<br>	movq	%r8, %rbx<br>	call	plus<br>	movl	%eax, (%rbx)<br>	addq	$32, %rsp<br>	popq	%rbx<br>	ret<br>	.seh_endproc<br>	.def	__main;	.scl	2;	.type	32;	.endef<br>	.section .rdata,&quot;dr&quot;<br>.LC0:<br>	.ascii &quot;%ld + %ld --&gt; %ldd\12\0&quot;<br>	.text<br>	.globl	main<br>	.def	main;	.scl	2;	.type	32;	.endef<br>	.seh_proc	main<br>main:<br>	pushq	%rsi<br>	.seh_pushreg	%rsi<br>	pushq	%rbx<br>	.seh_pushreg	%rbx<br>	subq	$56, %rsp<br>	.seh_stackalloc	56<br>	.seh_endprologue<br>	movq	%rdx, %rsi<br>	call	__main<br>	movq	8(%rsi), %rcx<br>	call	atoi<br>	movl	%eax, %ebx<br>	movq	16(%rsi), %rcx<br>	call	atoi<br>	movl	%eax, %esi<br>	leaq	44(%rsp), %r8<br>	movl	%eax, %edx<br>	movl	%ebx, %ecx<br>	call	sumstore<br>	movl	44(%rsp), %r9d<br>	movl	%esi, %r8d<br>	movl	%ebx, %edx<br>	leaq	.LC0(%rip), %rcx<br>	call	printf<br>	movl	$0, %eax<br>	addq	$56, %rsp<br>	popq	%rbx<br>	popq	%rsi<br>	ret<br>	.seh_endproc<br>	.ident	&quot;GCC: (x86_64-posix-sjlj-rev0, Built by MinGW-W64 project) 8.1.0&quot;<br>	.def	atoi;	.scl	2;	.type	32;	.endef<br>	.def	printf;	.scl	2;	.type	32;	.endef<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br></pre></td><td class="code"><pre><code class="hljs assembly">	.file	&quot;sum.c&quot;<br>	.text<br>	.globl	plus<br>	.type	plus, @function<br>plus:<br>.LFB39:<br>	.cfi_startproc<br>	endbr64<br>	leaq	(%rdi,%rsi), %rax<br>	ret<br>	.cfi_endproc<br>.LFE39:<br>	.size	plus, .-plus<br>	.globl	sumstore<br>	.type	sumstore, @function<br>sumstore:<br>.LFB40:<br>	.cfi_startproc<br>	endbr64<br>	pushq	%rbx<br>	.cfi_def_cfa_offset 16<br>	.cfi_offset 3, -16<br>	movq	%rdx, %rbx<br>	call	plus<br>	movq	%rax, (%rbx)<br>	popq	%rbx<br>	.cfi_def_cfa_offset 8<br>	ret<br>	.cfi_endproc<br>.LFE40:<br>	.size	sumstore, .-sumstore<br>	.section	.rodata.str1.1,&quot;aMS&quot;,@progbits,1<br>.LC0:<br>	.string	&quot;%ld + %ld --&gt; %ldd\n&quot;<br>	.text<br>	.globl	main<br>	.type	main, @function<br>main:<br>.LFB41:<br>	.cfi_startproc<br>	endbr64<br>	pushq	%rbp<br>	.cfi_def_cfa_offset 16<br>	.cfi_offset 6, -16<br>	pushq	%rbx<br>	.cfi_def_cfa_offset 24<br>	.cfi_offset 3, -24<br>	subq	$24, %rsp<br>	.cfi_def_cfa_offset 48<br>	movq	%rsi, %rbp<br>	movq	%fs:40, %rax<br>	movq	%rax, 8(%rsp)<br>	xorl	%eax, %eax<br>	movq	8(%rsi), %rdi<br>	movl	$10, %edx<br>	movl	$0, %esi<br>	call	strtol@PLT<br>	movslq	%eax, %rbx<br>	movq	16(%rbp), %rdi<br>	movl	$10, %edx<br>	movl	$0, %esi<br>	call	strtol@PLT<br>	movslq	%eax, %rbp<br>	movq	%rsp, %rdx<br>	movq	%rbp, %rsi<br>	movq	%rbx, %rdi<br>	call	sumstore<br>	movq	(%rsp), %r8<br>	movq	%rbp, %rcx<br>	movq	%rbx, %rdx<br>	leaq	.LC0(%rip), %rsi<br>	movl	$2, %edi<br>	movl	$0, %eax<br>	call	__printf_chk@PLT<br>	movq	8(%rsp), %rax<br>	subq	%fs:40, %rax<br>	jne	.L7<br>	movl	$0, %eax<br>	addq	$24, %rsp<br>	.cfi_remember_state<br>	.cfi_def_cfa_offset 24<br>	popq	%rbx<br>	.cfi_def_cfa_offset 16<br>	popq	%rbp<br>	.cfi_def_cfa_offset 8<br>	ret<br>.L7:<br>	.cfi_restore_state<br>	call	__stack_chk_fail@PLT<br>	.cfi_endproc<br>.LFE41:<br>	.size	main, .-main<br>	.ident	&quot;GCC: (Ubuntu 13.2.0-23ubuntu4) 13.2.0&quot;<br>	.section	.note.GNU-stack,&quot;&quot;,@progbits<br>	.section	.note.gnu.property,&quot;a&quot;<br>	.align 8<br>	.long	1f - 0f<br>	.long	4f - 1f<br>	.long	5<br>0:<br>	.string	&quot;GNU&quot;<br>1:<br>	.align 8<br>	.long	0xc0000002<br>	.long	3f - 2f<br>2:<br>	.long	0x3<br>3:<br>	.align 8<br>4:<br></code></pre></td></tr></table></figure>
 
 <p>可以看到其实还是有一些所谓是 <code>junk</code> 的数据的，这一部分主要是由于我们的编译器进行标识定位所产生的，其实核心只需要关注ppt上的那部分代码即可。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ass">sumstore:<br>	pushq	%rbx<br>	movq	%r8, %rbx<br>	call	plus<br>	movl	%eax, (%rbx)<br>	addq	$32, %rsp<br>	popq	%rbx<br>	ret<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs assembly">sumstore:<br>	pushq	%rbx<br>	movq	%r8, %rbx<br>	call	plus<br>	movl	%eax, (%rbx)<br>	addq	$32, %rsp<br>	popq	%rbx<br>	ret<br></code></pre></td></tr></table></figure>
 
 <h2 id="Assembly-Characteristic"><a href="#Assembly-Characteristic" class="headerlink" title="Assembly Characteristic"></a>Assembly Characteristic</h2><h3 id="Data-Type"><a href="#Data-Type" class="headerlink" title="Data Type"></a>Data Type</h3><p>这边主要简单声明一下汇编语言中的数据类型。</p>
 <ul>
-<li><p>Integer 整数类型，汇编中我们可以操作的整数数据大小很多 1&#x2F;2&#x2F;4&#x2F;8 字节的都有。</p>
+<li><p>Integer 整数类型，汇编中我们可以操作的整数数据大小很多 1&#x2F;2&#x2F;4&#x2F;8 字节的都有</p>
 <ul>
-<li>值得注意的是在各大编程语言中的指针<code>pointer</code>，本质上其实也是<strong>汇编语言的一个整数类型的数据</strong>。</li>
+<li>值得注意的是在各大编程语言中的指针 <code>pointer</code>，本质上其实也是<strong>汇编语言的一个整数类型的数据</strong>，因为指针类型本质上是存储地址的，地址数据就是内存中具体的整型数值</li>
 </ul>
 </li>
-<li><p>Floating 浮点数类型，在机器级别中存储的比较特殊，使用的是另一组寄存器。</p>
+<li><p>Floating 浮点数类型，在机器级别中存储的比较特殊，使用的是另一组寄存器</p>
 </li>
 </ul>
 <p><strong>总结</strong></p>
 <ul>
-<li>Assembly Code 每一条指令可以说所做的都很有限，不像是 go&#x2F;java 的一些高级编程语言那样，可以一行代码做很多事情。</li>
-<li>同时汇编代码是没有 <code>Array</code>&#x2F;<code>struct </code>这样的数据类型的，因为他们<strong>本身实际上是各大编程语言的汇编器所构建的上层建筑</strong>。</li>
+<li>Assembly Code 每一条指令可以说所做的都很有限，不像是 go&#x2F;java 的一些高级编程语言那样，可以一行代码做很多事情</li>
+<li>同时汇编代码是没有 <code>Array</code>&#x2F;<code>struct </code>这样的数据类型的，因为他们<strong>本身实际上是各大编程语言的汇编器所构建的上层建筑</strong></li>
 </ul>
-<h3 id="Operations"><a href="#Operations" class="headerlink" title="Operations"></a>Operations</h3><p>汇编代码的操作其实是在 <strong>寄存器&#x2F;内存数据</strong> 中进行算数运算的。</p>
-<p>汇编代码的运算其实更多的是从内存中区数据，存储到寄存器中，或是从寄存器读取数据 存到内存中。</p>
-<h3 id="Object-Code"><a href="#Object-Code" class="headerlink" title="Object Code"></a>Object Code</h3><p>由汇编器根据汇编代码生成目标代码(Object Code)，都是二进制数据，之后需要由连接器进行连接(Link)装配运行时的静态代码库等。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实本质上可以看成是如下的流程，我们用最常见的 c 语言指针运算的代码来阐述 <code>movq</code> 这个指令的作用。</p>
+<h3 id="Operations"><a href="#Operations" class="headerlink" title="Operations"></a>Operations</h3><p>汇编代码的操作其实是在 <strong>寄存器&#x2F;内存数据</strong> 中进行算数运算的</p>
+<p>汇编代码的运算其实更多的是<strong>从内存中获取数据，存储到寄存器中，或是从寄存器读取数据存到内存</strong>中</p>
+<h3 id="Object-Code"><a href="#Object-Code" class="headerlink" title="Object Code"></a>Object Code</h3><p>由汇编器根据汇编代码生成目标代码(Object Code)，都是二进制数据，之后需要由连接器进行连接(Link)装配运行时的静态代码库等</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实本质上可以看成是如下的流程，我们用最常见的 c 语言指针运算的代码来阐述 <code>movq</code> 这个指令的作用</p>
 <img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023145020917.png" srcset="/img/loading.gif" lazyload style="zoom:67%;" />
 
-<h2 id="Disassemble"><a href="#Disassemble" class="headerlink" title="Disassemble"></a>Disassemble</h2><p>反汇编，很有意思的一个东西，其实早在我们开发应用的时候就接触过。</p>
-<p>比如IDEA(或者是JB全家桶的IDE)在导入依赖库的时候，有的时候我们是没有下载源码的，这个时候如果直接点进看没有本地源码的代码想看下实现逻辑，IDEA就会反汇编出原来的代码。但是我们常常会发现反汇编出来的变量名都是错乱的，比如<code>var1,var2</code>诸如此类的。</p>
-<p>这是因为反汇编仅仅只会计算obj代码的字节个数来得到结果，汇编的变量不可恢复，导致汇编反推源码的变量名也是不可恢复的。</p>
+<p><code>C代码中 *dest = t</code> 的意思很简单，是将 t 的值赋到 dest 指针所指向的内存区域中</p>
+<p>在这里对应汇编代码，有两个寄存器，分别是 rax 和 rbx ，对应代码中的 <code>*dest = t</code>，其中， t 的值在 rax 寄存器中，因此 <code>%rax</code> 就表示从寄存器中获取 t 的值</p>
+<p> <code>%rbx</code> 的意思就是获取 <code>rbx</code> 寄存器里存储的 dest 指针存储的地址，<code>(%rbx)</code> 就表示在内存中找到对应的值，也就是 <code>M[%rbx]</code>,在汇编代码中用小括号表示取地址</p>
+<p>之所以要用 movq(Quad Word) 是因为整形数据都是 8 字节，对应是 4 个字(Word)，因此 movq 就表示通过汇编代码操作寄存器中的数据写入内存</p>
+<p>之后这段汇编代码被保存为 3 个字节长度的指令，存放在内存中  <code>0x40059e</code> 的地址位置</p>
+<h2 id="Disassemble"><a href="#Disassemble" class="headerlink" title="Disassemble"></a>Disassemble</h2><p>反汇编，很有意思的一个东西，其实早在我们开发应用的时候就接触过</p>
+<p>比如IDEA(或者是JB全家桶的IDE)在导入依赖库的时候，有的时候我们是没有下载源码的，这个时候如果直接点进看没有本地源码的代码想看下实现逻辑，IDEA就会反汇编出原来的代码。但是我们常常会发现反汇编出来的变量名都是错乱的，比如<code>var1,var2</code>诸如此类的</p>
+<p>这是因为反汇编仅仅只会计算 obj 代码的字节个数来得到结果，汇编的变量不可恢复，导致汇编反推源码的变量名也是不可恢复的</p>
 <p><strong>为什么反汇编后的变量名等都和源码不一样呢</strong></p>
-<p>这主要是因为在源码经过编译之后生成的汇编代码后，实际上变量名对于编译器是不关心的，他只会生成对应在哪一个 <strong>寄存器</strong> 中，而我们再根据这个汇编代码生成二进制的 <strong>object code</strong> 的时候实际上寄存器都是特定的，就那么多，因此对应的字节确实是可以反推，但是原先源码的变量名是不可以反推得到。</p>
+<p>这主要是因为在源码经过编译之后生成的汇编代码后，实际上变量名对于编译器是不关心的，他只会生成对应在哪一个 <strong>寄存器</strong> 中，而我们再根据这个汇编代码生成二进制的 <strong>object code</strong> 的时候实际上寄存器都是特定的，就那么多，因此对应的字节确实是可以反推，但是原先源码的变量名是不可以反推得到</p>
 <h3 id="反汇编工具"><a href="#反汇编工具" class="headerlink" title="反汇编工具"></a>反汇编工具</h3><ul>
 <li><code>objdump -d (assembly code name)</code></li>
 <li><code>gdb (assembly code name)</code></li>
 </ul>
-<h3 id="小插曲"><a href="#小插曲" class="headerlink" title="小插曲"></a>小插曲</h3><p>教授还说到了之前的课件中因为插入了<code>Word</code>执行文件的反汇编代码，收到了网友的谴责XD，这是因为在用户许可中一般都要求用户不能反汇编程序（当然也阻止不了你）。</p>
+<h3 id="小插曲"><a href="#小插曲" class="headerlink" title="小插曲"></a>小插曲</h3><p>教授还说到了之前的课件中因为插入了<code>Word</code>执行文件的反汇编代码，收到了网友的谴责XD，这是因为在用户许可中一般都要求用户不能反汇编程序（当然也阻止不了你）</p>
 <h1 id="Assembly-Basics"><a href="#Assembly-Basics" class="headerlink" title="Assembly Basics"></a>Assembly Basics</h1><h2 id="Registers"><a href="#Registers" class="headerlink" title="Registers"></a>Registers</h2><p>首先我们需要有一个基本的概念。</p>
 <p>寄存器本质上其实是CPU中用来<strong>暂存指令，数据的一个存储单元</strong>，我们一般喜欢用名称的方式来对其进行记忆。</p>
 <p>在PPT中列出了 8086 寄存器</p>
@@ -379,7 +385,10 @@
 
 <p>其中rsp比较特殊，是<code>stack pointer</code>。</p>
 <p>无论是32位还是64位都可以访问低位（reference low-order bytes)，可以是低4字节，低2字节和低1字节。</p>
-<h3 id="History-1"><a href="#History-1" class="headerlink" title="History"></a>History</h3><p>值得注意的是在x86之前的IA32指令集架构中，只有8个寄存器，而x86是有16个寄存器，相较于传统的 IA32 架构扩大了一倍寄存器的数量。</p>
+<h3 id="向下兼容"><a href="#向下兼容" class="headerlink" title="向下兼容"></a>向下兼容</h3><p><img src="/../../../../Pictures/Markdown_Pic/CMU-15-213-Machine-Level-Programming-Basic/image-20240618111024587.png" srcset="/img/loading.gif" lazyload alt="image-20240618111024587"></p>
+<p>其实这个图看的更加方便一点，我们可以看到图上对应不同的颜色以及不同的寄存器名称，黄色部分是 16 位寄存器，也就是 16 位处理器 8086 的设计，然后绿色部分是 32 位寄存器，给 32 位处理器使用，而蓝色部分是为 64 位处理器设计的。</p>
+<p>这样的设计保证了向下兼容，也就是几十年前转为 16 位处理器开发的软件，如今也能在 64 位处理器上进行运行，因为寄存器中低位仍然保留</p>
+<h3 id="History-1"><a href="#History-1" class="headerlink" title="History"></a>History</h3><p>值得注意的是在x86之前的IA32指令集架构中，只有8个寄存器，而x86-64是有16个寄存器，相较于传统的 IA32 架构扩大了一倍寄存器的数量。</p>
 <img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221023155821553.png" srcset="/img/loading.gif" lazyload alt="image-20221023155821553" style="zoom:67%;" />
 
 <p>虽然说这里给出了各个寄存器的名字帮助记忆，但是其实这是之前的版本了，<strong>现在用什么寄存器和名字没有关系</strong>，只需要知道寄存器的名字是<strong>历史遗留问题</strong>即可。</p>
@@ -451,27 +460,35 @@
 
 <img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163136343.png" srcset="/img/loading.gif" lazyload style="zoom:50%;" />
 
-<h3 id="Displacement"><a href="#Displacement" class="headerlink" title="Displacement"></a>Displacement</h3><p>偏移，存在一个偏移常量D。</p>
-<p>常见的一个表示的形式就是 <code>某个数(%rdx)</code> ，表示的是对 rdx 这个寄存器内的地址进行偏移运算（具体运算就是加上这个数）。</p>
+<h3 id="Displacement-D-R"><a href="#Displacement-D-R" class="headerlink" title="Displacement  D(R)"></a>Displacement  D(R)</h3><p>偏移，存在一个偏移常量D。</p>
+<p>常见的一个表示的形式就是 <code>某个数(%rdx)</code> ，表示的是对 rdx 这个寄存器内的地址进行偏移运算（具体运算就是加上这个数）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">movq 8(%rbp),%rdx<br></code></pre></td></tr></table></figure>
+
+<p>以 <code>%rbp</code> 寄存器中存储的地址再加上 8 个偏移量去内存里找对应的数据，存到寄存器 <code>%rdx</code> 中</p>
 <h2 id="Compelete-Memory-Addressing-Modes"><a href="#Compelete-Memory-Addressing-Modes" class="headerlink" title="Compelete Memory Addressing Modes"></a>Compelete Memory Addressing Modes</h2><p>最常见的就是在进行 <strong>数组引用</strong> 的时候。</p>
 <p>具体的寻址相关符号定义如下：</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221117163217290.png" srcset="/img/loading.gif" lazyload></p>
-<p>其中的 Rb 其实就是一个基地址，对应我们数组的首个元素的地址。</p>
-<p>而 Ri 则是存储具体元素在哪一个索引，对应的其实是我们数组元素的下标。</p>
+<p>其中的 Rb 其实就是一个基地址，对应我们数组的首个元素的地址，也叫做国内说的<strong>基址寄存器</strong></p>
+<p>而 Ri 则是存储具体元素在哪一个索引，对应的其实是我们数组元素的下标</p>
 <p>S 则与数组的元素有关，之所以是 1|2|4|8 其实就是对应<strong>数组存储的不同数据类型所占据的字节长度</strong>(比如 int 是 4 个字节的长度)。</p>
 <p>而 PPT 中也给出了一些基本的表示形式和运算规则：</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119200226254.png" srcset="/img/loading.gif" lazyload></p>
+<p>上述的表达式<strong>不能死板的认为是一种只能用于内存地址的寻址方式，而是汇编语言通用的一种计算模板</strong></p>
+<p>实际上，它计算的只是一个整数值，可以用于多种目的</p>
+<p>这种计算模板可以用于各种需要整数运算的场景，不局限于内存地址</p>
 <h2 id="lea"><a href="#lea" class="headerlink" title="lea"></a>lea</h2><p><code>lea = load effctive address</code></p>
 <h3 id="uses"><a href="#uses" class="headerlink" title="uses"></a>uses</h3><p>顾名思义其实就是加载内存地址，之所以会出现这个汇编的 operator 其主要的出现场景有两个：</p>
-<p>1)就是我们 C 中的 ampersand 运算符 &amp; 的汇编层面的对应，例如：</p>
+<p>1)就是我们 C 中的 ampersand 运算符 &amp; 的汇编层面的对应，用来取地址</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> *p = &amp;arr[i];<br></code></pre></td></tr></table></figure>
 
-<p>2)许多 c 语言的编译器也很喜欢用 lea 去进行算数上的运算。</p>
-<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><p>课件中举出了如下的例子:</p>
+<p>2)许多 c 语言的编译器也很喜欢用 lea 去进行算数上的运算，等价于常数乘法</p>
+<p>当使用 lea 进行算数运算的时候，  leaq src dest 等价于将 src 的地址&#x2F;值和 dest进行相加之后存储到 dest 所指向的寄存器中</p>
+<p>这个第二点可以说有点违背直觉， <code>leaq</code> 通常用于计算内存地址，但它<strong>只是将一个计算结果存储在目标寄存器中。这个计算结果并不一定要用作内存地址，可以是任何需要的整数结果</strong>。这样，我们可以利用 <code>leaq</code> 指令进行一些高效的算术运算</p>
+<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><p>课件中举出了如下的例子，这里就是利用 lea 进行算数运算上的优化</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">long</span> <span class="hljs-title function_">m12</span><span class="hljs-params">(<span class="hljs-type">long</span> x)</span><br>&#123;<br>     <span class="hljs-keyword">return</span> x*<span class="hljs-number">12</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>对应的汇编代码在进行翻译解释后编译器得到的结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs assembly">leaq(%rdi,%rdi,2); #等价于 x+=x*2<br>salq $2 ,%rax; #等价于返回 x&lt;&lt;2也就是乘以4的结果<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs assembly">leaq (%rdi,%rdi,2), %rax; #上面提到带 Scale 的寻址模式，等价于 x+x*2 -&gt; %rax<br>salq $2 ,%rax; #等价于返回 x&lt;&lt;2也就是乘以4的结果<br></code></pre></td></tr></table></figure>
 
 <h2 id="Arithmetic-Operations"><a href="#Arithmetic-Operations" class="headerlink" title="Arithmetic Operations"></a>Arithmetic Operations</h2><p>教授还给出了其他一些常用的算数运算的操作符。</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221119205107592.png" srcset="/img/loading.gif" lazyload alt="加减乘除左右移"></p>
@@ -565,7 +582,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>CMU 15-213|Machine Level Programming-Basic</div>
-      <div>http://example.com/2024/01/23/CMU-15-213-Machine-Level-Programming-Basic/</div>
+      <div>http://example.com/2024/06/17/CMU-15-213-Machine-Level-Programming-Basic/</div>
     </div>
     <div class="license-meta">
       
@@ -577,7 +594,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年1月23日</div>
+          <div>2024年6月17日</div>
         </div>
       
       
@@ -609,18 +626,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/01/23/CMU-15-213-Machine-Level-Programming-Control/" title="CMU 15-213|Machine Level Programming-Control">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CMU 15-213|Machine Level Programming-Control</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/01/05/Java%20%E9%9D%A2%E8%AF%95/" title="Java 八股">
-                        <span class="hidden-mobile">Java 八股</span>
+                      <a href="/2024/06/15/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-RDR2/" title="游戏札记|RDR2">
+                        <span class="hidden-mobile">游戏札记|RDR2</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
