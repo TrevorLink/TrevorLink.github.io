@@ -41,7 +41,7 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224325557.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204224844904.png">
 <meta property="article:published_time" content="2024-01-23T05:49:13.000Z">
-<meta property="article:modified_time" content="2024-01-23T05:49:08.747Z">
+<meta property="article:modified_time" content="2024-06-18T05:52:08.086Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CMU">
 <meta property="article:tag" content="CSAPP">
@@ -239,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          2.7k 字
         
       </span>
     
@@ -250,7 +250,7 @@
         
         
         
-          22 分钟
+          23 分钟
         
       </span>
     
@@ -292,22 +292,29 @@
             
               <div class="markdown-body">
                 
-                <h1 id="Condition-Codes"><a href="#Condition-Codes" class="headerlink" title="Condition Codes"></a>Condition Codes</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>处理器有处理状态的标识符，在我们现在的处理器架构中就<strong>用这个状态信息来控制程序的运行</strong>。</p>
+                <h1 id="Condition-Codes"><a href="#Condition-Codes" class="headerlink" title="Condition Codes"></a>Condition Codes</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>处理器有处理状态的标识符，在我们现在的处理器架构中就<strong>用这个状态信息来控制程序的运行，实现流程控制</strong></p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221201172217558.png" srcset="/img/loading.gif" lazyload alt="和当前运行程序有关的组件"></p>
 <p>状态码主要有四种，他们是实现程序运行或者流程控制最基本的条件，换句话说现在流程控制的执行本质上就是依据 <code>condition codes</code> 来进行的。</p>
 <h2 id="基本状态码"><a href="#基本状态码" class="headerlink" title="基本状态码"></a>基本状态码</h2><ul>
 <li>CF Carry Flag,操作结果进位时会设置他为 1,<strong>对应无符号运算的数据溢出</strong>.</li>
 <li>SF Sign Flag,操作结果为负数时会设置他为 1,对应<strong>二进制数据的负数</strong>.</li>
 <li>ZF Zero Flag,<strong>操作的结果为 0 值</strong>的时候设置他为 1.</li>
-<li>OF Overflow Flag,操作结果溢出时会设置他为 1,<strong>对应有符号运算的数据溢出</strong>.</li>
+<li>OF Overflow Flag,操作结果溢出时会设置他为 1,<strong>对应有符号运算的数据溢出，例如两个正数相加得到负数，两个负数相加得到正数等</strong>.</li>
 </ul>
-<p>上面的四个基本状态码名称是<strong>在执行对应机器指令之后</strong>由处理器进行设置的，对于大多数的指令而言是这样，但是不包括 <code>leaq</code> 这个指令，这个指令不会设置状态码。</p>
-<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>这里列举一个基础的设置状态码的一个小 demo 来体会一下，主要有两个指令：</p>
+<p>上面的四个基本状态码名称是<strong>在执行对应机器指令之后</strong>由处理器进行设置的，例如 <code>addq</code> </p>
+<p>比如我们有一条类似于 <code>t = a + b</code> 的语句，在执行这个语句对应的汇编语句假设是 <code>addq src dest</code> </p>
+<ul>
+<li>如果 a b 都是无符号，然后超出位数了溢出了，这个时候就会自动设置CPU的 CF位 &#x3D; 1</li>
+<li>如果 a b 都是有符号数，当 <code>a &lt; 0 &amp; b &lt; 0 &amp; t &gt; 0</code> 或者是 <code>a &gt; 0 &amp; b &gt; 0 &amp; t &lt; 0</code> 的时候，就会设置CPU的 OF位 &#x3D; 1</li>
+</ul>
+<p>对于大多数的指令而言，执行操作的时候都会自动设置这四个 Condition Code，我们称这种设置 Condition Code 的方式为隐式设置</p>
+<p>需要注意的是 <code>leaq</code> 这个指令不会设置状态码</p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><p>除了隐式设置 Condition Code 之外，我们还可以显式设置，主要有两个指令：</p>
 <ul>
 <li>cmp — compare 比较多个参数数据的值</li>
 <li>test — 用于测试相同参数</li>
 </ul>
-<h3 id="cmp"><a href="#cmp" class="headerlink" title="cmp"></a>cmp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cmpq b,a<br></code></pre></td></tr></table></figure>
+<h3 id="cmp"><a href="#cmp" class="headerlink" title="cmp"></a>cmp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cmpq b,a # 等价于 a-b (注意顺序)<br></code></pre></td></tr></table></figure>
 
 <p>相比于 <code>add</code> ,<code>sub</code> 这些会进行数据 <code>set destination</code> 的指令，<strong>cmp</strong> 只会进行比较，设置状态码，而不会 <code>set destination</code>.</p>
 <blockquote>
@@ -324,7 +331,7 @@
 </ul>
 <p>Linux 采用的标准是反过来的，正如上面的汇编代码，因此我们在心里需要特别关注计算转换一下。</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221201175100064.png" srcset="/img/loading.gif" lazyload alt="上面的代码状态位设置的情况"></p>
-<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">testq b,a<br></code></pre></td></tr></table></figure>
+<h3 id="test"><a href="#test" class="headerlink" title="test"></a>test</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">testq b,a # 等价于 a&amp;b (注意顺序)<br></code></pre></td></tr></table></figure>
 
 <p>和 cmp 一样，同样也是设置状态码但是不会设置任何的 <code>destination</code>.</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs assembly">testq %rax,%rax<br></code></pre></td></tr></table></figure>
@@ -338,9 +345,9 @@
 
 <p>我们假设编译器根据寄存器分配算法得到的各个变量以及对应寄存器如下：</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20221204151144563.png" srcset="/img/loading.gif" lazyload alt="程序变量以及对应寄存器"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cmpq %rsi, %rdi ; 比较 x:y 同时会设置状态码<br>setg %al ; 根据状态码，这里是当 x &gt; y 的时候设置 al 寄存器的最低一个字节全为1<br>movzbl %al, %eax ;由于 %al 引用的是 rax 寄存器最低一个字节的数据，我们需要设置其他七位高位字节都为0<br>ret ;返回到调用这段代码的地方<br></code></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs assembly">cmpq %rsi, %rdi ; 比较 x:y 同时会设置状态码 这里等价于 x-y<br>setg %al ; 根据状态码，这里是当 x &gt; y 的时候设置 al 寄存器的最低一个字节全为1<br>movzbl %al, %eax ;由于 %al 引用的是 rax 寄存器最低一个字节的数据，我们需要设置其他七位高位字节都为0<br>ret ;返回到调用这段代码的地方<br></code></pre></td></tr></table></figure>
 
-<p>对于 <code>movzbl %al, %eax</code> 这一段，教授进行了追加解释，<code>%eax</code> 引用的其实是 <code>rax</code> 寄存器的<strong>后 32 位</strong>也就是最后四个字节的数据，那么为什么说是设置其他七个字节都为 0 了呢(如何保证高位的 32 位呢)，这主要与我们 x86-64 <strong>设计规则</strong>有关，当指令操作的结果是 32 位数据的时候，会自动填充高位 32 位为0.</p>
+<p>对于 <code>movzbl %al, %eax</code> 这一段，教授进行了追加解释，<code>%eax</code> 引用的其实是 <code>rax</code> 寄存器的<strong>后 32 位</strong>也就是最后四个字节的数据，那么为什么说是设置其他七个字节都为 0 了呢(如何保证高位的 32 位呢)，这主要与我们 x86-64 <strong>设计规则</strong>有关，当指令操作的结果是 32 位数据的时候，会自动填充高位 32 位为0</p>
 <h1 id="Conditional-Branch"><a href="#Conditional-Branch" class="headerlink" title="Conditional Branch"></a>Conditional Branch</h1><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>上面一个部分通过介绍了状态码，以及如何基于状态码来设置寄存器的某一位结果，解读和实现汇编层面的<strong>比较</strong> <strong>comparsion</strong> <strong>操作</strong>.</p>
 <p>但是其实更多的时候我们想要的是实现复杂的条件逻辑，那么这在最底层设计也和状态码有关系。</p>
 <h2 id="jmp"><a href="#jmp" class="headerlink" title="jmp"></a>jmp</h2><h3 id="基本指令-1"><a href="#基本指令-1" class="headerlink" title="基本指令"></a>基本指令</h3><p>jmp 指令是实现条件逻辑的最简单最朴素的一种汇编处理方式。</p>
