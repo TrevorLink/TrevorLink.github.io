@@ -23,11 +23,14 @@
 <meta property="og:site_name" content="Zanarkand">
 <meta property="og:description" content="记录每天的技术成长和心得的树屋">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240704223854999.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefined6830811a052522d871aaa02eccd6442b.png">
 <meta property="article:published_time" content="2024-07-01T03:26:13.000Z">
-<meta property="article:modified_time" content="2024-07-02T01:05:46.910Z">
+<meta property="article:modified_time" content="2024-07-11T03:31:07.604Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="日记">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240704223854999.png">
   
   
   
@@ -220,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.4k 字
+          3.4k 字
         
       </span>
     
@@ -231,7 +234,7 @@
         
         
         
-          12 分钟
+          29 分钟
         
       </span>
     
@@ -273,7 +276,8 @@
             
               <div class="markdown-body">
                 
-                <h1 id="2024"><a href="#2024" class="headerlink" title="2024"></a>2024</h1><h2 id="6月小结"><a href="#6月小结" class="headerlink" title="6月小结"></a>6月小结</h2><h2 id="07-x2F-01"><a href="#07-x2F-01" class="headerlink" title="07&#x2F;01"></a>07&#x2F;01</h2><h3 id="Github-上发现的开源大佬"><a href="#Github-上发现的开源大佬" class="headerlink" title="Github 上发现的开源大佬"></a>Github 上发现的开源大佬</h3><p>今天上班的时候摸鱼刷 Github 刷到一个做 MIT6.828 实验的大佬，点进主页一看还真的是个大佬</p>
+                <h1 id="2024"><a href="#2024" class="headerlink" title="2024"></a>2024</h1><h2 id="6月小结"><a href="#6月小结" class="headerlink" title="6月小结"></a>6月小结</h2><p>TODO</p>
+<h2 id="07-x2F-01"><a href="#07-x2F-01" class="headerlink" title="07&#x2F;01"></a>07&#x2F;01</h2><h3 id="Github-上发现的开源大佬"><a href="#Github-上发现的开源大佬" class="headerlink" title="Github 上发现的开源大佬"></a>Github 上发现的开源大佬</h3><p>今天上班的时候摸鱼刷 Github 刷到一个做 MIT6.828 实验的大佬，点进主页一看还真的是个大佬</p>
 <p>看到他的自我介绍，高中毕业的学历，18 年 28 岁转行程序员，自学前端，一步步走到管理层，感觉很有兴趣，肯定有值得学习的地方</p>
 <p>虽然如果 18 年换成六年后的今天，同样的情况几乎不可能实现，18 年的计算机行业算不上黄金的红利风口时期，但是也远没有到今年的地步，在感慨他人恰逢一个好的时代的同时，不得不肯定的是这个老哥的自学能力以及对技术的追求和热爱</p>
 <p>其中他的开源文章就分享了一些从业前端和管理方向的开发者工作心得，觉得很有用，记录一下：</p>
@@ -315,6 +319,93 @@
 <p>大致的意思就是由于 CPU 的流水线技术，编译器需要尽可能地减少错误的分支判断，<strong>一旦判断失误进入了错误的分支，先前因为流水线技术而加载进入寄存器的数据全部都是对不上号的了</strong>，因此需要进行分支预测来优化程序的执行</p>
 <p>针对仅仅只有两种条件跳转的代码（例如<strong>三元运算符</strong>），编译器往往就会采用 Conditional Branch 的技术，通过枚举出所有可能的结果状态（实际上也就只有两种），最后根据一条比较指令来同时设置结果值，从而不会进行跳转，实现性能的优化</p>
 <p>同时我们也分析了采用这种 Conditional Branch 的技术局限性，具体适用于什么场景，当然这些是编译器设计需要考虑到的因素之一了</p>
+<h2 id="07-x2F-02"><a href="#07-x2F-02" class="headerlink" title="07&#x2F;02"></a>07&#x2F;02</h2><h3 id="久违的基础课环节"><a href="#久违的基础课环节" class="headerlink" title="久违的基础课环节"></a>久违的基础课环节</h3><p>学习 CSAPP 的汇编</p>
+<h2 id="07-x2F-03"><a href="#07-x2F-03" class="headerlink" title="07&#x2F;03"></a>07&#x2F;03</h2><h3 id="极速原型是个好东西"><a href="#极速原型是个好东西" class="headerlink" title="极速原型是个好东西"></a>极速原型是个好东西</h3><p>化身产品经理画项目原型图 XD</p>
+<p>xiaopiu 这个原型图网站我也算是懂得了一些了，能够简单拖拉拽开发产品原型，并且进行简单逻辑跳转用于演示，不得不说确实方便</p>
+<h2 id="07-x2F-04"><a href="#07-x2F-04" class="headerlink" title="07&#x2F;04"></a>07&#x2F;04</h2><h3 id="业务和技术都重要"><a href="#业务和技术都重要" class="headerlink" title="业务和技术都重要"></a>业务和技术都重要</h3><p>今天部门同事聚餐，聊了一会，感觉还是业务和技术都很重要</p>
+<p>入职到现在对于中台项目的业务流程还是不太了解，当然更重要的业务还是金融方面的业务知识了，这些都是需要时间沉淀下来的</p>
+<h3 id="台式机部署一下MySQL8"><a href="#台式机部署一下MySQL8" class="headerlink" title="台式机部署一下MySQL8"></a>台式机部署一下MySQL8</h3><p>回家刚好部署了一下 MySQL8 感觉还是踩了一点坑，这里记录一下</p>
+<ul>
+<li>去官网下载最新的开源社区版</li>
+<li>之后解压，新增 <code>my.ini</code> 配置文件，同时配置 bin 目录为系统 path 环境变量</li>
+</ul>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[mysqld]</span><br><br><span class="hljs-comment"># 设置3306端口</span><br><br><span class="hljs-attr">port</span>=<span class="hljs-number">3306</span><br><br><span class="hljs-comment"># 设置mysql的安装目录</span><br><br><span class="hljs-attr">basedir</span>=D:\Coding\mysql-<span class="hljs-number">8.4</span>.<span class="hljs-number">1</span>-winx64<br><br><span class="hljs-comment"># 设置mysql数据库的数据的存放目录</span><br><br><span class="hljs-attr">datadir</span>=D:\Coding\mysql-<span class="hljs-number">8.4</span>.<span class="hljs-number">1</span>-winx64\data<br><br><span class="hljs-comment"># 允许最大连接数</span><br><br><span class="hljs-attr">max_connections</span>=<span class="hljs-number">200</span><br><br><span class="hljs-comment"># 允许连接失败的次数。这是为了防止有人从该主机试图攻击数据库系统</span><br><br><span class="hljs-attr">max_connect_errors</span>=<span class="hljs-number">10</span><br><br><span class="hljs-comment"># 服务端使用的字符集默认为UTFMB4</span><br><br><span class="hljs-attr">character-set-server</span>=utf8mb4<br><br><span class="hljs-comment"># 创建新表时将使用的默认存储引擎</span><br><br><span class="hljs-attr">default-storage-engine</span>=INNODB<br><br><span class="hljs-comment"># 默认使用“mysql_native_password”插件认证，这里注释掉了，不注释掉会报错启动服务失败</span><br><br><span class="hljs-comment"># default_authentication_plugin=mysql_native_password</span><br><br><span class="hljs-section">[mysql]</span><br><br><span class="hljs-comment"># 设置mysql客户端默认字符集</span><br><br><span class="hljs-attr">default-character-set</span>=utf8mb4<br><br><span class="hljs-section">[client]</span><br><br><span class="hljs-comment"># 设置mysql客户端连接服务端时默认使用的端口</span><br><br><span class="hljs-attr">port</span>=<span class="hljs-number">3306</span><br><br><span class="hljs-attr">default-character-set</span>=utf8mb4<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>此时还没有 data 目录，问题不大，启动服务的时候会自动生成创建对应的目录，我们输入命令生成 root 的密码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">mysqld --no-defaults --initialize --console<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>之后会在控制台显示对应的密码</p>
+</li>
+</ul>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240704223854999.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li>输入 <code>mysqld --install mysql</code> 安装服务</li>
+<li>启动 mysql 服务 <code>net start mysql</code></li>
+</ul>
+<p>上面的配置文件中 <code>default_authentication_plugin=mysql_native_password</code> 之前没有注释掉，导致启动报错，找了好久也不知道为啥，后面通过 <code>mysqld --console</code> 输出启动日志，才发现是报错信息中提到了 <code>[ERROR] [MY-000067] [Server] unknown variable &#39;default_authentication_plugin=mysql_native_password&#39;.</code> 目前的 MySQL 版本无法读取这个配置，可能是已经过时，注释掉之后正常启动</p>
+<ul>
+<li>之后连接到本机的 MySQL 进程第一件事修改密码 <code>alter user &#39;root&#39;@localhost identified by &#39;1&#39;</code></li>
+</ul>
+<h2 id="07-x2F-05"><a href="#07-x2F-05" class="headerlink" title="07&#x2F;05"></a>07&#x2F;05</h2><p>还是在修改业务上的一些东西以及原型图的绘制</p>
+<p>你问我回家干什么了，抱歉，今天是周末！</p>
+<h2 id="07-x2F-08"><a href="#07-x2F-08" class="headerlink" title="07&#x2F;08"></a>07&#x2F;08</h2><h3 id="斗胆升级IDEA2024"><a href="#斗胆升级IDEA2024" class="headerlink" title="斗胆升级IDEA2024"></a>斗胆升级IDEA2024</h3><p>主要是想用新版的 JDK，但是之前一直用的是祖传的 2021 版本，最多只能支持到13还是多少，反正17之后就检测不到对应的新的 JDK 了，加上想试一试新的 UI 风格 (VSCODE)，直接痛定思痛，卸载旧版！</p>
+<p>这里用的是脚本激活，一键自动配置激活补丁</p>
+<p>首先去官网的 other version 部分下载 2024.1.3 的版本</p>
+<p>之后一路安装，安装好了以后先启动</p>
+<p>第一次启动比较慢，不是没启动，只是启动很慢，等第一次弹窗出现后，点击 quit 不进行激活</p>
+<p>然后进入 进入 <code>/jetbra</code> 补丁目录，再点击进入 <code>/scripts</code> 文件夹，双击执行 <code>install-current-user.vbs</code> 脚本</p>
+<p>等个半分钟，出现 done 了之后才算是完成</p>
+<blockquote>
+<p>脚本会自动在环境变量 -&gt; 用户变量下添加了 <code>IDEA_VM_OPTIONS</code> 变量，变量值为 <code>/jetbra</code> 文件夹下的 <code>.vmoptions</code> 参数文件绝对路径，然后，脚本自动在 <code>idea.vmoptions</code> 文件中引用了补丁</p>
+</blockquote>
+<p>之后输入指定的激活码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">6G5NXCPJZB-eyJsaWNlbnNlSWQiOiI2RzVOWENQSlpCIiwibGljZW5zZWVOYW1lIjoic2lnbnVwIHNjb290ZXIiLCJhc3NpZ25lZU5hbWUiOiIiLCJhc3NpZ25lZUVtYWlsIjoiIiwibGljZW5zZVJlc3RyaWN0aW9uIjoiIiwiY2hlY2tDb25jdXJyZW50VXNlIjpmYWxzZSwicHJvZHVjdHMiOlt7ImNvZGUiOiJQU0kiLCJmYWxsYmFja0RhdGUiOiIyMDI1LTA4LTAxIiwicGFpZFVwVG8iOiIyMDI1LTA4LTAxIiwiZXh0ZW5kZWQiOnRydWV9LHsiY29kZSI6IlBEQiIsImZhbGxiYWNrRGF0ZSI6IjIwMjUtMDgtMDEiLCJwYWlkVXBUbyI6IjIwMjUtMDgtMDEiLCJleHRlbmRlZCI6dHJ1ZX0seyJjb2RlIjoiSUkiLCJmYWxsYmFja0RhdGUiOiIyMDI1LTA4LTAxIiwicGFpZFVwVG8iOiIyMDI1LTA4LTAxIiwiZXh0ZW5kZWQiOmZhbHNlfSx7ImNvZGUiOiJQUEMiLCJmYWxsYmFja0RhdGUiOiIyMDI1LTA4LTAxIiwicGFpZFVwVG8iOiIyMDI1LTA4LTAxIiwiZXh0ZW5kZWQiOnRydWV9LHsiY29kZSI6IlBHTyIsImZhbGxiYWNrRGF0ZSI6IjIwMjUtMDgtMDEiLCJwYWlkVXBUbyI6IjIwMjUtMDgtMDEiLCJleHRlbmRlZCI6dHJ1ZX0seyJjb2RlIjoiUFNXIiwiZmFsbGJhY2tEYXRlIjoiMjAyNS0wOC0wMSIsInBhaWRVcFRvIjoiMjAyNS0wOC0wMSIsImV4dGVuZGVkIjp0cnVlfSx7ImNvZGUiOiJQV1MiLCJmYWxsYmFja0RhdGUiOiIyMDI1LTA4LTAxIiwicGFpZFVwVG8iOiIyMDI1LTA4LTAxIiwiZXh0ZW5kZWQiOnRydWV9LHsiY29kZSI6IlBQUyIsImZhbGxiYWNrRGF0ZSI6IjIwMjUtMDgtMDEiLCJwYWlkVXBUbyI6IjIwMjUtMDgtMDEiLCJleHRlbmRlZCI6dHJ1ZX0seyJjb2RlIjoiUFJCIiwiZmFsbGJhY2tEYXRlIjoiMjAyNS0wOC0wMSIsInBhaWRVcFRvIjoiMjAyNS0wOC0wMSIsImV4dGVuZGVkIjp0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<br></code></pre></td></tr></table></figure>
+
+<h2 id="07-x2F-09"><a href="#07-x2F-09" class="headerlink" title="07&#x2F;09"></a>07&#x2F;09</h2><h3 id="CRUD-需求远没有那么简单"><a href="#CRUD-需求远没有那么简单" class="headerlink" title="CRUD 需求远没有那么简单"></a>CRUD 需求远没有那么简单</h3><p>今天主要还是分析项目的需求，感觉实际行动起来会比以前接触到的需求复杂不少，并不是简单的 CRUD，同时 CRUD 也远没有想象中的那么简单</p>
+<p>能把 CRUD 写得好，也是一种本事</p>
+<p><strong>一名合格的高级程序员必须要具备抽象应用需求场景，快速建立实现需求模型的能力</strong>，显然我现在还需要在实际的生产项目中进行锻炼</p>
+<h2 id="07-x2F-10"><a href="#07-x2F-10" class="headerlink" title="07&#x2F;10"></a>07&#x2F;10</h2><h3 id="如何优雅的设计表"><a href="#如何优雅的设计表" class="headerlink" title="如何优雅的设计表"></a>如何优雅的设计表</h3><p>今天学习了如何优雅的设计目录树层级表</p>
+<p><del>后续有时间的话可能</del>会整理成为一个专题文档<del>吧</del></p>
+<h3 id="似乎需要补一下-SQL-基础了"><a href="#似乎需要补一下-SQL-基础了" class="headerlink" title="似乎需要补一下 SQL 基础了"></a>似乎需要补一下 SQL 基础了</h3><p>今天写需求，猛然发现自己 SQL 知识差不多忘得一干二净了</p>
+<p>是时候拿起之前的笔记和文档课程，系统性地再过一遍 SQL 基础知识了，一些联表查询语句似乎还不是很熟练，框架封装了那么多，对于实际的开发，到底是好是坏？索引数据结构，现阶段而言真的没有必要了吗？需要带着问题重新学习</p>
+<h3 id="通义灵码确实好用"><a href="#通义灵码确实好用" class="headerlink" title="通义灵码确实好用"></a>通义灵码确实好用</h3><p>今天正式在项目中引入了通义灵码插件，颇为震撼</p>
+<p>除开代码段的分析，自动生成注释，内置 GPT 问答外，这哥们还会自动补全</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefined6830811a052522d871aaa02eccd6442b.png" srcset="/img/loading.gif" lazyload></p>
+<p>我就敲了一个枚举的签名，这哥们直接给我写完了，当然大部分的数据可能还是不需要采纳的</p>
+<h2 id="07-x2F-11"><a href="#07-x2F-11" class="headerlink" title="07&#x2F;11"></a>07&#x2F;11</h2><h3 id="一份项目关联两个仓库实现远程开发"><a href="#一份项目关联两个仓库实现远程开发" class="headerlink" title="一份项目关联两个仓库实现远程开发"></a>一份项目关联两个仓库实现远程开发</h3><p>最近的需求就是有的时候回家还要看代码，但是懒得回家还背一个电脑</p>
+<p>回家直接用台式进行开发，那么笔记本和台式之间项目的开发进度同步就成了一个问题</p>
+<p>每次下班之前都进行提交到公有的仓库显然是不现实，我采取的方案是：</p>
+<ul>
+<li><p>在公司内网的 GitLab 中再创建一个私有的个人仓库，对应在本地拉一个新的个人开发分支用于存放每一次的琐碎提交记录</p>
+</li>
+<li><p>项目新增远程关联，个人开发分支每次都推到个人仓库，不污染公共仓库</p>
+</li>
+<li><p>开发完毕需要合并 Commit 的话直接一个 Rebase 就完事</p>
+</li>
+<li><p>至于个人私有仓库积累的琐碎记录，也是一个 push –force 就可以覆盖</p>
+</li>
+</ul>
+<p>首先新建一个仓库</p>
+<p>之后在本地仓库中新增 remote 关联</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git remote add private xxxx <span class="hljs-comment"># 新增名为 private 的远程关联，当然也可以直接在 IDEA 中点</span><br></code></pre></td></tr></table></figure>
+
+<p>之后可以查看配置信息</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs sh">remote.origin.url= 公有仓库.git<br>remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*<br>branch.master.remote=origin<br>branch.master.merge=refs/heads/master<br>remote.private.url= 私有仓库.git<br>remote.private.fetch=+refs/heads/*:refs/remotes/private/*<br>branch.private-master.remote=private<br>branch.private-master.merge=refs/heads/master<br></code></pre></td></tr></table></figure>
+
+<p>推送项目到私有的远程仓库，注意是 private 不是 origin ，别推错了</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git push private master<br></code></pre></td></tr></table></figure>
+
+<p>我们在本地开发环境针对 private 远程关联的 master 新拉一个分支 private-master，以后所有的琐碎提交都在这里进行</p>
+<p>切换到新的本地分支</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">git checkout private-master<br></code></pre></td></tr></table></figure>
+
+<p>尝试 update 同步远程的更新，但是报错 <code>couldn&#39;t find remote ref refs/heads/private-master</code></p>
+<p>这个主要是因为<del>我们针对 private 远程拉的分支名称是 private-master 默认在更新的时候会同步 private&#x2F;private-master，但是 private 远程实际上并不存在这个分支，因此就报错了</del>没有切换到对应的 private-master 分支导致的，在 master 分支下的状态进行操作，就会报错</p>
+<p>我们可以修改本地分支名称来解决，但是已经有 master 分支名称了不能重复，因此可以直接修改引用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">git checkout private/master <span class="hljs-comment">#一定要先切换到对应 private 远程的分支，别改错了</span><br>git push -u private private-master:master <span class="hljs-comment"># 推送的时候同时修改上游追踪的映射关系</span><br></code></pre></td></tr></table></figure>
+
+<p>看来 Git 还是需要不断练习，不管再多的命令学习都是纸上谈兵，实际需求一来才是锻炼</p>
 
                 
               </div>
@@ -404,6 +495,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/07/03/CMU-15-213-Machine-Level-Programming-Procedure/" title="CMU 15-213|Machine Level Programming-Procedure">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">CMU 15-213|Machine Level Programming-Procedure</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
