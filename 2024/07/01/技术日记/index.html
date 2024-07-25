@@ -26,7 +26,7 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefinedimage-20240704223854999.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/undefined6830811a052522d871aaa02eccd6442b.png">
 <meta property="article:published_time" content="2024-07-01T03:26:13.000Z">
-<meta property="article:modified_time" content="2024-07-13T01:35:08.003Z">
+<meta property="article:modified_time" content="2024-07-25T14:11:59.345Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="日记">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.5k 字
+          5.5k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          30 分钟
+          46 分钟
         
       </span>
     
@@ -406,12 +406,90 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">git checkout private/master <span class="hljs-comment">#一定要先切换到对应 private 远程的分支，别改错了</span><br>git push -u private private-master:master <span class="hljs-comment"># 推送的时候同时修改上游追踪的映射关系</span><br></code></pre></td></tr></table></figure>
 
 <p>看来 Git 还是需要不断练习，不管再多的命令学习都是纸上谈兵，实际需求一来才是锻炼</p>
-<h2 id="加班的风终于还是吹到了我们这里"><a href="#加班的风终于还是吹到了我们这里" class="headerlink" title="加班的风终于还是吹到了我们这里"></a>加班的风终于还是吹到了我们这里</h2><p>今天是我的新历生日</p>
+<h3 id="生日加班"><a href="#生日加班" class="headerlink" title="生日加班"></a>生日加班</h3><p>今天是我的新历生日</p>
 <p>想着回家可以放松一会奖励自己打回电动</p>
 <p>结果下午群里就通知要开始固定加班了XD</p>
-<p>第一天加班体验还算不错</p>
-<p>有高中晚自习那味了</p>
+<p>第一天加班体验还算不错，感觉上算是有高中晚自习那味了</p>
 <p>差不多七点开始干活，到了九点差不多也就走了，高中晚自习差不多也是这个时间</p>
+<p>后续一段时间估计会很忙，希望自己能坚持住吧</p>
+<h2 id="07-x2F-12"><a href="#07-x2F-12" class="headerlink" title="07&#x2F;12"></a>07&#x2F;12</h2><h3 id="动手才是王道"><a href="#动手才是王道" class="headerlink" title="动手才是王道"></a>动手才是王道</h3><p>今天是周五</p>
+<p>但是没有了周五的味道</p>
+<p>下周开始要开启地狱加班模式了</p>
+<p>只能说明天还得继续写代码，想想怎么处理业务</p>
+<p>今天尝试动手试了一下之前一直觉得很复杂的业务逻辑，没想到一次就成了，都没有报错</p>
+<p>果然还是动手尝试比坐在那边空想有用</p>
+<h3 id="AI生产内容还是不太可信"><a href="#AI生产内容还是不太可信" class="headerlink" title="AI生产内容还是不太可信"></a>AI生产内容还是不太可信</h3><p>我让AI生产一些客观层面上的知识，例如查询指定类型数据库中所有的数据库表&#x2F;schema的简单SQL，他还是每次给出了不一样的答案</p>
+<h3 id="Database-amp-Schema的概念"><a href="#Database-amp-Schema的概念" class="headerlink" title="Database&amp;Schema的概念"></a>Database&amp;Schema的概念</h3><p>今天开发业务设计到数据库和Schema的概念</p>
+<p>由于之前一直使用的都是 MySQL，所以一直接触的都是数据库的概念</p>
+<p>直到业务上用到了 Oracle PostgrelSQL 等关系型数据库之后才发现，其实  Database 和 Schema 的概念还是有很大的不同的</p>
+<p>在以 MySQL 为代表的部分关系型数据库中，没有特别区分  Schema 和 Database 的概念，因此在 MySQL 中 Schema &#x3D; Database</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">CREATE</span> DATABASE TEST;<br><span class="hljs-keyword">CREATE</span> SCHEMA TEST;<br>#在 MySQL 中是等价语句<br></code></pre></td></tr></table></figure>
+
+<p>但是在 Oracle 等数据库中，Schema 是表的集合，Database 是 Schema 的集合</p>
+<h2 id="0713"><a href="#0713" class="headerlink" title="0713"></a>0713</h2><p>给自己放了一天假</p>
+<p><del>实际上是自己摸了一天鱼</del></p>
+<h2 id="0715"><a href="#0715" class="headerlink" title="0715"></a>0715</h2><h3 id="如何开发一个新的需求"><a href="#如何开发一个新的需求" class="headerlink" title="如何开发一个新的需求"></a>如何开发一个新的需求</h3><p>在开发一个需求之前，首先需要先确认需求具体是什么，有哪些</p>
+<p>确认需求之后就是根据产品的需求 <strong>在脑海中构建一套完整的业务流程</strong></p>
+<p>之后拆解每一块业务流程（于业务流程中涉及到的数据，考虑是否需要入库，如果需要入库就需要一套完整的 MVC 如果不需要入库，可能也需要内存对应的实体信息映射）想一想在这个流程中，需要用到那些 PO 实体？</p>
+<p>确认了 PO 实体的大致方向，就可以进行字段的设计，字段的设计一般不太可能一蹴而就，需要反复的修改和更新，需要保持一定的耐心；同时字段设计的法则可以遵循以下的一些技巧：</p>
+<ul>
+<li>产品原型中数据相关的查询条件（往往就是要设计一个字段）</li>
+<li>表单填写的选项卡，维度</li>
+</ul>
+<p>之后基于 PO 设计 MVC 三层代码，核心的实现和开发都是在 Service 层进行</p>
+<h2 id="0716"><a href="#0716" class="headerlink" title="0716"></a>0716</h2><h3 id="才搞懂JDBC"><a href="#才搞懂JDBC" class="headerlink" title="才搞懂JDBC"></a>才搞懂JDBC</h3><p>最近业务上需求和 Metadata 相关，有一说一知道今天才算了解到了什么是 JDBC 相关的一些知识</p>
+<p>之前只是浅浅了解了一下，后面也就直接用框架了，没有再手写原生的 JDBC Connection 这些，今天才发现有些时候一些定制的需求还是不能太依赖框架，手写原生的JDBC之后封装，在管理维护上可能更为高效</p>
+<p>在 JDBC 提供的各个接口中，各大数据库驱动都需要针对这个接口进行实现，提供对应数据源的信息，接口也定义了很多获取元数据的规范，这才是真正的面向接口编程</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37761437/article/details/110468944">Java中JDBC的超详细总结</a></p>
+<h3 id="使用Map进行字段的封装"><a href="#使用Map进行字段的封装" class="headerlink" title="使用Map进行字段的封装"></a>使用Map进行字段的封装</h3><p>我们在开发 Service 的时候往往会需要返回多个字段信息，这种场景一般我们可以封装为特定的实体类，当然也可以直接返回 Map&lt;String,String&gt; 的方式来处理，其中key是字段名，value是字段值，之后在上游通过 Jackson 等库来解析转换为实体类</p>
+<p>虽然个人不是很爱用这样的方式，更多的时候还是返回实体字段信息，但是在实际项目中也还是会出现，积累一下</p>
+<h2 id="0717"><a href="#0717" class="headerlink" title="0717"></a>0717</h2><p>唯一不用加班的一天，回家爽爽摸鱼了属于是</p>
+<h2 id="0718"><a href="#0718" class="headerlink" title="0718"></a>0718</h2><h3 id="被接口文档单防"><a href="#被接口文档单防" class="headerlink" title="被接口文档单防"></a>被接口文档单防</h3><p>写 DTO 的时候一定要记得第一步就随手加上 <code>@Data</code> 注解提供 Get 方法</p>
+<p>因为框架会调用对应的 get set 方法进行字段解析，如果没有 get set 方法，那么反映在接口文档中，就是<strong>显示不出正确的请求参数字段</strong></p>
+<h2 id="0722"><a href="#0722" class="headerlink" title="0722"></a>0722</h2><h3 id="记得写-Transactional-注解"><a href="#记得写-Transactional-注解" class="headerlink" title="记得写 @Transactional 注解"></a>记得写 @Transactional 注解</h3><h2 id="0723"><a href="#0723" class="headerlink" title="0723"></a>0723</h2><h3 id="Docker部署MySQL8"><a href="#Docker部署MySQL8" class="headerlink" title="Docker部署MySQL8"></a>Docker部署MySQL8</h3><p>本地装过一个 5.5的，环境不是很干净，尝试直接二进制文件部署，但是由于卸载残留等一些历史原因，失败了，所以急了直接跑容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --name mysql8 -e MYSQL_ROOT_PASSWORD=1 -e MYSQL_ALLOW_EMPTY_PASSWORD=false -e MYSQL_USER=test -e MYSQL_PASSWORD=1 -e MYSQL_DATABASE=test-db -v /挂载本地的数据目录:/var/lib/mysql -p 3306:3306 -d mysql:镜像tag<br></code></pre></td></tr></table></figure>
+
+<p>使用这样的方式可以快速拉起一个干净的 MySQL 同时映射到宿主主机和应用进行连接</p>
+<h3 id="Docker部署Redis单点-SpringBoot最佳实践"><a href="#Docker部署Redis单点-SpringBoot最佳实践" class="headerlink" title="Docker部署Redis单点+SpringBoot最佳实践"></a>Docker部署Redis单点+SpringBoot最佳实践</h3><p>项目需要用到 Redis 来做数据缓存，减少 DB 频繁的读取压力</p>
+<p>直接和 MySQL 一样本地拉一个容器</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run --name ficp_redis -v c:/Users/28459/Desktop/PDS/redis_docker_data:/data -p 6379:6379 -d redis:latest<br></code></pre></td></tr></table></figure>
+
+<p>之后通过 Another Redis Desktop Manager 客户端可以直接连接</p>
+<ul>
+<li><input disabled="" type="checkbox"> SpringBoot 整合 Redis 开发应用的最佳实践</li>
+</ul>
+<h3 id="SQL注入问题"><a href="#SQL注入问题" class="headerlink" title="SQL注入问题"></a>SQL注入问题</h3><p>回顾一下之前学习的 SQL 注入问题，其原理就是将 SQL 的查询条件参数以接口的方式暴露给客户端，由客户端程序进行编写之后在服务端进行 SQL 的拼接，可能会出现脏 SQL 的现象，例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> xxx;<br></code></pre></td></tr></table></figure>
+
+<p>这里的 xxx 我们交给用户进行填写，以前端参数传递</p>
+<p>但是这只是一种理想的状态，保证了用户一定会传递合法的参数，但是如果用户传递的参数是 <strong>xxx and 1 &#x3D; 1</strong> 最终执行的 SQL 就会是如下的情况</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">from</span> <span class="hljs-keyword">user</span> <span class="hljs-keyword">where</span> id <span class="hljs-operator">=</span> xxx <span class="hljs-keyword">and</span> <span class="hljs-number">1</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br></code></pre></td></tr></table></figure>
+
+<p>目前各大框架也都针对 SQL 注入进行了处理，例如经典的 JDBC 就提供了  PreparedStatement 接口来实现 SQL 注入的预防</p>
+<ul>
+<li><input disabled="" type="checkbox"> SQL注入的其他举例？</li>
+<li><input disabled="" type="checkbox"> PreparedStatement 如何预防SQL注入？</li>
+</ul>
+<h3 id="SpringBean-注入方式"><a href="#SpringBean-注入方式" class="headerlink" title="SpringBean 注入方式"></a>SpringBean 注入方式</h3><p>今天写代码的时候，由于需要注入 Redis 的客户端实例 RedisTemplate </p>
+<p>然后项目之前已经有了一个 Bean 的注入，一时之间没有发现这是 Bean 的注入方式，只能说 @AutoWired 和 CRUD 注解类害人不浅</p>
+<ul>
+<li>构造器注入</li>
+<li>@Bean 方法名注入 bean 对象</li>
+</ul>
+<h2 id="0724"><a href="#0724" class="headerlink" title="0724"></a>0724</h2><h3 id="JDBC-API"><a href="#JDBC-API" class="headerlink" title="JDBC API"></a>JDBC API</h3><h2 id="0725"><a href="#0725" class="headerlink" title="0725"></a>0725</h2><h3 id="QueryDSL-SpringDataJPA-动态参数传递-模糊查询"><a href="#QueryDSL-SpringDataJPA-动态参数传递-模糊查询" class="headerlink" title="QueryDSL+SpringDataJPA 动态参数传递+模糊查询"></a>QueryDSL+SpringDataJPA 动态参数传递+模糊查询</h3><p>今天有个需求是前端动态传递参数并且后端进行模糊查询</p>
+<p>这给我搞蒙了，本身对 JPA 就不是很熟悉，模糊查询确实直接在 Repository 中用 Like 关键字定义方法名称就能实现全自动查询</p>
+<p>但是动态参数传递确实是第一次在 JPA 遇到，以前都从来没用过，整理了一下内容：</p>
+<p>首先是在 Repository 位置继承 QuerydslPredicateExecutor 接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">MetadataRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">JpaRepository</span>&lt;MetadataPO, Long&gt;,QuerydslPredicateExecutor&lt;MetadataPO&gt;&#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>之后在上游的 Service 方法中，对参数存在与否进行判断拼接，之后将拼接的对象转换为 Predicate 类型的参数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> Page&lt;MetadataPO&gt; <span class="hljs-title function_">queryPageByDatabaseAndTableNameAndGroupId</span><span class="hljs-params">(String databaseName, String tableName, Long groupId, Pageable pageable)</span> &#123;<br>	<span class="hljs-type">QMetadataPO</span> <span class="hljs-variable">po</span> <span class="hljs-operator">=</span> QMetadataPO.metadataPO;<br>	<span class="hljs-type">BooleanBuilder</span> <span class="hljs-variable">builder</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BooleanBuilder</span>();<br>	<span class="hljs-keyword">if</span> (tableName != <span class="hljs-literal">null</span> &amp;&amp; !tableName.isEmpty())&#123;<br>		<span class="hljs-comment">//对模糊查询的表名下划线进行转义</span><br>		<span class="hljs-keyword">if</span> (tableName.contains(<span class="hljs-string">&quot;_&quot;</span>))&#123;<br>			tableName = tableName.replaceAll(<span class="hljs-string">&quot;_&quot;</span>, <span class="hljs-string">&quot;\\_&quot;</span>);<br>		&#125;<br>		builder.and(po.tableName.like(<span class="hljs-string">&quot;%&quot;</span> + tableName + <span class="hljs-string">&quot;%&quot;</span>));<br>	&#125;<br>	<span class="hljs-keyword">if</span> (databaseName != <span class="hljs-literal">null</span> &amp;&amp; !databaseName.isEmpty())&#123;<br>		builder.and(po.databaseName.eq(databaseName));<br>	&#125;<br>	<span class="hljs-keyword">if</span> (groupId != <span class="hljs-literal">null</span>)&#123;<br>		builder.and(po.groupIds.contains(groupId));<br>	&#125;<br>       <span class="hljs-comment">//这里会直接调用传递 Predicate 参数</span><br>	<span class="hljs-keyword">return</span> metadataRepository.findAll(builder, pageable);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="软件工程专业的怎么能不学电工知识呢"><a href="#软件工程专业的怎么能不学电工知识呢" class="headerlink" title="软件工程专业的怎么能不学电工知识呢"></a>软件工程专业的怎么能不学电工知识呢</h3><p>心血来潮想把焊接知识学习一下</p>
+<p>一直想自己动手把 x360 做一个 RHG3.0 的 mod ，但是苦于不会焊接一直没办法做</p>
+<p>同时 Switch 的 modchip 也已经比较成熟，生态和价格都已经相对友好</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1qr4y1J7bW">整合抽取了油管的 Soldering Tutorial 精华部分切片</a></p>
+<p>后续可以考虑出一个文章记录</p>
 
                 
               </div>
