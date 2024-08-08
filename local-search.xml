@@ -4,11 +4,65 @@
   
   
   <entry>
+    <title>Zookeeper|部署与实战</title>
+    <link href="/2024/08/08/Zookeeper-%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%AE%9E%E6%88%98/"/>
+    <url>/2024/08/08/Zookeeper-%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%AE%9E%E6%88%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Zookeeper重要概念-amp-架构"><a href="#Zookeeper重要概念-amp-架构" class="headerlink" title="Zookeeper重要概念&amp;架构"></a>Zookeeper重要概念&amp;架构</h1><p><a href="https://zookeeper.apache.org/doc/current/zookeeperOver.html">ZooKeeper | Overview</a></p><p><a href="https://zookeeper.apache.org/doc/current/zookeeperStarted.html">ZooKeeper | Quick Start</a></p><h3 id="数据模型和命名空间结构"><a href="#数据模型和命名空间结构" class="headerlink" title="数据模型和命名空间结构"></a>数据模型和命名空间结构</h3><p>ZK 的目录树结构有点类似文件系统，但是也有所区别</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1723089429545-3e14456d-da46-4790-ac32-59e41fd5faf0.png"></p><h3 id="ZNode"><a href="#ZNode" class="headerlink" title="ZNode"></a>ZNode</h3><p>ZK中称每一个注册到ZK的节点为 ZNode，每个 ZNode 之间通过&#x2F;来进行分层，进行父子关系区分</p><p>每个 znode 包含了一个记录自身数据变化版本，访问权限控制，时间戳等的状态信息，用于缓存验证和一致性更新。每当 znode 的数据发生变化时，版本号会更新，因此任何一个客户端读取到 ZNode 的数据都包含了数据版本信息</p><p>ZNode 也有分很多类型，比较常用的是 Ephmeral 类型的节点，这种类型的节点会随着 服务节点和 ZK 连接会话的消亡而一起消亡，只要会话还保持心跳链接，这个 ZNode 就可以一致存在；如果会话结束，节点自动删除，节省资源</p><h3 id="条件更新和-Watchers"><a href="#条件更新和-Watchers" class="headerlink" title="条件更新和 Watchers"></a>条件更新和 Watchers</h3><p>ZK中的 Watch 类似事件驱动的消息</p><p>当 ZNode 发生变更时（通常就是断联），Watch 将会被触发和移除</p><p>当 Watch 触发时，客户端会受到 ZNode 发生变更的消息</p><p>3.6.0 以后支持客户端设置常驻Watcher，这种类型的Watcher在触发之后不会被删除，同时会触发关于某个 ZNode 和其所有子 ZNode 的消息</p><h3 id="常见API"><a href="#常见API" class="headerlink" title="常见API"></a>常见API</h3><ul><li>create 在ZK维护的路径树上新增 ZNode</li><li>delete</li><li>exists 判断某个指定位置是否存在指定 ZNode</li><li>get data 读取 ZNode 数据</li><li>set data 写数据</li><li>get childeren 获取某个 ZNode 下所有 ZNode</li><li>sync 同步数据传播（？）</li></ul><h1 id="Docker部署Zookeeper最佳实践"><a href="#Docker部署Zookeeper最佳实践" class="headerlink" title="Docker部署Zookeeper最佳实践"></a>Docker部署Zookeeper最佳实践</h1><h2 id="单点部署"><a href="#单点部署" class="headerlink" title="单点部署"></a>单点部署</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker run -d --name zk-standalone -p 2181:2181 -p 2888:2888 -p 3888:3888 -v G:/Docker Volumes/zk_standalone:/data -e ZOO_MY_ID=1 zookeeper:latest<br></code></pre></td></tr></table></figure><p>CLI接口交互执行</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker <span class="hljs-built_in">exec</span> -it zk-standalone bin/zkCli.sh -server localhost:2181<br></code></pre></td></tr></table></figure><h2 id="集群部署"><a href="#集群部署" class="headerlink" title="集群部署"></a>集群部署</h2><p>TODO，目前暂时没有需求，一个 Docker-compose 即可在单机上拉集群，Kubernetes 应该可以部署多点集群</p><h1 id="Spring-Boot-整合-Curator"><a href="#Spring-Boot-整合-Curator" class="headerlink" title="Spring Boot 整合 Curator"></a>Spring Boot 整合 Curator</h1><p>更多的时候还是通过项目的客户端接口来对 ZK 进行 ZNode 操作，项目使用的是 Curator</p><h2 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h2><p><a href="https://curator.apache.org/docs/getting-started">Getting Started | Apache Curator</a></p><p>官方提供了预构建的 Curator Recipes 部署包</p><p>当然很多时候我们只是想要用 Curator 更方便的客户端包，只需要引用 Curator Framework 即可</p><h2 id="获得连接"><a href="#获得连接" class="headerlink" title="获得连接"></a>获得连接</h2><p>对于一个 ZK 的集群对象，只需要一个 CuratorFramework 实例</p><p>建议针对项目新增一个配置类，来映射配置文件的地址信息</p><p>在实例化客户端对象的时候需要的参数大致就是：</p><ul><li>ZK的ip:port</li><li>会话超时时间</li><li>连接超时时间</li><li>重试次数</li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">CuratorFramework</span> <span class="hljs-variable">cf</span> <span class="hljs-operator">=</span> CuratorFrameworkFactory.newClient(...);<br>cf.start();<br></code></pre></td></tr></table></figure><p>客户端实例对象 CuratorFramework 必须在使用前 start 不需要时 close</p><p>之后就是一些增删改查的基础 API 了</p><p>Curator 提供的 API 基本都是流式接口的规范，也就是链式调用</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">cf.create().withMode(CreateMode.EPHEMERAL).forPath(path, bytes);<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>中间件</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Distributed System</tag>
+      
+      <tag>EDA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Nand2Tetris|Week0</title>
+    <link href="/2024/08/07/Nand2Tetris-Week0/"/>
+    <url>/2024/08/07/Nand2Tetris-Week0/</url>
+    
+    <content type="html"><![CDATA[<h1 id="从数字电路开始"><a href="#从数字电路开始" class="headerlink" title="从数字电路开始"></a>从数字电路开始</h1><p>大部分内容大一数字电路也都学过，这里再重复一下比较重要的知识点</p><ul><li>所谓设计电路，本质上就是在求解布尔表达式，只要布尔表达式算出来了，剩下的就是根据条件允许的门电路，对表达式进行化简的过程</li><li>多路复用器 Multiplexor (MUX) 和 解多路复用器 Demultiplexor (DMUX)<ul><li>多路复用器有三个输入 A B Sel 其中通过 Sel 选择指定将会输出哪一个信号</li><li>解多路复用器则是两个输入 In 和 Sel 其中 Sel 指定 In 的输入从哪一个口输出</li></ul></li></ul><p>课程限制了我们只使用 NAND （与非门） 来实现所有的电路，因此我们需要使用合适的布尔运算法则来进行化简，最常见的布尔运算法则有：</p><ul><li>DeMorgan’s Rule (AB)’ &#x3D; A’ + B’ （元素和符号都取反）</li><li>A XOR B &#x3D; A’B + AB’</li></ul><h2 id="只使用-NAND-实现"><a href="#只使用-NAND-实现" class="headerlink" title="只使用 NAND 实现"></a>只使用 NAND 实现</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>CS_Basic</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>CSAPP</tag>
+      
+      <tag>Nand2Tetris</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>游戏札记|Ys X-Nordics</title>
     <link href="/2024/08/06/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-Ys-X-Nordics/"/>
     <url>/2024/08/06/%E6%B8%B8%E6%88%8F%E6%9C%AD%E8%AE%B0-Ys-X-Nordics/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h1 id="主要登场角色"><a href="#主要登场角色" class="headerlink" title="主要登场角色"></a>主要登场角色</h1><h2 id="亚特鲁-克里斯汀"><a href="#亚特鲁-克里斯汀" class="headerlink" title="亚特鲁 克里斯汀"></a>亚特鲁 克里斯汀</h2><p>cv：梶裕贵</p><p>其他的其实游戏里面都有</p><p>这里不再重复赘述</p><p>本文只记录游戏中没有记录的（例如剧情走向等信息）</p><h1 id="主要剧情"><a href="#主要剧情" class="headerlink" title="主要剧情"></a>主要剧情</h1><h2 id="序幕-袭击"><a href="#序幕-袭击" class="headerlink" title="序幕 [袭击]"></a>序幕 [袭击]</h2><p>亚特鲁和多奇还有在伊苏大陆上遇到的医师，乘坐着阿达玛斯号一起前往塞尔塞塔</p><p>谁料在经过卡尔纳克海域时，遭受了臭名昭著的海盗[诺曼人]的袭击</p><p>阿达玛斯号的船长由于没有按照规定交纳过路费，还违反规定携带保镖，被海盗一行以及不愿透露姓名的海盗公主当场拿下</p><h2 id="第一部-卡尔纳克"><a href="#第一部-卡尔纳克" class="headerlink" title="第一部 [卡尔纳克]"></a>第一部 [卡尔纳克]</h2><p>因为阿达玛斯号违反了海域条约，因此亚特鲁一行人不得不在卡尔纳克下船</p><p>在酒馆听说这个海域负责管控的主要是诺曼人</p><p>他们会对过往的船只收取一定的费用来保证安全，同时也不受罗门帝国的管控</p><p>亚特鲁和多奇一行人决定现在卡尔纳克找到一份工作获得收入，之后再想办法前往塞尔塞塔</p><p>多奇找到了搬运工的工作，医师找到了镇上药师助手的工作，而亚特鲁则想加入当地镇上的警卫队</p><p>在前往警卫队海边时，亚特鲁意外获得了一个神奇海螺，得到了玛娜的力量，同时也第一次遇到了不死野狼；只有通过玛娜的力量，才能彻底击败，后来得知，这样的怪物叫做 <strong>古里格</strong></p><p>得到了玛娜力量的亚特鲁，阴差阳错的在沙滩上和海盗公主：卡嘉被莫名的力量绑定在了一起</p><p>谁知当天卡尔纳克镇就受到了古里格的入侵，酒馆的女儿外出未归，亚特鲁决定和卡嘉一起前往营救</p><p>前往大灯塔营救了酒馆的女儿以及镇上的居民后，收获了卡尔纳克镇居民的认可，大家也对这个诺曼公主有所改观</p><p>警卫队的小兵，同时也是卡尔纳克镇 镇长的儿子，邀请亚特鲁前往他们在废旧船只下的聚集地，原来镇上的同龄人都互相认识，并且有一个秘密行动基地</p><p>亚特鲁很快就和大家打成了一片，卡嘉也逐渐融入到大家中</p><p>可惜好景不长，卡尔纳克又一次受到了古里格的入侵，这一次甚至出现了人形古里格，他们有自己的意识，同时还能操作其他的古里格</p><p>秘密行动队的大家都被抓走了，只剩下警卫队的镇长儿子和亚特鲁和卡嘉一起，三人和人形古里格一番交战过后，决定先乘船离开卡尔纳克，回到诺曼的营地——巴尔塔岛 寻求帮助</p><h2 id="第二部-盾之兄弟"><a href="#第二部-盾之兄弟" class="headerlink" title="第二部 [盾之兄弟]"></a>第二部 [盾之兄弟]</h2><p>来到诺曼人的营地 巴尔塔岛后，休息了一晚（因为锁链的问题，还是和卡嘉睡在一间房的 XD</p><p>第二天的大会上，卡嘉的父亲，巴尔塔岛老大——格里姆森展现出了身为领袖对于人民无微不至的关怀（在大会结束后，也能从路人的对话中详细看到诺曼人日常生活中的琐事）</p><p>格里姆森向大家介绍亚特鲁，身为罕见的玛娜使用者，格里姆森希望亚特鲁能留下一起贡献一份力量，更多的也是为了营救和巴尔塔长期以来有合作关系的卡尔纳克的人民</p><p>也正是通过这个机会，亚特鲁对诺曼人有了更多的了解，其实他们远没有想象中的那样危险，他们负责守护这片海域，由于诺曼人中也有部分人会使用玛娜之力，因此诺曼人也在帮忙清除具有威胁的 古里格</p><p>格里姆森说到想要得到认可还需要参加一个试炼，能证明自己就是卡嘉的盾之兄弟，能让卡嘉在战场中将自己的身后交给亚特鲁</p><p>为了这个挑战，亚特鲁和卡嘉走访巴尔塔岛的人民，获得了经济和装备上的支持，启程前往试炼之地 雷克托岛——考验洞窟了</p>]]></content>
     
     
     <categories>
