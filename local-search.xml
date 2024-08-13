@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>Win11内存管理</title>
+    <link href="/2024/08/13/Win11%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
+    <url>/2024/08/13/Win11%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Edge优化"><a href="#Edge优化" class="headerlink" title="Edge优化"></a>Edge优化</h1><p>Edge 本身可以说是几家浏览器产品中性能优化最好的了，内存占用和硬件资源调度因为原生的原因做的都很不错</p><p>但是最近新加了一些没用的但是也很臃肿的功能，可以尝试关闭</p><h2 id="系统性能"><a href="#系统性能" class="headerlink" title="系统性能"></a>系统性能</h2><p>设置-系统和性能</p><ul><li>关闭启动增强，这玩意会在后台一直挂着一个进程用于快速开启浏览器，可以关掉这个减少内存占用，慢就慢一点</li><li>关闭继续运行后台扩展和应用，AdBlock也可以尝试关闭，内存占用较高</li><li>关闭在可用时使用图形加速</li><li>效率模式选择君和的节点量，资源调度和响应速度的折衷处理</li></ul><h1 id="IDEA优化"><a href="#IDEA优化" class="headerlink" title="IDEA优化"></a>IDEA优化</h1><p>一些没用的插件都可以直接卸载</p><p>Bundle 的就 Disable 掉</p><p>可以显著减少内存占用，亲测关闭了很多对大型项目运行没有帮助但是还是很占用内存的插件，直接腾出 1G 的 RAM 空间</p><h1 id="Antimalware"><a href="#Antimalware" class="headerlink" title="Antimalware"></a>Antimalware</h1><p>Windows Defender 的一个子程序</p><p>属于是流氓软件了，不能手动停止进程，开机自启</p><p>直接使用 dControl(v2.1) 强制关闭</p><p><a href="https://www.cnblogs.com/rqcim/p/16116684.html">Windows 11 彻底关闭 Windows Defender 降低内存占用，杀掉 Antimalware Service Executable 进程</a></p><h1 id="AlibabaProtect"><a href="#AlibabaProtect" class="headerlink" title="AlibabaProtect"></a>AlibabaProtect</h1><p>这个也是一个流氓软件，建议删除</p><p>服务无法在 Service 中进行禁用</p><p>可以通过管理员身份运行 Terminal 进行禁用</p><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sc delete AliababaProtect<br></code></pre></td></tr></table></figure><p>会先标志为已删除，之后重启电脑的时候就不会再运行了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Game</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Hardware</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Zookeeper|部署与实战</title>
     <link href="/2024/08/08/Zookeeper-%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%AE%9E%E6%88%98/"/>
     <url>/2024/08/08/Zookeeper-%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%AE%9E%E6%88%98/</url>
