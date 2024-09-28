@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Zookeeper|数据同步最佳实践</title>
+    <link href="/2024/09/28/Zookeeper-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
+    <url>/2024/09/28/Zookeeper-%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</url>
+    
+    <content type="html"><![CDATA[<h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>项目目前采用的是分布式系统的架构，虽然不能算得上是微服务，但是也是需要部署指定服务的集群，核心业务服务部署集群和控制台服务需要通过某种方式来进行协调保证数据的一致性</p><p>目前采用的方式是通过 ZK 来进行数据的同步</p><p>涉及到一些基本概念：</p><ul><li><strong>Znode（ZooKeeper Node）</strong>: ZooKeeper 的数据单位，类似于文件系统中的目录和文件。Znode 可以存储数据，客户端（也就是我们注册到 ZK 的服务，对于 ZK 来说是客户端）可以对 ZNode 进行 CRUD 操作。 ZooKeeper 使用类似于树状结构的数据模型，根节点为 <code>/</code>，其下可以有多个子节点，每个子节点可以继续拥有自己的子节点</li><li><strong>会话（Session）</strong>: 客户端与 ZooKeeper 服务器之间的连接，每个会话有一个超时时间，若超时则会话失效。</li><li><strong>Watch 机制</strong>: ZooKeeper 提供的一种事件通知机制，客户端可以对特定的 Znode 设置 Watch 监听，当 Znode 发生变化时（这个变化一般来说也是业务系统中指定的操作来对 ZNode 的数据进行变化操作），ZooKeeper 会通知监听了这个 ZNode 的客户端，执行对应的操作</li></ul><h1 id="数据同步流程"><a href="#数据同步流程" class="headerlink" title="数据同步流程"></a>数据同步流程</h1><p>我们这里以 核心服务集群同步来自管理控制台不断更新的商品信息 这一需求为例</p><p>也就是用户可以在管理端控制台操作更新商品信息，核心处理业务的服务需要能够同步具体的商品信息</p><h2 id="启动-amp-节点注册"><a href="#启动-amp-节点注册" class="headerlink" title="启动 &amp; 节点注册"></a>启动 &amp; 节点注册</h2><p>客户端应用（例如 SpringBoot）在启动的时候通过 ZK 提供的客户端，比较常用的库是 Curator 来连接到 ZK 服务器</p><p>每个 SpringBoot 应用在 ZK 中注册自己的服务信息，这个服务信息，也可以是一个 ZNode (TEMPORAL类型)，当 SpringBoot 应用挂掉的时候， ZK 上对应的 ZNode 会被删除，从而实现核心服务业务和管理控制台之间状态的监听</p><h2 id="注册-Watcher-监听"><a href="#注册-Watcher-监听" class="headerlink" title="注册 Watcher 监听"></a>注册 Watcher 监听</h2><p>管理控制台将业务需要用到的商品数据存储在 ZK 的指定 path(例如 &#x2F;coreService&#x2F;instance1)上的 ZNode 上</p><p>核心服务集群中每一个实例，在启动注册的时候，都监听 ZK 的对应 path 中上的 ZNode 信息，监听的类型为 Update 事件，也就是每当 ZK 上这个 ZNode 的数据更新时，就要同步更新自己持有的商品数据</p><p>那么 ZK 上这个 ZNode 的数据什么时候会更新，就是在前端用户对商品进行修改操作的时候，管理控制台除了更新入库操作外，还要去更新 ZK 上 ZNode 的数据</p><p>当 ZK 上 ZNode 数据发生变化时，ZooKeeper 会触发 Watch 事件，我们的核心业务服务应用接收到通知后，重新读取最新的 ZNode 数据并更新（这个就要看具体业务了，在这里可能是根据商品唯一不变标识来进行内存中数据的更新操作，具体根据业务可以定制处理）</p><blockquote><p>需要注意的是：Watch 事件是一次性的，应用需要在处理完事件后重新设置 Watch，以持续监听后续的变化</p></blockquote><p>通过上述的流程，我们的服务应用集群的每一个节点就可以通过 ZK 来保证数据的一致性</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>中间件</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Distributed System</tag>
+      
+      <tag>EDA</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Nintendo 3DS|折腾记录</title>
     <link href="/2024/08/20/Nintendo-3DS-%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/"/>
     <url>/2024/08/20/Nintendo-3DS-%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95/</url>
