@@ -24,13 +24,15 @@
 <meta property="og:description" content="Kafka 快速上手">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240528172053687.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/v2-7979e474d2e58b3ae2b195a9b3a8853e_r.jpg">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/v2-60bd008ce076bd51b93ce4f46ae190d0_720w.webp">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240529092631644.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240529093646528.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240529094018695.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240529094403038.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20240529094423895.png">
 <meta property="article:published_time" content="2024-05-28T08:52:15.000Z">
-<meta property="article:modified_time" content="2024-05-29T01:56:07.307Z">
+<meta property="article:modified_time" content="2024-10-08T07:32:40.785Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="EDA">
 <meta property="article:tag" content="Distribued System">
@@ -229,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.7k 字
         
       </span>
     
@@ -240,7 +242,7 @@
         
         
         
-          11 分钟
+          15 分钟
         
       </span>
     
@@ -321,7 +323,21 @@
 <li>副本：高可用</li>
 </ul>
 </blockquote>
+<h1 id="重要架构概念"><a href="#重要架构概念" class="headerlink" title="重要架构概念"></a>重要架构概念</h1><h2 id="消费者组"><a href="#消费者组" class="headerlink" title="消费者组"></a>消费者组</h2><p>由于消息比较多，因此一个 topic 下的消息可能需要多个消费者来进行消费</p>
+<p>同时由于 Kafka 中，只需写入一次消息，可以支持任意多的应用读取这个消息。因此通常而言，我们不同的系统应用，会配置不同的消费者组，来消费同一个 topic 下的消息，从而<strong>实现每个应用都能读到全量消息</strong></p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/v2-7979e474d2e58b3ae2b195a9b3a8853e_r.jpg" srcset="/img/loading.gif" lazyload alt="不同消费组消费同一个 topic "></p>
+<h2 id="整体架构"><a href="#整体架构" class="headerlink" title="整体架构"></a>整体架构</h2><p>用一张图来概括 kafka 的整体架构就是</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/v2-60bd008ce076bd51b93ce4f46ae190d0_720w.webp" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>其中：</p>
+<ul>
+<li>Producer 和 Consumer 不必多说了，其实就是各种客户端应用程序来调用 Kafka 对外暴露接口的 API 发送和拉取消息</li>
+<li>Broker：可以理解为<strong>独立的 Kafka 实例</strong>。多个 Kafka Broker 组成一个 Kafka Cluster</li>
+<li>Topic：是多个消息的集合，一般来说<strong>一堆需要被一个（或者多个）应用消费的消息所构成的集合就是 Topic</strong></li>
+<li>Partition：队列，一个 Topic下可以包含多个 Partiion，多个 Partition 数据不会重复。<strong>Partition的存在提高了并发能力</strong></li>
+<li>Replica：可以看到在图中，不同 Broker 服务下，相同 Topic 里，存在相同的 Partition，这是 Kafka 实现高可用的一种思想；<strong>分区存在多个副本，生产的消息会发送到 Broker 的 Leader Replica 上，由 Followers 在 Kafka 内部进行同步</strong></li>
+</ul>
 <h1 id="部署实践"><a href="#部署实践" class="headerlink" title="部署实践"></a>部署实践</h1><h2 id="本地部署"><a href="#本地部署" class="headerlink" title="本地部署"></a>本地部署</h2><p>Kafka 的部署需要 ZooKeeper 的依赖，好在最新版本已经内置了 Zookeeper 的启动方式，一行命令即可</p>
+<p>值得注意的是，旧版的 Kafka 对 ZK 强依赖，后面新版本中实现了基于 Raft 的分布式共识协调方式来替换 ZK</p>
 <p>官网下载的 release 包含 <code>.sh</code> 的 Linux 部署方式以及在 <code>\bin\windows</code> 的 <code>.bat</code> 部署方式，结合实际生产环境和测试环境来部署即可</p>
 <figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bat">.\zookeeper-server-<span class="hljs-built_in">start</span>.bat ..\..\config\zookeeper.properties<br></code></pre></td></tr></table></figure>
 
@@ -455,8 +471,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/05/28/Akka-Introduction/" title="Akka|Introduction">
-                        <span class="hidden-mobile">Akka|Introduction</span>
+                      <a href="/2024/05/28/Groovy/" title="Groovy">
+                        <span class="hidden-mobile">Groovy</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
