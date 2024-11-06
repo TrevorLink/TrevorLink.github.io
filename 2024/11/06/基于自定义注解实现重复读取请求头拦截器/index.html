@@ -16,25 +16,22 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Zookeeper 架构&amp;部署&amp;整合SpringBoot实战">
+    <meta name="description" content="解决接口请求数据不可重复读取多次问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Zookeeper|部署与实战">
-<meta property="og:url" content="http://example.com/2024/08/08/Zookeeper-%E9%83%A8%E7%BD%B2%E4%B8%8E%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:title" content="基于自定义注解实现重复读取请求头拦截器">
+<meta property="og:url" content="http://example.com/2024/11/06/%E5%9F%BA%E4%BA%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E9%87%8D%E5%A4%8D%E8%AF%BB%E5%8F%96%E8%AF%B7%E6%B1%82%E5%A4%B4%E6%8B%A6%E6%88%AA%E5%99%A8/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="Zookeeper 架构&amp;部署&amp;整合SpringBoot实战">
+<meta property="og:description" content="解决接口请求数据不可重复读取多次问题">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1723089429545-3e14456d-da46-4790-ac32-59e41fd5faf0.png">
-<meta property="article:published_time" content="2024-08-08T05:57:19.000Z">
-<meta property="article:modified_time" content="2024-08-08T07:03:30.002Z">
+<meta property="article:published_time" content="2024-11-06T08:57:05.000Z">
+<meta property="article:modified_time" content="2024-11-06T09:20:09.616Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="EDA">
-<meta property="article:tag" content="Distributed System">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1723089429545-3e14456d-da46-4790-ac32-59e41fd5faf0.png">
   
   
   
-  <title>Zookeeper|部署与实战 - Zanarkand</title>
+  <title>基于自定义注解实现重复读取请求头拦截器 - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -200,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Zookeeper|部署与实战"></span>
+            <span id="subtitle" data-typed-text="基于自定义注解实现重复读取请求头拦截器"></span>
           
         </div>
 
@@ -211,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-08 13:57" pubdate>
-          2024年8月8日 下午
+        <time datetime="2024-11-06 16:57" pubdate>
+          2024年11月6日 下午
         </time>
       </span>
     
@@ -223,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          702 字
+          572 字
         
       </span>
     
@@ -234,7 +231,7 @@
         
         
         
-          6 分钟
+          5 分钟
         
       </span>
     
@@ -271,56 +268,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Zookeeper|部署与实战</h1>
+            <h1 id="seo-header">基于自定义注解实现重复读取请求头拦截器</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Zookeeper重要概念-amp-架构"><a href="#Zookeeper重要概念-amp-架构" class="headerlink" title="Zookeeper重要概念&amp;架构"></a>Zookeeper重要概念&amp;架构</h1><p><a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/current/zookeeperOver.html">ZooKeeper | Overview</a></p>
-<p><a target="_blank" rel="noopener" href="https://zookeeper.apache.org/doc/current/zookeeperStarted.html">ZooKeeper | Quick Start</a></p>
-<h3 id="数据模型和命名空间结构"><a href="#数据模型和命名空间结构" class="headerlink" title="数据模型和命名空间结构"></a>数据模型和命名空间结构</h3><p>ZK 的目录树结构有点类似文件系统，但是也有所区别</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/1723089429545-3e14456d-da46-4790-ac32-59e41fd5faf0.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="ZNode"><a href="#ZNode" class="headerlink" title="ZNode"></a>ZNode</h3><p>ZK中称每一个注册到ZK的节点为 ZNode，每个 ZNode 之间通过&#x2F;来进行分层，进行父子关系区分</p>
-<p>每个 znode 包含了一个记录自身数据变化版本，访问权限控制，时间戳等的状态信息，用于缓存验证和一致性更新。每当 znode 的数据发生变化时，版本号会更新，因此任何一个客户端读取到 ZNode 的数据都包含了数据版本信息</p>
-<p>ZNode 也有分很多类型，比较常用的是 Ephmeral 类型的节点，这种类型的节点会随着 服务节点和 ZK 连接会话的消亡而一起消亡，只要会话还保持心跳链接，这个 ZNode 就可以一致存在；如果会话结束，节点自动删除，节省资源</p>
-<h3 id="条件更新和-Watchers"><a href="#条件更新和-Watchers" class="headerlink" title="条件更新和 Watchers"></a>条件更新和 Watchers</h3><p>ZK中的 Watch 类似事件驱动的消息</p>
-<p>当 ZNode 发生变更时（通常就是断联），Watch 将会被触发和移除</p>
-<p>当 Watch 触发时，客户端会受到 ZNode 发生变更的消息</p>
-<p>3.6.0 以后支持客户端设置常驻Watcher，这种类型的Watcher在触发之后不会被删除，同时会触发关于某个 ZNode 和其所有子 ZNode 的消息</p>
-<h3 id="常见API"><a href="#常见API" class="headerlink" title="常见API"></a>常见API</h3><ul>
-<li>create 在ZK维护的路径树上新增 ZNode</li>
-<li>delete</li>
-<li>exists 判断某个指定位置是否存在指定 ZNode</li>
-<li>get data 读取 ZNode 数据</li>
-<li>set data 写数据</li>
-<li>get childeren 获取某个 ZNode 下所有 ZNode</li>
-<li>sync 同步数据传播（？）</li>
-</ul>
-<h1 id="Docker部署Zookeeper最佳实践"><a href="#Docker部署Zookeeper最佳实践" class="headerlink" title="Docker部署Zookeeper最佳实践"></a>Docker部署Zookeeper最佳实践</h1><h2 id="单点部署"><a href="#单点部署" class="headerlink" title="单点部署"></a>单点部署</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker run -d --name zk-standalone -p 2181:2181 -p 2888:2888 -p 3888:3888 -v G:/Docker Volumes/zk_standalone:/data -e ZOO_MY_ID=1 zookeeper:latest<br></code></pre></td></tr></table></figure>
-
-<p>CLI接口交互执行</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">docker <span class="hljs-built_in">exec</span> -it zk-standalone bin/zkCli.sh -server localhost:2181<br></code></pre></td></tr></table></figure>
-
-<h2 id="集群部署"><a href="#集群部署" class="headerlink" title="集群部署"></a>集群部署</h2><p>TODO，目前暂时没有需求，一个 Docker-compose 即可在单机上拉集群，Kubernetes 应该可以部署多点集群</p>
-<h1 id="Spring-Boot-整合-Curator"><a href="#Spring-Boot-整合-Curator" class="headerlink" title="Spring Boot 整合 Curator"></a>Spring Boot 整合 Curator</h1><p>更多的时候还是通过项目的客户端接口来对 ZK 进行 ZNode 操作，项目使用的是 Curator</p>
-<h2 id="版本选择"><a href="#版本选择" class="headerlink" title="版本选择"></a>版本选择</h2><p><a target="_blank" rel="noopener" href="https://curator.apache.org/docs/getting-started">Getting Started | Apache Curator</a></p>
-<p>官方提供了预构建的 Curator Recipes 部署包</p>
-<p>当然很多时候我们只是想要用 Curator 更方便的客户端包，只需要引用 Curator Framework 即可</p>
-<h2 id="获得连接"><a href="#获得连接" class="headerlink" title="获得连接"></a>获得连接</h2><p>对于一个 ZK 的集群对象，只需要一个 CuratorFramework 实例</p>
-<p>建议针对项目新增一个配置类，来映射配置文件的地址信息</p>
-<p>在实例化客户端对象的时候需要的参数大致就是：</p>
+                <h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>目前的需求是，由于服务端不是简单的控制台而是计算引擎，因此暴露的接口在接收客户端参数的时候进行签名校验</p>
+<p>客户端将签名参数设置在 RequestHeader 中传递，将接口入参设置在 RequestBody 中</p>
+<p>朴素的做法是直接读取数据流中的数据，但是 ServletRequest 的 getInputStream 和 getReader 是不可重复调用的，读完数据就没了，因此需要实现可重复读取请求头</p>
+<h1 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h1><p>基本的思路是在请求处理之前通过 HandlerInterceptor 拦截，将 HttpServletRequest 中的数据获取到并缓存在内存中，再通过框架提供的配置接口将数据 Set 回去</p>
+<p>因此总结分为两个部分处理：</p>
 <ul>
-<li>ZK的ip:port</li>
-<li>会话超时时间</li>
-<li>连接超时时间</li>
-<li>重试次数</li>
+<li>拦截请求</li>
+<li>缓存请求数据并重新设置回去</li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">CuratorFramework</span> <span class="hljs-variable">cf</span> <span class="hljs-operator">=</span> CuratorFrameworkFactory.newClient(...);<br>cf.start();<br></code></pre></td></tr></table></figure>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="缓存请求并重新设置回请求对象"><a href="#缓存请求并重新设置回请求对象" class="headerlink" title="缓存请求并重新设置回请求对象"></a>缓存请求并重新设置回请求对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Provides a convenient implementation of the HttpServletRequest interface that can be subclassed by developers wishing to adapt the request to a Servlet.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * &lt;p&gt;</span><br><span class="hljs-comment"> * This class implements the Wrapper or Decorator pattern. Methods default to calling through to the wrapped request object.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@see</span> javax.servlet.http.HttpServletRequest</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@since</span> Servlet 2.3</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HttpServletRequestWrapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ServletRequestWrapper</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HttpServletRequest</span> &#123;&#125;<br></code></pre></td></tr></table></figure>
 
-<p>客户端实例对象 CuratorFramework 必须在使用前 start 不需要时 close</p>
-<p>之后就是一些增删改查的基础 API 了</p>
-<p>Curator 提供的 API 基本都是流式接口的规范，也就是链式调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">cf.create().withMode(CreateMode.EPHEMERAL).forPath(path, bytes);<br></code></pre></td></tr></table></figure>
+<p>我们需要继承 MVC 提供的一个基础 Warpper 类，这个类提供了最基础的基于 HttpServletRequest 的实现，我们可以在这上面进行自己业务的特殊需求实现（缓存请求数据）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HttpRequestWrapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServletRequestWrapper</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">byte</span>[] m_byteRequestBody;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> HttpServletRequest m_pRequest;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">HttpRequestWrapper</span><span class="hljs-params">(HttpServletRequest pRequest)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-built_in">super</span>(pRequest);<br>        <span class="hljs-built_in">this</span>.m_pRequest = pRequest;<br>        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">byteStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>        <span class="hljs-comment">//缓存数据，其实这里调用getInputStream()的时候request的数据就已经没了</span><br>        IOUtils.copy(m_pRequest.getInputStream(), byteStream);<br>        <span class="hljs-built_in">this</span>.m_byteRequestBody = byteStream.toByteArray();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">byte</span>[] getRequestBody() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.m_byteRequestBody;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> ServletInputStream <span class="hljs-title function_">getInputStream</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">byteStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(m_byteRequestBody);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServletInputStream</span>() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isFinished</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isReady</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setReadListener</span><span class="hljs-params">(ReadListener listener)</span> &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>(<span class="hljs-string">&quot;Async not supported&quot;</span>);<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">read</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> byteStream.read();<br>            &#125;<br>        &#125;;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> BufferedReader <span class="hljs-title function_">getReader</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(<span class="hljs-built_in">this</span>.getInputStream()));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>核心在于我们重写了 getInputStream 方法，将缓存的数据byteStream返回到上游调用方 </p>
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>之后我们就可以根据我们的业务代码编写对应的签名拦截器</p>
+<p>由于签名校验是公共逻辑，我们可以自定义注解，通过拦截器拦截注解来处理，只对打了对应自定义注解的接口进行签名校验</p>
+<p>自定义注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Target(ElementType.METHOD)</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> SignatureCheck &#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SignInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HandlerInterceptor</span> &#123;<br>         <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>         	  <span class="hljs-comment">//拦截对应注解</span><br>            <span class="hljs-keyword">if</span> (handler <span class="hljs-keyword">instanceof</span> HandlerMethod) &#123;<br>            <span class="hljs-type">HandlerMethod</span> <span class="hljs-variable">pHandlerMethod</span> <span class="hljs-operator">=</span> (HandlerMethod) handler;<br>            <span class="hljs-type">SignCheck</span> <span class="hljs-variable">pSignCheck</span> <span class="hljs-operator">=</span> pHandlerMethod.getMethodAnnotation(SignCheck.class);<br>            <span class="hljs-keyword">if</span> (pSignCheck != <span class="hljs-literal">null</span>) &#123;<br>                 <span class="hljs-comment">//对应校验签名的业务代码</span><br>            	&#125;<br>            &#125;<br>         <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
 
 
 
@@ -342,7 +319,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="category-chain-item">中间件</a>
+  <a href="/categories/Spring/" class="category-chain-item">Spring</a>
   
   
 
@@ -357,9 +334,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/EDA/" class="print-no-link">#EDA</a>
-      
-        <a href="/tags/Distributed-System/" class="print-no-link">#Distributed System</a>
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
       
     </div>
   
@@ -371,8 +346,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Zookeeper|部署与实战</div>
-      <div>http://example.com/2024/08/08/Zookeeper-部署与实战/</div>
+      <div>基于自定义注解实现重复读取请求头拦截器</div>
+      <div>http://example.com/2024/11/06/基于自定义注解实现重复读取请求头拦截器/</div>
     </div>
     <div class="license-meta">
       
@@ -384,7 +359,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月8日</div>
+          <div>2024年11月6日</div>
         </div>
       
       
@@ -416,18 +391,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/13/Win11%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="Win11内存管理">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Win11内存管理</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/07/Nand2Tetris-Week0/" title="Nand2Tetris|Memory">
-                        <span class="hidden-mobile">Nand2Tetris|Memory</span>
+                      <a href="/2024/10/08/Kafka-%E6%B6%88%E8%B4%B9%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" title="Kafka|消费最佳实践">
+                        <span class="hidden-mobile">Kafka|消费最佳实践</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

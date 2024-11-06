@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>基于自定义注解实现重复读取请求头拦截器</title>
+    <link href="/2024/11/06/%E5%9F%BA%E4%BA%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E9%87%8D%E5%A4%8D%E8%AF%BB%E5%8F%96%E8%AF%B7%E6%B1%82%E5%A4%B4%E6%8B%A6%E6%88%AA%E5%99%A8/"/>
+    <url>/2024/11/06/%E5%9F%BA%E4%BA%8E%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0%E9%87%8D%E5%A4%8D%E8%AF%BB%E5%8F%96%E8%AF%B7%E6%B1%82%E5%A4%B4%E6%8B%A6%E6%88%AA%E5%99%A8/</url>
+    
+    <content type="html"><![CDATA[<h1 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h1><p>目前的需求是，由于服务端不是简单的控制台而是计算引擎，因此暴露的接口在接收客户端参数的时候进行签名校验</p><p>客户端将签名参数设置在 RequestHeader 中传递，将接口入参设置在 RequestBody 中</p><p>朴素的做法是直接读取数据流中的数据，但是 ServletRequest 的 getInputStream 和 getReader 是不可重复调用的，读完数据就没了，因此需要实现可重复读取请求头</p><h1 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h1><p>基本的思路是在请求处理之前通过 HandlerInterceptor 拦截，将 HttpServletRequest 中的数据获取到并缓存在内存中，再通过框架提供的配置接口将数据 Set 回去</p><p>因此总结分为两个部分处理：</p><ul><li>拦截请求</li><li>缓存请求数据并重新设置回去</li></ul><h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="缓存请求并重新设置回请求对象"><a href="#缓存请求并重新设置回请求对象" class="headerlink" title="缓存请求并重新设置回请求对象"></a>缓存请求并重新设置回请求对象</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Provides a convenient implementation of the HttpServletRequest interface that can be subclassed by developers wishing to adapt the request to a Servlet.</span><br><span class="hljs-comment"> *</span><br><span class="hljs-comment"> * &lt;p&gt;</span><br><span class="hljs-comment"> * This class implements the Wrapper or Decorator pattern. Methods default to calling through to the wrapped request object.</span><br><span class="hljs-comment"> * </span><br><span class="hljs-comment"> * <span class="hljs-doctag">@see</span> javax.servlet.http.HttpServletRequest</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@since</span> Servlet 2.3</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HttpServletRequestWrapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ServletRequestWrapper</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HttpServletRequest</span> &#123;&#125;<br></code></pre></td></tr></table></figure><p>我们需要继承 MVC 提供的一个基础 Warpper 类，这个类提供了最基础的基于 HttpServletRequest 的实现，我们可以在这上面进行自己业务的特殊需求实现（缓存请求数据）</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HttpRequestWrapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">HttpServletRequestWrapper</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">byte</span>[] m_byteRequestBody;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> HttpServletRequest m_pRequest;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">HttpRequestWrapper</span><span class="hljs-params">(HttpServletRequest pRequest)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-built_in">super</span>(pRequest);<br>        <span class="hljs-built_in">this</span>.m_pRequest = pRequest;<br>        <span class="hljs-type">ByteArrayOutputStream</span> <span class="hljs-variable">byteStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayOutputStream</span>();<br>        <span class="hljs-comment">//缓存数据，其实这里调用getInputStream()的时候request的数据就已经没了</span><br>        IOUtils.copy(m_pRequest.getInputStream(), byteStream);<br>        <span class="hljs-built_in">this</span>.m_byteRequestBody = byteStream.toByteArray();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">byte</span>[] getRequestBody() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.m_byteRequestBody;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> ServletInputStream <span class="hljs-title function_">getInputStream</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">ByteArrayInputStream</span> <span class="hljs-variable">byteStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ByteArrayInputStream</span>(m_byteRequestBody);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServletInputStream</span>() &#123;<br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isFinished</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isReady</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setReadListener</span><span class="hljs-params">(ReadListener listener)</span> &#123;<br>                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>(<span class="hljs-string">&quot;Async not supported&quot;</span>);<br>            &#125;<br><br>            <span class="hljs-meta">@Override</span><br>            <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">read</span><span class="hljs-params">()</span> &#123;<br>                <span class="hljs-keyword">return</span> byteStream.read();<br>            &#125;<br>        &#125;;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> BufferedReader <span class="hljs-title function_">getReader</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(<span class="hljs-built_in">this</span>.getInputStream()));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure><p>核心在于我们重写了 getInputStream 方法，将缓存的数据byteStream返回到上游调用方 </p><h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><p>之后我们就可以根据我们的业务代码编写对应的签名拦截器</p><p>由于签名校验是公共逻辑，我们可以自定义注解，通过拦截器拦截注解来处理，只对打了对应自定义注解的接口进行签名校验</p><p>自定义注解：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Target(ElementType.METHOD)</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> SignatureCheck &#123;<br>&#125;<br></code></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SignInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HandlerInterceptor</span> &#123;<br>         <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>           <span class="hljs-comment">//拦截对应注解</span><br>            <span class="hljs-keyword">if</span> (handler <span class="hljs-keyword">instanceof</span> HandlerMethod) &#123;<br>            <span class="hljs-type">HandlerMethod</span> <span class="hljs-variable">pHandlerMethod</span> <span class="hljs-operator">=</span> (HandlerMethod) handler;<br>            <span class="hljs-type">SignCheck</span> <span class="hljs-variable">pSignCheck</span> <span class="hljs-operator">=</span> pHandlerMethod.getMethodAnnotation(SignCheck.class);<br>            <span class="hljs-keyword">if</span> (pSignCheck != <span class="hljs-literal">null</span>) &#123;<br>                 <span class="hljs-comment">//对应校验签名的业务代码</span><br>            &#125;<br>            &#125;<br>         <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Spring</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Java</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Kafka|消费最佳实践</title>
     <link href="/2024/10/08/Kafka-%E6%B6%88%E8%B4%B9%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     <url>/2024/10/08/Kafka-%E6%B6%88%E8%B4%B9%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</url>
@@ -78,9 +103,9 @@
     
     <tags>
       
-      <tag>Distributed System</tag>
-      
       <tag>EDA</tag>
+      
+      <tag>Distributed System</tag>
       
     </tags>
     
@@ -155,9 +180,9 @@
     
     <tags>
       
-      <tag>Distributed System</tag>
-      
       <tag>EDA</tag>
+      
+      <tag>Distributed System</tag>
       
     </tags>
     
@@ -579,9 +604,9 @@
     
     <tags>
       
-      <tag>git</tag>
-      
       <tag>gitlab</tag>
+      
+      <tag>git</tag>
       
     </tags>
     
@@ -920,9 +945,9 @@
     
     <tags>
       
-      <tag>hexo</tag>
-      
       <tag>git</tag>
+      
+      <tag>hexo</tag>
       
     </tags>
     
