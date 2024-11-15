@@ -4,6 +4,60 @@
   
   
   <entry>
+    <title>设计模式|抽象工厂设计模式</title>
+    <link href="/2024/11/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    <url>/2024/11/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<h1 id="场景举例"><a href="#场景举例" class="headerlink" title="场景举例"></a>场景举例</h1><p>工厂生产产品</p><p>一个工厂可以生产多种具有相同功能的产品</p><h1 id="工厂生产的产品"><a href="#工厂生产的产品" class="headerlink" title="工厂生产的产品"></a>工厂生产的产品</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Button</span> &#123;<br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">click</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HTMLButton</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Button</span>&#123;<br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">click</span><span class="hljs-params">()</span> &#123;<br>      System.out.println(<span class="hljs-string">&quot;HTML Click&quot;</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WindowsButton</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Button</span>&#123;<br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">click</span><span class="hljs-params">()</span> &#123;<br>      System.out.println(<span class="hljs-string">&quot;Windows Click&quot;</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h1 id="工厂创造者"><a href="#工厂创造者" class="headerlink" title="工厂创造者"></a>工厂创造者</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ABaseButtonFactory</span> &#123;<br><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">createAndAutoClickButton</span><span class="hljs-params">()</span>&#123;<br>      <span class="hljs-type">Button</span> <span class="hljs-variable">button</span> <span class="hljs-operator">=</span> createButton();<br>      button.click();<br>   &#125;<br><br>   <span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> Button <span class="hljs-title function_">createButton</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HTMLButtonFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ABaseButtonFactory</span> &#123;<br><br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> Button <span class="hljs-title function_">createButton</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HTMLButton</span>();<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WindowsButtonFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ABaseButtonFactory</span> &#123;<br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> Button <span class="hljs-title function_">createButton</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WindowsButton</span>();<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h1 id="测试演示"><a href="#测试演示" class="headerlink" title="测试演示"></a>测试演示</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FactoryMethodPattern</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br><br>      <span class="hljs-type">HTMLButtonFactory</span> <span class="hljs-variable">htmlButtonFactory</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HTMLButtonFactory</span>();<br>      htmlButtonFactory.createAndAutoClickButton();<br><br>      <span class="hljs-type">WindowsButtonFactory</span> <span class="hljs-variable">windowsButtonFactory</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WindowsButtonFactory</span>();<br>      windowsButtonFactory.createAndAutoClickButton();<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>工厂方法模式适用于<strong>需要创造一系列具有相同行为的产品</strong>，提供一个抽象的通用基类</p><p>创建者子类继承基类，通过实现父类的某个抽象方法，在客户端调用基类的公共方法（会重新调用子类重写的版本）来创造出不同的，但是具有相同行为的产品</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>设计模式</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Framework</tag>
+      
+      <tag>Design Pattern</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Java|ThreadPool</title>
+    <link href="/2024/11/12/Java-ThreadPool/"/>
+    <url>/2024/11/12/Java-ThreadPool/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Executor-框架"><a href="#Executor-框架" class="headerlink" title="Executor 框架"></a>Executor 框架</h1><h2 id="任务本体-Runnable-x2F-Callable"><a href="#任务本体-Runnable-x2F-Callable" class="headerlink" title="任务本体 Runnable&#x2F;Callable"></a>任务本体 Runnable&#x2F;Callable</h2><p>具体的异步执行任务通过实现 Runnable&#x2F;Callable 接口来作为一个可被执行的任务实例</p><h2 id="任务执行-Executor-接口"><a href="#任务执行-Executor-接口" class="headerlink" title="任务执行 Executor 接口"></a>任务执行 Executor 接口</h2><p>JDK提供了一系列的任务执行工具</p><p>比较常用的是 ThreadPoolExecutor 和 ScheduledThreadPoolExecutor</p><h2 id="异步计算结果-Future-接口"><a href="#异步计算结果-Future-接口" class="headerlink" title="异步计算结果 Future 接口"></a>异步计算结果 Future 接口</h2><p>只需要知道异步计算的结果都在 Future 接口中</p><p>具体看下面的流程</p><h2 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h2><p>一个多线程任务从创建到结束的流程大致如下：</p><ul><li>主线程首先要创建实现 <code>Runnable</code> 或者 <code>Callable</code> 接口的任务对象</li><li>把创建完成的实现 <code>Runnable</code>&#x2F;<code>Callable</code>接口的 对象直接交给 <code>ExecutorService</code> 执行: <code>ExecutorService.execute（Runnable command）</code>）或者也可以把 <code>Runnable</code> 对象或<code>Callable</code> 对象提交给 <code>ExecutorService</code> 执行（<code>ExecutorService.submit（Runnable task）</code>或 <code>ExecutorService.submit（Callable &lt;T&gt; task）</code>）</li><li>上面这两步其实可以通过一个 lambda reference 来实现</li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">threadPoolExecutor.execute(() -&gt; doBusinessAsync());<br></code></pre></td></tr></table></figure><p>上面的情况是我们不关心结果，只管提交的情况</p><p>如果关心结果，可以调用 <code>submit</code> 接口，拿到 FutureTask 实例</p><p>需要注意的是如果直接 futureTask.get() 直接变同步阻塞了</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Programming Language</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>java</tag>
+      
+      <tag>并发编程</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Spring|@Conditional</title>
     <link href="/2024/11/11/Spring-Conditional/"/>
     <url>/2024/11/11/Spring-Conditional/</url>
