@@ -16,23 +16,23 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="抽象工厂设计模式快速入门">
+    <meta name="description" content="SQL业务查询操作回顾整理">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式|抽象工厂设计模式">
-<meta property="og:url" content="http://example.com/2024/11/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:title" content="SQL|查询基础">
+<meta property="og:url" content="http://example.com/2024/11/15/SQL-%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="抽象工厂设计模式快速入门">
+<meta property="og:description" content="SQL业务查询操作回顾整理">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-11-14T07:30:57.000Z">
-<meta property="article:modified_time" content="2024-11-21T01:51:04.114Z">
+<meta property="article:published_time" content="2024-11-15T01:03:56.000Z">
+<meta property="article:modified_time" content="2024-11-21T01:29:33.736Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="Framework">
-<meta property="article:tag" content="Design Pattern">
+<meta property="article:tag" content="SQL">
+<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>设计模式|抽象工厂设计模式 - Zanarkand</title>
+  <title>SQL|查询基础 - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="设计模式|抽象工厂设计模式"></span>
+            <span id="subtitle" data-typed-text="SQL|查询基础"></span>
           
         </div>
 
@@ -209,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-11-14 15:30" pubdate>
-          2024年11月14日 下午
+        <time datetime="2024-11-15 09:03" pubdate>
+          2024年11月15日 上午
         </time>
       </span>
     
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          217 字
+          269 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          2 分钟
+          3 分钟
         
       </span>
     
@@ -269,29 +269,207 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">设计模式|抽象工厂设计模式</h1>
+            <h1 id="seo-header">SQL|查询基础</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="场景举例"><a href="#场景举例" class="headerlink" title="场景举例"></a>场景举例</h1><p>工厂生产产品</p>
-<p>一个工厂可以生产多种具有相同功能的产品</p>
-<h1 id="工厂生产的产品"><a href="#工厂生产的产品" class="headerlink" title="工厂生产的产品"></a>工厂生产的产品</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Button</span> &#123;<br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">click</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h1 id="分组查询"><a href="#分组查询" class="headerlink" title="分组查询"></a>分组查询</h1><h2 id="基础分组计算"><a href="#基础分组计算" class="headerlink" title="基础分组计算"></a>基础分组计算</h2><p>查询出 每个学校 每种性别的 用户数、30天内平均活跃天数和平均发帖数量。</p>
+<p>用户信息表：user_profile</p>
+<p>30天内活跃天数字段（active_days_within_30）</p>
+<p>发帖数量字段（question_cnt）</p>
+<p>回答数量字段（answer_cnt）</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>device_id</th>
+<th>gender</th>
+<th>age</th>
+<th>university</th>
+<th>gpa</th>
+<th>active_days_within_30</th>
+<th>question_cnt</th>
+<th>answer_cnt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>2138</td>
+<td>male</td>
+<td>21</td>
+<td>北京大学</td>
+<td>3.4</td>
+<td>7</td>
+<td>2</td>
+<td>12</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3214</td>
+<td>male</td>
+<td></td>
+<td>复旦大学</td>
+<td>4.0</td>
+<td>15</td>
+<td>5</td>
+<td>25</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6543</td>
+<td>female</td>
+<td>20</td>
+<td>北京大学</td>
+<td>3.2</td>
+<td>12</td>
+<td>3</td>
+<td>30</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2315</td>
+<td>female</td>
+<td>23</td>
+<td>浙江大学</td>
+<td>3.6</td>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5432</td>
+<td>male</td>
+<td>25</td>
+<td>山东大学</td>
+<td>3.8</td>
+<td>20</td>
+<td>15</td>
+<td>70</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2131</td>
+<td>male</td>
+<td>28</td>
+<td>山东大学</td>
+<td>3.3</td>
+<td>15</td>
+<td>7</td>
+<td>13</td>
+</tr>
+<tr>
+<td>7</td>
+<td>4321</td>
+<td>male</td>
+<td>26</td>
+<td>复旦大学</td>
+<td>3.6</td>
+<td>9</td>
+<td>6</td>
+<td>52</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs SQL"><span class="hljs-keyword">select</span><br>    gender,<br>    university,<br>    <span class="hljs-built_in">COUNT</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">as</span> user_num,<br>    <span class="hljs-built_in">AVG</span>(active_days_within_30) <span class="hljs-keyword">AS</span> avg_active_day,<br>    <span class="hljs-built_in">AVG</span>(question_cnt) <span class="hljs-keyword">AS</span> avg_question_cnt<br><span class="hljs-keyword">from</span><br>    user_profile<br><span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span><br>    gender,<br>    university<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">by</span><br>    gender <span class="hljs-keyword">ASC</span>,<br>    university <span class="hljs-keyword">ASC</span>;<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HTMLButton</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Button</span>&#123;<br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">click</span><span class="hljs-params">()</span> &#123;<br>      System.out.println(<span class="hljs-string">&quot;HTML Click&quot;</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WindowsButton</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Button</span>&#123;<br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">click</span><span class="hljs-params">()</span> &#123;<br>      System.out.println(<span class="hljs-string">&quot;Windows Click&quot;</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h1 id="工厂创造者"><a href="#工厂创造者" class="headerlink" title="工厂创造者"></a>工厂创造者</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ABaseButtonFactory</span> &#123;<br><br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">createAndAutoClickButton</span><span class="hljs-params">()</span>&#123;<br>      <span class="hljs-type">Button</span> <span class="hljs-variable">button</span> <span class="hljs-operator">=</span> createButton();<br>      button.click();<br>   &#125;<br><br>   <span class="hljs-keyword">protected</span> <span class="hljs-keyword">abstract</span> Button <span class="hljs-title function_">createButton</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HTMLButtonFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ABaseButtonFactory</span> &#123;<br><br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> Button <span class="hljs-title function_">createButton</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HTMLButton</span>();<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WindowsButtonFactory</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ABaseButtonFactory</span> &#123;<br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> Button <span class="hljs-title function_">createButton</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WindowsButton</span>();<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h1 id="测试演示"><a href="#测试演示" class="headerlink" title="测试演示"></a>测试演示</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FactoryMethodPattern</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br><br>      <span class="hljs-type">HTMLButtonFactory</span> <span class="hljs-variable">htmlButtonFactory</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HTMLButtonFactory</span>();<br>      htmlButtonFactory.createAndAutoClickButton();<br><br>      <span class="hljs-type">WindowsButtonFactory</span> <span class="hljs-variable">windowsButtonFactory</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">WindowsButtonFactory</span>();<br>      windowsButtonFactory.createAndAutoClickButton();<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>工厂方法模式适用于<strong>需要创造一系列具有相同行为的产品</strong>，提供一个抽象的通用基类</p>
-<p>创建者子类继承基类，通过实现父类的某个抽象方法，在客户端调用基类的公共方法（会重新调用子类重写的版本）来创造出不同的，但是具有相同行为的产品</p>
+<blockquote>
+<p>注意</p>
+<p>分组查询使用 GROUP BY 关键字，在 select 中大部分时候都需要使用到分组函数（常见的有 count, avg 等），分组查询 select 后直接查询列的唯一场景就是这个列是被分组的列，不然会语法报错</p>
+</blockquote>
+<h2 id="分组过滤"><a href="#分组过滤" class="headerlink" title="分组过滤"></a>分组过滤</h2><p>查询出平均发贴数低于5的学校或平均回帖数小于20的学校，和他们对应的平均发帖数，平均回帖数</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>device_id</th>
+<th>gender</th>
+<th>age</th>
+<th>university</th>
+<th>gpa</th>
+<th>active_days_within_30</th>
+<th>question_cnt</th>
+<th>answer_cnt</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>2138</td>
+<td>male</td>
+<td>21</td>
+<td>北京大学</td>
+<td>3.4</td>
+<td>7</td>
+<td>2</td>
+<td>12</td>
+</tr>
+<tr>
+<td>2</td>
+<td>3214</td>
+<td>male</td>
+<td></td>
+<td>复旦大学</td>
+<td>4.0</td>
+<td>15</td>
+<td>5</td>
+<td>25</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6543</td>
+<td>female</td>
+<td>20</td>
+<td>北京大学</td>
+<td>3.2</td>
+<td>12</td>
+<td>3</td>
+<td>30</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2315</td>
+<td>female</td>
+<td>23</td>
+<td>浙江大学</td>
+<td>3.6</td>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>5432</td>
+<td>male</td>
+<td>25</td>
+<td>山东大学</td>
+<td>3.8</td>
+<td>20</td>
+<td>15</td>
+<td>70</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2131</td>
+<td>male</td>
+<td>28</td>
+<td>山东大学</td>
+<td>3.3</td>
+<td>15</td>
+<td>7</td>
+<td>13</td>
+</tr>
+<tr>
+<td>7</td>
+<td>4321</td>
+<td>female</td>
+<td>26</td>
+<td>复旦大学</td>
+<td>3.6</td>
+<td>9</td>
+<td>6</td>
+<td>52</td>
+</tr>
+</tbody></table>
 
                 
               </div>
@@ -310,7 +488,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="category-chain-item">设计模式</a>
+  <a href="/categories/SQL-BOY/" class="category-chain-item">SQL BOY</a>
   
   
 
@@ -325,9 +503,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Framework/" class="print-no-link">#Framework</a>
+        <a href="/tags/SQL/" class="print-no-link">#SQL</a>
       
-        <a href="/tags/Design-Pattern/" class="print-no-link">#Design Pattern</a>
+        <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="print-no-link">#数据库</a>
       
     </div>
   
@@ -339,8 +517,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>设计模式|抽象工厂设计模式</div>
-      <div>http://example.com/2024/11/14/设计模式-抽象工厂设计模式/</div>
+      <div>SQL|查询基础</div>
+      <div>http://example.com/2024/11/15/SQL-查询基础/</div>
     </div>
     <div class="license-meta">
       
@@ -352,7 +530,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年11月14日</div>
+          <div>2024年11月15日</div>
         </div>
       
       
@@ -384,9 +562,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/11/15/SQL-%E6%9F%A5%E8%AF%A2%E5%9F%BA%E7%A1%80/" title="SQL|查询基础">
+                      <a href="/2024/11/21/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式|建造者设计模式">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SQL|查询基础</span>
+                        <span class="hidden-mobile">设计模式|建造者设计模式</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -394,8 +572,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/11/12/Java-ThreadPool/" title="Java|ThreadPool">
-                        <span class="hidden-mobile">Java|ThreadPool</span>
+                      <a href="/2024/11/14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" title="设计模式|抽象工厂设计模式">
+                        <span class="hidden-mobile">设计模式|抽象工厂设计模式</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
