@@ -26,8 +26,11 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20241225144717977.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20241225144935678.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20241230151406329.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250103155937324.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250103161112129.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250103170536922.png">
 <meta property="article:published_time" content="2024-12-25T07:20:16.000Z">
-<meta property="article:modified_time" content="2024-12-30T08:04:16.000Z">
+<meta property="article:modified_time" content="2025-01-03T09:23:47.081Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="Nand2Tetris">
@@ -225,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          847 字
+          1.3k 字
         
       </span>
     
@@ -236,7 +239,7 @@
         
         
         
-          8 分钟
+          11 分钟
         
       </span>
     
@@ -311,7 +314,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//RAM[0]</span><br>@<span class="hljs-number">0</span><br>D=M<br><span class="hljs-comment">//RAM[0]+RAM[1]</span><br>@<span class="hljs-number">1</span><br>D=D+M<br><span class="hljs-comment">//RAM[0] + RAM[1] + 17</span><br>@<span class="hljs-number">17</span><br>D=D+A  <span class="hljs-comment">//A当数据寄存器用</span><br><span class="hljs-comment">//RAM[2]= RAM[0] + RAM[1] + 17</span><br>@<span class="hljs-number">2</span><br>M=D  <br></code></pre></td></tr></table></figure>
 
 <h2 id="条件跳转-C指令"><a href="#条件跳转-C指令" class="headerlink" title="条件跳转-C指令"></a>条件跳转-C指令</h2><p>在 Hack 指令中，实现跳转也是依靠组合指令，A指令来设置地址寄存器的数据，用于指示要跳转到哪一行程序指令</p>
-<p>例如 0;JMP 的语义就是跳转去执行 ROM[A] 中指向的指令，其中开头的 0 是个无意义前缀</p>
+<p>例如 0;JMP 的语义就是跳转去执行 ROM[A] （也就是 声明 @ 之后自动选择到的）中指向的指令，其中开头的 0 是个无意义前缀</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20241230151406329.png" srcset="/img/loading.gif" lazyload alt="image-20241230151406329"></p>
 <p>上图中的 D 可以替换为任意一种 ALU 可以计算的指令</p>
 <p>例如 <code>if(D=0) goto 300</code> 的 hack 语言实现就是</p>
@@ -327,7 +330,39 @@
 <p>在 hack 语言上</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs assembly">//i=1<br>@i<br>M = 1<br>//sum=0<br>@sum<br>M = 0<br>//sum = sum + i<br>@i<br>D=M<br>@sum<br>M=M+D<br>//i = i + 1<br>@i<br>M=M+1<br></code></pre></td></tr></table></figure>
 
-<h3 id="Pre-defined-Symbol-in-Hack"><a href="#Pre-defined-Symbol-in-Hack" class="headerlink" title="Pre-defined Symbol in Hack"></a>Pre-defined Symbol in Hack</h3><h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a target="_blank" rel="noopener" href="https://github.com/lng205/Nand2Tetris/blob/master/04/readme.md">Nand2Tetris&#x2F;04&#x2F;readme.md at master · lng205&#x2F;Nand2Tetris</a></p>
+<h3 id="Pre-defined-Symbol-in-Hack"><a href="#Pre-defined-Symbol-in-Hack" class="headerlink" title="Pre-defined Symbol in Hack"></a>Pre-defined Symbol in Hack</h3><p>hack 中还存在 16 个内置的变量，我们有时也会称他们虚拟寄存器 R0 … R15</p>
+<p>其实对应的就是 hack 系统中内存 0-15，只是更易于维护和编写 hack 代码</p>
+<h2 id="Labels"><a href="#Labels" class="headerlink" title="Labels"></a>Labels</h2><p>通过@也可以定义标签来实现某些兼容了低级语言的编程语言中 <code>goto</code> 表达式的效果</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250103155937324.png" srcset="/img/loading.gif" lazyload alt="image-20250103155937324"></p>
+<p>其实这里的 @CONT 或者是 @LOOP 可以等价于是变量定义的一种特殊声明，因为底层是汇编器去维护所有标签和对应所在的程序地址关系，hack语言编写者只需要@之后就会自动选择ROM[A]中对应的地址</p>
+<h1 id="Low-Level-Programming"><a href="#Low-Level-Programming" class="headerlink" title="Low Level Programming"></a>Low Level Programming</h1><h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2><p>综合上述的概念，我们现在对一段程序进行解析</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250103161112129.png" srcset="/img/loading.gif" lazyload></p>
+<p>除此之外，还有一个最佳实践：由于内存永远都不会是空的，因此需要在每一个汇编代码结束时设置死循环</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs assembly">(END)<br>@END<br>0;JMP<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>动手实践</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//if (R0 &gt; R1) then R2 = R0 </span><br><span class="hljs-comment">//else              R2 = R1</span><br></code></pre></td></tr></table></figure>
+
+<p>伪代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">R2 = R1<br><span class="hljs-title function_">if</span><span class="hljs-params">(R0 &lt;= R1)</span> goto <span class="hljs-type">END</span><br><span class="hljs-variable">R2</span> <span class="hljs-operator">=</span> R0<br>END:<br></code></pre></td></tr></table></figure>
+
+<p>hack assembly</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs assembly">//R2=R1<br>@1<br>D=M<br>@2<br>M=D<br>//if(R0 &lt;= R1) goto END<br>@0<br>D=M<br>@1 <br>D=D-M<br>@END<br>D;JLE<br>//R2=R0<br>@0<br>D=M<br>@2<br>M=D<br>(END)<br>@END<br>D;JMP<br></code></pre></td></tr></table></figure>
+
+<h2 id="Loop"><a href="#Loop" class="headerlink" title="Loop"></a>Loop</h2><p>这部分其实就是上一个部分的差不多内容，会基础部分就会这一个部分</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250103170536922.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Pointer"><a href="#Pointer" class="headerlink" title="Pointer"></a>Pointer</h2><p>通过上面的描述也不难发现，如果想要实现类似指针的操作，其实就是将具体数值赋给 A 地址寄存器即可</p>
+<p>例如下面这个需求</p>
+<blockquote>
+<p>Sets RAM[R0] to –1</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs assembly">@R0<br>A=M<br>M=-1<br></code></pre></td></tr></table></figure>
+
+<p>上面的A&#x3D;M 其实就是将 R0 中包含的内容作为地址</p>
+<p>下面一句的 M &#x3D; -1 则是将 RAM[A] 中的数据设置为 -1</p>
+<h1 id="References"><a href="#References" class="headerlink" title="References"></a>References</h1><p><a target="_blank" rel="noopener" href="https://github.com/lng205/Nand2Tetris/blob/master/04/readme.md">Nand2Tetris&#x2F;04&#x2F;readme.md at master · lng205&#x2F;Nand2Tetris</a></p>
 
                 
               </div>
