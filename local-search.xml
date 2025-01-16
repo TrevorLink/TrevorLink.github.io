@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>Nand2Tetris|Week5</title>
+    <link href="/2025/01/16/Nand2Tetris-Week5/"/>
+    <url>/2025/01/16/Nand2Tetris-Week5/</url>
+    
+    <content type="html"><![CDATA[<p>现代计算机的体系结构</p><p>主要特征：</p><ul><li>包括处理器，寄存器，内存</li><li>存储程序</li><li>通用抽象</li></ul><p>计算机的本质：使用指令来操纵数据的机器</p><p>而从技术角度来看，计算机也可以看作是一组通过总线连接的芯片</p><p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250116144759155.png"></p><p>内存存储了只读程序本身和运行时操作的数据</p><p>CPU则包括多个数据寄存器，地址寄存器，PC指针以及 ALU</p><p>我们上一节实际上是在没有实际硬件的情况下，<strong>用 hack 汇编来模拟 Hack 计算机中 内存和 CPU 的行为</strong></p><p> 取址-执行的循环</p><ul><li>CPU的PC总是指向下一条需要执行的指令的地址，CPU通过地址总线，根据PC地址获取到内存中（只读内存部分）的指令数据</li><li>取出只读内存中的指令，通过控制总线传向CPU的ALU</li><li>这条指令中指定段的指定几个bit会被ALU解析，指明是进行何种的操作，操作的是CPU寄存器还是内存的寄存器</li><li>CPU根据指令解析的结果，执行指令</li><li>更新PC（JMP或者是正常执行都会更新PC中的地址）</li><li>。。。（回到第一步）</li></ul><p>在上述过程中存在一个值得讨论的地方：</p><p>对内存输入一个地址，在CPU侧，输出的数据可以是指令本身（获取指令阶段），也可以是指令所需要的数据（执行指令阶段），CPU应该如何区分？—————— 指令本身通过控制总线传输，指令所需要的数据通过数据总线传输</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>CS_Basic</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>CSAPP</tag>
+      
+      <tag>Nand2Tetris</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Nand2Tetris|Machine Language</title>
     <link href="/2025/01/07/Nand2Tetris-Week4/"/>
     <url>/2025/01/07/Nand2Tetris-Week4/</url>
