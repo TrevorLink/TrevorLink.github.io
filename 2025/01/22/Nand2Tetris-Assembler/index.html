@@ -18,28 +18,21 @@
   
     <meta name="description" content="计算机系统要素-构建Hack计算机">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nand2Tetris|Week5">
-<meta property="og:url" content="http://example.com/2025/01/16/Nand2Tetris-Week5/index.html">
+<meta property="og:title" content="Nand2Tetris|Assembler">
+<meta property="og:url" content="http://example.com/2025/01/22/Nand2Tetris-Assembler/index.html">
 <meta property="og:site_name" content="Zanarkand">
 <meta property="og:description" content="计算机系统要素-构建Hack计算机">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250116144759155.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250117143707436.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/Ch0401.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250117150210235.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250122150201829.png">
-<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250122150726722.png">
-<meta property="article:published_time" content="2025-01-16T06:41:16.000Z">
-<meta property="article:modified_time" content="2025-01-22T07:50:46.617Z">
+<meta property="article:published_time" content="2025-01-22T07:52:53.000Z">
+<meta property="article:modified_time" content="2025-01-22T09:17:28.060Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="Nand2Tetris">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250116144759155.png">
   
   
   
-  <title>Nand2Tetris|Week5 - Zanarkand</title>
+  <title>Nand2Tetris|Assembler - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -205,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Nand2Tetris|Week5"></span>
+            <span id="subtitle" data-typed-text="Nand2Tetris|Assembler"></span>
           
         </div>
 
@@ -216,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-01-16 14:41" pubdate>
-          2025年1月16日 下午
+        <time datetime="2025-01-22 15:52" pubdate>
+          2025年1月22日 下午
         </time>
       </span>
     
@@ -228,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          818 字
         
       </span>
     
@@ -239,7 +232,7 @@
         
         
         
-          13 分钟
+          7 分钟
         
       </span>
     
@@ -276,90 +269,51 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Nand2Tetris|Week5</h1>
+            <h1 id="seo-header">Nand2Tetris|Assembler</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="现代计算机的体系结构"><a href="#现代计算机的体系结构" class="headerlink" title="现代计算机的体系结构"></a>现代计算机的体系结构</h1><p>主要特征：</p>
+                <h1 id="汇编语句翻译"><a href="#汇编语句翻译" class="headerlink" title="汇编语句翻译"></a>汇编语句翻译</h1><p>是连接硬件和软件的关键，也是课程第二部分开发的翻译器中最低级最接近硬件的一层</p>
+<p>由于前面我们已经介绍了Hack指令集中A和C指令的二进制形式了（例如第一位0是A指令，1是C指令，C还额外分成comp,dest和jmp等）</p>
+<p>因此现在想要实现Assembler本质上就是将对应的Hack指令翻译转换成二进制指令</p>
+<h2 id="先从最简单的A指令开始说起"><a href="#先从最简单的A指令开始说起" class="headerlink" title="先从最简单的A指令开始说起"></a>先从最简单的A指令开始说起</h2><p>我们前面的学习中介绍了A指令可以有两种operands，直接数，或者是符号。那时我们也提到了符号表实际上就是汇编器去实现的，汇编语言开发者并不关心。</p>
 <ul>
-<li>包括处理器，寄存器，内存</li>
-<li>将运行程序存储起来的概念</li>
-<li>通用抽象</li>
+<li>直接数：将其值转化为16-bit binary，首位为0</li>
+<li>符号：后面再说</li>
 </ul>
-<p><strong>计算机的本质：使用指令来操纵数据的机器</strong></p>
-<p>而从硬件技术角度来看，计算机也可以看作是一组通过总线连接的芯片</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250116144759155.png" srcset="/img/loading.gif" lazyload alt="硬件角度来看"></p>
-<p>从上图我们可以看出，针对上面的 CPU 架构：</p>
+<h2 id="C指令"><a href="#C指令" class="headerlink" title="C指令"></a>C指令</h2><p>首先前三位一定是111</p>
+<p>之后七位是comp计算逻辑</p>
+<p>三位dest目的地</p>
+<p>三位跳转逻辑jmp</p>
+<p>其实真值表都有了，所有的排列组合枚举都出来了，直接拆分成comp、dest和jmp三个部分查表最终组装在一起即可得出最终的C指令二进制形式</p>
+<p>（定义一个指令转换器接口，转换指定一行的Hack汇编语句）</p>
+<h1 id="解析完整程序"><a href="#解析完整程序" class="headerlink" title="解析完整程序"></a>解析完整程序</h1><p>对于整段完整的汇编程序，我们需要关注三个部分：</p>
 <ul>
-<li>内存存储了只读程序本身和运行时操作的数据</li>
-<li>CPU包括多个数据寄存器，地址寄存器，PC指针以及 ALU</li>
+<li>空白换行，什么时候换，注释怎么忽略，缩进怎么处理</li>
+<li>指令转换</li>
+<li>符号处理</li>
 </ul>
-<p>我们上一节实际上是在没有实际硬件的情况下，<strong>用 hack 汇编来模拟 Hack 计算机中 内存和 CPU 的行为</strong></p>
-<h1 id="取址-执行的循环"><a href="#取址-执行的循环" class="headerlink" title="取址-执行的循环"></a>取址-执行的循环</h1><ul>
-<li>CPU的PC总是指向下一条需要执行的指令的地址，CPU通过地址总线，根据PC地址获取到内存中（只读内存部分）的指令数据</li>
-<li>取出只读内存中的指令，通过控制总线传向CPU的ALU</li>
-<li>这条指令中指定段的指定几个bit会被ALU解析，解析后CPU知道是进行何种的操作，操作的是CPU寄存器还是内存的寄存器（解析的语义由指令集和硬件设计特性共同决定）</li>
-<li>CPU根据指令解析的结果，执行指令</li>
-<li>更新PC（JMP或者是正常执行都会更新PC中的地址）</li>
-<li>。。。（回到第一步）</li>
-</ul>
-<p>在上述过程中存在一个值得讨论的地方：</p>
-<p>对内存输入一个地址，在CPU侧，输出的数据可以是指令本身（获取指令阶段），也可以是指令所需要的数据（执行指令阶段），CPU应该如何区分？</p>
-<p>根据计算机硬件设计架构的不同，有两种：</p>
+<h2 id="空白换行"><a href="#空白换行" class="headerlink" title="空白换行"></a>空白换行</h2><p>针对空白换行的需求：扫描文本并替换指定部分（注释）为空内容即可</p>
+<h2 id="指令转换"><a href="#指令转换" class="headerlink" title="指令转换"></a>指令转换</h2><p>针对指令转换，从上至下，每一行内容进行转换，具体转换逻辑上面已经提到了</p>
+<h2 id="符号处理"><a href="#符号处理" class="headerlink" title="符号处理"></a>符号处理</h2><p>针对符号处理，有点复杂，主要包括三种符号：</p>
 <ul>
-<li>指令和数据分开存放的，我们称之为 two memory machine（哈佛）</li>
-<li>指令和数据一起存放的，我们称之为 one memory machine（冯诺依曼）</li>
+<li>Hack计算机自带的预定义符号，例如KBD，SCREEN</li>
+<li>标签符号，程序过程中出现的用户编写的标签，例如LOOP，END等</li>
+<li>变量符号，汇编程序定义的变量，例如i,j,k等</li>
 </ul>
-<h2 id="one-memory-machine"><a href="#one-memory-machine" class="headerlink" title="one memory machine:"></a>one memory machine:</h2><p>我们通过 MUX 和 DMUX 来进行多路选择，在内存输入侧，通过 MUX 来选择地址是数据地址还是指令地址；在内存输出侧，通过 DMUX 来将输出传输到 控制总线&#x2F;数据总线，如果是获取指令阶段，就通过 DMUX 将指令输出到控制总线上。如果是指令执行阶段，就通过 DMUX 将数据输出到数据总线上；</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250117143707436.png" srcset="/img/loading.gif" lazyload alt="image-20250117143707436"></p>
-<h2 id="two-memory-machine"><a href="#two-memory-machine" class="headerlink" title="two memory machine:"></a>two memory machine:</h2><p>由于指令和数据在物理层面是分开存放，因此不存在上述需要通过多路复用和解复用器来进行区分的情况。在获取指令时CPU只会把指令地址传输到ROM侧，在指令执行时CPU只会把数据地址传输到RAM侧</p>
-<p>这种架构意味着处理器在同一时钟周期内可以同时访问两个存储器，也就是同时取指和取操作数，运算能力更强。也叫做哈佛架构</p>
-<blockquote>
-<p><strong>ARM 处理器</strong>可以实现某些哈佛架构特性，尽管它们通常属于更灵活的“哈佛式”架构（分开指令和数据总线，但内存还是共享的</p>
-<p>现代CPU引入了指令缓存和数据缓存，能够高效地访问指令和数据，同时又能将程序和数据存储在同一块内存中。</p>
-</blockquote>
-<h1 id="Hack-CPU"><a href="#Hack-CPU" class="headerlink" title="Hack CPU"></a>Hack CPU</h1><h2 id="Hack-指令"><a href="#Hack-指令" class="headerlink" title="Hack 指令"></a>Hack 指令</h2><p>A指令：第一位是0</p>
-<p>C指令：前三位是1，后面分为三个部分：计算、目的地、跳转</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/Ch0401.png" srcset="/img/loading.gif" lazyload alt="C-instruction"></p>
-<p>其中计算的部分又分为7bit：</p>
+<h3 id="预定义符号"><a href="#预定义符号" class="headerlink" title="预定义符号"></a>预定义符号</h3><p>这个最简单，本质上就是一个kv map，扫描到内容后直接获取Hack计算机规定的指定value即可，例如R0就一定是0</p>
+<p>（放在内存的kv map，实际上也不用维护，直接static，表示Hack计算机所支持的所有预定义符号集）</p>
+<h3 id="标签符号"><a href="#标签符号" class="headerlink" title="标签符号"></a>标签符号</h3><p>扫描程序，标签所在行号就是最终的结果</p>
+<h3 id="变量符号"><a href="#变量符号" class="headerlink" title="变量符号"></a>变量符号</h3><p>只要不是预定义符号或者是标签符号，就都是自定义符号</p>
+<p>Hack语言规定，自定义符号绑定的实际地址从16开始</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>至此我们可以归纳总结，所谓汇编器的符号表，本质上只是一个在初始化时根据硬件特性预先维护一些数据的map，之后在运行过程中扫描文本，更新这个map</p>
+<p>符号表的声明周期：</p>
 <ul>
-<li>第一个bit a:决定CPU将解析A寄存器里的数据是字面地址还是要访存寻址找数据</li>
-<li>后面6bit c:操作ALU作为输入</li>
+<li>程序启动时预先放入硬件系统规定的预定义符号</li>
+<li>第一遍扫描代码，统计行数并插入标签符号的kv</li>
+<li>第二遍扫描代码，逐行翻译，并对变量符号进行更新维护</li>
 </ul>
-<p>目的地包含3bit:八种不同的结果存储位置排列组合</p>
-<p>跳转包含3bit:也是根据计算结果控制八种不同排列组合跳转</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250117150210235.png" srcset="/img/loading.gif" lazyload alt="image-20250117150210235"></p>
-<h2 id="CPU抽象"><a href="#CPU抽象" class="headerlink" title="CPU抽象"></a>CPU抽象</h2><p>我们都知道，CPU在运行期间的工作，通俗的来概括其实就是两步：</p>
-<ul>
-<li>执行当前指令</li>
-<li>找出下一条要执行的指令准备执行</li>
-</ul>
-<p>下面我们将详细展开描述这个过程</p>
-<h3 id="执行指令"><a href="#执行指令" class="headerlink" title="执行指令"></a>执行指令</h3><p>首先会去解析是 A 指令还是 C 指令</p>
-<p>(1) 如果是 A 指令则直接设置 A寄存器的 value</p>
-<p>(2) 如果是 C 指令，则<strong>基于 A 寄存器， D寄存器以及来自内存数据输入 inM 的数据</strong>，根据指令执行指定的 ALU 操作</p>
-<ul>
-<li>之后将 ALU 的输出，传输到指令指定的 A, D 或者是内存 outM</li>
-<li>如果计算结果需要写回内存，CPU会有一个输出位 1bit 的 writeM 表示是否需要写回内存，写回的是这个位为1，然后 addressM 为具体地址（其实就是指令包含的）需要赋给A寄存器</li>
-</ul>
-<h2 id="硬件实现"><a href="#硬件实现" class="headerlink" title="硬件实现"></a>硬件实现</h2><h3 id="区分A指令和C指令"><a href="#区分A指令和C指令" class="headerlink" title="区分A指令和C指令"></a>区分A指令和C指令</h3><p>实现的方式是将指令的 MSB 最高位传入 MUX 的控制位</p>
-<h3 id="实现C指令"><a href="#实现C指令" class="headerlink" title="实现C指令"></a>实现C指令</h3><p>C指令的每一个组成部分都有专门的硬件来分别处理，整坨的bit作为一个整体经过硬件设计后指示CPU应该如何行动</p>
-<blockquote>
-<p>computation bits</p>
-</blockquote>
-<p>我们之前说过C指令中的操作部分(comp)还可以分为a和c，a指示CPU将解析A寄存器中数据究竟是字面地址还是需要访存，而c才是 真正的ALU输入</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250122150201829.png" srcset="/img/loading.gif" lazyload></p>
-<p>得出计算结果后ALU会同时将结果传输到A、D以及outM里（关闭开始通过控制位）</p>
-<blockquote>
-<p>destination bits</p>
-</blockquote>
-<p>根据dest的一坨bit，我们按顺序设置A、D的控制位以及writeM的值，如图，可以发现这里其实就是CPU的解释逻辑和指令集设计是绑定在一起的，010排列组合的dest bits就是指向D结果，不会存到A或者是内存里</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250122150726722.png" srcset="/img/loading.gif" lazyload></p>
-<h3 id="实现跳转"><a href="#实现跳转" class="headerlink" title="实现跳转"></a>实现跳转</h3><p>TODO</p>
-<h1 id="Mem"><a href="#Mem" class="headerlink" title="Mem"></a>Mem</h1><p>Hack机器由于采取的是分开存储程序和指令，因此指令内存是一个插拔式的ROM</p>
-<p>物理层面来说我们可以直接拔插ROM芯片</p>
-<p>软件模拟层面来说就是读取不同的包含指令的文件来实现指令ROM的模拟</p>
 
                 
               </div>
@@ -407,8 +361,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Nand2Tetris|Week5</div>
-      <div>http://example.com/2025/01/16/Nand2Tetris-Week5/</div>
+      <div>Nand2Tetris|Assembler</div>
+      <div>http://example.com/2025/01/22/Nand2Tetris-Assembler/</div>
     </div>
     <div class="license-meta">
       
@@ -420,7 +374,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年1月16日</div>
+          <div>2025年1月22日</div>
         </div>
       
       
@@ -456,8 +410,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/01/07/Nand2Tetris-Week4/" title="Nand2Tetris|Machine Language">
-                        <span class="hidden-mobile">Nand2Tetris|Machine Language</span>
+                      <a href="/2025/01/16/Nand2Tetris-HackComputer/" title="Nand2Tetris|Hack Computer">
+                        <span class="hidden-mobile">Nand2Tetris|Hack Computer</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
