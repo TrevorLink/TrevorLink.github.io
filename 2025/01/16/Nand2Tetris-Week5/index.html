@@ -24,8 +24,13 @@
 <meta property="og:description" content="计算机系统要素-构建Hack计算机">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250116144759155.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250117143707436.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/Ch0401.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250117150210235.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250122150201829.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250122150726722.png">
 <meta property="article:published_time" content="2025-01-16T06:41:16.000Z">
-<meta property="article:modified_time" content="2025-01-16T07:15:16.567Z">
+<meta property="article:modified_time" content="2025-01-22T07:50:46.617Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="Nand2Tetris">
@@ -223,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          411 字
+          1.5k 字
         
       </span>
     
@@ -234,7 +239,7 @@
         
         
         
-          4 分钟
+          13 分钟
         
       </span>
     
@@ -276,30 +281,85 @@
             
               <div class="markdown-body">
                 
-                <p>现代计算机的体系结构</p>
-<p>主要特征：</p>
+                <h1 id="现代计算机的体系结构"><a href="#现代计算机的体系结构" class="headerlink" title="现代计算机的体系结构"></a>现代计算机的体系结构</h1><p>主要特征：</p>
 <ul>
 <li>包括处理器，寄存器，内存</li>
-<li>存储程序</li>
+<li>将运行程序存储起来的概念</li>
 <li>通用抽象</li>
 </ul>
-<p>计算机的本质：使用指令来操纵数据的机器</p>
-<p>而从技术角度来看，计算机也可以看作是一组通过总线连接的芯片</p>
-<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250116144759155.png" srcset="/img/loading.gif" lazyload></p>
-<p>内存存储了只读程序本身和运行时操作的数据</p>
-<p>CPU则包括多个数据寄存器，地址寄存器，PC指针以及 ALU</p>
-<p>我们上一节实际上是在没有实际硬件的情况下，<strong>用 hack 汇编来模拟 Hack 计算机中 内存和 CPU 的行为</strong></p>
-<p> 取址-执行的循环</p>
+<p><strong>计算机的本质：使用指令来操纵数据的机器</strong></p>
+<p>而从硬件技术角度来看，计算机也可以看作是一组通过总线连接的芯片</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250116144759155.png" srcset="/img/loading.gif" lazyload alt="硬件角度来看"></p>
+<p>从上图我们可以看出，针对上面的 CPU 架构：</p>
 <ul>
+<li>内存存储了只读程序本身和运行时操作的数据</li>
+<li>CPU包括多个数据寄存器，地址寄存器，PC指针以及 ALU</li>
+</ul>
+<p>我们上一节实际上是在没有实际硬件的情况下，<strong>用 hack 汇编来模拟 Hack 计算机中 内存和 CPU 的行为</strong></p>
+<h1 id="取址-执行的循环"><a href="#取址-执行的循环" class="headerlink" title="取址-执行的循环"></a>取址-执行的循环</h1><ul>
 <li>CPU的PC总是指向下一条需要执行的指令的地址，CPU通过地址总线，根据PC地址获取到内存中（只读内存部分）的指令数据</li>
 <li>取出只读内存中的指令，通过控制总线传向CPU的ALU</li>
-<li>这条指令中指定段的指定几个bit会被ALU解析，指明是进行何种的操作，操作的是CPU寄存器还是内存的寄存器</li>
+<li>这条指令中指定段的指定几个bit会被ALU解析，解析后CPU知道是进行何种的操作，操作的是CPU寄存器还是内存的寄存器（解析的语义由指令集和硬件设计特性共同决定）</li>
 <li>CPU根据指令解析的结果，执行指令</li>
 <li>更新PC（JMP或者是正常执行都会更新PC中的地址）</li>
 <li>。。。（回到第一步）</li>
 </ul>
 <p>在上述过程中存在一个值得讨论的地方：</p>
-<p>对内存输入一个地址，在CPU侧，输出的数据可以是指令本身（获取指令阶段），也可以是指令所需要的数据（执行指令阶段），CPU应该如何区分？—————— 指令本身通过控制总线传输，指令所需要的数据通过数据总线传输</p>
+<p>对内存输入一个地址，在CPU侧，输出的数据可以是指令本身（获取指令阶段），也可以是指令所需要的数据（执行指令阶段），CPU应该如何区分？</p>
+<p>根据计算机硬件设计架构的不同，有两种：</p>
+<ul>
+<li>指令和数据分开存放的，我们称之为 two memory machine（哈佛）</li>
+<li>指令和数据一起存放的，我们称之为 one memory machine（冯诺依曼）</li>
+</ul>
+<h2 id="one-memory-machine"><a href="#one-memory-machine" class="headerlink" title="one memory machine:"></a>one memory machine:</h2><p>我们通过 MUX 和 DMUX 来进行多路选择，在内存输入侧，通过 MUX 来选择地址是数据地址还是指令地址；在内存输出侧，通过 DMUX 来将输出传输到 控制总线&#x2F;数据总线，如果是获取指令阶段，就通过 DMUX 将指令输出到控制总线上。如果是指令执行阶段，就通过 DMUX 将数据输出到数据总线上；</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250117143707436.png" srcset="/img/loading.gif" lazyload alt="image-20250117143707436"></p>
+<h2 id="two-memory-machine"><a href="#two-memory-machine" class="headerlink" title="two memory machine:"></a>two memory machine:</h2><p>由于指令和数据在物理层面是分开存放，因此不存在上述需要通过多路复用和解复用器来进行区分的情况。在获取指令时CPU只会把指令地址传输到ROM侧，在指令执行时CPU只会把数据地址传输到RAM侧</p>
+<p>这种架构意味着处理器在同一时钟周期内可以同时访问两个存储器，也就是同时取指和取操作数，运算能力更强。也叫做哈佛架构</p>
+<blockquote>
+<p><strong>ARM 处理器</strong>可以实现某些哈佛架构特性，尽管它们通常属于更灵活的“哈佛式”架构（分开指令和数据总线，但内存还是共享的</p>
+<p>现代CPU引入了指令缓存和数据缓存，能够高效地访问指令和数据，同时又能将程序和数据存储在同一块内存中。</p>
+</blockquote>
+<h1 id="Hack-CPU"><a href="#Hack-CPU" class="headerlink" title="Hack CPU"></a>Hack CPU</h1><h2 id="Hack-指令"><a href="#Hack-指令" class="headerlink" title="Hack 指令"></a>Hack 指令</h2><p>A指令：第一位是0</p>
+<p>C指令：前三位是1，后面分为三个部分：计算、目的地、跳转</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/Ch0401.png" srcset="/img/loading.gif" lazyload alt="C-instruction"></p>
+<p>其中计算的部分又分为7bit：</p>
+<ul>
+<li>第一个bit a:决定CPU将解析A寄存器里的数据是字面地址还是要访存寻址找数据</li>
+<li>后面6bit c:操作ALU作为输入</li>
+</ul>
+<p>目的地包含3bit:八种不同的结果存储位置排列组合</p>
+<p>跳转包含3bit:也是根据计算结果控制八种不同排列组合跳转</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250117150210235.png" srcset="/img/loading.gif" lazyload alt="image-20250117150210235"></p>
+<h2 id="CPU抽象"><a href="#CPU抽象" class="headerlink" title="CPU抽象"></a>CPU抽象</h2><p>我们都知道，CPU在运行期间的工作，通俗的来概括其实就是两步：</p>
+<ul>
+<li>执行当前指令</li>
+<li>找出下一条要执行的指令准备执行</li>
+</ul>
+<p>下面我们将详细展开描述这个过程</p>
+<h3 id="执行指令"><a href="#执行指令" class="headerlink" title="执行指令"></a>执行指令</h3><p>首先会去解析是 A 指令还是 C 指令</p>
+<p>(1) 如果是 A 指令则直接设置 A寄存器的 value</p>
+<p>(2) 如果是 C 指令，则<strong>基于 A 寄存器， D寄存器以及来自内存数据输入 inM 的数据</strong>，根据指令执行指定的 ALU 操作</p>
+<ul>
+<li>之后将 ALU 的输出，传输到指令指定的 A, D 或者是内存 outM</li>
+<li>如果计算结果需要写回内存，CPU会有一个输出位 1bit 的 writeM 表示是否需要写回内存，写回的是这个位为1，然后 addressM 为具体地址（其实就是指令包含的）需要赋给A寄存器</li>
+</ul>
+<h2 id="硬件实现"><a href="#硬件实现" class="headerlink" title="硬件实现"></a>硬件实现</h2><h3 id="区分A指令和C指令"><a href="#区分A指令和C指令" class="headerlink" title="区分A指令和C指令"></a>区分A指令和C指令</h3><p>实现的方式是将指令的 MSB 最高位传入 MUX 的控制位</p>
+<h3 id="实现C指令"><a href="#实现C指令" class="headerlink" title="实现C指令"></a>实现C指令</h3><p>C指令的每一个组成部分都有专门的硬件来分别处理，整坨的bit作为一个整体经过硬件设计后指示CPU应该如何行动</p>
+<blockquote>
+<p>computation bits</p>
+</blockquote>
+<p>我们之前说过C指令中的操作部分(comp)还可以分为a和c，a指示CPU将解析A寄存器中数据究竟是字面地址还是需要访存，而c才是 真正的ALU输入</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250122150201829.png" srcset="/img/loading.gif" lazyload></p>
+<p>得出计算结果后ALU会同时将结果传输到A、D以及outM里（关闭开始通过控制位）</p>
+<blockquote>
+<p>destination bits</p>
+</blockquote>
+<p>根据dest的一坨bit，我们按顺序设置A、D的控制位以及writeM的值，如图，可以发现这里其实就是CPU的解释逻辑和指令集设计是绑定在一起的，010排列组合的dest bits就是指向D结果，不会存到A或者是内存里</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250122150726722.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="实现跳转"><a href="#实现跳转" class="headerlink" title="实现跳转"></a>实现跳转</h3><p>TODO</p>
+<h1 id="Mem"><a href="#Mem" class="headerlink" title="Mem"></a>Mem</h1><p>Hack机器由于采取的是分开存储程序和指令，因此指令内存是一个插拔式的ROM</p>
+<p>物理层面来说我们可以直接拔插ROM芯片</p>
+<p>软件模拟层面来说就是读取不同的包含指令的文件来实现指令ROM的模拟</p>
 
                 
               </div>
