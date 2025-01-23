@@ -24,7 +24,7 @@
 <meta property="og:description" content="React 快速入门">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-23T02:13:56.000Z">
-<meta property="article:modified_time" content="2025-01-23T07:17:52.256Z">
+<meta property="article:modified_time" content="2025-01-23T07:39:48.931Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="React">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          1.7k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          13 分钟
+          14 分钟
         
       </span>
     
@@ -285,6 +285,7 @@
 <p><strong><code>export</code></strong> 声明用于从 JavaScript 模块中导出值。导出的值可通过<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/import"><code>import</code></a>声明或<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/import">动态导入</a>来将其导入其他程序</p>
 </blockquote>
 <h2 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h2><p>可以看到我们上面定义标签的时候，在h1和自己定义的组件里，外部还套了一层div，这是因为上面所使用的标签语法被称为 <em>JSX</em></p>
+<p><strong>JSX 元素是 JavaScript 代码和 HTML 标签的组合，用于描述要显示的内容</strong>。</p>
 <p>JSX 比 HTML 更加严格。你必须闭合标签，如 <code>&lt;br /&gt;</code>。</p>
 <p>组件也不允许返回多个 JSX 标签。你必须将它们包裹到一个共享的父级中，比如 <code>&lt;div&gt;...&lt;/div&gt;</code> 或使用空的 <code>&lt;&gt;...&lt;/&gt;</code> 包裹</p>
 <p>所以上述的代码也可以调整为这样</p>
@@ -344,6 +345,23 @@
 <p>核心在于我们将 useState 的声明放在了父级组件，之后将参数传递到所有的子组件的prop上</p>
 <p><code>function CustomizeButton(&#123;count, handleClick&#125;)</code> 这里就是定义了两个prop，count和handleClick</p>
 <p>这种方式称为<strong>状态提升</strong></p>
+<h1 id="工程基本结构"><a href="#工程基本结构" class="headerlink" title="工程基本结构"></a>工程基本结构</h1><p><a target="_blank" rel="noopener" href="https://zh-hans.react.dev/learn/tutorial-tic-tac-toe">教程：井字棋游戏 – React 中文文档</a></p>
+<p>以井字棋游戏为例，项目基本结构：</p>
+<ul>
+<li>public&#x2F;index.html 最终解析的目录页面</li>
+<li>src&#x2F;index.js 应用和浏览器之间的桥梁</li>
+<li>src&#x2F;style.css 样式文件</li>
+</ul>
+<p>其中 <code>index.js</code> 内的头几行非常关键</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">import</span> &#123; <span class="hljs-title class_">StrictMode</span> &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react&#x27;</span>;<br><span class="hljs-keyword">import</span> &#123; createRoot &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;react-dom/client&#x27;</span>;<br><span class="hljs-keyword">import</span> <span class="hljs-string">&#x27;./styles.css&#x27;</span>;<br><br><span class="hljs-keyword">import</span> <span class="hljs-title class_">App</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./App&#x27;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>分别是：</p>
+<ul>
+<li>React 库</li>
+<li>React 与 Web 浏览器对话的库（React DOM）</li>
+<li>组件的样式</li>
+<li><code>App.js</code> 里面创建的组件</li>
+</ul>
 
                 
               </div>
@@ -433,6 +451,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2025/01/23/JavaScript-JS%E6%8B%BE%E9%81%97/" title="JavaScript|JS拾遗">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">JavaScript|JS拾遗</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
