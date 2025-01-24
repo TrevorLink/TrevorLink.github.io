@@ -24,7 +24,7 @@
 <meta property="og:description" content="计算机系统要素-汇编器">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-01-22T07:52:53.000Z">
-<meta property="article:modified_time" content="2025-01-23T07:17:12.045Z">
+<meta property="article:modified_time" content="2025-01-24T06:47:15.233Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="Nand2Tetris">
@@ -308,7 +308,7 @@
 <h3 id="变量符号"><a href="#变量符号" class="headerlink" title="变量符号"></a>变量符号</h3><p>只要不是预定义符号或者是标签符号，就都是自定义符号</p>
 <p>Hack语言规定，自定义符号绑定的实际地址从16开始</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>至此我们可以归纳总结，所谓汇编器的符号表，本质上只是一个在初始化时根据硬件特性预先维护一些数据的map，之后在运行过程中扫描文本，更新这个map</p>
-<p>符号表的声明周期：</p>
+<p>符号表的生命周期：</p>
 <ul>
 <li>程序启动时预先放入硬件系统规定的预定义符号</li>
 <li>第一遍扫描代码，统计行数并插入标签符号的kv</li>
