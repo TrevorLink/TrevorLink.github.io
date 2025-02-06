@@ -31,8 +31,9 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250130115337481.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250201151850546.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250201152853277.png">
+<meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250206112833451.png">
 <meta property="article:published_time" content="2025-01-26T14:58:28.000Z">
-<meta property="article:modified_time" content="2025-02-05T08:34:33.256Z">
+<meta property="article:modified_time" content="2025-02-06T06:57:34.878Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="Nand2Tetris">
@@ -230,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.7k 字
+          2.8k 字
         
       </span>
     
@@ -241,7 +242,7 @@
         
         
         
-          23 分钟
+          24 分钟
         
       </span>
     
@@ -357,28 +358,30 @@
 <li>翻译：将每条VM指令翻译成在主机 RAM 上运行的机器指令；使用内存寻址的方式，将堆栈和内存段作为主机 RAM 里的专用 RAM 段来实现（需要约定内存区域的哪些位置用来维护VM指令转换所需数据，后面都会提到）</li>
 </ul>
 <p>翻译的这种实现方式是比较广泛采取的方案，例如 java py, c# ruby scala 等，这里我们的 Jack 也采用第三种方案</p>
-<h1 id="VM指令转机器指令"><a href="#VM指令转机器指令" class="headerlink" title="VM指令转机器指令"></a>VM指令转机器指令</h1><h2 id="实现push-const-i"><a href="#实现push-const-i" class="headerlink" title="实现push const i"></a>实现push const i</h2><p>对于VM指令中 push constant 类型的，我们根据对应的数据流向，先写出对应的汇编代码</p>
-<p>我们约定：vm stack pointer 的<strong>地址</strong>存放于 RAM[0]，const 类型的 vm stack 的数据从 256 地址开始</p>
+<h1 id="VM指令转机器指令"><a href="#VM指令转机器指令" class="headerlink" title="VM指令转机器指令"></a>VM指令转机器指令</h1><h2 id="push-x2F-pop"><a href="#push-x2F-pop" class="headerlink" title="push&#x2F;pop"></a>push&#x2F;pop</h2><p>push只会更新栈顶元素</p>
+<p>pop只会写入虚拟内存段</p>
+<h2 id="实现push-const-i"><a href="#实现push-const-i" class="headerlink" title="实现push const i"></a>实现push const i</h2><p>对于VM指令中 push constant 类型的，我们根据对应的数据流向，先写出对应的汇编代码</p>
+<p>我们约定：<strong>vm stack pointer 的地址存放于 RAM[0]，const 类型的 vm stack 的数据从 256 地址开始</strong></p>
 <p>当执行 <code>push constant i </code> 这个VM指令的时候，实际上效果是</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">RAM[SP] = i<br>SP++     <br></code></pre></td></tr></table></figure>
 
 <p>对应的 Hack 汇编就是</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//D=i</span><br><span class="hljs-meta">@i</span><br>D=A<br><span class="hljs-comment">//RAM[SP]=D</span><br><span class="hljs-meta">@SP</span><br>A=M<br>M=D<br><span class="hljs-comment">//SP++</span><br><span class="hljs-meta">@SP</span><br>M=M+<span class="hljs-number">1</span>     <br></code></pre></td></tr></table></figure>
 
-<h2 id="实现push-x2F-pop-local-i"><a href="#实现push-x2F-pop-local-i" class="headerlink" title="实现push&#x2F;pop local i"></a>实现push&#x2F;pop local i</h2><p>对于Jack中定义的函数中定义的局部变量，VM需要进行 push&#x2F;pop</p>
+<h2 id="实现push-x2F-pop-local-i"><a href="#实现push-x2F-pop-local-i" class="headerlink" title="实现push&#x2F;pop local i"></a>实现push&#x2F;pop local i</h2><p>对于Jack编写的函数中定义的局部变量，VM需要能够支持 push&#x2F;pop 操作</p>
 <p><code>pop local i</code> 的语义是：<strong>将SP的数据pop出来，设置在 local segement 的 i 位置</strong></p>
 <p>值得注意的是，对于函数内部的变量，地址是在RAM中不确定的，根据每一次程序的运行动态设置，我们通过<code>LCL</code>来表示基础地址，类似SP，LCL的<strong>地址</strong>存放于RAM[1]</p>
 <p><code>pop local i</code>的对应伪代码就是</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//pop local i</span><br>addr &lt;- LCL + i<br>SP--<br>RAM[addr] &lt;- RAM[SP]     <br></code></pre></td></tr></table></figure>
 
 <p>对应的汇编就是</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//addr &lt;- LCL + i</span><br><span class="hljs-meta">@LCL</span><br>D=A<br><span class="hljs-meta">@i</span><br>D=D+A<br><span class="hljs-meta">@ADDR</span><br>M=D     <br><span class="hljs-comment">//SP--</span><br><span class="hljs-meta">@SP</span><br>M=M-<span class="hljs-number">1</span><br><span class="hljs-comment">//RAM[addr] &lt;- RAM[SP]     </span><br>A=M<br>D=M<br><span class="hljs-meta">@ADDR</span><br>A=M<br>M=D     <br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//addr &lt;- LCL + i</span><br><span class="hljs-meta">@LCL</span><br>D=M<br><span class="hljs-meta">@i</span><br>D=D+A<br><span class="hljs-meta">@ADDR</span><br>M=D     <br><span class="hljs-comment">//SP--</span><br><span class="hljs-meta">@SP</span><br>M=M-<span class="hljs-number">1</span><br><span class="hljs-comment">//RAM[addr] &lt;- RAM[SP]     </span><br>A=M<br>D=M<br><span class="hljs-meta">@ADDR</span><br>A=M<br>M=D     <br></code></pre></td></tr></table></figure>
 
 <p>类似的 push 操作语义为 <strong>将i地址偏移后的数据写入到当前栈顶</strong>：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">addr &lt;- LCL + i<br>RAM[SP] &lt;- RAM[addr]<br>SP++     <br></code></pre></td></tr></table></figure>
 
 <p>对应的汇编就是</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//addr &lt;- LCL + i</span><br><span class="hljs-meta">@LCL</span><br>D=A<br><span class="hljs-meta">@i</span><br>D=D+A<br><span class="hljs-comment">//RAM[SP] &lt;- RAM[addr]     </span><br>A=D<br>D=M<br><span class="hljs-meta">@SP</span><br>A=M<br>M=D<br><span class="hljs-comment">//SP++</span><br><span class="hljs-meta">@SP</span><br>M=M+<span class="hljs-number">1</span>     <br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//addr &lt;- LCL + i</span><br><span class="hljs-meta">@LCL</span><br>D=M<br><span class="hljs-meta">@i</span><br>D=D+A<br><span class="hljs-comment">//RAM[SP] &lt;- RAM[addr]     </span><br>A=D<br>D=M<br><span class="hljs-meta">@SP</span><br>A=M<br>M=D<br><span class="hljs-comment">//SP++</span><br><span class="hljs-meta">@SP</span><br>M=M+<span class="hljs-number">1</span>     <br></code></pre></td></tr></table></figure>
 
 <h2 id="类似local-segement的VM操作"><a href="#类似local-segement的VM操作" class="headerlink" title="类似local segement的VM操作"></a>类似local segement的VM操作</h2><p>对于<code>local</code> <code>argument</code> <code>this</code> <code>that</code> 的 segement，他们的转换实现其实都是一样的，都可以参照上述的汇编转换，对应的逻辑是完全一致的</p>
 <p>只是 <code>segmentPointer</code> 是不一样的，也就是程序运行时分配的基础地址不同，分别用 <code>LCL</code> <code>ARG</code> <code>THIS</code> <code>THAT</code> 来进行区分</p>
@@ -388,16 +391,18 @@
 <p>当编译器编译类时，它将所有静态变量映射到一个名为static的VM segment上</p>
 </blockquote>
 <p>我们约定：static 类型的 VM segment 从地址16开始，到255停止</p>
-<p>想要实现<code>push/pop static i</code>的VM指令，只需要生成实现<code>push/pop Xxx.i</code>的汇编代码即可</p>
+<p>想要实现<code>push/pop static i</code>的VM指令，只需要生成实现<code>push/pop Xxx.i</code>的汇编代码即可，其中 Xxx.i 是汇编符号名称</p>
 <p>（因为Hack汇编器处理定义的变量的时候，符号表的映射起始地址就是从16开始）</p>
 <h2 id="实现push-x2F-pop-temp-i"><a href="#实现push-x2F-pop-temp-i" class="headerlink" title="实现push&#x2F;pop temp i"></a>实现push&#x2F;pop temp i</h2><p>这里的temp类型是指汇编器在针对高级编程语言代码时，在生成VM指令的过程中可能需要一些临时的变量，这些变量本身并不是源代码中定义的</p>
 <p>因此<code>temp</code>类型的segment是一个定长的8长度的片段，从5开始，12结束</p>
 <p>所以实现<code>push/pop temp i</code>本质上就是在实现<code>push/pop RAM[5+i]</code>的语义</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250201151850546.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="实现push-x2F-pop-pointer-i"><a href="#实现push-x2F-pop-pointer-i" class="headerlink" title="实现push&#x2F;pop pointer i"></a>实现push&#x2F;pop pointer i</h2><p>pointer类型的segment主要是用于在汇编器处理代码中针对对象&#x2F;数组的引用</p>
-<p>具体更多的内容我们会在后面实现编译器的时候提到</p>
+<h2 id="实现push-x2F-pop-pointer-i"><a href="#实现push-x2F-pop-pointer-i" class="headerlink" title="实现push&#x2F;pop pointer i"></a>实现push&#x2F;pop pointer i</h2><p>pointer类型的segment主要是用于在汇编器处理代码中针对对象&#x2F;数组的引用，具体更多的内容我们会在后面实现编译器的时候提到</p>
 <p>现在只需要知道他是一个定长的两格长度的segment即可</p>
 <p>pointer 是真正意义上虚拟的segment，不存储在任何地方，仅仅包含 <code>this</code> 和 <code>that</code> 的基础地址</p>
+<p>实际上i只能是0或者是1，对应this和that</p>
+<p><code>pop pointer 0/1</code> 等价于将栈顶元素写入<code>RAM[3]/RAM[4]</code>里</p>
+<p><code>push pointer 0/1</code> 等价于将<code>RAM[3]/RAM[4]</code>元素压入栈顶</p>
 <p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250201152853277.png" srcset="/img/loading.gif" lazyload></p>
 <p><strong>综上，我们描述了如何生成实现VM操作的汇编代码片段</strong></p>
 <h2 id="实现VM算数逻辑指令"><a href="#实现VM算数逻辑指令" class="headerlink" title="实现VM算数逻辑指令"></a>实现VM算数逻辑指令</h2><p>对于任何一个VM算数指令，本质上就是将VM栈中的数据pop出来作为操作数，之后将操作数应用到计算函数中进行计算，最终将结果push入栈的过程</p>
@@ -408,8 +413,9 @@
 <li>VM translator：通过将VM指令等效替换为对应平台的汇编指令（实验7和8需要实现）</li>
 </ul>
 <p>这里简单提一下课程提供的VM模拟器，它可以可视化观看VM指令的执行过程，VM stack和对应的虚拟segment在主机RAM中是如何被模拟已经动态变化的</p>
-<h1 id="Standard-Mapping"><a href="#Standard-Mapping" class="headerlink" title="Standard Mapping"></a>Standard Mapping</h1><p>这里的Standard Mapping的意思针对某些目标平台，提供的一套标准的内存映射约定（vm stack从何处开始存储，segment pointers有哪些，分别从哪里开始等）</p>
-<p>其实我们上面说i到现在一直在说的，其实都是针对 Hack Computer 的 Standard Mapping</p>
+<h1 id="Standard-Mapping"><a href="#Standard-Mapping" class="headerlink" title="Standard Mapping"></a>Standard Mapping</h1><p>这里的Standard Mapping的意思针对某些目标平台，提供的一套标准的内存映射约定（vm stack从何处开始存储，segment pointers有哪些，分别从哪里开始等），也就是将抽象的VM栈内存映射到物理内存区域的约定</p>
+<p>其实我们上面说到现在一直在说的，其实都是针对 Hack Computer 的 Standard Mapping，这边顺带做一个总结</p>
+<p><img src="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250206112833451.png" srcset="/img/loading.gif" lazyload></p>
 <h1 id="VM-Tanslator实现"><a href="#VM-Tanslator实现" class="headerlink" title="VM Tanslator实现"></a>VM Tanslator实现</h1><p>先来梳理一下整体的逻辑：</p>
 <ul>
 <li>用户编写高级编程语言（例如Jack或者Java）</li>
