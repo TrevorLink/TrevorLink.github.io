@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250201152853277.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250206112833451.png">
 <meta property="article:published_time" content="2025-01-26T14:58:28.000Z">
-<meta property="article:modified_time" content="2025-02-06T06:57:34.878Z">
+<meta property="article:modified_time" content="2025-02-07T09:10:33.073Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="Nand2Tetris">
@@ -375,7 +375,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//pop local i</span><br>addr &lt;- LCL + i<br>SP--<br>RAM[addr] &lt;- RAM[SP]     <br></code></pre></td></tr></table></figure>
 
 <p>对应的汇编就是</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//addr &lt;- LCL + i</span><br><span class="hljs-meta">@LCL</span><br>D=M<br><span class="hljs-meta">@i</span><br>D=D+A<br><span class="hljs-meta">@ADDR</span><br>M=D     <br><span class="hljs-comment">//SP--</span><br><span class="hljs-meta">@SP</span><br>M=M-<span class="hljs-number">1</span><br><span class="hljs-comment">//RAM[addr] &lt;- RAM[SP]     </span><br>A=M<br>D=M<br><span class="hljs-meta">@ADDR</span><br>A=M<br>M=D     <br></code></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//SP--</span><br><span class="hljs-meta">@SP</span><br>M=M-<span class="hljs-number">1</span><br><span class="hljs-comment">//D = RAM[SP]     </span><br>A=M<br>D=M<br><span class="hljs-comment">//addr &lt;- LCL + i</span><br><span class="hljs-meta">@LCL</span><br>D=M<br><span class="hljs-meta">@i</span><br>A=D+A     <br><span class="hljs-comment">//RAM[addr] = RAM[SP]</span><br>M=D     <br></code></pre></td></tr></table></figure>
 
 <p>类似的 push 操作语义为 <strong>将i地址偏移后的数据写入到当前栈顶</strong>：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">addr &lt;- LCL + i<br>RAM[SP] &lt;- RAM[addr]<br>SP++     <br></code></pre></td></tr></table></figure>
