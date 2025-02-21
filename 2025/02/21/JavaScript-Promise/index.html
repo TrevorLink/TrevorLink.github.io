@@ -16,22 +16,22 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="解决使用WebStorm时本地组件导入无法跳转的问题">
+    <meta name="description" content="异步、Promise链">
 <meta property="og:type" content="article">
-<meta property="og:title" content="WebStorm|导入模块报黄无法跳转">
-<meta property="og:url" content="http://example.com/2025/02/21/WebStorm-%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97%E6%8A%A5%E9%BB%84%E6%97%A0%E6%B3%95%E8%B7%B3%E8%BD%AC/index.html">
+<meta property="og:title" content="JavaScript|Promise">
+<meta property="og:url" content="http://example.com/2025/02/21/JavaScript-Promise/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="解决使用WebStorm时本地组件导入无法跳转的问题">
+<meta property="og:description" content="异步、Promise链">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-02-21T02:14:51.000Z">
-<meta property="article:modified_time" content="2025-02-21T02:22:04.773Z">
+<meta property="article:published_time" content="2025-02-21T06:36:49.000Z">
+<meta property="article:modified_time" content="2025-02-21T07:22:14.063Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="WebStorm">
+<meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>WebStorm|导入模块报黄无法跳转 - Zanarkand</title>
+  <title>JavaScript|Promise - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="WebStorm|导入模块报黄无法跳转"></span>
+            <span id="subtitle" data-typed-text="JavaScript|Promise"></span>
           
         </div>
 
@@ -208,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-02-21 10:14" pubdate>
-          2025年2月21日 上午
+        <time datetime="2025-02-21 14:36" pubdate>
+          2025年2月21日 下午
         </time>
       </span>
     
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          263 字
+          776 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          3 分钟
+          7 分钟
         
       </span>
     
@@ -268,20 +268,48 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">WebStorm|导入模块报黄无法跳转</h1>
+            <h1 id="seo-header">JavaScript|Promise</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>项目成功build后，所有js中声明导入的语句，只要是工程内的本地组件都有黄色警告，点击对应内容无法跳转</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> foo <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@components/foo&#x27;</span>;<br><span class="hljs-keyword">import</span> bar <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@components/bar&#x27;</span>;<br></code></pre></td></tr></table></figure>
+                <h1 id="异步回调"><a href="#异步回调" class="headerlink" title="异步回调"></a>异步回调</h1><h2 id="基于回调的异步风格"><a href="#基于回调的异步风格" class="headerlink" title="基于回调的异步风格"></a>基于回调的异步风格</h2><p>一个简单的demo</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">loadScript</span>(<span class="hljs-params">src, callback</span>) &#123;<br>     <span class="hljs-comment">//创建脚本</span><br>	<span class="hljs-keyword">let</span> script = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;script&#x27;</span>);<br>	<span class="hljs-comment">//设置js标签的src属性</span><br>     script.<span class="hljs-property">src</span> = src;<br>     <span class="hljs-comment">//设置回调函数</span><br>     script.<span class="hljs-property">onload</span> = <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">callback</span>(script);<br>     <span class="hljs-variable language_">document</span>.<span class="hljs-property">head</span>.<span class="hljs-title function_">append</span>(script)<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>原因在于工程框架使用了别名的方式，这里使用的是umi，umi 底层整合了 webpack ,所以项目中也会用到别名路径</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>在src同级目录下创建<code>webstorm.config.js</code></p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-meta">&#x27;use strict&#x27;</span>;<br><br><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);<br><br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-attr">context</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;./&#x27;</span>),<br>  <span class="hljs-attr">resolve</span>: &#123;<br>    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&#x27;.js&#x27;</span>, <span class="hljs-string">&#x27;.jsx&#x27;</span>, <span class="hljs-string">&#x27;.json&#x27;</span>],<br>    <span class="hljs-attr">alias</span>: &#123;<br>      <span class="hljs-comment">//结合项目具体情况进行配置   </span><br>      <span class="hljs-string">&#x27;@&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@components&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/components/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@utils&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/utils/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@assets&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/assets/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@apis&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/apis/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@pages&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/pages/&#x27;</span>),<br>    &#125;,<br>  &#125;,<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>之后函数调用方，将函数的回调方式作为参数传递</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">loadScript</span>(<span class="hljs-string">&#x27;https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js&#x27;</span>, <span class="hljs-function"><span class="hljs-params">script</span> =&gt;</span> &#123;<br>     <span class="hljs-title function_">alert</span>(<span class="hljs-string">`脚本：<span class="hljs-subst">$&#123;script.src&#125;</span>加载完成`</span>)<br>&#125;);<br></code></pre></td></tr></table></figure>
 
-<p>之后通过 Webstorm 的 [Setting] - [Languages &amp; Frameworks] - [Webpack] 中选择手动引用 <code>webstorm.config.js</code> </p>
-<p>刷新即可看到原先的警告消失，同时点击文件也可以跳转到对应的组件内容</p>
+<p>上面的demo就是采用JS实现的基于回调的异步编程风格</p>
+<p>异步执行某项功能的函数应该提供一个 <code>callback</code> 参数用于在相应事件完成时调用</p>
+<h2 id="Error优先回调风格"><a href="#Error优先回调风格" class="headerlink" title="Error优先回调风格"></a>Error优先回调风格</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">loadScript</span>(<span class="hljs-params">src, callback</span>) &#123;<br>     <span class="hljs-comment">//创建脚本</span><br>	<span class="hljs-keyword">let</span> script = <span class="hljs-variable language_">document</span>.<span class="hljs-title function_">createElement</span>(<span class="hljs-string">&#x27;script&#x27;</span>);<br>	<span class="hljs-comment">//设置js标签的src属性</span><br>     script.<span class="hljs-property">src</span> = src;<br>     <span class="hljs-comment">//设置回调函数</span><br>     script.<span class="hljs-property">onload</span> = <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">callback</span>(<span class="hljs-literal">null</span>, script);<br>     <span class="hljs-comment">//设置错误的回调</span><br>     script.<span class="hljs-property">onError</span> = <span class="hljs-function">() =&gt;</span> <span class="hljs-title function_">callback</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Script load error for script <span class="hljs-subst">$&#123;src&#125;</span>`</span>));<br>     <span class="hljs-variable language_">document</span>.<span class="hljs-property">head</span>.<span class="hljs-title function_">append</span>(script)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>之后在调用方</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">loadScript</span>(<span class="hljs-string">&#x27;./foo.js&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">err, script</span>) &#123;<br>     <span class="hljs-keyword">if</span>(err)&#123;<br>          <span class="hljs-comment">//Error对应处理逻辑</span><br>     &#125; <span class="hljs-keyword">else</span> &#123;<br>          <span class="hljs-title function_">alert</span>(<span class="hljs-string">`脚本：<span class="hljs-subst">$&#123;script.src&#125;</span>加载完成`</span>)<br>     &#125;<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>上面的方式则是Error优先的回调风格</p>
+<h1 id="Promise基础介绍"><a href="#Promise基础介绍" class="headerlink" title="Promise基础介绍"></a>Promise基础介绍</h1><h2 id="引入Promise"><a href="#引入Promise" class="headerlink" title="引入Promise"></a>引入Promise</h2><p>现在对于上述加载某个脚本的代码，我想要实现加载完某个脚本之后，再按顺序加载第二个脚本，那么在调用方，对应的代码就会变成如下的样子</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">loadScript</span>(<span class="hljs-string">&#x27;./foo.js&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">err, script</span>) &#123;<br>     <span class="hljs-keyword">if</span> (error) &#123;<br>         	<span class="hljs-title function_">handleError</span>(error);<br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>      	<span class="hljs-title function_">loadScript</span>(<span class="hljs-string">&#x27;./bar.js&#x27;</span>, <span class="hljs-keyword">function</span>(<span class="hljs-params">err, scirpt</span>) &#123;<br>               <span class="hljs-comment">//...</span><br>          &#125;);<br>      &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>所以如果有这样的需求，原先的代码编写方式将会很臃肿而且可读性依托</p>
+<p>JS 提供了 promise 的方式来进行优化</p>
+<h2 id="声明promise"><a href="#声明promise" class="headerlink" title="声明promise"></a>声明promise</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>     <span class="hljs-comment">//executor</span><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>这里的 resolve 和 reject 是 JS 自带的函数，不需要关注，直接当接口使用</p>
+<p><code>resolve/reject</code> 只需要一个参数（或不包含任何参数），并且将忽略额外的参数。</p>
+<h2 id="promise对象属性"><a href="#promise对象属性" class="headerlink" title="promise对象属性"></a>promise对象属性</h2><p>由 <code>new Promise</code> 构造器返回的 <code>promise</code> 对象具有以下内部属性：</p>
+<ul>
+<li><code>state</code> —— 最初是 <code>&quot;pending&quot;</code>，然后在 <code>resolve</code> 被调用时变为 <code>&quot;fulfilled&quot;</code>，或者在 <code>reject</code> 被调用时变为 <code>&quot;rejected&quot;</code>。</li>
+<li><code>result</code> —— 最初是 <code>undefined</code>，然后在 <code>resolve(value)</code> 被调用时变为 <code>value</code>，或者在 <code>reject(error)</code> 被调用时变为 <code>error</code>。</li>
+</ul>
+<p>因此，executor 应该执行一项工作（通常是需要花费一些时间的事儿），然后调用 <code>resolve</code> 或 <code>reject</code> 来改变对应的 promise 对象的状态。</p>
+<h1 id="Promise最佳实践"><a href="#Promise最佳实践" class="headerlink" title="Promise最佳实践"></a>Promise最佳实践</h1><h2 id="executor生产者定义"><a href="#executor生产者定义" class="headerlink" title="executor生产者定义"></a>executor生产者定义</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>  <span class="hljs-comment">//do something</span><br>  <span class="hljs-title function_">foo</span>();<br>  <span class="hljs-title function_">bar</span>();<br>  <span class="hljs-comment">//End with resolve()/reject()</span><br>  <span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;Failed&#x27;</span>));<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>如上代码，如果在 exector 中执行出了问题，executor 应该调用 <code>reject</code>。这可以使用任何类型的参数来完成（就像 <code>resolve</code> 一样）。但建议使用 <code>Error</code> 对象（或继承自 <code>Error</code> 的对象），因为可以给 catch 在下游进行捕获（下面会介绍）</p>
+<p>并且从生产——消费的模型角度来看，我们定义的promise和executor其实是定义了一个生产者，promise作为”消息队列”进行连接</p>
+<h2 id="then"><a href="#then" class="headerlink" title="then"></a>then</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> promise = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function">(<span class="hljs-params">resolve, reject</span>) =&gt;</span> &#123;<br>  <span class="hljs-comment">//do something</span><br>  <span class="hljs-title function_">foo</span>();<br>  <span class="hljs-title function_">bar</span>();<br>  <span class="hljs-comment">//End with resolve()/reject()</span><br>  <span class="hljs-title function_">reject</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;Failed&#x27;</span>));<br>&#125;);<br><br>promise.<span class="hljs-title function_">then</span>(<br>  <span class="hljs-function"><span class="hljs-params">result</span> =&gt;</span> &#123;<br>    <span class="hljs-title function_">alert</span>(result);<br>  &#125;,<br>  <span class="hljs-function"><span class="hljs-params">error</span> =&gt;</span> &#123;<br>    <span class="hljs-title function_">alert</span>(error);<br>  &#125;,<br>);<br></code></pre></td></tr></table></figure>
+
+
+
 
                 
               </div>
@@ -315,7 +343,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/WebStorm/" class="print-no-link">#WebStorm</a>
+        <a href="/tags/JavaScript/" class="print-no-link">#JavaScript</a>
       
     </div>
   
@@ -327,8 +355,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>WebStorm|导入模块报黄无法跳转</div>
-      <div>http://example.com/2025/02/21/WebStorm-导入模块报黄无法跳转/</div>
+      <div>JavaScript|Promise</div>
+      <div>http://example.com/2025/02/21/JavaScript-Promise/</div>
     </div>
     <div class="license-meta">
       
@@ -372,18 +400,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/02/21/JavaScript-Promise/" title="JavaScript|Promise">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">JavaScript|Promise</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/02/21/Node-%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8BNPM%E7%A7%81%E6%9C%8D%E9%85%8D%E7%BD%AE/" title="Node|前端工程NPM私服配置">
-                        <span class="hidden-mobile">Node|前端工程NPM私服配置</span>
+                      <a href="/2025/02/21/WebStorm-%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97%E6%8A%A5%E9%BB%84%E6%97%A0%E6%B3%95%E8%B7%B3%E8%BD%AC/" title="WebStorm|导入模块报黄无法跳转">
+                        <span class="hidden-mobile">WebStorm|导入模块报黄无法跳转</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
