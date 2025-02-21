@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>WebStorm|导入模块报黄无法跳转</title>
+    <link href="/2025/02/21/WebStorm-%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97%E6%8A%A5%E9%BB%84%E6%97%A0%E6%B3%95%E8%B7%B3%E8%BD%AC/"/>
+    <url>/2025/02/21/WebStorm-%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97%E6%8A%A5%E9%BB%84%E6%97%A0%E6%B3%95%E8%B7%B3%E8%BD%AC/</url>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>项目成功build后，所有js中声明导入的语句，只要是工程内的本地组件都有黄色警告，点击对应内容无法跳转</p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> foo <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@components/foo&#x27;</span>;<br><span class="hljs-keyword">import</span> bar <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@components/bar&#x27;</span>;<br></code></pre></td></tr></table></figure><p>原因在于工程框架使用了别名的方式，这里使用的是umi，umi 底层整合了 webpack ,所以项目中也会用到别名路径</p><h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>在src同级目录下创建<code>webstorm.config.js</code></p><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-meta">&#x27;use strict&#x27;</span>;<br><br><span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);<br><br><span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = &#123;<br>  <span class="hljs-attr">context</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;./&#x27;</span>),<br>  <span class="hljs-attr">resolve</span>: &#123;<br>    <span class="hljs-attr">extensions</span>: [<span class="hljs-string">&#x27;.js&#x27;</span>, <span class="hljs-string">&#x27;.jsx&#x27;</span>, <span class="hljs-string">&#x27;.json&#x27;</span>],<br>    <span class="hljs-attr">alias</span>: &#123;<br>      <span class="hljs-comment">//结合项目具体情况进行配置   </span><br>      <span class="hljs-string">&#x27;@&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@components&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/components/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@utils&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/utils/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@assets&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/assets/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@apis&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/apis/&#x27;</span>),<br>      <span class="hljs-string">&#x27;@pages&#x27;</span>: path.<span class="hljs-title function_">resolve</span>(<span class="hljs-string">&#x27;src/pages/&#x27;</span>),<br>    &#125;,<br>  &#125;,<br>&#125;;<br></code></pre></td></tr></table></figure><p>之后通过 Webstorm 的 [Setting] - [Languages &amp; Frameworks] - [Webpack] 中选择手动引用 <code>webstorm.config.js</code> </p><p>刷新即可看到原先的警告消失，同时点击文件也可以跳转到对应的组件内容</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>WebStorm</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Node|前端工程NPM私服配置</title>
     <link href="/2025/02/21/Node-%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8BNPM%E7%A7%81%E6%9C%8D%E9%85%8D%E7%BD%AE/"/>
     <url>/2025/02/21/Node-%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8BNPM%E7%A7%81%E6%9C%8D%E9%85%8D%E7%BD%AE/</url>
