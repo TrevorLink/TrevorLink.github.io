@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250201152853277.png">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/image-20250206112833451.png">
 <meta property="article:published_time" content="2025-01-26T14:58:28.000Z">
-<meta property="article:modified_time" content="2025-02-07T09:10:33.073Z">
+<meta property="article:modified_time" content="2025-02-25T08:28:46.669Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="CSAPP">
 <meta property="article:tag" content="Nand2Tetris">
@@ -346,7 +346,11 @@
 <p>之后编译器会生成操作虚拟机栈和虚拟内存片段的VM指令</p>
 <p>Jack的虚拟机架构支持8中不同的虚拟内存片段种类，分别是<code>local</code> <code>argument </code> <code>static</code> <code>constant</code> <code>this</code> <code>that</code> <code>temp</code> <code>pointer</code></p>
 <p>具体在后续实现编译器的时候会知道他们各自的功能</p>
-<p>一个很重要的VM抽象就是：<strong>所有的虚拟内存片段（VM segment）需要表现一致的行为</strong></p>
+<p>一个很重要的VM抽象就是：<strong>所有操作虚拟内存片段（VM segment）对应的指令需要表现一致的行为</strong>：</p>
+<ul>
+<li>push只会更新栈顶元素</li>
+<li>pop只会写入虚拟内存段</li>
+</ul>
 <h2 id="VM-指令"><a href="#VM-指令" class="headerlink" title="VM 指令"></a>VM 指令</h2><p>VM code 的基本格式就是</p>
 <p><code>push/pop segement_type i</code> (i为非负整数)</p>
 <p>除此之外还有基础的算数运算&#x2F;逻辑函数</p>
@@ -358,9 +362,7 @@
 <li>翻译：将每条VM指令翻译成在主机 RAM 上运行的机器指令；使用内存寻址的方式，将堆栈和内存段作为主机 RAM 里的专用 RAM 段来实现（需要约定内存区域的哪些位置用来维护VM指令转换所需数据，后面都会提到）</li>
 </ul>
 <p>翻译的这种实现方式是比较广泛采取的方案，例如 java py, c# ruby scala 等，这里我们的 Jack 也采用第三种方案</p>
-<h1 id="VM指令转机器指令"><a href="#VM指令转机器指令" class="headerlink" title="VM指令转机器指令"></a>VM指令转机器指令</h1><h2 id="push-x2F-pop"><a href="#push-x2F-pop" class="headerlink" title="push&#x2F;pop"></a>push&#x2F;pop</h2><p>push只会更新栈顶元素</p>
-<p>pop只会写入虚拟内存段</p>
-<h2 id="实现push-const-i"><a href="#实现push-const-i" class="headerlink" title="实现push const i"></a>实现push const i</h2><p>对于VM指令中 push constant 类型的，我们根据对应的数据流向，先写出对应的汇编代码</p>
+<h1 id="VM指令转机器指令"><a href="#VM指令转机器指令" class="headerlink" title="VM指令转机器指令"></a>VM指令转机器指令</h1><h2 id="实现push-const-i"><a href="#实现push-const-i" class="headerlink" title="实现push const i"></a>实现push const i</h2><p>对于VM指令中 push constant 类型的，我们根据对应的数据流向，先写出对应的汇编代码</p>
 <p>我们约定：<strong>vm stack pointer 的地址存放于 RAM[0]，const 类型的 vm stack 的数据从 256 地址开始</strong></p>
 <p>当执行 <code>push constant i </code> 这个VM指令的时候，实际上效果是</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">RAM[SP] = i<br>SP++     <br></code></pre></td></tr></table></figure>
