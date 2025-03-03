@@ -1,0 +1,707 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Noctis64">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="ES6解构赋值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript|解构赋值">
+<meta property="og:url" content="http://example.com/2025/03/03/JavaScript-%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC/index.html">
+<meta property="og:site_name" content="Zanarkand">
+<meta property="og:description" content="ES6解构赋值">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-03T07:22:46.000Z">
+<meta property="article:modified_time" content="2025-03-03T09:03:40.172Z">
+<meta property="article:author" content="Noctis64">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>JavaScript|解构赋值 - Zanarkand</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zanarkand</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="JavaScript|解构赋值"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-03 15:22" pubdate>
+          2025年3月3日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">JavaScript|解构赋值</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><p>JS中最常使用的数据类型是对象以及数组</p>
+<p>但是有的时候我们实际上并不需要一个对象中所有的字段，或者说数组中所有的数据</p>
+<p>因此ES6中引入了解构赋值这一操作来<strong>将对象或者数组拆解结构并赋值到新的多个变量上</strong></p>
+<h1 id="数组解构"><a href="#数组解构" class="headerlink" title="数组解构"></a>数组解构</h1><h2 id="基本声明"><a href="#基本声明" class="headerlink" title="基本声明"></a>基本声明</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> [firstName, surName] = <span class="hljs-string">&#x27;John Smith&#x27;</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27; &#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> [firstName, surName] = [<span class="hljs-string">&#x27;John&#x27;</span>, <span class="hljs-string">&#x27;Smith&#x27;</span>];<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> arr = [<span class="hljs-string">&#x27;John&#x27;</span>, <span class="hljs-string">&#x27;Smith&#x27;</span>];<br><span class="hljs-keyword">let</span> firstName = arr[<span class="hljs-number">0</span>];<br><span class="hljs-keyword">let</span> surName = arr[<span class="hljs-number">1</span>];<br></code></pre></td></tr></table></figure>
+
+<p>以上三种形式效果等价，前两种就是数组的解构赋值</p>
+<h2 id="忽略元素"><a href="#忽略元素" class="headerlink" title="忽略元素"></a>忽略元素</h2><p>可以在等号左边通过逗号来忽略元素</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> [a,,c] = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>];<br><span class="hljs-title function_">alert</span>(c); <span class="hljs-comment">//3</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="等号右侧适用于任何可迭代的数组"><a href="#等号右侧适用于任何可迭代的数组" class="headerlink" title="等号右侧适用于任何可迭代的数组"></a>等号右侧适用于任何可迭代的数组</h2><p>数组解构可以解构通用的数组，但并不局限，也可以解构任何可迭代的数组，例如字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> [a,b,c] = <span class="hljs-string">&quot;123&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<h2 id="等号左侧适用于任何可赋值的元素"><a href="#等号左侧适用于任何可赋值的元素" class="headerlink" title="等号左侧适用于任何可赋值的元素"></a>等号左侧适用于任何可赋值的元素</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> user = &#123;&#125;;<br>[user.<span class="hljs-property">firstName</span>, user.<span class="hljs-property">surName</span>] = <span class="hljs-string">&#x27;John Smith&#x27;</span>.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27; &#x27;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="获取数组剩下的元素"><a href="#获取数组剩下的元素" class="headerlink" title="获取数组剩下的元素"></a>获取数组剩下的元素</h2><p>通常我们想要的数据远比对象&#x2F;数组本身提供的少，我们可以通过<code>...</code>的方式来收集剩余的项</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> [name1, name2, ...rest] = [<span class="hljs-string">&quot;Julius&quot;</span>, <span class="hljs-string">&quot;Caesar&quot;</span>, <span class="hljs-string">&quot;Consul&quot;</span>, <span class="hljs-string">&quot;of the Roman Republic&quot;</span>];<br><span class="hljs-comment">// rest 是包含从第三项开始的其余数组项的数组</span><br><span class="hljs-title function_">alert</span>(rest[<span class="hljs-number">0</span>]); <span class="hljs-comment">// Consul</span><br><span class="hljs-title function_">alert</span>(rest[<span class="hljs-number">1</span>]); <span class="hljs-comment">// of the Roman Republic</span><br><span class="hljs-title function_">alert</span>(rest.<span class="hljs-property">length</span>); <span class="hljs-comment">// 2</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="默认值"><a href="#默认值" class="headerlink" title="默认值"></a>默认值</h2><p>一般是左边更短右边更长</p>
+<p>如果左边更长的话不会报错，只是未被按顺序赋值到的元素都是<code>undefined</code></p>
+<p>我们可以通过在解构赋值的表达式中定义等号来声明默认值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> [foo, bar = <span class="hljs-string">&#x27;default bar&#x27;</span>] = [<span class="hljs-string">&quot;foo&quot;</span>];<br></code></pre></td></tr></table></figure>
+
+<h1 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h1><p>对象解构的方式比较直接，就是将需要的对象key单独声明在左边列表即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> options = &#123;<br>  <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Menu&quot;</span>,<br>  <span class="hljs-attr">width</span>: <span class="hljs-number">100</span>,<br>  <span class="hljs-attr">height</span>: <span class="hljs-number">200</span><br>&#125;<br><br><span class="hljs-keyword">let</span> &#123;title, width, height&#125; = options;<br></code></pre></td></tr></table></figure>
+
+<p>在左侧被赋值的变量上起别名也是可以的，通过冒号声明，冒号的语法是<strong>“从对象中什么属性的值：赋值给哪个变量”</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> &#123;<span class="hljs-attr">title</span>:t, <span class="hljs-attr">width</span>:w, <span class="hljs-attr">height</span>:h&#125; = options;<br></code></pre></td></tr></table></figure>
+
+<p>类似数组解构，如果可能缺失的值，也可以通过等号进行默认值填充</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> &#123;<span class="hljs-attr">title</span>:t, <span class="hljs-attr">width</span>:w, <span class="hljs-attr">height</span>:h, number = <span class="hljs-number">10</span>&#125; = options;<br></code></pre></td></tr></table></figure>
+
+<p>同样也支持<code>...</code>将剩余的数据收集</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> &#123;title, ...rest&#125; = options;<br></code></pre></td></tr></table></figure>
+
+<h2 id="对象解构时使用已有变量的问题"><a href="#对象解构时使用已有变量的问题" class="headerlink" title="对象解构时使用已有变量的问题"></a>对象解构时使用已有变量的问题</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> title, width, height;<br><br><span class="hljs-comment">// 这一行发生了错误</span><br>&#123;title, width, height&#125; = &#123;<span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Menu&quot;</span>, <span class="hljs-attr">width</span>: <span class="hljs-number">200</span>, <span class="hljs-attr">height</span>: <span class="hljs-number">100</span>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>由于对象解构采用的是<code>&#123;&#125;</code>，因此上述的声明会被js误认为是一段代码块</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>     title<span class="hljs-punctuation">,</span><br>     width<span class="hljs-punctuation">,</span><br>     height     <br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>显然这种声明是非法的</p>
+<p>为了不让js误判代码块，让他知道我们这是对象解构复用已有变量，需要多包上一层小括号</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">(&#123;title, width, height&#125; = &#123;<span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Menu&quot;</span>, <span class="hljs-attr">width</span>: <span class="hljs-number">200</span>, <span class="hljs-attr">height</span>: <span class="hljs-number">100</span>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h1 id="嵌套解构"><a href="#嵌套解构" class="headerlink" title="嵌套解构"></a>嵌套解构</h1><p>本质上可以看作是对象解构和数组解构的综合运用</p>
+<p>只要让等式左边和右边数据类型对应上即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">let</span> options = &#123;<br>  <span class="hljs-attr">size</span>: &#123;<br>    <span class="hljs-attr">width</span>: <span class="hljs-number">100</span>,<br>    <span class="hljs-attr">height</span>: <span class="hljs-number">200</span><br>  &#125;,<br>  <span class="hljs-attr">items</span>: [<span class="hljs-string">&quot;Cake&quot;</span>, <span class="hljs-string">&quot;Donut&quot;</span>],<br>  <span class="hljs-attr">extra</span>: <span class="hljs-literal">true</span><br>&#125;;<br><br><span class="hljs-keyword">let</span> &#123;<br>  <span class="hljs-attr">size</span>: &#123; <span class="hljs-comment">// 把 size 赋值到这里</span><br>    width,<br>    height<br>  &#125;,<br>  <span class="hljs-attr">items</span>: [item1, item2], <span class="hljs-comment">// 把 items 赋值到这里</span><br>  title = <span class="hljs-string">&quot;Menu&quot;</span> <span class="hljs-comment">// 在对象中不存在（使用默认值）</span><br>&#125; = options;<br><br><span class="hljs-title function_">alert</span>(title);  <span class="hljs-comment">// Menu</span><br><span class="hljs-title function_">alert</span>(width);  <span class="hljs-comment">// 100</span><br><span class="hljs-title function_">alert</span>(height); <span class="hljs-comment">// 200</span><br><span class="hljs-title function_">alert</span>(item1);  <span class="hljs-comment">// Cake</span><br><span class="hljs-title function_">alert</span>(item2);  <span class="hljs-comment">// Donut</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="函数入参解构赋值"><a href="#函数入参解构赋值" class="headerlink" title="函数入参解构赋值"></a>函数入参解构赋值</h1><p>有的时候我们的函数入参可能不需要那么多，大部分参数是可选的，也就是不需要手动传入</p>
+<p>换成别的语言可能会这么写</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">showMenu</span>(<span class="hljs-params">title = <span class="hljs-string">&quot;Untitled&quot;</span>, width = <span class="hljs-number">200</span>, height = <span class="hljs-number">100</span>, items = []</span>) &#123;<br>  <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">showMenu</span>(<span class="hljs-string">&quot;My Menu&quot;</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-literal">undefined</span>, [<span class="hljs-string">&quot;Item1&quot;</span>, <span class="hljs-string">&quot;Item2&quot;</span>])<br></code></pre></td></tr></table></figure>
+
+<p>这种方式可行，但是代码有点差</p>
+<p>我们可以<strong>使用对象作为函数入参，函数签名处使用解构赋值，拆分对象属性，自动定义变量以及默认值，在函数体内直接单独挑出来使用</strong>，可以完美解决上述问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>  <span class="hljs-keyword">let</span> params = &#123;<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Menu&#x27;</span>,<br>    <span class="hljs-attr">width</span>: <span class="hljs-number">100</span>,<br>    <span class="hljs-attr">height</span>: <span class="hljs-number">200</span>,<br>  &#125;;<br><br>  <span class="hljs-keyword">function</span> <span class="hljs-title function_">showMenu</span>(<span class="hljs-params">&#123;</span><br><span class="hljs-params">    title = <span class="hljs-string">&#x27;Untitled&#x27;</span>,</span><br><span class="hljs-params">    width = <span class="hljs-number">200</span>,</span><br><span class="hljs-params">    height = <span class="hljs-number">100</span>,</span><br><span class="hljs-params">    items = [],</span><br><span class="hljs-params">  &#125;</span>) &#123;<br>    <span class="hljs-title function_">alert</span>(<span class="hljs-string">`<span class="hljs-subst">$&#123;title&#125;</span> <span class="hljs-subst">$&#123;width&#125;</span> <span class="hljs-subst">$&#123;height&#125;</span>`</span>); <span class="hljs-comment">// My Menu 200 100</span><br>  &#125;<br><br>  <span class="hljs-title function_">showMenu</span>(params);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时，由于items没有被指定，因此就是使用的默认值空数组，剩下的都将根据真实值传递而非使用默认值</p>
+<p>但是这样还有一个问题，就是如果我们都直接打算使用默认值，不能不定义，一定要手动传入一个空对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-title function_">showMenu</span>(&#123;&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>为了避免这种冗余的声明，我们可以在函数参数声明的地方定义默认值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs js">&#123;<br>  <span class="hljs-keyword">let</span> params = &#123;<br>    <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Menu&#x27;</span>,<br>    <span class="hljs-attr">width</span>: <span class="hljs-number">100</span>,<br>    <span class="hljs-attr">height</span>: <span class="hljs-number">200</span>,<br>  &#125;;<br><br>  <span class="hljs-keyword">function</span> <span class="hljs-title function_">showMenu</span>(<span class="hljs-params">&#123;</span><br><span class="hljs-params">    title = <span class="hljs-string">&#x27;Untitled&#x27;</span>,</span><br><span class="hljs-params">    width = <span class="hljs-number">200</span>,</span><br><span class="hljs-params">    height = <span class="hljs-number">100</span>,</span><br><span class="hljs-params">    items = [],</span><br><span class="hljs-params">  &#125; = &#123;&#125;</span>) &#123;<br>    <span class="hljs-title function_">alert</span>(<span class="hljs-string">`<span class="hljs-subst">$&#123;title&#125;</span> <span class="hljs-subst">$&#123;width&#125;</span> <span class="hljs-subst">$&#123;height&#125;</span>`</span>); <span class="hljs-comment">// My Menu 200 100</span><br>  &#125;<br><br>  <span class="hljs-title function_">showMenu</span>(params);<br>  <span class="hljs-comment">//全部使用默认值</span><br>  <span class="hljs-title function_">showMenu</span>();   <br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/JavaScript/" class="print-no-link">#JavaScript</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>JavaScript|解构赋值</div>
+      <div>http://example.com/2025/03/03/JavaScript-解构赋值/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Noctis64</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/02/25/JavaScript-async-await/" title="JavaScript|async/await">
+                        <span class="hidden-mobile">JavaScript|async/await</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
