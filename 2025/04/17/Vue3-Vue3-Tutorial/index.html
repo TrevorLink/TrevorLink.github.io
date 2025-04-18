@@ -24,7 +24,7 @@
 <meta property="og:description" content="Vue3官方交互式教程学习">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-17T07:17:55.000Z">
-<meta property="article:modified_time" content="2025-04-17T08:42:42.280Z">
+<meta property="article:modified_time" content="2025-04-18T07:52:12.937Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.8k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          11 分钟
+          15 分钟
         
       </span>
     
@@ -301,6 +301,10 @@
 <p>例如下面的代码我们就将一个动态的class与标题进行绑定</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script setup&gt;<br>import &#123; ref &#125; from &#x27;vue&#x27;<br><br>const titleClass = ref(&#x27;title&#x27;)<br>&lt;/script&gt;<br><br>&lt;template&gt;<br>  &lt;h1 :class=&quot;titleClass&quot;&gt;Make me red&lt;/h1&gt;<br>&lt;/template&gt;<br><br>&lt;style&gt;<br>.title &#123;<br>  color: red;<br>&#125;<br>&lt;/style&gt;<br></code></pre></td></tr></table></figure>
 
+<p>我们先是声明了一个组件状态 titleClass &#x3D; title，之后通过 v-bind 将 h1 的 class 属性动态地与这个状态绑定</p>
+<p>最终 vue 响应式渲染的结果就是：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;title&quot;</span>&gt;</span>Make me red<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
 <h2 id="事件监听"><a href="#事件监听" class="headerlink" title="事件监听"></a>事件监听</h2><p>这也是很常用的一种语法，例如点击按钮时执行某些逻辑，在Vue中我们用<code>v-on</code>指令监听DOM事件</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;button v-on:click=&quot;increment&quot;&gt;&#123;&#123; count &#125;&#125;&lt;/button&gt;<br></code></pre></td></tr></table></figure>
 
@@ -331,6 +335,30 @@
 <p><code>key</code> 使得 Vue 能够精确地移动每个 <code>&lt;li&gt;</code>，以匹配对应的对象在数组中的位置。</p>
 <p>现在我们通过 vue 的基础指令实现了一个 todo </p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script setup&gt;<br>import &#123; ref &#125; from &#x27;vue&#x27;<br><br>// 给每个 todo 对象一个唯一的 id<br>let id = 0<br><br>const newTodo = ref(&#x27;&#x27;)<br>const todos = ref([<br>  &#123; id: id++, text: &#x27;Learn HTML&#x27; &#125;,<br>  &#123; id: id++, text: &#x27;Learn JavaScript&#x27; &#125;,<br>  &#123; id: id++, text: &#x27;Learn Vue&#x27; &#125;<br>])<br><br>function addTodo() &#123;<br>  // 数组新增对象<br>	todos.value.push(&#123;<br>    id: id++,<br>    text: newTodo.value<br>  &#125;)<br>     newTodo.value = &#x27;&#x27;<br><br>&#125;<br><br>function removeTodo(todo) &#123;<br>  //用id进行过滤<br>  todos.value = todos.value.filter(ogTodo =&gt; ogTodo.id !== todo.id)<br>&#125;<br>&lt;/script&gt;<br><br>&lt;template&gt;<br>  &lt;form @submit.prevent=&quot;addTodo&quot;&gt;<br>    &lt;input v-model=&quot;newTodo&quot; required placeholder=&quot;new todo&quot;&gt;<br>    &lt;button&gt;Add Todo&lt;/button&gt;<br>  &lt;/form&gt;<br>  &lt;ul&gt;<br>    &lt;li v-for=&quot;todo in todos&quot; :key=&quot;todo.id&quot;&gt;<br>      &#123;&#123; todo.text &#125;&#125;<br>      &lt;button @click=&quot;removeTodo(todo)&quot;&gt;X&lt;/button&gt;<br>    &lt;/li&gt;<br>  &lt;/ul&gt;<br>&lt;/template&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="基于状态计算"><a href="#基于状态计算" class="headerlink" title="基于状态计算"></a>基于状态计算</h2><p>我们在<a href="#%E9%81%8D%E5%8E%86%E6%95%B0%E7%BB%84%E5%88%97%E8%A1%A8%E6%B8%B2%E6%9F%93">上一步</a>的基础上，给每一个列表元素加了一个字段，并将其通过 v-model 与 vue 状态进行绑定</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script setup&gt;<br>     const todos = ref([<br>       &#123; id: id++, text: &#x27;Learn HTML&#x27;, done: true &#125;,<br>       &#123; id: id++, text: &#x27;Learn JavaScript&#x27;, done: true &#125;,<br>       &#123; id: id++, text: &#x27;Learn Vue&#x27;, done: false &#125;<br>     ])<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;todo in todos&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;checkbox&quot;</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">&quot;todo.done&quot;</span>&gt;</span><br>  ...<br><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>现在我们想要实现隐藏所有 <code>done=true</code> 的元素，也就是<strong>基于状态渲染不同的列表项</strong></p>
+<p>我们可以使用 <code>compute()</code> API，在其中计算真正需要遍历的列表，传给 v-for 进行遍历</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> filteredTodos = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-comment">// 展示全部</span><br>  <span class="hljs-keyword">if</span>(!hideCompleted.<span class="hljs-property">value</span>)&#123;<br>    <span class="hljs-keyword">return</span> todos.<span class="hljs-property">value</span><br>  &#125;<br>  <span class="hljs-comment">// 隐藏已完成</span><br>  <span class="hljs-keyword">return</span> todos.<span class="hljs-property">value</span>.<span class="hljs-title function_">filter</span>(<span class="hljs-function"><span class="hljs-params">todo</span> =&gt;</span> !todo.<span class="hljs-property">done</span>);<br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>之后传给 v-for</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">- &lt;li v-for=&quot;todo in todos&quot;&gt;</span><br><span class="hljs-addition">+ &lt;li v-for=&quot;todo in filteredTodos&quot;&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="生命周期和模板引用"><a href="#生命周期和模板引用" class="headerlink" title="生命周期和模板引用"></a>生命周期和模板引用</h1><p>上述的操作都是vue完成了DOM更新，有的时候我们可能需要手动操作DOM进行更新，这个时候就需要进行模板引用</p>
+<p>我们通过在模板中DOM新增 <code>ref</code>这个属性来实现</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;pElementRef&quot;</span>&gt;</span>hello<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>对应的我们需要在 script 中声明这个引用</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> pElementRef = <span class="hljs-title function_">ref</span>(<span class="hljs-literal">null</span>)<br></code></pre></td></tr></table></figure>
+
+<p>这里使用 null 和 React 中的 useRef 差不多，都是在组件初始化的时候 DOM 还未生成，所以要用 null</p>
+<p>说到初始化生命周期，<strong>vue暴露了一些生命周期的钩子，开发者可以直接可以注册一些逻辑 用于组件的指定生命周期</strong></p>
+<p>下面就是在组件初始化的时候修改段落的文本内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script setup&gt;<br>import &#123; ref, onMounted &#125; from &#x27;vue&#x27;<br><br>const pElementRef = ref(null)<br><br>onMounted(() =&gt; &#123;<br>  pElementRef.value.textContent = &#x27;mounted!&#x27;<br>&#125;)<br>&lt;/script&gt;<br><br>&lt;template&gt;<br>  &lt;p ref=&quot;pElementRef&quot;&gt;Hello&lt;/p&gt;<br>&lt;/template&gt;<br></code></pre></td></tr></table></figure>
 
 
                 
