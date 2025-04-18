@@ -24,7 +24,7 @@
 <meta property="og:description" content="Vue3官方交互式教程学习">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-17T07:17:55.000Z">
-<meta property="article:modified_time" content="2025-04-18T07:52:12.937Z">
+<meta property="article:modified_time" content="2025-04-18T08:29:16.011Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          2.6k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          15 分钟
+          22 分钟
         
       </span>
     
@@ -360,7 +360,39 @@
 <p>下面就是在组件初始化的时候修改段落的文本内容</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script setup&gt;<br>import &#123; ref, onMounted &#125; from &#x27;vue&#x27;<br><br>const pElementRef = ref(null)<br><br>onMounted(() =&gt; &#123;<br>  pElementRef.value.textContent = &#x27;mounted!&#x27;<br>&#125;)<br>&lt;/script&gt;<br><br>&lt;template&gt;<br>  &lt;p ref=&quot;pElementRef&quot;&gt;Hello&lt;/p&gt;<br>&lt;/template&gt;<br></code></pre></td></tr></table></figure>
 
+<h1 id="状态监听器"><a href="#状态监听器" class="headerlink" title="状态监听器"></a>状态监听器</h1><p>由于我们上面实现的效果都是响应式的，有的时候我们希望自定义一些逻辑，当状态变化时执行这些逻辑，我们可以用<code>watch()</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; ref, watch &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><br><span class="hljs-keyword">const</span> count = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)<br><br><span class="hljs-title function_">watch</span>(count, <span class="hljs-function">(<span class="hljs-params">newCount</span>) =&gt;</span> &#123;<br>  <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`new count is: <span class="hljs-subst">$&#123;newCount&#125;</span>`</span>)<br>&#125;)<br></code></pre></td></tr></table></figure>
 
+<p><code>watch()</code> 可以直接侦听一个 ref(也就是组件状态)，并且只要 <code>count</code> 的值改变就会触发回调</p>
+<p>下面的逻辑就是当点击按钮触发组件状态 todoId 变更的时候，我们重新调用 fetchData() 逻辑，请求新的数据用于展示</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;script setup&gt;<br><span class="hljs-keyword">import</span> &#123; ref, watch &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><br><span class="hljs-keyword">const</span> todoId = <span class="hljs-title function_">ref</span>(<span class="hljs-number">1</span>)<br><span class="hljs-keyword">const</span> todoData = <span class="hljs-title function_">ref</span>(<span class="hljs-literal">null</span>)<br><br><span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">fetchData</span>(<span class="hljs-params"></span>) &#123;<br>  todoData.<span class="hljs-property">value</span> = <span class="hljs-literal">null</span><br>  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> <span class="hljs-title function_">fetch</span>(<br>    <span class="hljs-string">`https://jsonplaceholder.typicode.com/todos/<span class="hljs-subst">$&#123;todoId.value&#125;</span>`</span><br>  )<br>  todoData.<span class="hljs-property">value</span> = <span class="hljs-keyword">await</span> res.<span class="hljs-title function_">json</span>()<br>&#125;<br>  <br><span class="hljs-title function_">watch</span>(todoId, <span class="hljs-function">() =&gt;</span> &#123;<br>  <span class="hljs-title function_">fetchData</span>();<br>&#125;)<br><br><span class="hljs-title function_">fetchData</span>()<br>&lt;/script&gt;<br><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Todo id: &#123;&#123; todoId &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;todoId++&quot;</span> <span class="hljs-attr">:disabled</span>=<span class="hljs-string">&quot;!todoData&quot;</span>&gt;</span>Fetch next todo<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;!todoData&quot;</span>&gt;</span>Loading...<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">pre</span> <span class="hljs-attr">v-else</span>&gt;</span>&#123;&#123; todoData &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">pre</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<h1 id="多组件开发"><a href="#多组件开发" class="headerlink" title="多组件开发"></a>多组件开发</h1><h2 id="引入子组件渲染"><a href="#引入子组件渲染" class="headerlink" title="引入子组件渲染"></a>引入子组件渲染</h2><p>这部分逻辑和 React 差不多</p>
+<h2 id="向子组件传递数据"><a href="#向子组件传递数据" class="headerlink" title="向子组件传递数据"></a>向子组件传递数据</h2><p>父子组件数据流向通过 props 进行传递</p>
+<p>这部分声明使用逻辑和 React 略有不同，但也有一些相似之处</p>
+<p>首先我们在子组件中通过 <code>defineProps()</code> 编译时宏定义需要接收的 props</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> props = <span class="hljs-title function_">defineProps</span>(&#123;<br>  <span class="hljs-attr">msg</span>: <span class="hljs-title class_">String</span><br>&#125;)<br></code></pre></td></tr></table></figure>
+
+<p>一旦声明，<code>msg</code> prop 就可以在子组件的模板中使用。它也可以通过 <code>defineProps()</code> 所返回的对象在 JS 中访问</p>
+<p>之后我们可以类似地像 React 那样传递 props 到子组件中。但是实际上是通过 v-ind 语法（类似 HTML 的属性）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;script setup&gt;<br><span class="hljs-keyword">import</span> &#123; ref &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><span class="hljs-keyword">import</span> <span class="hljs-title class_">ChildComp</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;./ChildComp.vue&#x27;</span><br><br><span class="hljs-keyword">const</span> greeting = <span class="hljs-title function_">ref</span>(<span class="hljs-string">&#x27;Hello from parent&#x27;</span>)<br>&lt;/script&gt;<br><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">ChildComp</span> <span class="hljs-attr">:msg</span>=<span class="hljs-string">&quot;greeting&quot;</span> /&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span><br></code></pre></td></tr></table></figure>
+
+<h2 id="向父组件传播事件"><a href="#向父组件传播事件" class="headerlink" title="向父组件传播事件"></a>向父组件传播事件</h2><p>很常见的一个场景就是在子组件中执行了某项操作，父组件需要修改对应的状态</p>
+<p>这个时候我们可以通过 <code>emit()</code> API 来实现</p>
+<p>在子组件中通过 <code>emit()</code> 定义<strong>需要暴露的事件</strong>。<code>emit()</code> 的第一个参数是事件的名称。后面的所有参数都将传递给事件监听器</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;script setup&gt;<br><span class="hljs-comment">// 声明触发的事件</span><br><span class="hljs-keyword">const</span> emit = <span class="hljs-title function_">defineEmits</span>([<span class="hljs-string">&#x27;response&#x27;</span>])<br><br><span class="hljs-comment">// 带参数触发</span><br><span class="hljs-title function_">emit</span>(<span class="hljs-string">&#x27;response&#x27;</span>, <span class="hljs-string">&#x27;hello from child&#x27;</span>)<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+
+<p>在父组件上，通过 v-on 监听子组件暴露的事件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js">&lt;<span class="hljs-title class_">ChildComp</span> @response=<span class="hljs-string">&quot;(msg) =&gt; childMsg = msg&quot;</span> /&gt;<br></code></pre></td></tr></table></figure>
+
+<h2 id="向子组件传递模板片段"><a href="#向子组件传递模板片段" class="headerlink" title="向子组件传递模板片段"></a>向子组件传递模板片段</h2><p>在引入子组件的时候如果不通过单标签闭合的方式而是用双标签的形式，就会开启slot</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ChildComp</span>&gt;</span><br>  <span class="hljs-comment">&lt;!-- 下面的所有的template片段都会传递到子组件 --&gt;</span><br>  This is some slot content!<br><span class="hljs-tag">&lt;/<span class="hljs-name">ChildComp</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>在子组件中，可以使用 <code>&lt;slot&gt;</code> 元素作为插槽出口 (slot outlet) 渲染父组件中的插槽内容 (slot content)：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 在子组件的模板中 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">slot</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>子组件的slot如果也是双标签的话，可以在里面设置兜底内容（父组件没有传递任何slot内容时展示）</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span>Fallback content<span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span><br></code></pre></td></tr></table></figure>
                 
               </div>
             
