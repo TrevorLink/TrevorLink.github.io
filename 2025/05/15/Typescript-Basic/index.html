@@ -1,0 +1,703 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Noctis64">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Typescript基础使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Typescript|Basic">
+<meta property="og:url" content="http://example.com/2025/05/15/Typescript-Basic/index.html">
+<meta property="og:site_name" content="Zanarkand">
+<meta property="og:description" content="Typescript基础使用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-05-15T00:54:53.000Z">
+<meta property="article:modified_time" content="2025-05-15T02:28:21.367Z">
+<meta property="article:author" content="Noctis64">
+<meta property="article:tag" content="Typescript">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Typescript|Basic - Zanarkand</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zanarkand</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Typescript|Basic"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-15 08:54" pubdate>
+          2025年5月15日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Typescript|Basic</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><blockquote>
+<p>TypeScript 的目标是作为 JavaScript 程序的静态类型检查器————换句话说，是一种在代码运行之前运行的工具（静态），并确保程序的类型是正确的（已检查类型）</p>
+</blockquote>
+<p>来看这么一个例子</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-comment">// 访问 message 的 toLowerCase 方法并调用它</span><br>message.<span class="hljs-title function_">toLowerCase</span>();<br><span class="hljs-comment">// 调用 message 函数</span><br><span class="hljs-title function_">message</span>();<br></code></pre></td></tr></table></figure>
+
+<p>假设 <code>message</code> 是这样定义的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">const</span> message = <span class="hljs-string">&quot;Hello World!&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>那么第一行代码可以正常执行，但是第二行就会在运行时报错：<code>TypeError: message is not a function</code></p>
+<p>我们希望不要等到JS运行的时候计算出异常，当然对于JS中的原始数据类型，我们可以使用<code>typeof</code>来得到对应的数据类型，但是函数就不行，看下面的代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">fn</span>(<span class="hljs-params">x</span>) &#123;<br>  <span class="hljs-keyword">return</span> x.<span class="hljs-title function_">flip</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果传入fn函数的入参不是并不支持<code>flip()</code>，那么在调用fn的时候内部也会出现异常，这种方式目前我们并没有一种合理的解决方式</p>
+<p>因此实际上我们希望能在编写代码的时候就能分清楚代码会做什么事情，我们希望引入<code>类型</code>的概念，这里说的<strong>类型</strong>其实就是描述了什么值可以安全传递给 <code>fn</code>，什么值会引起报错</p>
+<p>这个时候我们就可以引入Typescript，他是一个在JS实际运行之前的静态类型检查工具。开发者编写符合ts规范的代码，通过<code>tsc</code>编译得到最终不包含类型的js文件</p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>前置需要node，我们可以全局安装<code>typescript</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">npm i -g typescript<br></code></pre></td></tr></table></figure>
+
+<p>但是更推荐在项目中独立安装（可能需要借助 npx 或者类似的工具才能便捷地运行 tsc 指令）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">npm i --save-dev typescript<br></code></pre></td></tr></table></figure>
+
+<h1 id="类型注解-amp-TSC"><a href="#类型注解-amp-TSC" class="headerlink" title="类型注解&amp;TSC"></a>类型注解&amp;TSC</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">function</span> <span class="hljs-title function_">greeter</span>(<span class="hljs-params">person</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello, &quot;</span> + person;<br>&#125;<br> <br><span class="hljs-keyword">let</span> user = <span class="hljs-string">&quot;Jane User&quot;</span>;<br> <br><span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">textContent</span> = <span class="hljs-title function_">greeter</span>(user);<br></code></pre></td></tr></table></figure>
+
+<p>使用TS重写上述JS代码引入类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">greeter</span>(<span class="hljs-params">person: <span class="hljs-built_in">string</span></span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello, &quot;</span> + person;<br>&#125;<br> <br><span class="hljs-keyword">let</span> user = <span class="hljs-string">&quot;Jane User&quot;</span>;<br> <br><span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">textContent</span> = <span class="hljs-title function_">greeter</span>(user);<br></code></pre></td></tr></table></figure>
+
+<p>这个时候我们可以通过<code>tsc</code>编译上述ts代码，最终会生成一个js代码，可以发现编译生成的js和原先的js内容一致</p>
+<p>上述greeter函数的入参，我们引入了类型，在TS官方中称其为<code>Type annotations</code></p>
+<p>我们可以修改 user的数据类型，将其改为数字&#x2F;对象&#x2F;数组，在IDE中或者是编译的时候都会给出错误信息，表示类型错误</p>
+<h2 id="对JS迁移的兼容"><a href="#对JS迁移的兼容" class="headerlink" title="对JS迁移的兼容"></a>对JS迁移的兼容</h2><p>我们通过tsc编译写好的ts代码后，如果编译出现错误，实际上可能代码还是可以运行的，报错的时候仍然会产出js文件</p>
+<p>这是因为，例如我们现在正把JS代码迁移到TS代码，并因为历史的原因，在ts的检查约束下产生了很多类型检查错误</p>
+<p>这个时候难道就因为迁移到TS的原因，需要把所有的类型错误都修改吗？毕竟原先代码还是可以跑的、</p>
+<p>因此TS的设计规则就是并不会对实际程序执行产生阻碍（默认配置下），只是起到运行前类型约束的效果</p>
+<h2 id="降级"><a href="#降级" class="headerlink" title="降级"></a>降级</h2><p>TSC编译后生成的JS代码往往可能不是最新ES规范的JS代码，例如字符串模板<code>$&#123;&#125;</code>这样的会被降级重写成字符串拼接的方式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-string">`Hello <span class="hljs-subst">$&#123;person&#125;</span>, today is <span class="hljs-subst">$&#123;date.toDateString()&#125;</span>!`</span>;<br><br><span class="hljs-string">&quot;Hello &quot;</span> + person + <span class="hljs-string">&quot;, today is &quot;</span> + date.<span class="hljs-title function_">toDateString</span>() + <span class="hljs-string">&quot;!&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>在默认情况下，TypeScript 会转化为 ES3 代码，这是一个非常旧的 ECMAScript 版本</p>
+<p>我们可以通过编译器参数<code>--target es2015</code>来指定生成高版本的JS</p>
+<h1 id="Interfaces"><a href="#Interfaces" class="headerlink" title="Interfaces"></a>Interfaces</h1><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Person</span> &#123;<br>  <span class="hljs-attr">firstName</span>: <span class="hljs-built_in">string</span>;<br>  <span class="hljs-attr">lastName</span>: <span class="hljs-built_in">string</span>;<br>&#125;<br> <br><span class="hljs-keyword">function</span> <span class="hljs-title function_">greeter</span>(<span class="hljs-params">person: Person</span>) &#123;<br>  <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello, &quot;</span> + person.<span class="hljs-property">firstName</span> + <span class="hljs-string">&quot; &quot;</span> + person.<span class="hljs-property">lastName</span>;<br>&#125;<br> <br><span class="hljs-keyword">let</span> user = &#123; <span class="hljs-attr">firstName</span>: <span class="hljs-string">&quot;Jane&quot;</span>, <span class="hljs-attr">lastName</span>: <span class="hljs-string">&quot;User&quot;</span> &#125;;<br> <br><span class="hljs-variable language_">document</span>.<span class="hljs-property">body</span>.<span class="hljs-property">textContent</span> = <span class="hljs-title function_">greeter</span>(user);<br></code></pre></td></tr></table></figure>
+
+<p>我们使用一个接口来描述具有 firstName 和 lastName 字段的对象</p>
+<p>在 TypeScript 中，如果两个类型的内部结构兼容，则它们是兼容的，因此上述代码中的 user 对象兼容 Person interface，可以作为 greeter 的入参，不需要显式 <code>implements</code></p>
+<h2 id="和Class的区别"><a href="#和Class的区别" class="headerlink" title="和Class的区别"></a>和Class的区别</h2><p>还有一个是<code>class</code>比较容易和这个混淆，简单来说<code>interface</code>主要是定义类型结构，用于类型约束。<code>class</code>更侧重oop，</p>
+<p>前端领域，函数式和组合式 API 更常见（例如 React Hooks、Vue Composition API）</p>
+<p>所以在实际开发中我们一般都是写<code>interface</code>居多</p>
+<p>一般我们都是用interface定义业务对象的数据结构，这个结构可能来自 API 响应</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs ts">&lt;!-- <span class="hljs-title class_">UserCard</span>.<span class="hljs-property">vue</span> --&gt;<br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span> <span class="hljs-attr">setup</span>&gt;</span><span class="language-javascript"></span></span><br><span class="language-javascript"><span class="language-xml"><span class="hljs-keyword">import</span> &#123; defineProps &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span></span></span><br><span class="language-javascript"><span class="language-xml"></span></span><br><span class="language-javascript"><span class="language-xml"><span class="hljs-comment">// 用 interface 定义 props 类型</span></span></span><br><span class="language-javascript"><span class="language-xml">interface <span class="hljs-title class_">User</span> &#123;</span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-attr">id</span>: number</span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-attr">name</span>: string</span></span><br><span class="language-javascript"><span class="language-xml">  avatarUrl?: string</span></span><br><span class="language-javascript"><span class="language-xml">&#125;</span></span><br><span class="language-javascript"><span class="language-xml"></span></span><br><span class="language-javascript"><span class="language-xml"><span class="hljs-comment">// 明确标注 props 的结构</span></span></span><br><span class="language-javascript"><span class="language-xml"><span class="hljs-keyword">const</span> props = defineProps&lt;&#123;</span></span><br><span class="language-javascript"><span class="language-xml">  <span class="hljs-attr">user</span>: <span class="hljs-title class_">User</span></span></span><br><span class="language-javascript"><span class="language-xml">  showAvatar?: boolean</span></span><br><span class="language-javascript"><span class="language-xml">&#125;&gt;()</span></span><br><span class="language-javascript"><span class="language-xml"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></span><br><br><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;user-card&quot;</span>&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;showAvatar &amp;&amp; user.avatarUrl&quot;</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">&quot;user.avatarUrl&quot;</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">&quot;avatar&quot;</span> /&gt;</span></span><br><span class="language-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>&#123;&#123; user.name &#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span></span><br><span class="language-xml">  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span><br><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></span><br><br></code></pre></td></tr></table></figure>
+
+<p>请求用户信息，封装用户对象</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">ApiResponse</span>&lt;T&gt; &#123;<br>  <span class="hljs-attr">code</span>: <span class="hljs-built_in">number</span><br>  <span class="hljs-attr">message</span>: <span class="hljs-built_in">string</span><br>  <span class="hljs-attr">data</span>: T<br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">fetchUser</span>(<span class="hljs-params"></span>): <span class="hljs-title class_">Promise</span>&lt;<span class="hljs-title class_">ApiResponse</span>&lt;<span class="hljs-title class_">User</span>&gt;&gt; &#123;<br>  <span class="hljs-keyword">return</span> axios.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;/api/user&#x27;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>登录接口参数约束</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs ts"><span class="hljs-keyword">interface</span> <span class="hljs-title class_">LoginPayload</span> &#123;<br>  <span class="hljs-attr">username</span>: <span class="hljs-built_in">string</span><br>  <span class="hljs-attr">password</span>: <span class="hljs-built_in">string</span><br>&#125;<br><br><span class="hljs-keyword">function</span> <span class="hljs-title function_">login</span>(<span class="hljs-params">payload: LoginPayload</span>) &#123;<br>  <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="strict"><a href="#strict" class="headerlink" title="strict"></a>strict</h1><p>不同的用户会因为不同的原因选择使用 TypeScript 的类型检查器</p>
+<p>1）在 TypeScript 默认提供的开发体验下，类型是可选的，推断会使用最松散的类型，对于潜在的 <code>null/undefined</code> 类型的值也不会进行检查</p>
+<p>2）Typescript 还提供了不同细粒度的检查限制约束</p>
+<p>对于1）如果正在迁移现有的 JavaScript 项目，第一种配置方式是最佳实践</p>
+<p>对于2）需要额外的配置项，我们可以在项目的 <code>tsconfig.json</code> 中设置 <code>strict: true</code> 一次性开启所有严格校验，也可以单独配置；单独配置下需要注意这两个配置项</p>
+<ul>
+<li>noImplicitAny：不允许最宽泛的类型推断，类型都用any &#x3D; 没用ts，启用 <a target="_blank" rel="noopener" href="https://www.typescriptlang.org/tsconfig#noImplicitAny">noImplicitAny</a> 配置项，在遇到被隐式推断为 <code>any</code> 类型的变量时就会抛出一个错误。</li>
+<li>strictNullChecks：防止null或者undefined错误</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%89%8D%E7%AB%AF/" class="category-chain-item">前端</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Typescript/" class="print-no-link">#Typescript</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Typescript|Basic</div>
+      <div>http://example.com/2025/05/15/Typescript-Basic/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Noctis64</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/04/17/Vue3-Vue3-Tutorial/" title="Vue3|Vue3 Tutorial">
+                        <span class="hidden-mobile">Vue3|Vue3 Tutorial</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
