@@ -4,31 +4,6 @@
   
   
   <entry>
-    <title>软考|软件设计师|错题集</title>
-    <link href="/2025/04/24/%E8%BD%AF%E8%80%83-%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88-%E9%94%99%E9%A2%98%E9%9B%86/"/>
-    <url>/2025/04/24/%E8%BD%AF%E8%80%83-%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1%E5%B8%88-%E9%94%99%E9%A2%98%E9%9B%86/</url>
-    
-    <content type="html"><![CDATA[<h1 id="CH1"><a href="#CH1" class="headerlink" title="CH1"></a>CH1</h1><h2 id="1-系统基础知识"><a href="#1-系统基础知识" class="headerlink" title="1-系统基础知识"></a>1-系统基础知识</h2><h3 id="直接寻址"><a href="#直接寻址" class="headerlink" title="直接寻址"></a>直接寻址</h3><blockquote><p>计算机在执行一个指令的过程中，需要直接寻址，首先要将（）的值送到地址总线上。</p><p>A. 指令寄存器（IR） </p><p>B. 通用寄存器（GR） </p><p>C. 累加器（AC） </p><p>D. 内存单元所在地址</p></blockquote><p>这题看似考察基础体系结构中执行流程，实际上考察的是直接寻址的含义&#x2F;行为</p>]]></content>
-    
-    
-    <categories>
-      
-      <category>CS_Basic</category>
-      
-    </categories>
-    
-    
-    <tags>
-      
-      <tag>软考</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>Vue3|Vue3 Tutorial</title>
     <link href="/2025/04/17/Vue3-Vue3-Tutorial/"/>
     <url>/2025/04/17/Vue3-Vue3-Tutorial/</url>
