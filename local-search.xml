@@ -4,6 +4,58 @@
   
   
   <entry>
+    <title>Typescript|Generic</title>
+    <link href="/2025/06/16/Typescript-Generic/"/>
+    <url>/2025/06/16/Typescript-Generic/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>带有类型约束的语言需要泛型(Generic)来实现更加通用、符合标准、可复用的逻辑</p><p>在不使用泛型的时候吗，我们确实是可以用 any 作为函数的入参类型约束，但是这个就和 Object 作为入参以及返回值一样，没有类型限制时，外部在调用这段函数时，无法明确确定入参类型，也无法明确确定返回值类型</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> Object <span class="hljs-title function_">identity</span> <span class="hljs-params">(Object arg)</span> &#123;<br>     <span class="hljs-keyword">return</span> arg;<br>&#125;<br></code></pre></td></tr></table></figure><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">identity</span> (<span class="hljs-attr">arg</span>: <span class="hljs-built_in">any</span>) &#123;<br>     <span class="hljs-keyword">return</span> arg;<br>&#125;<br></code></pre></td></tr></table></figure><p>我们可以尝试为这个<code>identity</code>函数引入一个Type变量，这个Type变量和常规变量不同，<strong>只作用在类型上而不是js中通常的值上</strong></p><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">function</span> identity&lt;<span class="hljs-title class_">Type</span>&gt; (<span class="hljs-attr">arg</span>: <span class="hljs-title class_">Type</span>): <span class="hljs-title class_">Type</span> &#123;<br>     <span class="hljs-keyword">return</span> arg;<br>&#125;<br></code></pre></td></tr></table></figure><p>针对这个函数的签名</p><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">function</span> identity&lt;<span class="hljs-title class_">Type</span>&gt; (<span class="hljs-attr">arg</span>: <span class="hljs-title class_">Type</span>): <span class="hljs-title class_">Type</span> <br><span class="hljs-comment">//             定义类型变量   入参类型  返回值类型</span><br></code></pre></td></tr></table></figure><p>在函数的签名处定义了作用于类型的Type变量，由于此处只有一个类型变量Type，因此这段函数就是将入参类型和返回值类型都和Type变量类型绑定上</p><h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>在调用泛型函数时，有两种方式：</p><ul><li>显式声明类型</li></ul><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">let</span> foo = identity&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-string">&quot;foo&quot;</span>)<br></code></pre></td></tr></table></figure><ul><li>隐式类型推断(更常见)</li></ul><p>编译器根据我们传入的参数类型自动为我们设置 类型变量 <code>Type</code> 的值</p><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">let</span> foo = <span class="hljs-title function_">identity</span>(<span class="hljs-string">&quot;foo&quot;</span>)<br></code></pre></td></tr></table></figure><p>这种一般IDE都会在隐式推断计算后（IDE侧）自动将类型标注出来</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Typescript</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>天地創造|第一章 旅行</title>
+    <link href="/2025/06/09/%E5%A4%A9%E5%9C%B0%E5%89%B5%E9%80%A0-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%97%85%E8%A1%8C/"/>
+    <url>/2025/06/09/%E5%A4%A9%E5%9C%B0%E5%89%B5%E9%80%A0-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%97%85%E8%A1%8C/</url>
+    
+    <content type="html"><![CDATA[<p>起床後，先去見長老，他就在你左邊的房間，然後去上方的紡織小屋道歉，之後回家用罐子砸開藍色的門進去，一直走到底你會看到一個盒子，打開它放出精靈尤米，瞭解盒子使用方法後與趕來的艾璐交談，艾璐被凍住後再回去與長老交談，得知要救出村人需通過村外五座試煉塔的考驗。（此時可去長老的房間拿到寶箱裡的50 Gems和不可思議球根，以後受傷了也可以來這兒請長老療傷或者乾脆回房睡一覺）　　</p><h1 id="試煉塔1"><a href="#試煉塔1" class="headerlink" title="試煉塔1"></a>試煉塔1</h1><p>寶物 - 不可思議球根，水晶石×3<br>　　<br>村子的左下方就是第一座試煉塔，裡面的敵人不難對付，正好用來熟悉遊戲操作，但你要確定你已經裝備好了武器和防具（水晶之矛可是好東西啊，它能自動回復體力，遺憾的是只在地底世界有效）。<br>第一層：把三個敵人幹掉就會打開通往第二層的道路。<br>第二層：右方有水晶石，幹掉某個敵人後會出現一個靈魂，交談後就會打開<br>通往第三層的道路。<br>第三層：左上方有水晶石，左下方的寶箱裡有不可思議球根，從左下方的窗口出去。<br>第四層：左方有水晶石。<br>第五層：守衛會放出四個紅色的呼波，極易對付。</p><p>歐亞大陸復甦後會直接返回到大地圖，試煉塔2就在左上方。　　</p><h1 id="試煉塔2"><a href="#試煉塔2" class="headerlink" title="試煉塔2"></a>試煉塔2</h1><p>寶物 - 不可思議球根，水晶石×3，30 Gems<br>　　<br>第一層：左下方有水晶石，右下方的寶箱內有30 Gems，推動頭上鑲有紅色寶石的石像即可打開暗門（該層共有兩座這樣的石像，也就是有兩道暗門）。<br>第二層：右下方有水晶石，左下方的寶箱內有不可思議球根，由第一層的兩道暗門上來分別按下兩個紅色按鈕就可打開通往第三層的道路。<br>第三層：共有四個紅色按鈕需要按下，不過左右各有一排石像擋住了去路，幸好左邊這排由左數起的第一座石像以及右邊那排由左數起的第二座石像都可以推動。<br>第四層：左上方有水晶石。將左邊那座頭上鑲有紅色寶石的石像向左推和右邊那座頭上鑲有紅色寶石的石像向右推即可，而推錯方向的話就會出現一群呼波。<br>第五層：用罐子砸中央那個被水圍住的紅色按鈕。</p><p>南美大陸復甦，右上方就是試煉塔3。　　</p><h1 id="試煉塔3"><a href="#試煉塔3" class="headerlink" title="試煉塔3"></a>試煉塔3</h1><p>寶物 - 不可思議球根，水晶石×2，不眠咒符<br>　　<br>塔裡首次出現了守護者，注意不要被他催眠了，否則會回到入口，而且只有滑動攻擊或旋轉攻擊對他有效。<br>第一層：上方的寶箱裡有不可思議球根（雖然看起來好像有牆擋著，其實可以直接穿過去），另外，從右上方的樓梯可以下到地下一層，那兒有水晶石。<br>第二層：按動下方的四個按鈕使對應的踏板成斜線排列就可以過去了。<br>第三層：一直向上走直到切換畫面。在這個畫面左下方的寶箱裡有不眠咒符，可以防止被守護者催眠，右下方則有水晶石，按下上方的兩個紅色按鈕會出現一群呼波，進門後擊敗高級卡多特即可。</p><p>非洲大陸復甦，右方就是試煉塔4。　　</p><h1 id="試煉塔4"><a href="#試煉塔4" class="headerlink" title="試煉塔4"></a>試煉塔4</h1><p>寶物 - 魔法球根，生命之源，44 Gems，水晶織線，水晶石×3<br>　　<br>第一層：由上方跳下<br>地下一層：這兒有四個洞口可以跳，正確道路是從右下方的洞口跳入。<br>a.從其它三個洞口跳下<br>地下二層：由上方的樓梯上去。<br>地下一層：左下方的寶箱裡有44 Gems，右下方有水晶石，由上方的樓梯上去。<br>第一層：由樓梯上去。<br>第二層：左上方的寶箱裡有魔法球根、生命之源，下方有水晶石。<br>b.從右下方的洞口跳下<br>地下二層：由上方的樓梯上去。<br>地下一層：由樓梯上去。<br>第一層：由樓梯上去。<br>第二層：由樓梯上去。<br>第三層：左上方的寶箱裡有水晶織線，右方有水晶石。</p><p>北美大陸復甦，右下方就是試煉塔5。<br>　　<br>不過在去試煉塔5之前應該先回水晶小村，裝備水晶織線後去紡織小屋和艾璐交談，之後去睡一覺（現實中的你可別去睡啊），半夜再去艾璐那兒一次，第二天再去就能得到艾璐的披風，現在可以去試煉塔5了。　　</p><h1 id="試煉塔5"><a href="#試煉塔5" class="headerlink" title="試煉塔5"></a>試煉塔5</h1><p>寶物 - 無<br>　　<br>裝備艾璐的披風後進入，一直上到第五層，走上方的門會落到塔底，所以應該從右邊進入，之後你將面對第一個真正的首領：幽冥衛士。先破壞它的兩隻手臂，再攻擊它的軀體就能獲勝。<br>澳洲大陸復甦，回到水晶小村。<br>不過在回水晶小村之前，還有兩個隱藏地點最好也去一趟：<br>試煉塔3的上方有個隱藏入口可復甦慕大陸；試煉塔4的下方有個隱藏入口可復甦波利尼西亞群島。<br>回到水晶小村與長老交談，之後去出村去右邊的大地裂縫再次與長老交談，回村與艾璐告別，最後再與長老交談一次即可跳下洞口。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Game</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>SFC</tag>
+      
+      <tag>JRPG</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Vue3&amp;React|如何理解组合式API和选项式API</title>
     <link href="/2025/06/05/Vue3-React-%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%E7%BB%84%E5%90%88%E5%BC%8FAPI%E5%92%8C%E9%80%89%E9%A1%B9%E5%BC%8FAPI/"/>
     <url>/2025/06/05/Vue3-React-%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%E7%BB%84%E5%90%88%E5%BC%8FAPI%E5%92%8C%E9%80%89%E9%A1%B9%E5%BC%8FAPI/</url>

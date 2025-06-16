@@ -16,23 +16,22 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="如何理解前端领域组合式和选项式API">
+    <meta name="description" content="Typescript泛型">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue3&amp;React|如何理解组合式API和选项式API">
-<meta property="og:url" content="http://example.com/2025/06/05/Vue3-React-%E5%A6%82%E4%BD%95%E7%90%86%E8%A7%A3%E7%BB%84%E5%90%88%E5%BC%8FAPI%E5%92%8C%E9%80%89%E9%A1%B9%E5%BC%8FAPI/index.html">
+<meta property="og:title" content="Typescript|Generic">
+<meta property="og:url" content="http://example.com/2025/06/16/Typescript-Generic/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="如何理解前端领域组合式和选项式API">
+<meta property="og:description" content="Typescript泛型">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-06-05T07:24:07.000Z">
-<meta property="article:modified_time" content="2025-06-05T07:39:57.919Z">
+<meta property="article:published_time" content="2025-06-16T01:34:17.000Z">
+<meta property="article:modified_time" content="2025-06-16T02:04:21.632Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="React">
-<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="Typescript">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Vue3&amp;React|如何理解组合式API和选项式API - Zanarkand</title>
+  <title>Typescript|Generic - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Vue3&amp;React|如何理解组合式API和选项式API"></span>
+            <span id="subtitle" data-typed-text="Typescript|Generic"></span>
           
         </div>
 
@@ -209,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-06-05 15:24" pubdate>
-          2025年6月5日 下午
+        <time datetime="2025-06-16 09:34" pubdate>
+          2025年6月16日 上午
         </time>
       </span>
     
@@ -221,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          669 字
+          376 字
         
       </span>
     
@@ -232,7 +231,7 @@
         
         
         
-          6 分钟
+          4 分钟
         
       </span>
     
@@ -269,46 +268,37 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Vue3&amp;React|如何理解组合式API和选项式API</h1>
+            <h1 id="seo-header">Typescript|Generic</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="选项式API"><a href="#选项式API" class="headerlink" title="选项式API"></a>选项式API</h1><p>早在 Vue2 阶段，都是使用的选项式API的风格，之前学习的也是这样的风格。</p>
-<p>在 xxx.vue 文件中，js部分内容大体结构如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script&gt;<br>export default &#123;<br>  data() &#123;<br>    return &#123;<br>      count: 0<br>    &#125;<br>  &#125;,<br>  computed: &#123;<br>    double() &#123;<br>      return this.count * 2<br>    &#125;<br>  &#125;,<br>  methods: &#123;<br>    increment() &#123;<br>      this.count++<br>    &#125;<br>  &#125;<br>&#125;<br>&lt;/script&gt;<br></code></pre></td></tr></table></figure>
+                <h1 id="Intro"><a href="#Intro" class="headerlink" title="Intro"></a>Intro</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>带有类型约束的语言需要泛型(Generic)来实现更加通用、符合标准、可复用的逻辑</p>
+<p>在不使用泛型的时候吗，我们确实是可以用 any 作为函数的入参类型约束，但是这个就和 Object 作为入参以及返回值一样，没有类型限制时，外部在调用这段函数时，无法明确确定入参类型，也无法明确确定返回值类型</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> Object <span class="hljs-title function_">identity</span> <span class="hljs-params">(Object arg)</span> &#123;<br>     <span class="hljs-keyword">return</span> arg;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>组件会被分为几大部分：data, methods, computed 等核心部分，每个部分约定了会什么样的操作（数据定义、计算逻辑、方法调用等）</p>
-<p>这种方式有利有弊，好处在于结构清晰简单，但是问题在于逻辑相对分散，不利于组件复用</p>
-<h1 id="组合式API"><a href="#组合式API" class="headerlink" title="组合式API"></a>组合式API</h1><p>React 一直以来都采用的是组合式API的风格，通过定义”函数”并返回JSX（TSX）的方式来定义组件，在JSX（TSX）中通过Hooks组合对应逻辑</p>
-<p>Vue3 开始也引入了组合式API的风格，和React很像，我们直接通过代码来进行学习</p>
-<h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>下面以封装一个 <strong>获取鼠标在屏幕的二维坐标位置</strong> 组件为例，展示 React 和 Vue3 中组合式API的实现风格</p>
-<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><ul>
-<li>useState定义状态</li>
-<li>函数组件内部编写更新鼠标位置逻辑</li>
-<li>组件首次渲染时绑定鼠标更新事件</li>
-<li>暴露组件状态</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs react">import &#123; useState, useEffect &#125; from &#x27;react&#x27;<br><br>export function useMouse() &#123;<br>  const [x, setX] = useState(0)<br>  const [y, setY] = useState(0)<br><br>  useEffect(() =&gt; &#123;<br>    const update = e =&gt; &#123;<br>      setX(e.pageX)<br>      setY(e.pageY)<br>    &#125;<br>    window.addEventListener(&#x27;mousemove&#x27;, update)<br>    return () =&gt; window.removeEventListener(&#x27;mousemove&#x27;, update)<br>  &#125;, [])<br><br>  return &#123; x, y &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">identity</span> (<span class="hljs-attr">arg</span>: <span class="hljs-built_in">any</span>) &#123;<br>     <span class="hljs-keyword">return</span> arg;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs react">import &#123; useMouse &#125; from &#x27;./useMouse&#x27;<br><br>function MouseTracker() &#123;<br>  const &#123; x, y &#125; = useMouse()<br><br>  return &lt;p&gt;Mouse at &#123;x&#125;, &#123;y&#125;&lt;/p&gt;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<p>我们可以尝试为这个<code>identity</code>函数引入一个Type变量，这个Type变量和常规变量不同，<strong>只作用在类型上而不是js中通常的值上</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">function</span> identity&lt;<span class="hljs-title class_">Type</span>&gt; (<span class="hljs-attr">arg</span>: <span class="hljs-title class_">Type</span>): <span class="hljs-title class_">Type</span> &#123;<br>     <span class="hljs-keyword">return</span> arg;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id="Vue3"><a href="#Vue3" class="headerlink" title="Vue3"></a>Vue3</h2><ul>
-<li>定义状态</li>
-<li>函数组件中编写更新逻辑</li>
-<li>组件首次渲染时绑定鼠标更新事件</li>
-<li>暴露组件状态</li>
-</ul>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs js"><span class="hljs-keyword">import</span> &#123; ref, onMounted, onUnmounted &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span><br><br><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">useMouse</span>(<span class="hljs-params"></span>) &#123;<br>  <span class="hljs-keyword">const</span> x = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)<br>  <span class="hljs-keyword">const</span> y = <span class="hljs-title function_">ref</span>(<span class="hljs-number">0</span>)<br><br>  <span class="hljs-keyword">function</span> <span class="hljs-title function_">update</span>(<span class="hljs-params">event</span>) &#123;<br>    x.<span class="hljs-property">value</span> = event.<span class="hljs-property">pageX</span><br>    y.<span class="hljs-property">value</span> = event.<span class="hljs-property">pageY</span><br>  &#125;<br><br>  <span class="hljs-title function_">onMounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;mousemove&#x27;</span>, update))<br>  <span class="hljs-title function_">onUnmounted</span>(<span class="hljs-function">() =&gt;</span> <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">removeEventListener</span>(<span class="hljs-string">&#x27;mousemove&#x27;</span>, update))<br><br>  <span class="hljs-keyword">return</span> &#123; x, y &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<p>针对这个函数的签名</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">function</span> identity&lt;<span class="hljs-title class_">Type</span>&gt; (<span class="hljs-attr">arg</span>: <span class="hljs-title class_">Type</span>): <span class="hljs-title class_">Type</span> <br><span class="hljs-comment">//             定义类型变量   入参类型  返回值类型</span><br></code></pre></td></tr></table></figure>
 
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs vue">&lt;script setup&gt;<br>import &#123; useMouse &#125; from &#x27;./useMouse.js&#x27;<br><br>const &#123; x, y &#125; = useMouse()<br>&lt;/script&gt;<br><br>&lt;template&gt;<br>  &lt;p&gt;Mouse at &#123;&#123; x &#125;&#125;, &#123;&#123; y &#125;&#125;&lt;/p&gt;<br>&lt;/template&gt;<br><br></code></pre></td></tr></table></figure>
-
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>通过上述代码逻辑我们可以发现：</p>
+<p>在函数的签名处定义了作用于类型的Type变量，由于此处只有一个类型变量Type，因此这段函数就是将入参类型和返回值类型都和Type变量类型绑定上</p>
+<h2 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h2><p>在调用泛型函数时，有两种方式：</p>
 <ul>
-<li>React和Vue3的组合式API风格为组件的封装和复用性提供了便利，是重点关注和学习的部分</li>
-<li>Vue2的选项式API实现较为简单，结构清晰但是缺乏复用性</li>
-<li>选项式和组合式没有哪一种更好，对于初学者而言建议学习选项式，但是在实际开发生产用的更多的还是组合式API风格</li>
+<li>显式声明类型</li>
 </ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">let</span> foo = identity&lt;<span class="hljs-built_in">string</span>&gt;(<span class="hljs-string">&quot;foo&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>隐式类型推断(更常见)</li>
+</ul>
+<p>编译器根据我们传入的参数类型自动为我们设置 类型变量 <code>Type</code> 的值</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs typescript"><span class="hljs-keyword">let</span> foo = <span class="hljs-title function_">identity</span>(<span class="hljs-string">&quot;foo&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>这种一般IDE都会在隐式推断计算后（IDE侧）自动将类型标注出来</p>
 
                 
               </div>
@@ -342,9 +332,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/React/" class="print-no-link">#React</a>
-      
-        <a href="/tags/Vue/" class="print-no-link">#Vue</a>
+        <a href="/tags/Typescript/" class="print-no-link">#Typescript</a>
       
     </div>
   
@@ -356,8 +344,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Vue3&amp;React|如何理解组合式API和选项式API</div>
-      <div>http://example.com/2025/06/05/Vue3-React-如何理解组合式API和选项式API/</div>
+      <div>Typescript|Generic</div>
+      <div>http://example.com/2025/06/16/Typescript-Generic/</div>
     </div>
     <div class="license-meta">
       
@@ -369,7 +357,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年6月5日</div>
+          <div>2025年6月16日</div>
         </div>
       
       
@@ -401,18 +389,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/06/09/%E5%A4%A9%E5%9C%B0%E5%89%B5%E9%80%A0-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%97%85%E8%A1%8C/" title="天地創造|第一章 旅行">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">天地創造|第一章 旅行</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/05/15/Typescript-Basic/" title="Typescript|Basic">
-                        <span class="hidden-mobile">Typescript|Basic</span>
+                      <a href="/2025/06/09/%E5%A4%A9%E5%9C%B0%E5%89%B5%E9%80%A0-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E6%97%85%E8%A1%8C/" title="天地創造|第一章 旅行">
+                        <span class="hidden-mobile">天地創造|第一章 旅行</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
