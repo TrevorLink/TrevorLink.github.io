@@ -24,7 +24,7 @@
 <meta property="og:description" content="Vue3 Todo List 实战中问题技术点总结">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-21T06:58:40.000Z">
-<meta property="article:modified_time" content="2025-06-23T08:40:23.439Z">
+<meta property="article:modified_time" content="2025-06-23T09:35:32.510Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="Vue">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          935 字
+          1.1k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          8 分钟
+          9 分钟
         
       </span>
     
@@ -304,6 +304,11 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;padding: 2rem&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Taskmate<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">n-space</span> <span class="hljs-attr">justify</span>=<span class="hljs-string">&quot;start&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">n-button-group</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">n-button</span> <span class="hljs-attr">round</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;tertiary&quot;</span>&gt;</span><br>          &#123;&#123; totalTaskCount &gt; 0 ? &quot;今日任务总数：&quot; + totalTaskCount : &#x27;当前尚无任务&#x27;&#125;&#125;<br>        <span class="hljs-tag">&lt;/<span class="hljs-name">n-button</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">n-button-group</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">n-space</span>&gt;</span><br><br>  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">&quot;ts&quot;</span>&gt;</span><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123;ref&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;vue&#x27;</span></span><br><span class="language-javascript"><span class="hljs-keyword">import</span> &#123;useTaskStore&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">&#x27;@/stores/taskStore&#x27;</span></span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> taskStore = <span class="hljs-title function_">useTaskStore</span>()</span><br><span class="language-javascript"></span><br><span class="language-javascript"><span class="hljs-keyword">const</span> totalTaskCount = <span class="hljs-title function_">computed</span>(<span class="hljs-function">() =&gt;</span> taskStore.<span class="hljs-property">tasks</span>.<span class="hljs-property">length</span>)</span><br><span class="language-javascript"></span><br><span class="language-javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>通过这样的写法，当任务变化，<code>totalTaskCount</code> 会自动更新</p>
+<h1 id="循环渲染组件"><a href="#循环渲染组件" class="headerlink" title="循环渲染组件"></a>循环渲染组件</h1><p>在我们首页需要遍历 taskStore 中数组渲染所有任务的时候，这个需求可以很完美的使用 <code>v-for</code> 进行解决</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">n-space</span> <span class="hljs-attr">vertical</span> <span class="hljs-attr">:size</span>=<span class="hljs-string">&quot;16&quot;</span> <span class="hljs-attr">style</span>=<span class="hljs-string">&quot;margin: 1rem 0&quot;</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">TaskItem</span></span><br><span class="hljs-tag">      <span class="hljs-attr">v-for</span>=<span class="hljs-string">&quot;task in filteredData&quot;</span></span><br><span class="hljs-tag">      <span class="hljs-attr">:key</span>=<span class="hljs-string">&quot;task.id&quot;</span></span><br><span class="hljs-tag">      <span class="hljs-attr">:task</span>=<span class="hljs-string">&quot;task&quot;</span></span><br><span class="hljs-tag">      @<span class="hljs-attr">edit</span>=<span class="hljs-string">&quot;openEdit&quot;</span></span><br><span class="hljs-tag">      @<span class="hljs-attr">delete</span>=<span class="hljs-string">&quot;deleteTask&quot;</span></span><br><span class="hljs-tag">  /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">n-space</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里 <code>v-for</code> 是用于遍历数组或对象，渲染多个组件</p>
+<p><code>:key</code> 是性能优化和组件 diff 的关键，必须是唯一值（如 <code>task.id</code>）。</p>
 
                 
               </div>
