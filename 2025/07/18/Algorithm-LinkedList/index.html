@@ -24,7 +24,7 @@
 <meta property="og:description" content="链表算法整理">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-07-18T03:15:29.000Z">
-<meta property="article:modified_time" content="2025-07-18T09:24:29.142Z">
+<meta property="article:modified_time" content="2025-07-21T07:43:31.722Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="Algorithm">
 <meta property="article:tag" content="Leetcode">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          497 字
+          797 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          5 分钟
+          7 分钟
         
       </span>
     
@@ -274,12 +274,14 @@
             
               <div class="markdown-body">
                 
-                <h1 id="快慢指针"><a href="#快慢指针" class="headerlink" title="快慢指针"></a>快慢指针</h1><h2 id="判断环"><a href="#判断环" class="headerlink" title="判断环"></a>判断环</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle/description/">141.环形链表</a></p>
+                <h1 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h1><p>链表的题目，有一个最基本的思想：</p>
+<p>如果感觉针对头或者尾需要特殊处理操作的时候, 可以新建一个 dummy node, 不包含任何实际操作，但是可以让算法执行更流畅更通用</p>
+<h1 id="快慢指针"><a href="#快慢指针" class="headerlink" title="快慢指针"></a>快慢指针</h1><h2 id="判断环"><a href="#判断环" class="headerlink" title="判断环"></a>判断环</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/linked-list-cycle/description/">141.环形链表</a></p>
 <p>给你一个链表的头节点 head ，判断链表中是否有环。</p>
 <p>如果链表中有某个节点，可以通过连续跟踪 next 指针再次到达，则链表中存在环。</p>
 <p>为了表示给定链表中的环，评测系统内部使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。</p>
 <p>注意：pos 不作为参数进行传递 。仅仅是为了标识链表的实际情况。</p>
-<p>如果链表中存在环 ，则返回 true 。 否则，返回 false 。</p>
+<p>如果链表中存在环 ，则返回 true, 否则，返回 false</p>
 <h3 id="第一思路：存储访问Map"><a href="#第一思路：存储访问Map" class="headerlink" title="第一思路：存储访问Map"></a>第一思路：存储访问Map</h3><p>第一眼想到的是用一个Map存储是否已经访问的状态</p>
 <p>在一次遍历的过程中更新这个Map</p>
 <p>如果存在环，那么一定会再次访问Map中相同的节点，这个时候就可以以此来进行判断了</p>
@@ -288,6 +290,15 @@
 <h3 id="进阶思路：快慢指针"><a href="#进阶思路：快慢指针" class="headerlink" title="进阶思路：快慢指针"></a>进阶思路：快慢指针</h3><p>这是经典的Floyd判圈算法，原理很简单：我们手动设定两个指针，一快一慢，如果存在环，那么一定会有某个时刻，快的重新追上慢的</p>
 <p>原理虽然简单，但是带来的效果很强大，他解决了我们第一种情况下O(n)空间复杂度的问题，只实现了常量级（O(2)）的内存，就实现了一样的效果</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 快慢指针Floyd判圈算法</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@param</span> head 头结点</span><br><span class="hljs-comment"> * <span class="hljs-doctag">@return</span> 是否有环</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">floydCircleCheck</span><span class="hljs-params">(ListNode head)</span> &#123;<br>   <span class="hljs-comment">//0个节点或者是1个节点都可以认为没有环</span><br>   <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">null</span> || head.next == <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>   &#125;<br>   <span class="hljs-type">ListNode</span> <span class="hljs-variable">slow</span> <span class="hljs-operator">=</span> head;<br>   <span class="hljs-type">ListNode</span> <span class="hljs-variable">fast</span> <span class="hljs-operator">=</span> head.next;<br>   <span class="hljs-keyword">while</span> (slow != fast) &#123;<br>      <span class="hljs-comment">//如果没有环，fast一定走到了终点           </span><br>      <span class="hljs-keyword">if</span> (fast == <span class="hljs-literal">null</span> || fast.next == <span class="hljs-literal">null</span>) &#123;<br>         <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>      &#125;<br>      slow = slow.next;<br>      fast = fast.next.next;<br>   &#125;<br>   <span class="hljs-comment">//有环，快的一定会在某一轮次追上慢的</span><br>   <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="双指针"><a href="#双指针" class="headerlink" title="双指针"></a>双指针</h1><h2 id="反转链表"><a href="#反转链表" class="headerlink" title="反转链表"></a>反转链表</h2><p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-linked-list/description/">206.反转链表</a></p>
+<p>给你单链表的头节点 <code>head</code> ，请你反转链表，并返回反转后的链表。</p>
+<h3 id="第一思路：双指针"><a href="#第一思路：双指针" class="headerlink" title="第一思路：双指针"></a>第一思路：双指针</h3><p>一次遍历，反转next域，最后返回尾节点</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">reverseList</span> <span class="hljs-params">(ListNode head)</span> &#123;<br>   <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>   &#125;<br>   <span class="hljs-keyword">if</span> (head.next == <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> head;<br>   &#125;<br>   <span class="hljs-type">ListNode</span> <span class="hljs-variable">slow</span> <span class="hljs-operator">=</span> head;<br>   <span class="hljs-type">ListNode</span> <span class="hljs-variable">fast</span> <span class="hljs-operator">=</span> slow.next;<br>   slow.next = <span class="hljs-literal">null</span>;<br>   <span class="hljs-keyword">while</span> (fast != <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-type">ListNode</span> <span class="hljs-variable">next</span> <span class="hljs-operator">=</span> fast.next;<br>      fast.next = slow;<br>      slow = fast;<br>      fast = next;<br>   &#125;<br>   <span class="hljs-keyword">return</span> slow;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>需要注意，初始的时候需要设置头节点（也就是反转后的尾节点）<code>next域 = null</code> 以通过 OJ 测试案例</p>
+<h3 id="进阶思路：递归"><a href="#进阶思路：递归" class="headerlink" title="进阶思路：递归"></a>进阶思路：递归</h3><p>虽然双指针的解法空间复杂度更优，递归的是O(n)，但是递归的写法更能体现思维能力</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> ListNode <span class="hljs-title function_">reverseAllFollow</span><span class="hljs-params">(ListNode head)</span> &#123;<br>   <span class="hljs-comment">//空或是一个元素时无需反转</span><br>   <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">null</span> || head.next == <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> head;<br>   &#125;<br>   <span class="hljs-type">ListNode</span> <span class="hljs-variable">next</span> <span class="hljs-operator">=</span> head.next;<br>   <span class="hljs-type">ListNode</span> <span class="hljs-variable">newHead</span> <span class="hljs-operator">=</span> reverseAllFollow(next);<br>   next.next = head;<br>   <span class="hljs-keyword">return</span> newHead;<br>&#125;<br><br><span class="hljs-keyword">public</span> ListNode <span class="hljs-title function_">reverseList</span><span class="hljs-params">(ListNode head)</span> &#123;<br>   <span class="hljs-keyword">if</span> (head == <span class="hljs-literal">null</span>) &#123;<br>      <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>   &#125;<br>   <span class="hljs-type">ListNode</span> <span class="hljs-variable">tail</span> <span class="hljs-operator">=</span> reverseAllFollow(head);<br>   head.next = <span class="hljs-literal">null</span>;<br>   <span class="hljs-keyword">return</span> tail;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 
                 
