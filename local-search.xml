@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>JDK8|AbstractQueuedSynchronizer</title>
+    <link href="/2025/07/26/JDK8-AbstractQueuedSynchronizer/"/>
+    <url>/2025/07/26/JDK8-AbstractQueuedSynchronizer/</url>
+    
+    <content type="html"><![CDATA[<h1 id="导论"><a href="#导论" class="headerlink" title="导论"></a>导论</h1><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/308452402">干货：十分钟带你搞懂 Java AQS 核心设计与实现！</a></p><h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>在后端编程领域中，并发是经常需要考虑和处理的问题，一个很常见的业务场景是，在某个业务方法中，会出现多个线程同时需要操作某一个共享变量的情况。但是业务上硬性要求这个共享变量必须线程安全，一次只能由一个线程进行更新。</p><p>这种问题本质上可以抽象为 <strong>共享资源的竞争与同步关系</strong></p><p>在这种情况下，我们必须要指定：</p><ul><li>得到执行权的线程应该如何标记这个共享变量使得别的线程不会再次抢夺</li><li>没有得到执行权的线程应该何去何从。</li></ul><h2 id="问题实现思路"><a href="#问题实现思路" class="headerlink" title="问题实现思路"></a>问题实现思路</h2><p>在进一步介绍 AbstractQueuedSynchronizer 之前，我们可以想象针对上述提到的两个问题，尤其是第二个：<code>没有得到执行权的线程应该何去何从</code>。</p><ul><li>自旋等待：这种方式浪费CPU，实际上CPU还是在执行这个线程，只是没有做任何操作</li><li>线程挂起，等到释放锁的时候唤醒：这种情况也不太好，如果同时挂起等待的线程较多，可能存在<strong>惊群</strong>的问题</li></ul><p>为了高效解决这种大家都会遇到的场景，JDK设计了一个抽象的解决共享资源竞争与同步的框架，AbstractQueuedSynchronizer 应愿而生。</p><h2 id="什么是AQS"><a href="#什么是AQS" class="headerlink" title="什么是AQS"></a>什么是AQS</h2><p>AQS是JDK为了解决在多线程环境下，共享资源的竞争和状态同步关系的框架。</p><p>AQS集同步状态管理、线程阻塞、线程释放以及队列管理的同步框架。</p><p>通过后面的分析我们可以了解到：</p><blockquote><p>AQS的核心思想是当多个线程竞争同一个共享资源的时候，未获得执行权的线程会被构造为一个Node节点丢入到一个 FIFO 的队列中。这个队列是一个双向队列，同时记录前驱和后继，在队列中的线程会保持阻塞直到被队列前一个元素唤醒。队列中只有队首节点有资格被唤醒竞争锁。</p></blockquote><h2 id="关注重点"><a href="#关注重点" class="headerlink" title="关注重点"></a>关注重点</h2><p>对于 AQS 我们需要重点关注：</p><ul><li>内部的状态同步如何实现（状态管理）</li><li>核心FIFO队列的设计（队列管理）</li><li>竞争资源失败时线程的生命周期（线程阻塞）</li><li>共享资源的释放（线程释放）</li></ul><h1 id="同步状态管理"><a href="#同步状态管理" class="headerlink" title="同步状态管理"></a>同步状态管理</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractQueuedSynchronizer</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * The synchronization state.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-type">int</span> state;<br>&#125;<br></code></pre></td></tr></table></figure><p>AQS 内部使用一个 volatile 类型的变量来表示状态，这表示这个状态的更新对所有线程都可见。</p><p>AQS 使用这个变量来标识当前锁的占用情况</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java">   <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 尝试以独占模式获取。此方法应查询对象的状态是否允许其以独占模式获取，如果允许，则进行获取。</span><br><span class="hljs-comment">   * 此方法总是由执行获取操作的线程调用。如果此方法报告失败，获取方法可能会将线程排队（如果尚未排队）</span><br><span class="hljs-comment">   * 直到由其他线程释放时通知。这可用于实现 Lock.tryLock() 方法。</span><br><span class="hljs-comment">   * 默认实现会抛出 UnsupportedOperationException。</span><br><span class="hljs-comment">   */</span><br>   <span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryAcquire</span><span class="hljs-params">(<span class="hljs-type">int</span> arg)</span> &#123;<br>       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>();<br>   &#125;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 尝试将状态设置为反映在独占模式下释放锁的情况</span><br><span class="hljs-comment">* 此方法总是由执行释放的线程调用</span><br><span class="hljs-comment">* 默认实现会抛出 UnsupportedOperationException。</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryRelease</span><span class="hljs-params">(<span class="hljs-type">int</span> arg)</span> &#123;<br>       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>();<br>   &#125;<br><br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>Programming Language</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>java</tag>
+      
+      <tag>并发编程</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>JDK8|ThreadPoolExecutor</title>
     <link href="/2025/07/25/JDK8-ThreadPoolExecutor/"/>
     <url>/2025/07/25/JDK8-ThreadPoolExecutor/</url>
