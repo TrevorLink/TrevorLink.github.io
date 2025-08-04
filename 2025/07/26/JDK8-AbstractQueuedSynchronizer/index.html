@@ -24,7 +24,7 @@
 <meta property="og:description" content="JDK8 AQS源码学习">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-07-26T12:45:37.000Z">
-<meta property="article:modified_time" content="2025-07-26T13:35:56.179Z">
+<meta property="article:modified_time" content="2025-08-04T07:09:25.092Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="并发编程">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          877 字
+          1.5k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          8 分钟
+          13 分钟
         
       </span>
     
@@ -275,6 +275,7 @@
               <div class="markdown-body">
                 
                 <h1 id="导论"><a href="#导论" class="headerlink" title="导论"></a>导论</h1><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/308452402">干货：十分钟带你搞懂 Java AQS 核心设计与实现！</a></p>
+<p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/12/05/aqs-theory-and-apply.html">从ReentrantLock的实现看AQS的原理及应用</a></p>
 <h2 id="问题引入"><a href="#问题引入" class="headerlink" title="问题引入"></a>问题引入</h2><p>在后端编程领域中，并发是经常需要考虑和处理的问题，一个很常见的业务场景是，在某个业务方法中，会出现多个线程同时需要操作某一个共享变量的情况。但是业务上硬性要求这个共享变量必须线程安全，一次只能由一个线程进行更新。</p>
 <p>这种问题本质上可以抽象为 <strong>共享资源的竞争与同步关系</strong></p>
 <p>在这种情况下，我们必须要指定：</p>
@@ -306,6 +307,35 @@
 <p>AQS 内部使用一个 volatile 类型的变量来表示状态，这表示这个状态的更新对所有线程都可见。</p>
 <p>AQS 使用这个变量来标识当前锁的占用情况</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java">   <span class="hljs-comment">/**</span><br><span class="hljs-comment">   * 尝试以独占模式获取。此方法应查询对象的状态是否允许其以独占模式获取，如果允许，则进行获取。</span><br><span class="hljs-comment">   * 此方法总是由执行获取操作的线程调用。如果此方法报告失败，获取方法可能会将线程排队（如果尚未排队）</span><br><span class="hljs-comment">   * 直到由其他线程释放时通知。这可用于实现 Lock.tryLock() 方法。</span><br><span class="hljs-comment">   * 默认实现会抛出 UnsupportedOperationException。</span><br><span class="hljs-comment">   */</span><br>   <span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryAcquire</span><span class="hljs-params">(<span class="hljs-type">int</span> arg)</span> &#123;<br>       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>();<br>   &#125;<br><br>   <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * 尝试将状态设置为反映在独占模式下释放锁的情况</span><br><span class="hljs-comment">* 此方法总是由执行释放的线程调用</span><br><span class="hljs-comment">* 默认实现会抛出 UnsupportedOperationException。</span><br><span class="hljs-comment">    */</span><br>   <span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryRelease</span><span class="hljs-params">(<span class="hljs-type">int</span> arg)</span> &#123;<br>       <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>();<br>   &#125;<br><br></code></pre></td></tr></table></figure>
+
+<h1 id="队列管理"><a href="#队列管理" class="headerlink" title="队列管理"></a>队列管理</h1><h2 id="基础信息"><a href="#基础信息" class="headerlink" title="基础信息"></a>基础信息</h2><p>AQS的核心设计中，FIFO的队列是实现AQS的关键设计</p>
+<p>它采用了一个双向队列，队列的每一个节点Node定义如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Node</span> &#123;<br>     <br>     <span class="hljs-keyword">volatile</span> Node prev;<br>     <br>     <span class="hljs-keyword">volatile</span> Node next;<br>     <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>节点还具有模式，分为SHARED和EXCLUSIVE模式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Node</span> <span class="hljs-variable">SHARED</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(); <span class="hljs-comment">//队列中节点以SHARED模式等待</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">Node</span> <span class="hljs-variable">EXCLUSIVE</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>; 	 <span class="hljs-comment">//队列中节点以EXCLUSIVE模式等待</span><br></code></pre></td></tr></table></figure>
+
+<p>其中队列中每一个线程所对应的节点还有状态，AQS中统一称作 <code>waitedStatus</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 线程被取消</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">CANCELLED</span> <span class="hljs-operator">=</span>  <span class="hljs-number">1</span>;<br><span class="hljs-comment">// 后续线程在锁释放后可以被唤醒</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">SIGNAL</span>    <span class="hljs-operator">=</span> -<span class="hljs-number">1</span>;<br><span class="hljs-comment">// 当前线程在 condition 队列中</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">CONDITION</span> <span class="hljs-operator">=</span> -<span class="hljs-number">2</span>;<br><span class="hljs-comment">// 表示下一次共享式同步状态获取将会无条件被传播下去</span><br><span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">PROPAGATE</span> <span class="hljs-operator">=</span> -<span class="hljs-number">3</span>;<br></code></pre></td></tr></table></figure>
+
+<p>在 AQS 顶部定义中，就维护了这个队列的队尾和队首节点</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractQueuedSynchronizer</span> &#123;<br>     <br>    <span class="hljs-comment">//队首指针，懒加载。</span><br>    <span class="hljs-comment">//除了初始化之外，它只能通过 setHead 方法修改</span><br>    <span class="hljs-comment">//注意：如果头部存在，其状态保证不是 CANCELLED。 </span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> <span class="hljs-keyword">volatile</span> Node head;<br><br>    <span class="hljs-comment">//队尾指针，懒加载。</span><br>    <span class="hljs-comment">//仅通过方法 enq 添加新的等待节点来修改队尾指针。</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> <span class="hljs-keyword">volatile</span> Node tail;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="队列初始化"><a href="#队列初始化" class="headerlink" title="队列初始化"></a>队列初始化</h2><p>在上述我们通过文档知道了队列是懒加载的</p>
+<p>所以其实是在元素入队的时候才实例化队头和队尾指针的，文档也说明了入队函数<code>enq()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> Node <span class="hljs-title function_">enq</span><span class="hljs-params">(<span class="hljs-keyword">final</span> Node node)</span> &#123;<br>    <span class="hljs-keyword">for</span> (;;) &#123;<br>        <span class="hljs-type">Node</span> <span class="hljs-variable">t</span> <span class="hljs-operator">=</span> tail;<br>        <span class="hljs-keyword">if</span> (t == <span class="hljs-literal">null</span>) &#123; <span class="hljs-comment">//初始化队列，设置一个空Node以唤醒队列后续队首节点</span><br>            <span class="hljs-keyword">if</span> (compareAndSetHead(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>()))<br>                tail = head;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            node.prev = t;<br>            <span class="hljs-keyword">if</span> (compareAndSetTail(t, node)) &#123;<br>                t.next = node;<br>                <span class="hljs-keyword">return</span> t;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="资源竞争"><a href="#资源竞争" class="headerlink" title="资源竞争"></a>资源竞争</h1><p>acquire方法中定义了AQS框架获取锁的完整流程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">acquire</span><span class="hljs-params">(<span class="hljs-type">int</span> arg)</span> &#123;<br>    <span class="hljs-keyword">if</span> (!tryAcquire(arg) &amp;&amp; acquireQueued(addWaiter(Node.EXCLUSIVE), arg)) &#123;<br>        selfInterrupt();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里会调用<code>tryAcquire()</code>，这个方法是抽象方法，交由子类进一步实现，默认是会抛出异常的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">tryAcquire</span><span class="hljs-params">(<span class="hljs-type">int</span> arg)</span> &#123;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedOperationException</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>尝试获取锁，但是不一定保证能获取到，如果获取到了返回 true</p>
+<p>因此通过 acquire 源码，如果没获取到锁，会尝试调用 <code>addWaiter</code>，也就是将线程构造成 AQS 队列中的一个 Node 了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//为当前线程和给定模式创建并排队节点</span><br><span class="hljs-keyword">private</span> Node <span class="hljs-title function_">addWaiter</span><span class="hljs-params">(Node mode)</span> &#123;<br>       <span class="hljs-type">Node</span> <span class="hljs-variable">node</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Node</span>(Thread.currentThread(), mode);<br>       <span class="hljs-comment">// Try the fast path of enq; backup to full enq on failure</span><br>       <span class="hljs-type">Node</span> <span class="hljs-variable">pred</span> <span class="hljs-operator">=</span> tail;<br>       <span class="hljs-comment">// 如果队尾不为空：新节点的前驱指向原先队尾，原队尾的后继指向当前节点，当前节点成为新的队尾</span><br>       <span class="hljs-keyword">if</span> (pred != <span class="hljs-literal">null</span>) &#123;<br>           node.prev = pred;<br>           <span class="hljs-keyword">if</span> (compareAndSetTail(pred, node)) &#123;<br>               pred.next = node;<br>               <span class="hljs-keyword">return</span> node;<br>           &#125;<br>       &#125;<br>       <span class="hljs-comment">//入队  </span><br>       enq(node);<br>       <span class="hljs-keyword">return</span> node;<br>   &#125;<br></code></pre></td></tr></table></figure>
+
+
 
 
                 
@@ -398,6 +428,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2025/08/04/202508-%E6%8A%80%E6%9C%AF%E6%97%A5%E5%BF%97/" title="202508|技术日志">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">202508|技术日志</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
