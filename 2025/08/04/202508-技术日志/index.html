@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年08月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-04T07:00:27.000Z">
-<meta property="article:modified_time" content="2025-08-04T08:16:32.815Z">
+<meta property="article:modified_time" content="2025-08-05T01:17:10.066Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          937 字
+          1.4k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          8 分钟
+          12 分钟
         
       </span>
     
@@ -315,6 +315,29 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@PreDestroy</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">destroy</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-keyword">if</span> (webSocketThread != <span class="hljs-literal">null</span> &amp;&amp; webSocketThread.isAlive()) &#123;<br>        log.info(<span class="hljs-string">&quot;停止 WebSocket 服务...&quot;</span>);<br>        webSocketThread.interrupt(); <span class="hljs-comment">//通知服务线程中断阻塞，停止服务</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>这里调用 <code>webSocketThread.interrupt()</code> 后，通知了跑着服务的B线程应该进行中断了。而B线程的实现逻辑中又catch了异常，在 finally 中停止了核心服务的资源</p>
+<h2 id="创建线程的方式"><a href="#创建线程的方式" class="headerlink" title="创建线程的方式"></a>创建线程的方式</h2><p>经常背八股的同学都知道，创建线程的方式有：</p>
+<ul>
+<li>继承Thread类</li>
+<li>实现Runnable接口</li>
+<li>实现Callable接口</li>
+<li>使用ThreadPoolExecutor线程池</li>
+<li>…</li>
+</ul>
+<p>我们来看代码，以实现 Runnable 接口为例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PrintThreadName</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(Thread.currentThread().getName() + <span class="hljs-string">&quot;: run&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-type">PrintThreadName</span> <span class="hljs-variable">task</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrintThreadName</span>();<br>    task.run(); <span class="hljs-comment">//main: run</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样调用我们会发现结果实际上还是 <code>main: run</code></p>
+<p>这是因为你实现了 Runnable 接口，但选择直接调用 Runnable 实现类的 run 方法，本质上还是在主线程进行方法调用，和普通的方法调用并无本质区别</p>
+<p>真正想要在另外一个线程打印，<strong>只有一个入口</strong>：调用 thread 对象实例的 <code>start()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    <span class="hljs-type">PrintThreadName</span> <span class="hljs-variable">task</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrintThreadName</span>();<br>    task.run(); <span class="hljs-comment">//main: run</span><br><br>    <span class="hljs-type">Thread</span> <span class="hljs-variable">anotherThread</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(task, <span class="hljs-string">&quot;anotherThread&quot;</span>);<br>    anotherThread.start(); <span class="hljs-comment">//anotherThread: run</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="线程体-amp-线程"><a href="#线程体-amp-线程" class="headerlink" title="线程体 &amp; 线程"></a>线程体 &amp; 线程</h3><p>我们上面说的八股中常见的什么继承 Thread 类等等操作，严格意义上来说是 <strong>创建线程体</strong> 而不是创建线程</p>
+<p>线程体定义了线程执行时具体应该执行的任务，是线程执行任务的承载体，是一个接口（标准）</p>
+<p>所以才需要我们继承 Thread 类重写 run 方法&#x2F; 实现 Runnable&#x2F;Callable 接口，这些都是为了定义线程跑起来的时候应该做什么，本质上并没有创建线程</p>
+<p>唯一创建线程的只有一个入口：调用 thread 对象实例的 <code>start()</code>，<strong>只是我们可以用多种构造线程体的方式，在实例化 thread 对象的时候以多种形式向构造函数传参</strong></p>
+<p>想要让程序片段在另起的线程上跑，不管是 JDK 源码库的实现逻辑（例如使用线程池）还是我们之前提到的实现 Runnable 接口，本质上只有唯一一种，就是先实例化 Thread 类实例，然后调用 <code>start()</code></p>
 
                 
               </div>
