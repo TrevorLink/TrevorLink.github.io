@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>xbox360|Bad Update Exploit</title>
+    <link href="/2025/08/10/xbox360-Bad-Update-Exploit/"/>
+    <url>/2025/08/10/xbox360-Bad-Update-Exploit/</url>
+    
+    <content type="html"><![CDATA[<h1 id="导论"><a href="#导论" class="headerlink" title="导论"></a>导论</h1><p>一直以来xbox360的mod方案都是需要拆机焊接芯片的（例如RGH,JTAG方案），唯一不拆机的方案也有，但是不能运行homebrew软件，只能做到最基础的刻盘玩游戏</p><p>但是随着Bad Update漏洞的发现，现在已经可以做到不拆机的情况下运行那些可以在RGH&#x2F;JTAG上才能运行的自制软件了</p><h2 id="材料准备"><a href="#材料准备" class="headerlink" title="材料准备"></a>材料准备</h2><ul><li>任意型号的xbox360</li><li>1GB以上的U盘</li></ul><h1 id="漏洞触发"><a href="#漏洞触发" class="headerlink" title="漏洞触发"></a>漏洞触发</h1><p>在 BadUpdate v1.2 以前，漏洞想要触发的几率是比较低的，大概在30%左右，而且每一次都需要几分钟的时间</p><p>但是前几天 BadUpdate 更新了1.2版本，优化了底层实现，现在漏洞的触发概率达到了80%左右</p><p>在第一次引导破解的时候，本人的 xbox360 slim 只花了1分钟左右就进入了</p><p>下面记录触发的流程</p><h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>确保机器断开所有网络，包括有线和无线</p><p>将所有账户的自动登录设置为关闭状态</p><p>新建一个用户，但是不要关联xboxlive账号，将其设置为自动登录</p><p>将U盘插入xbox360，格式化</p><p>格式化后拔出xbox360，关机</p><h2 id="文件准备"><a href="#文件准备" class="headerlink" title="文件准备"></a>文件准备</h2><p>采用 alex-free 打包整合的 360 hack pack</p><p>这里我选择的是 XeUnshackle 版本，因为整合了 DashLaunch 插件</p><p>将材料包中<code>files</code>目录下的所有文件复制到U盘的根目录</p><p>至此，文件准备完毕</p><h2 id="启动漏洞"><a href="#启动漏洞" class="headerlink" title="启动漏洞"></a>启动漏洞</h2><p>将U盘插入xbox360</p><p>xbox360开机（此时自动登入之前创建的新账号）</p><p>进入【游戏】——【我的游戏】——选择 Rock Band Blitz</p><p>此时如果游戏启动让你选择存档存储的装置，务必选择【USB装置】（也就是刚刚插入的U盘）</p><p>按A开始游戏</p><p>此时游戏会显示【Running Expolit】</p><p>等待片刻后（可能是几分钟）漏洞运行成功</p><blockquote><p>注意：如果在等待的时候 Rock Band Blitz 标题界面上的音乐和动画停止了，那么说明本次的引导属于Bad Update 80%成功率当中的那20%，需要重启机器再跑一遍本环节流程</p></blockquote><p>现在会显示 XeUnshackle 的成功信息，可以备份一些系统的信息（例如 CPU key）</p><p>按手柄的 back 退出</p><p>等待几秒后，进入 Aurora Dashboard</p><p>至此homebrew自由</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Bad Update 从最早的 30% 成功率到现在的 80%，可以说已经从图一乐变成了真正的可使用</p><p>虽然比不上脉冲芯片那样暴力方便，但是考虑到硬破的成本以及繁琐程度，Bad Update 是目前 xbox360 所有mod 方案中我最能接受的一种 :)</p><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://consolemods.org/wiki/Xbox_360:Bad_Update">https://consolemods.org/wiki/Xbox_360:Bad_Update</a></p><p><a href="https://alex-free.github.io/360-hack-pack/">https://alex-free.github.io/360-hack-pack/</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Game</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>xbox360</tag>
+      
+      <tag>XBOX</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>202508|技术日志</title>
     <link href="/2025/08/04/202508-%E6%8A%80%E6%9C%AF%E6%97%A5%E5%BF%97/"/>
     <url>/2025/08/04/202508-%E6%8A%80%E6%9C%AF%E6%97%A5%E5%BF%97/</url>
