@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年08月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-04T07:00:27.000Z">
-<meta property="article:modified_time" content="2025-08-13T02:42:38.321Z">
+<meta property="article:modified_time" content="2025-08-13T07:42:09.818Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -423,8 +423,7 @@
 
 <p>我们先 unpark 再 park，结果可以发现虽然 unparkThread 先执行了 unpark 尝试唤醒，但是此时 parkThread 还在睡，还没 park 操作。但是不影响，2s 后 parkThread 调用 park 后立刻就被唤醒了</p>
 <p>这也是 <code>park/unpark</code> 和 <code>wait/notify</code> 的另一个核心区别：不论调用顺序，只要成对出现，必然可以唤醒线程</p>
-<p>总结</p>
-<p>通过 LockSupport 的 <code>park/unpark</code> 和 <code>wait/notify</code> 的对比，我们可以简单总结：他们都可以实现线程的等待和唤醒。但是区别在于：</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>通过 LockSupport 的 <code>park/unpark</code> 和 <code>wait/notify</code> 的对比，我们可以简单总结：他们都可以实现线程的等待和唤醒。但是区别在于：</p>
 <ul>
 <li><code>park/unpark</code> 在任何地方都能用，而 <code>wait/notify</code> 只能在 synchronized 下使用</li>
 <li><code>park/unpark</code> 调用顺序无关，只要成对出现必然可以唤醒等待的线程，而 <code>wait/notify</code> 必须按顺序，先 wait 然后 notify，如果先 notify 再 wait 会导致后来 wait 的线程一直无法被唤醒</li>
