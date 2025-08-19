@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年08月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-04T07:00:27.000Z">
-<meta property="article:modified_time" content="2025-08-13T07:42:09.818Z">
+<meta property="article:modified_time" content="2025-08-19T08:52:45.435Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.9k 字
+          4.8k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          33 分钟
+          40 分钟
         
       </span>
     
@@ -430,6 +430,39 @@
 </ul>
 <h1 id="0812"><a href="#0812" class="headerlink" title="0812"></a>0812</h1><h2 id="GSON忽略指定字段"><a href="#GSON忽略指定字段" class="headerlink" title="GSON忽略指定字段"></a>GSON忽略指定字段</h2><p><a target="_blank" rel="noopener" href="https://trevorlink.github.io/2025/08/13/Gson-%E5%BF%BD%E7%95%A5%E6%8C%87%E5%AE%9A%E5%AD%97%E6%AE%B5/">详见</a></p>
 <h2 id="偶现请求参数丢失"><a href="#偶现请求参数丢失" class="headerlink" title="偶现请求参数丢失"></a>偶现请求参数丢失</h2><p>结合网上相同案例排查，可能是在异步操作前，将RequestContextHolder丢入线程中导致的，详见整理后的博客</p>
+<h1 id="0818"><a href="#0818" class="headerlink" title="0818"></a>0818</h1><h2 id="String的不可变性"><a href="#String的不可变性" class="headerlink" title="String的不可变性"></a>String的不可变性</h2><h3 id="如何做到的不可变性"><a href="#如何做到的不可变性" class="headerlink" title="如何做到的不可变性"></a>如何做到的不可变性</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">String</span><br>    <span class="hljs-keyword">implements</span> <span class="hljs-title class_">java</span>.io.Serializable, Comparable&lt;String&gt;, CharSequence &#123;<br>    <span class="hljs-comment">/** The value is used for character storage. */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">char</span> value[];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>直接看源码，源码中定义了  private 和 final 这两点需要重点关注</p>
+<ul>
+<li><code>private</code>：外部无法直接访问该数组，避免了直接修改，而且<code>String</code>类没有提供任何修改数组内部值的方法</li>
+<li><code>final</code>：数组引用 value 一旦初始化后，无法指向新的数组对象</li>
+</ul>
+<p>如果只有 final 意味着数组本身的元素理论上可被修改，但是在 private 的作用下以及 String 类并未暴露 public 的方法提供修改 value 数组的方式，所以二者共同作用，限制了 String 类不可变</p>
+<p>String 类暴露的任何看似修改字符串的操作，例如 <code>concat</code> <code>toUpperCase</code> 实际上都是创建了新的 String 对象，而不是在原先的对象上进行了修改</p>
+<h3 id="为什么需要不可变"><a href="#为什么需要不可变" class="headerlink" title="为什么需要不可变"></a>为什么需要不可变</h3><h4 id="字符串常量池"><a href="#字符串常量池" class="headerlink" title="字符串常量池"></a>字符串常量池</h4><p>JVM为了节省内存设计了字符串常量池，相同字面值内容的字符串，都会引用到字符串常量池中相同的那一份（只会存一份）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">s1</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;foo&quot;</span>; <span class="hljs-comment">//char[3]@509</span><br><span class="hljs-type">String</span> <span class="hljs-variable">s2</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;foo&quot;</span>; <span class="hljs-comment">//char[3]@509</span><br><span class="hljs-type">String</span> <span class="hljs-variable">s3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(s1); <span class="hljs-comment">//char[3]@509</span><br></code></pre></td></tr></table></figure>
+
+<p>若字符串可变，修改 <code>s1</code> 会导致相同字面值的 <code>s2</code> 的值也被意外修改，破坏常量池的设计初衷</p>
+<p><strong>不可变性保证了字符串常量池中的对象可以安全共享</strong></p>
+<h4 id="为了线程安全"><a href="#为了线程安全" class="headerlink" title="为了线程安全"></a>为了线程安全</h4><p>常量因为不可变，天生线程安全，不存在并发问题</p>
+<h4 id="为了哈希表哈希计算可靠"><a href="#为了哈希表哈希计算可靠" class="headerlink" title="为了哈希表哈希计算可靠"></a>为了哈希表哈希计算可靠</h4><p>String 常常被用作 HashMap 的Key，而 HashMap 的高效查询就是依赖其 key 的 hashCode</p>
+<p>以 String 作为 key 保证了 key 不可变，在对象生命周期内的每一次 hash 索引都是准确稳定的</p>
+<h3 id="可变字符串"><a href="#可变字符串" class="headerlink" title="可变字符串"></a>可变字符串</h3><p>就是我们常说的 StringBuffer 和 StringBuilder</p>
+<p>如果是频繁修改拼接字符串，String 的不可变性会导致产生很多临时的新的 String 对象</p>
+<p>而可变字符串本质上会直接修改 value 数组的内容，不会产生临时 String 对象</p>
+<h1 id="0819"><a href="#0819" class="headerlink" title="0819"></a>0819</h1><h2 id="fastjson反序列化误判字段"><a href="#fastjson反序列化误判字段" class="headerlink" title="fastjson反序列化误判字段"></a>fastjson反序列化误判字段</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span> &#123;<br>     <br>     <span class="hljs-comment">//省略 getter setter</span><br>     <span class="hljs-keyword">private</span> String code;<br>     <br>     <span class="hljs-keyword">private</span> String name;<br>     <br>     <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">isIllegal</span><span class="hljs-params">()</span> &#123;<br>          <span class="hljs-comment">//根据自身属性值判断数据是否非法</span><br>     &#125;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>前端拿到响应的时候，结果如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">&#123;<br>     <span class="hljs-string">&quot;code&quot;</span>: <span class="hljs-string">&quot;foo&quot;</span>,<br>     <span class="hljs-string">&quot;name&quot;</span>: <span class="hljs-string">&quot;bar&quot;</span>,<br>     <span class="hljs-string">&quot;illegal&quot;</span>: <span class="hljs-literal">false</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>当 Controller 返回时，Spring MVC 并不会直接将 Java 对象返回给前端，而是需要经过<strong>序列化处理</strong>（将 Java 对象转换为 JSON 字符串），这个过程由 JSON 序列化器（如 FastJSON、Jackson 等）完成。</p>
+<p>序列化器的工作逻辑：<strong>扫描对象中的所有 getter 方法，根据方法名推断属性名，并将方法返回值作为属性值写入 JSON</strong>。</p>
+<p>对于<code>Foo</code>类中的<code>isIllegal()</code>方法：</p>
+<ul>
+<li>序列化器会按照 “<code>isXxx()</code> → 属性名为<code>xxx</code>” 的规则，推断存在一个名为<code>illegal</code>的属性。</li>
+<li>调用<code>isIllegal()</code>方法得到返回值（<code>false</code>），于是在序列化后的 JSON 中添加<code>&quot;illegal&quot;: false</code>字段。</li>
+</ul>
+<p>因此，可以得出最佳实践：返回给前端的响应体以及代码中任何的响应体，在设计方法的时候需要考虑到 Java Bean 的规范，bool 类型的变量，就叫做 xxx， getter 叫做 isXxx；而任何非属性的 getter&#x2F;setter，都不要以 <code>is</code> 开头，否则会导致在序列化的时候出现误判，多出一个属性的情况</p>
 
                 
               </div>
