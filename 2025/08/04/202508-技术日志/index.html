@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年08月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-04T07:00:27.000Z">
-<meta property="article:modified_time" content="2025-08-26T07:27:59.919Z">
+<meta property="article:modified_time" content="2025-08-26T08:08:17.136Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          8.9k 字
+          9.8k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          75 分钟
+          82 分钟
         
       </span>
     
@@ -577,6 +577,51 @@
 <li>自定义的类、但是这个类由于业务关系，初始化的时候依赖比较多</li>
 </ul>
 <p>虽然实现和配置较为复杂（因为还需要编写一个额外的<code>@Configuration</code>的配置类供Spring扫描）但更灵活</p>
+<p>（已整理为笔记）</p>
+<h1 id="0826"><a href="#0826" class="headerlink" title="0826"></a>0826</h1><h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>观察者模式也是比较常用的一个模式，常常用于，当一个对象的状态发生改变时，对于所有”<strong>订阅</strong>“了这个对象的对象，需要做出对应的行为。但是这些对象往往需要在运行过程中才会被确定</p>
+<p>这个场景我们就可以使用观察者模式</p>
+<p>例如商品库存的例子，商品库存不够时，需要通知其他的服务</p>
+<h3 id="代码最佳实践"><a href="#代码最佳实践" class="headerlink" title="代码最佳实践"></a>代码最佳实践</h3><p>被观察者接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Subject</span> &#123;<br>   <span class="hljs-comment">// 添加观察者</span><br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">addObserver</span><span class="hljs-params">(Observer observer)</span>;<br><br>   <span class="hljs-comment">// 移除观察者</span><br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">removeObserver</span><span class="hljs-params">(Observer observer)</span>;<br><br>   <span class="hljs-comment">// 通知所有观察者</span><br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">notifyObservers</span><span class="hljs-params">()</span>;<br><br><br>   String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span>;<br><br>   <span class="hljs-type">int</span> <span class="hljs-title function_">getStock</span><span class="hljs-params">()</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>被观察者实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 商品类（具体被观察者）</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Subject</span> &#123;<br>    <span class="hljs-keyword">private</span> String id;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> stock; <span class="hljs-comment">// 库存数量</span><br>    <span class="hljs-keyword">private</span> List&lt;Observer&gt; observers = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Product</span><span class="hljs-params">(String id, String name, <span class="hljs-type">int</span> stock)</span> &#123;<br>        <span class="hljs-built_in">this</span>.id = id;<br>        <span class="hljs-built_in">this</span>.name = name;<br>        <span class="hljs-built_in">this</span>.stock = stock;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 减少库存</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">reduceStock</span><span class="hljs-params">(<span class="hljs-type">int</span> quantity)</span> &#123;<br>        <span class="hljs-keyword">if</span> (quantity &gt; <span class="hljs-number">0</span> &amp;&amp; quantity &lt;= stock) &#123;<br>            stock -= quantity;<br>            System.out.println(name + <span class="hljs-string">&quot; 减少库存 &quot;</span> + quantity + <span class="hljs-string">&quot;，当前库存：&quot;</span> + stock);<br>            <br>            <span class="hljs-comment">// 当库存低于阈值时，通知观察者</span><br>            <span class="hljs-keyword">if</span> (stock &lt;= <span class="hljs-number">5</span>) &#123;<br>                notifyObservers();<br>            &#125;<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 添加库存</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addStock</span><span class="hljs-params">(<span class="hljs-type">int</span> quantity)</span> &#123;<br>        <span class="hljs-keyword">if</span> (quantity &gt; <span class="hljs-number">0</span>) &#123;<br>            stock += quantity;<br>            System.out.println(name + <span class="hljs-string">&quot; 增加库存 &quot;</span> + quantity + <span class="hljs-string">&quot;，当前库存：&quot;</span> + stock);<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-comment">// getter方法</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getId</span><span class="hljs-params">()</span> &#123; <span class="hljs-keyword">return</span> id; &#125;<br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> &#123; <span class="hljs-keyword">return</span> name; &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getStock</span><span class="hljs-params">()</span> &#123; <span class="hljs-keyword">return</span> stock; &#125;<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addObserver</span><span class="hljs-params">(Observer observer)</span> &#123;<br>        observers.add(observer);<br>    &#125;<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">removeObserver</span><span class="hljs-params">(Observer observer)</span> &#123;<br>        observers.remove(observer);<br>    &#125;<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">notifyObservers</span><span class="hljs-params">()</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;=== 库存不足，开始通知相关方 ===&quot;</span>);<br>        <span class="hljs-keyword">for</span> (Observer observer : observers) &#123;<br>            observer.update(<span class="hljs-built_in">this</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>观察者接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Observer</span> &#123;<br>   <span class="hljs-comment">// 接收通知的方法</span><br>   <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">(Subject subject)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>观察者实现类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 前端观察者（收到通知后显示缺货标识）</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">FrontendObserver</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Observer</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">(Subject subject)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;前端收到通知：&quot;</span> + subject.getName() + <span class="hljs-string">&quot; 库存不足&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;前端操作：已显示&#x27;库存紧张&#x27;标识&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 用户观察者（收到通知后提醒用户）</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserObserver</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Observer</span> &#123;<br>    <span class="hljs-keyword">private</span> String username;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">UserObserver</span><span class="hljs-params">(String username)</span> &#123;<br>        <span class="hljs-built_in">this</span>.username = username;<br>    &#125;<br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">(Subject subject)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;用户 &quot;</span> + username + <span class="hljs-string">&quot; 收到通知：您关注的 &quot;</span> + subject.getName() + <span class="hljs-string">&quot; 库存不足（当前：&quot;</span> + subject.getStock() + <span class="hljs-string">&quot;）&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;用户通知：建议尽快购买&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 仓库观察者（收到通知后补充库存）</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WarehouseObserver</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Observer</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">update</span><span class="hljs-params">(Subject subject)</span> &#123;<br>        System.out.println(<span class="hljs-string">&quot;仓库收到通知：&quot;</span> + subject.getName() + <span class="hljs-string">&quot; 库存不足（当前：&quot;</span> + subject.getStock() + <span class="hljs-string">&quot;）&quot;</span>);<br>        System.out.println(<span class="hljs-string">&quot;仓库操作：已安排补货，预计24小时内到货&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="核心设计"><a href="#核心设计" class="headerlink" title="核心设计"></a>核心设计</h3><p>观察者模式的核心设计在于，被观察者会在程序运行时，持有所有观察者的引用（商品持有所有的观察者List）</p>
+<p>一旦触发某些状态变动后（商品库存更新）</p>
+<p>被观察者调用观察者的指定逻辑（商品调用观察者的update方法）</p>
+<h3 id="实践应用"><a href="#实践应用" class="headerlink" title="实践应用"></a>实践应用</h3><p>Spring中的事件就是基于观察者模式的扩展</p>
+<p>主要有三个角色</p>
+<table>
+<thead>
+<tr>
+<th>观察者模式角色</th>
+<th>Spring 组件</th>
+<th>作用说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>被观察者（Subject）</td>
+<td><code>ApplicationEventPublisher</code></td>
+<td>负责发布事件（通知观察者），Spring 容器（<code>ApplicationContext</code>）默认实现该接口</td>
+</tr>
+<tr>
+<td>观察者（Observer）</td>
+<td><code>ApplicationListener&lt;T&gt;</code></td>
+<td>泛型接口，<code>T</code>是具体事件类型，实现<code>onApplicationEvent(T event)</code>方法接收通知<br />也可以通过在Spring bean中的某个方法上标记<code>@EventListener</code>注解来替换这个 onApplicationEvent实现</td>
+</tr>
+<tr>
+<td>通知数据</td>
+<td><code>ApplicationEvent</code></td>
+<td>事件基类，自定义事件需继承它，用于传递通知时的业务数据</td>
+</tr>
+</tbody></table>
 
                 
               </div>
