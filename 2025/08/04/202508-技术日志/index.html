@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年08月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-08-04T07:00:27.000Z">
-<meta property="article:modified_time" content="2025-08-27T02:02:31.309Z">
+<meta property="article:modified_time" content="2025-09-01T08:10:47.077Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          9k 字
+          9.7k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          75 分钟
+          81 分钟
         
       </span>
     
@@ -579,6 +579,82 @@
 <p>虽然实现和配置较为复杂（因为还需要编写一个额外的<code>@Configuration</code>的配置类供Spring扫描）但更灵活</p>
 <p>（已整理为笔记）</p>
 <h1 id="0826"><a href="#0826" class="headerlink" title="0826"></a>0826</h1><h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>整理为博客</p>
+<h1 id="0829"><a href="#0829" class="headerlink" title="0829"></a>0829</h1><p>复习单例模式，重新手写，最佳实践：静态内部类（写法简单，无并发问题，性能高）</p>
+<h2 id="重载和重写"><a href="#重载和重写" class="headerlink" title="重载和重写"></a>重载和重写</h2><h3 id="重载-Overload"><a href="#重载-Overload" class="headerlink" title="重载 Overload"></a>重载 Overload</h3><p>在一个类中(或者父类和子类之间)，相同方法名，<strong>必须不同</strong>的参数列表（参数个数，参数类型）和<strong>可选不同</strong>的返回值，可选不同的访问修饰符，会构成方法的重载</p>
+<p>所以判断两个方法是否构成重载的关键依据是<strong>：方法名相同，并且参数列表必须不同</strong>（其中包括参数个数或是不同参数类型的顺序，与参数名称无关）</p>
+<p>例如如下的两段构成了重载</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span> <span class="hljs-params">(String s1, <span class="hljs-type">int</span> num)</span> &#123;&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">add</span> <span class="hljs-params">(<span class="hljs-type">int</span> num, String s1)</span> &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>至于二者的访问修饰符、抛出的异常以及返回值无关，相同或者不同都无所谓</p>
+<h3 id="重写"><a href="#重写" class="headerlink" title="重写"></a>重写</h3><p>子类中，对父类（接口）已有的方法进行重新实现</p>
+<p>发生重写时，<strong>方法名称，参数列表、必须完全相同</strong>，返回值可以</p>
+<h3 id="总结-3"><a href="#总结-3" class="headerlink" title="总结"></a>总结</h3><table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>重载（Overload）</th>
+<th>重写（Override）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>定义</strong></td>
+<td>同一个类中，方法名相同但参数列表不同的多个方法</td>
+<td>子类中，对父类已有的方法进行重新实现（方法名、参数列表、返回值完全相同）</td>
+</tr>
+<tr>
+<td><strong>作用场景</strong></td>
+<td>同一类内，为相似功能提供不同参数的调用方式</td>
+<td>子类对父类的方法进行扩展或修改（多态的核心）</td>
+</tr>
+<tr>
+<td><strong>方法名</strong></td>
+<td>必须相同</td>
+<td>必须与父类方法名完全相同</td>
+</tr>
+<tr>
+<td><strong>参数列表</strong></td>
+<td>必须不同（参数类型、个数、顺序至少有一个不同）</td>
+<td>必须与父类方法的参数列表完全相同（类型、个数、顺序一致）</td>
+</tr>
+<tr>
+<td><strong>返回值类型</strong></td>
+<td>可以不同（与重载无关）</td>
+<td>必须与父类方法的返回值类型相同（或其子类，即 “协变返回”）</td>
+</tr>
+<tr>
+<td><strong>访问修饰符</strong></td>
+<td>无限制（可任意修改）</td>
+<td>子类方法的访问权限不能低于父类（如父类是<code>protected</code>，子类不能是<code>private</code>）</td>
+</tr>
+<tr>
+<td><strong>异常声明</strong></td>
+<td>无限制</td>
+<td>子类方法不能抛出比父类更多、更宽泛的异常（可减少或缩小）</td>
+</tr>
+<tr>
+<td><strong>调用依据</strong></td>
+<td>编译期根据参数列表确定调用哪个方法（静态绑定）</td>
+<td>运行期根据对象实际类型确定调用哪个方法（动态绑定）</td>
+</tr>
+</tbody></table>
+<h1 id="0831"><a href="#0831" class="headerlink" title="0831"></a>0831</h1><h2 id="ArrayList相关时间复杂度"><a href="#ArrayList相关时间复杂度" class="headerlink" title="ArrayList相关时间复杂度"></a>ArrayList相关时间复杂度</h2><p>查询指定位置元素：O(1)</p>
+<p>新增：</p>
+<ul>
+<li>头插：O(n)</li>
+<li>尾插：<ul>
+<li>不需要扩容：O(1)</li>
+<li>需要扩容：此时会需要把原先的内容复制到新的数组，因此是O(n)</li>
+</ul>
+</li>
+<li>指定位置插入：此位置后面的所有元素需要向后移动一格，O(n)</li>
+</ul>
+<p>删除：</p>
+<ul>
+<li>头删：O(n) 所有元素向前移动一格</li>
+<li>尾删：O(1)</li>
+<li>指定位置删除：此位置后的所有元素需要向前移动一格，O(n)</li>
+</ul>
+<h1 id="Warp-up"><a href="#Warp-up" class="headerlink" title="Warp up"></a>Warp up</h1><p>TODO</p>
 
                 
               </div>
