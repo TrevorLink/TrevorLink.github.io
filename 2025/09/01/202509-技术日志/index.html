@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年09月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-01T02:58:47.000Z">
-<meta property="article:modified_time" content="2025-09-05T03:35:14.977Z">
+<meta property="article:modified_time" content="2025-09-08T12:58:35.381Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          1.8k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          13 分钟
+          16 分钟
         
       </span>
     
@@ -328,18 +328,40 @@
 <p>在 JDK 中，Fail Safe 的实现可以参考 <code>CopyOnWriteArrayList</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">add</span><span class="hljs-params">(E e)</span> &#123;<br>    <span class="hljs-keyword">final</span> <span class="hljs-type">ReentrantLock</span> <span class="hljs-variable">lock</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.lock;<br>    lock.lock(); <span class="hljs-comment">// 加锁，保证多线程写操作的原子性</span><br>    <span class="hljs-keyword">try</span> &#123;<br>        Object[] elements = getArray(); <span class="hljs-comment">// 获取原数组</span><br>        <span class="hljs-type">int</span> <span class="hljs-variable">len</span> <span class="hljs-operator">=</span> elements.length;<br>        <span class="hljs-comment">// 复制原数组到新数组（新数组长度+1）</span><br>        Object[] newElements = Arrays.copyOf(elements, len + <span class="hljs-number">1</span>);<br>        newElements[len] = e; <span class="hljs-comment">// 添加新元素到新数组</span><br>        setArray(newElements); <span class="hljs-comment">// 用新数组替换原数组</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        lock.unlock(); <span class="hljs-comment">// 释放锁</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+<h1 id="0908"><a href="#0908" class="headerlink" title="0908"></a>0908</h1><h2 id="HashMap-和-HashTable"><a href="#HashMap-和-HashTable" class="headerlink" title="HashMap 和 HashTable"></a>HashMap 和 HashTable</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>HashMap</th>
+<th>HashTable</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>线程安全</td>
+<td>不安全 效率高</td>
+<td>安全（底层synchronized)效率低</td>
+</tr>
+<tr>
+<td>容量</td>
+<td>初始16，始终保证2的整次幂</td>
+<td>初始11，扩容2n+1</td>
+</tr>
+<tr>
+<td>null key</td>
+<td>支持，单只能有一个</td>
+<td>一个都不允许存在</td>
+</tr>
+<tr>
+<td>底层数据结构</td>
+<td>数组+链表，若相同数组位置中的链表长度大于8（并且数组长度大于64，转为红黑树，否则优先进行数组的扩容操作）</td>
+<td>数组+链表（无转换优化机制）</td>
+</tr>
+</tbody></table>
+<h2 id="HashSet-如何检查重复"><a href="#HashSet-如何检查重复" class="headerlink" title="HashSet 如何检查重复"></a>HashSet 如何检查重复</h2><p>当我们在 HashSet 中调用 add,实际上也只是底层调用了 HashMap 的<code>put</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HashSet</span>     <br>     <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractSet</span>&lt;E&gt;<br>     <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Set</span>&lt;E&gt;, Cloneable, java.io.Serializable<br>&#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">add</span><span class="hljs-params">(E e)</span> &#123;<br>        <span class="hljs-keyword">return</span> map.put(e, PRESENT)==<span class="hljs-literal">null</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-
-
-
+<p>而 Map 的 put 方法，底层调用的 putVal 方法返回值的定义是：元素不存在返回 null，元素已存在返回该key原先的元素</p>
+<p>因此我们程序多次调用同一个 set 对相同的 key 进行 add 操作，都是对底层的 map 进行了 put 覆盖操作，只是 HashSet 封装了一层，通过 HashMap 返回的是否存在元素，来间接返回布尔值</p>
 
                 
               </div>
