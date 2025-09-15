@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年09月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-01T02:58:47.000Z">
-<meta property="article:modified_time" content="2025-09-08T12:58:35.381Z">
+<meta property="article:modified_time" content="2025-09-15T02:45:05.324Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          3.5k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          16 分钟
+          30 分钟
         
       </span>
     
@@ -362,6 +362,50 @@
 
 <p>而 Map 的 put 方法，底层调用的 putVal 方法返回值的定义是：元素不存在返回 null，元素已存在返回该key原先的元素</p>
 <p>因此我们程序多次调用同一个 set 对相同的 key 进行 add 操作，都是对底层的 map 进行了 put 覆盖操作，只是 HashSet 封装了一层，通过 HashMap 返回的是否存在元素，来间接返回布尔值</p>
+<h1 id="0909"><a href="#0909" class="headerlink" title="0909"></a>0909</h1><h2 id="为什么n小于64的时候优先扩容"><a href="#为什么n小于64的时候优先扩容" class="headerlink" title="为什么n小于64的时候优先扩容"></a>为什么n小于64的时候优先扩容</h2><p>因为对数组扩容是在数据量不大的时候更为高效的方式，数组扩容可以显著解决哈希冲突的问题</p>
+<p>如果数组长度不大，当链表长度超过8的时候直接就转红黑树，由于红黑树本身维持自平衡需要自旋，本身也有性能开销，过早引入反而会提升复杂度影响 HashMap 的性能</p>
+<h2 id="自定义对象作为HashMap-key时的最佳实践"><a href="#自定义对象作为HashMap-key时的最佳实践" class="headerlink" title="自定义对象作为HashMap key时的最佳实践"></a>自定义对象作为HashMap key时的最佳实践</h2><h3 id="重写equals和hashCode"><a href="#重写equals和hashCode" class="headerlink" title="重写equals和hashCode"></a>重写equals和hashCode</h3><p>当采用自定义对象作为 HashMap 的 key 时，需要保证该对象重写了 <code>hashCode()</code> 以及 <code>equals()</code></p>
+<p>这是由于 HashMap 在底层维护数据时的逻辑结构决定的</p>
+<p>HashMap 底层首先会根据 key 对象的 <code>hashCode()</code> 计算出哈希值，这个值决定了数组中桶(bucket)的位置。当多个 <code>key</code> 的哈希值相同时（哈希冲突），<code>HashMap</code> 会通过 <code>equals()</code> 逐一比较桶中的对象，找到真正相等的 <code>key</code>。若 <code>equals</code> 实现不当，会导致无法识别相同的 <code>key</code></p>
+<h3 id="保证参与-hash-值计算的字段不可变性"><a href="#保证参与-hash-值计算的字段不可变性" class="headerlink" title="保证参与 hash 值计算的字段不可变性"></a>保证参与 hash 值计算的字段不可变性</h3><p>由于该对象作为 HashMap 的 key，参与该对象 hashCode 方法的字段需要严格保证不可变性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MutableKey</span> &#123;<br>    <span class="hljs-keyword">private</span> String value; <span class="hljs-comment">// 可修改的字段</span><br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setValue</span><span class="hljs-params">(String value)</span> &#123; <span class="hljs-comment">// 提供修改方法，风险！</span><br>        <span class="hljs-built_in">this</span>.value = value;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">hashCode</span><span class="hljs-params">()</span> &#123; <span class="hljs-keyword">return</span> Objects.hash(value); &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">equals</span><span class="hljs-params">(Object o)</span> &#123; <span class="hljs-comment">/* 依赖value判断 */</span> &#125;<br>&#125;<br><br><span class="hljs-comment">// 测试：修改key后无法找到value</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>    HashMap&lt;MutableKey, String&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    <span class="hljs-type">MutableKey</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MutableKey</span>();<br>    key.setValue(<span class="hljs-string">&quot;old&quot;</span>);<br>    map.put(key, <span class="hljs-string">&quot;value&quot;</span>);<br><br>    key.setValue(<span class="hljs-string">&quot;new&quot;</span>); <span class="hljs-comment">// 修改key的字段，导致hashCode变化</span><br>    System.out.println(map.get(key)); <span class="hljs-comment">// 输出：null（找不到值）</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>正确的做法应该是在代码层面严格保证参与 hashCode 方法的字段在初始化后不可变</p>
+<p>具体的实现思路有：</p>
+<ul>
+<li>使用 final 修饰：强推，语言自带关键字约束0910</li>
+<li>不提供字段的 <code>setter</code> 方法</li>
+<li>如果外部真的需要修改对象某个参与 hash 值计算字段的状态，返回新的实例（参考 String 类的实现，replace 方法看似修改实际上是创建了新的字符串，为的就是保证不可变性，因为 String 常常用作 HashMap 的 key）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ImmutableKey</span> &#123;<br><br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String value;<br><br>   <span class="hljs-keyword">public</span> <span class="hljs-title function_">ImmutableKey</span><span class="hljs-params">(String value)</span> &#123;<br>      <span class="hljs-built_in">this</span>.value = value;<br>   &#125;<br><br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">equals</span><span class="hljs-params">(Object o)</span> &#123;<br>      <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span> == o) <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>      <span class="hljs-keyword">if</span> (o == <span class="hljs-literal">null</span> || getClass() != o.getClass()) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br><br>      <span class="hljs-type">ImmutableKey</span> <span class="hljs-variable">that</span> <span class="hljs-operator">=</span> (ImmutableKey) o;<br>      <span class="hljs-keyword">return</span> value.equals(that.value);<br>   &#125;<br><br>   <span class="hljs-meta">@Override</span><br>   <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">hashCode</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-keyword">return</span> Objects.hashCode(value);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="多线程交替打印-0-100"><a href="#多线程交替打印-0-100" class="headerlink" title="多线程交替打印 0-100"></a>多线程交替打印 0-100</h2><p>整理成博客</p>
+<h1 id="0910"><a href="#0910" class="headerlink" title="0910"></a>0910</h1><h2 id="Builder"><a href="#Builder" class="headerlink" title="Builder"></a>Builder</h2><p>整理成博客</p>
+<h2 id="几种Factory模式对比"><a href="#几种Factory模式对比" class="headerlink" title="几种Factory模式对比"></a>几种Factory模式对比</h2><h1 id="0911"><a href="#0911" class="headerlink" title="0911"></a>0911</h1><p>OOM排查</p>
+<h1 id="0912"><a href="#0912" class="headerlink" title="0912"></a>0912</h1><h2 id="JDBC-动态参数最佳实践"><a href="#JDBC-动态参数最佳实践" class="headerlink" title="JDBC 动态参数最佳实践"></a>JDBC 动态参数最佳实践</h2><h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>今天遇到一个问题，在调用JDBC传入代码中SQL参数的时候，参数SQL使用了类似如下的语法：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> T_TABLE <span class="hljs-keyword">WHERE</span> c_column <span class="hljs-keyword">IN</span> (?)<br></code></pre></td></tr></table></figure>
+
+<p>代码中采用 PreparedStatement 来执行 SQL 参数，此时针对占位符的参数传入的是 list 的字符串形式 <code>&#39;foo&#39;,&#39;bar&#39;</code>.</p>
+<p>从主观理解上来说，我们希望这一段SQL可以去查询 c_column 这一个字段值为 <code>foo</code>&#x2F;<code>bar</code> 的所有记录。</p>
+<p>但是这条 SQL 执行完成后没有任何结果，奇怪的是也没有任何的报错。</p>
+<p>其实这是由于 PreparedStatement 的特性造成的。</p>
+<p>我们都知道 PreparedStatement 支持防止 SQL 注入，因此引入占位符机制。上述我们的 SQL，看似参数是传入了两个元素，通过 IN 来实现 or 的查询效果。但是在 PreparedStatement 的作用下，实际上 MySQL 会将其解析为一个完整的元素，因此 IN 的括号中只算做了一个元素。相当于去表里寻找 code &#x3D; ‘foo,bar’ 的记录，那当然是没有的，自然也没有任何结果，也不会有任何的报错。</p>
+<p>网络上常见的一种实现方式是采用动态拼接 <code>?</code> 占位符的方式进行实现。</p>
+<p>但是实际上这样的实现方式并不合理。</p>
+<p>要理解为什么不能这么做以及应该如何做，我们需要了解 PreparedStatement 和 Statement 语句的区别。</p>
+<h3 id="PreparedStatement和Statement"><a href="#PreparedStatement和Statement" class="headerlink" title="PreparedStatement和Statement"></a>PreparedStatement和Statement</h3><p>在 JDBC 中，<code>PreparedStatement</code> 和普通 <code>Statement</code> 都是用于执行 SQL 语句的接口，但核心区别在于：</p>
+<ol>
+<li><strong>预编译机制</strong>：<code>PreparedStatement</code> 会对 SQL 语句进行预编译，而普通 <code>Statement</code> 每次不会。</li>
+<li><strong>SQL 注入防护</strong>：<code>PreparedStatement</code> 通过参数绑定（<code>?</code> 占位符）避免 SQL 注入，而普通 <code>Statement</code> 直接拼接字符串有注入风险。</li>
+<li><strong>性能</strong>：重复执行相同结构的 SQL 时，<code>PreparedStatement</code> 性能更优（预编译只需一次）。</li>
+</ol>
+<p>我们重点关注预编译机制。预编译语句在数据库侧是需要通过缓存进行维护的。我们在服务代码中通过 JDBC 调用创建了 PreparedStatement 对象，<strong>此时数据库会预先解析 SQL 结构、生成执行计划，之后只需传入参数即可重复执行，无需重新解析</strong>。这样的场景十分适合 “<strong>相同结构的SQL</strong>“，也就是那些参数位置和数量都是在程序运行期间确定的 SQL.</p>
+<p>而对于上述问题中的 SQL，我们可能传入需要 IN 查询的 list，某一个请求是3个长度，也有可能是100个长度。如果采用根据数组长度动态拼接占位符的策略，在实际执行 PreparedStatement 的时候，对应的就是两个完全不一样的 SQL，但数据库侧都需要进行维护。</p>
+<p><strong>此时预编译的效果已经失效，因为前一次根据 list 动态拼接占位符生成SQL的预编译缓存，不一定就会在下一次 list 参数的到来时进行命中。</strong>同时由于数据库侧还需要不断维护这些缓存数据，不但没有利用上预编译的性能优化，反倒增大了系统的开销。数据库连接池对 <code>PreparedStatement</code> 数量有上限，大量动态 <code>IN</code> 子句会耗尽这个上限，甚至导致内存溢出（OOM）。</p>
+<p>不要简单地认为在代码中显式调用 <code>close()</code> 释放了 <code>PreparedStatement</code> 对象就可以销毁这些缓存。数据库仍可能大量维护预编译语句的缓存，原因与数据库的 <strong>预编译语句缓存机制</strong> 有关，而非我们作为应用层的服务中对象的生命周期。</p>
+<p>此时，直接使用 Statement 动态根据 list 参数拼接条件更为妥当。无论 <code>IN</code> 子句参数数量如何变化，都只需生成一次 SQL 并执行，不会产生大量冗余的预编译对象。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>对于结构固定相同的SQL，在程序运行期间能够确定参数位置和数量的SQL，使用 PreparedStatement 执行，充分利用预编译机制</p>
+<p>对于在程序运行期间可能存在动态参数拼接导致结构改变的SQL，采用 Statement 执行，避免预编译缓存爆炸导致的性能问题。</p>
 
                 
               </div>
