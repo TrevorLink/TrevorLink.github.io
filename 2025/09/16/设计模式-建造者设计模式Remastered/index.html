@@ -1,0 +1,695 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Noctis64">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="建造者模式最佳实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式|建造者设计模式Remastered">
+<meta property="og:url" content="http://example.com/2025/09/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8FRemastered/index.html">
+<meta property="og:site_name" content="Zanarkand">
+<meta property="og:description" content="建造者模式最佳实践">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-09-16T01:31:28.000Z">
+<meta property="article:modified_time" content="2025-09-17T06:39:58.480Z">
+<meta property="article:author" content="Noctis64">
+<meta property="article:tag" content="Framework">
+<meta property="article:tag" content="Design Pattern">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>设计模式|建造者设计模式Remastered - Zanarkand</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"gtag":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Zanarkand</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="设计模式|建造者设计模式Remastered"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-09-16 09:31" pubdate>
+          2025年9月16日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">设计模式|建造者设计模式Remastered</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="导论"><a href="#导论" class="headerlink" title="导论"></a>导论</h1><h2 id="解决的问题"><a href="#解决的问题" class="headerlink" title="解决的问题"></a>解决的问题</h2><p>建造者设计模式核心解决的是”<strong>复杂对象的分步构建</strong>“问题。</p>
+<p>当一个对象字段很多，并且有的是必选，有的是可选，一般来说我们会写多个构造函数进行重载，然后复用某个构造函数。</p>
+<p>但是这样的实现往往可读性很差，必选字段和可选字段耦合在一起。</p>
+<p>为了解决这一个问题，我们可以使用建造者模式来进行优化。</p>
+<h2 id="核心实现"><a href="#核心实现" class="headerlink" title="核心实现"></a>核心实现</h2><p>在 Java 中，建造者模式的实现通常我们借助<code>public</code>的<strong>静态内部类</strong>(一般命名为<code>Builder</code>)来实现</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>只要遇到下面的几个场景，就可以考虑使用Builder进行重构</p>
+<ul>
+<li>对象字段多，必选和可空字段耦合在多个重载的构造函数，经常会需要传<code>null</code>进行实例化</li>
+<li>对象的部分字段存在依赖关系，实例化流程存在依赖校验逻辑</li>
+</ul>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><h2 id="场景举例"><a href="#场景举例" class="headerlink" title="场景举例"></a>场景举例</h2><p>我们以电商系统中的 “订单对象”为例：订单包含<strong>必选属性</strong>（订单 ID、用户 ID、商品列表）和<strong>可选属性</strong>（优惠券、配送地址、支付方式、备注），且部分属性有依赖关系（如选择 “货到付款” 则无法使用优惠券）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Order</span> &#123;<br>    <span class="hljs-comment">// 必选属性</span><br>    <span class="hljs-keyword">private</span> String orderId;       <span class="hljs-comment">// 订单ID</span><br>    <span class="hljs-keyword">private</span> String userId;        <span class="hljs-comment">// 用户ID</span><br>    <span class="hljs-keyword">private</span> List&lt;String&gt; goods;   <span class="hljs-comment">// 商品列表</span><br>    <span class="hljs-comment">// 可选属性</span><br>    <span class="hljs-keyword">private</span> String couponId;      <span class="hljs-comment">// 优惠券ID（可选）</span><br>    <span class="hljs-keyword">private</span> String address;       <span class="hljs-comment">// 配送地址（可选）</span><br>    <span class="hljs-keyword">private</span> String payType;       <span class="hljs-comment">// 支付方式（可选）</span><br>    <span class="hljs-keyword">private</span> String remark;        <span class="hljs-comment">// 订单备注（可选）</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="不使用设计模式"><a href="#不使用设计模式" class="headerlink" title="不使用设计模式"></a>不使用设计模式</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 产品：复杂订单对象</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Order</span> &#123;<br>    <span class="hljs-comment">// 必选属性</span><br>    <span class="hljs-keyword">private</span> String orderId;       <span class="hljs-comment">// 订单ID</span><br>    <span class="hljs-keyword">private</span> String userId;        <span class="hljs-comment">// 用户ID</span><br>    <span class="hljs-keyword">private</span> List&lt;String&gt; goods;   <span class="hljs-comment">// 商品列表</span><br>    <span class="hljs-comment">// 可选属性</span><br>    <span class="hljs-keyword">private</span> String couponId;      <span class="hljs-comment">// 优惠券ID（可选）</span><br>    <span class="hljs-keyword">private</span> String address;       <span class="hljs-comment">// 配送地址（可选）</span><br>    <span class="hljs-keyword">private</span> String payType;       <span class="hljs-comment">// 支付方式（可选）</span><br>    <span class="hljs-keyword">private</span> String remark;        <span class="hljs-comment">// 订单备注（可选）</span><br>    <br>    <span class="hljs-comment">// 痛点1：构造方法膨胀——必选+可选属性组合导致重载泛滥</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Order</span><span class="hljs-params">(String orderId, String userId, List&lt;String&gt; goods)</span> &#123;<br>        <span class="hljs-built_in">this</span>.orderId = orderId;<br>        <span class="hljs-built_in">this</span>.userId = userId;<br>        <span class="hljs-built_in">this</span>.goods = goods;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 重载1：添加优惠券</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Order</span><span class="hljs-params">(String orderId, String userId, List&lt;String&gt; goods, String couponId)</span> &#123;<br>        <span class="hljs-built_in">this</span>(orderId, userId, goods);<br>        <span class="hljs-built_in">this</span>.couponId = couponId;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 重载2：添加优惠券+地址</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Order</span><span class="hljs-params">(String orderId, String userId, List&lt;String&gt; goods, String couponId, String address)</span> &#123;<br>        <span class="hljs-built_in">this</span>(orderId, userId, goods, couponId);<br>        <span class="hljs-built_in">this</span>.address = address;<br>    &#125;<br>    <br>    <span class="hljs-comment">// 重载3：添加优惠券+地址+支付方式...（属性越多，重载越多）</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Order</span><span class="hljs-params">(String orderId, String userId, List&lt;String&gt; goods, String couponId, String address, String payType)</span> &#123;<br>        <span class="hljs-built_in">this</span>(orderId, userId, goods, couponId, address);<br>        <span class="hljs-built_in">this</span>.payType = payType;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">validate</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">//如果选择货到付款则无法再次使用优惠券</span><br>    &#125;<br>     <br>    <span class="hljs-comment">//省略 getter setter</span><br> &#125;<br></code></pre></td></tr></table></figure>
+
+<p>我们的客户端一般来说是Service类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 客户端：创建订单（痛点集中体现）</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">OrderService</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// 准备必选参数</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">orderId</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ORDER_20240520_001&quot;</span>;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">userId</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;USER_1001&quot;</span>;<br>        List&lt;String&gt; goods = Arrays.asList(<span class="hljs-string">&quot;手机&quot;</span>, <span class="hljs-string">&quot;耳机&quot;</span>);<br>        <br>        <span class="hljs-comment">// 痛点2：参数顺序易混淆——若需添加备注，需找到对应重载，且参数位置易写错</span><br>        <span class="hljs-type">Order</span> <span class="hljs-variable">order1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Order</span>(orderId, userId, goods, <span class="hljs-string">&quot;COUPON_50&quot;</span>, <span class="hljs-string">&quot;北京市朝阳区&quot;</span>, <span class="hljs-string">&quot;ALIPAY&quot;</span>);<br>        <br>        <span class="hljs-comment">// 痛点3：可选属性缺失时，需传null占位，代码丑陋且易出错</span><br>        <span class="hljs-type">Order</span> <span class="hljs-variable">order2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Order</span>(orderId, userId, goods, <span class="hljs-literal">null</span>, <span class="hljs-string">&quot;上海市浦东新区&quot;</span>, <span class="hljs-literal">null</span>);<br>        <br>        <span class="hljs-comment">// 痛点4：构建过程无校验——若选择“货到付款”却传了支付方式，无法在创建时拦截</span><br>        <span class="hljs-type">Order</span> <span class="hljs-variable">order3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Order</span>(orderId, userId, goods, <span class="hljs-string">&quot;COUPON_30&quot;</span>, <span class="hljs-string">&quot;广州市天河区&quot;</span>, <span class="hljs-string">&quot;CASH_ON_DELIVERY&quot;</span>);<br>        order3.setPayType(<span class="hljs-string">&quot;WECHAT&quot;</span>); <span class="hljs-comment">// 后续修改对象可能破坏逻辑</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="使用建造者模式"><a href="#使用建造者模式" class="headerlink" title="使用建造者模式"></a>使用建造者模式</h2><ol>
+<li>新建静态内部类Builder，将必要参数</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Builder</span> &#123;<br><br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String orderId;<br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String userId;<br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; goods;<br><br>   <span class="hljs-keyword">private</span> String couponId;<br>   <span class="hljs-keyword">private</span> String address;<br>   <span class="hljs-keyword">private</span> String payType;<br>   <span class="hljs-keyword">private</span> String remark;<br><br>   <span class="hljs-keyword">public</span> <span class="hljs-title function_">Builder</span><span class="hljs-params">(String orderId, String userId, List&lt;String&gt; goods)</span> &#123;<br>      <span class="hljs-built_in">this</span>.orderId = orderId;<br>      <span class="hljs-built_in">this</span>.userId = userId;<br>      <span class="hljs-built_in">this</span>.goods = goods;<br>   &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>私有化构造函数，入参只有Builder</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Order</span> &#123;<br>   <span class="hljs-comment">// 必选属性</span><br>   <span class="hljs-keyword">private</span> String orderId;       <span class="hljs-comment">// 订单ID</span><br>   <span class="hljs-keyword">private</span> String userId;        <span class="hljs-comment">// 用户ID</span><br>   <span class="hljs-keyword">private</span> List&lt;String&gt; goods;   <span class="hljs-comment">// 商品列表</span><br>   <span class="hljs-comment">// 可选属性</span><br>   <span class="hljs-keyword">private</span> String couponId;      <span class="hljs-comment">// 优惠券ID（可选）</span><br>   <span class="hljs-keyword">private</span> String address;       <span class="hljs-comment">// 配送地址（可选）</span><br>   <span class="hljs-keyword">private</span> String payType;       <span class="hljs-comment">// 支付方式（可选）</span><br>   <span class="hljs-keyword">private</span> String remark;        <span class="hljs-comment">// 订单备注（可选）</span><br><br>   <span class="hljs-comment">// 禁止外部直接实例化 Order 对象  </span><br>   <span class="hljs-keyword">private</span> <span class="hljs-title function_">Order</span><span class="hljs-params">(Builder builder)</span> &#123;<br>      <span class="hljs-built_in">this</span>.orderId = builder.orderId;<br>      <span class="hljs-built_in">this</span>.userId = builder.userId;<br>      <span class="hljs-built_in">this</span>.goods = builder.goods;<br>      <span class="hljs-built_in">this</span>.couponId = builder.couponId;<br>      <span class="hljs-built_in">this</span>.address = builder.address;<br>      <span class="hljs-built_in">this</span>.payType = builder.payType;<br>      <span class="hljs-built_in">this</span>.remark = builder.remark;<br>   &#125;<br>     <br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Builder</span> &#123;<br><br>      <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String orderId;<br>      <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String userId;<br>      <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; goods;<br><br>      <span class="hljs-keyword">private</span> String couponId;<br>      <span class="hljs-keyword">private</span> String address;<br>      <span class="hljs-keyword">private</span> String payType;<br>      <span class="hljs-keyword">private</span> String remark;<br><br>      <span class="hljs-keyword">public</span> <span class="hljs-title function_">Builder</span><span class="hljs-params">(String orderId, String userId, List&lt;String&gt; goods)</span> &#123;<br>         <span class="hljs-built_in">this</span>.orderId = orderId;<br>         <span class="hljs-built_in">this</span>.userId = userId;<br>         <span class="hljs-built_in">this</span>.goods = goods;<br>      &#125;<br><br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>实现Builder类链式set方法以及核心构建最终对象的<code>build()</code></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Builder</span> &#123;<br><br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String orderId;<br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String userId;<br>   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;String&gt; goods;<br><br>   <span class="hljs-keyword">private</span> String couponId;<br>   <span class="hljs-keyword">private</span> String address;<br>   <span class="hljs-keyword">private</span> String payType;<br>   <span class="hljs-keyword">private</span> String remark;<br><br>   <span class="hljs-keyword">public</span> <span class="hljs-title function_">Builder</span><span class="hljs-params">(String orderId, String userId, List&lt;String&gt; goods)</span> &#123;<br>      <span class="hljs-built_in">this</span>.orderId = orderId;<br>      <span class="hljs-built_in">this</span>.userId = userId;<br>      <span class="hljs-built_in">this</span>.goods = goods;<br>   &#125;<br><br>   <span class="hljs-keyword">public</span> Order <span class="hljs-title function_">build</span><span class="hljs-params">()</span> &#123;<br>      <span class="hljs-comment">//根据业务要求进行参数校验</span><br>      <span class="hljs-keyword">if</span> (payType != <span class="hljs-literal">null</span> &amp;&amp; !payType.isEmpty()<br>              &amp;&amp; <span class="hljs-string">&quot;CASH_ON_DELIVERY&quot;</span>.equals(payType)<br>              &amp;&amp; couponId != <span class="hljs-literal">null</span> &amp;&amp; !couponId.isEmpty()) &#123;<br>         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;PAY ON DELIVERED NOT SUPPORT COUPON&quot;</span>);<br>      &#125;<br>      <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Order</span>(<span class="hljs-built_in">this</span>);<br>   &#125;<br><br>   <span class="hljs-keyword">public</span> Builder <span class="hljs-title function_">setCouponId</span><span class="hljs-params">(String couponId)</span> &#123;<br>      <span class="hljs-built_in">this</span>.couponId = couponId;<br>      <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;<br>   &#125;<br><br>   <span class="hljs-keyword">public</span> Builder <span class="hljs-title function_">setAddress</span><span class="hljs-params">(String address)</span> &#123;<br>      <span class="hljs-built_in">this</span>.address = address;<br>      <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;<br>   &#125;<br><br>   <span class="hljs-keyword">public</span> Builder <span class="hljs-title function_">setPayType</span><span class="hljs-params">(String payType)</span> &#123;<br>      <span class="hljs-built_in">this</span>.payType = payType;<br>      <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;<br>   &#125;<br><br>   <span class="hljs-keyword">public</span> Builder <span class="hljs-title function_">setRemark</span><span class="hljs-params">(String remark)</span> &#123;<br>      <span class="hljs-built_in">this</span>.remark = remark;<br>      <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>;<br>   &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>客户端只能先实例化 Builer 对象后调用<code>build()</code>才能实例业务对象</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">OrderService</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>      <span class="hljs-comment">// 准备必选参数</span><br>      <span class="hljs-type">String</span> <span class="hljs-variable">orderId</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;ORDER_20240520_001&quot;</span>;<br>      <span class="hljs-type">String</span> <span class="hljs-variable">userId</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;USER_1001&quot;</span>;<br>      List&lt;String&gt; goods = Arrays.asList(<span class="hljs-string">&quot;手机&quot;</span>, <span class="hljs-string">&quot;耳机&quot;</span>);<br><br>      <span class="hljs-type">Order</span> <span class="hljs-variable">order1</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Order</span>.Builder(orderId, userId, goods)<br>              .setCouponId(<span class="hljs-string">&quot;COUPON_50&quot;</span>)<br>              .setAddress(<span class="hljs-string">&quot;北京市朝阳区&quot;</span>)<br>              .setPayType(<span class="hljs-string">&quot;ALIPAY&quot;</span>)<br>              .build();<br><br>      <span class="hljs-type">Order</span> <span class="hljs-variable">order2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Order</span>.Builder(orderId, userId, goods)<br>              .setAddress(<span class="hljs-string">&quot;上海市浦东新区&quot;</span>)<br>              .build();<br><br>      <span class="hljs-type">Order</span> <span class="hljs-variable">order3</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Order</span>.Builder(orderId, userId, goods)<br>              .setCouponId(<span class="hljs-string">&quot;COUPON_30&quot;</span>)<br>              .setPayType(<span class="hljs-string">&quot;CASH_ON_DELIVERY&quot;</span>)<br>              .build();<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>一般情况下，当出现下述的场景时，可以考虑使用建造者设计模式进行重构：</p>
+<ul>
+<li>对象字段数量多且复杂，并且部分字段是可选的。</li>
+<li>现有的构造函数很多而且臃肿，可选字段只能通过传递<code>null</code>的方式才能实例化，可读性依托。</li>
+<li>业务对象的字段之间存在某些关联，需要在实例化阶段进行校验。</li>
+</ul>
+<p>针对上述的痛点，使用建造者设计模式来重构可以根据以下的步骤：</p>
+<ol>
+<li>区分必选字段和可选字段都有哪些。</li>
+<li>在对象类中新增静态内部类<code>Builder</code>，将必选字段作为<code>Builder</code>的构造函数参数。</li>
+<li>私有化业务对象的构造函数，并只接收<code>Builder</code>参数，防止外部直接实例化。</li>
+<li>对于可选字段，<code>Builder</code>中提供<code>setter()和build()</code>，只有<code>build()</code>才能实例化业务对象。</li>
+<li>根据业务需要，在<code>build()</code>中先进行逻辑校验后再返回业务对象实例。</li>
+</ol>
+<p>通过上述的重构实现，我们不仅简化了复杂对象多个字段实例化时构造函数臃肿的问题，同时也更加优雅地处理了业务对象依赖字段的校验逻辑。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="category-chain-item">设计模式</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Framework/" class="print-no-link">#Framework</a>
+      
+        <a href="/tags/Design-Pattern/" class="print-no-link">#Design Pattern</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>设计模式|建造者设计模式Remastered</div>
+      <div>http://example.com/2025/09/16/设计模式-建造者设计模式Remastered/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Noctis64</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年9月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/09/10/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B00-100/" title="多线程交替打印0-100">
+                        <span class="hidden-mobile">多线程交替打印0-100</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
