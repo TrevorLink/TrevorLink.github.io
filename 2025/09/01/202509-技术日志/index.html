@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年09月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-09-01T02:58:47.000Z">
-<meta property="article:modified_time" content="2025-09-17T06:14:25.438Z">
+<meta property="article:modified_time" content="2025-09-26T08:07:10.939Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.8k 字
+          4.7k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          32 分钟
+          40 分钟
         
       </span>
     
@@ -277,7 +277,7 @@
                 <h1 id="0901"><a href="#0901" class="headerlink" title="0901"></a>0901</h1><h2 id="SQL索引失效的情况"><a href="#SQL索引失效的情况" class="headerlink" title="SQL索引失效的情况"></a>SQL索引失效的情况</h2><p>面试的时候经常会考察SQL的索引，而SQL索引失效的情况就是在业务场景中使用SQL索引时经常会遇到的问题</p>
 <p>常见的索引失效，也就是我们通常说的查询未命中索引，这样的情况有：</p>
 <ol>
-<li>复合索引是遵循最左匹配原则，如果索引列顺序错了，会导致索引无法命中</li>
+<li>复合索引是遵循<strong>最左匹配原则</strong>，如果索引列顺序错了，会导致索引无法命中</li>
 <li>MySQL 分析本次查询最终查询出来的数据有900条，整张表有1000条数据，查询索引的成本比全表扫描来得高，因此会直接扫描全表不会命中索引</li>
 </ol>
 <h3 id="分析查询是否命中索引"><a href="#分析查询是否命中索引" class="headerlink" title="分析查询是否命中索引"></a>分析查询是否命中索引</h3><p>可以使用 MySQL 自带的 EXPLAIN 关键字</p>
@@ -381,7 +381,7 @@
 
 <h2 id="多线程交替打印-0-100"><a href="#多线程交替打印-0-100" class="headerlink" title="多线程交替打印 0-100"></a>多线程交替打印 0-100</h2><p>整理成博客</p>
 <h1 id="0910"><a href="#0910" class="headerlink" title="0910"></a>0910</h1><h2 id="Builder"><a href="#Builder" class="headerlink" title="Builder"></a>Builder</h2><p>整理成博客</p>
-<h2 id="几种Factory模式对比"><a href="#几种Factory模式对比" class="headerlink" title="几种Factory模式对比"></a>几种Factory模式对比</h2><h1 id="0911"><a href="#0911" class="headerlink" title="0911"></a>0911</h1><p>OOM排查</p>
+<h1 id="0911"><a href="#0911" class="headerlink" title="0911"></a>0911</h1><p>OOM排查</p>
 <h1 id="0912"><a href="#0912" class="headerlink" title="0912"></a>0912</h1><h2 id="JDBC-动态参数最佳实践"><a href="#JDBC-动态参数最佳实践" class="headerlink" title="JDBC 动态参数最佳实践"></a>JDBC 动态参数最佳实践</h2><h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>今天遇到一个问题，在调用JDBC传入代码中SQL参数的时候，参数SQL使用了类似如下的语法：</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span> <span class="hljs-keyword">FROM</span> T_TABLE <span class="hljs-keyword">WHERE</span> c_column <span class="hljs-keyword">IN</span> (?)<br></code></pre></td></tr></table></figure>
 
@@ -416,6 +416,99 @@
 <p>下面直接以代码举例</p>
 <h3 id="写法更简洁"><a href="#写法更简洁" class="headerlink" title="写法更简洁"></a>写法更简洁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">void</span> <span class="hljs-title function_">copyTraditional</span><span class="hljs-params">(String src, String desc)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>   <span class="hljs-type">FileInputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(src);<br>   <span class="hljs-keyword">try</span> &#123;<br>      <span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">outputStream</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(desc);<br>      <span class="hljs-type">byte</span>[] bytes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];<br>      <span class="hljs-type">int</span> n;<br>      <span class="hljs-comment">//还需要考虑释放另一个资源，因此又套一层 try-catch</span><br>      <span class="hljs-keyword">try</span> &#123;<br>         <span class="hljs-keyword">while</span> ((n = inputStream.read(bytes)) != -<span class="hljs-number">1</span>) &#123;<br>            outputStream.write(bytes, <span class="hljs-number">0</span> ,n);<br>         &#125;<br>      &#125; <span class="hljs-keyword">finally</span> &#123;<br>         outputStream.close();<br>      &#125;<br>   &#125; <span class="hljs-keyword">finally</span> &#123;<br>      inputStream.close();<br>   &#125;<br>&#125;<br><br><span class="hljs-keyword">void</span> <span class="hljs-title function_">copyTryWithResource</span><span class="hljs-params">(String src, String desc)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>   <span class="hljs-keyword">try</span> (<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">in</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(src);<br>       <span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">out</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(desc)) &#123;<br>      <span class="hljs-type">byte</span>[] bytes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];<br>      <span class="hljs-type">int</span> n;<br>      <span class="hljs-keyword">while</span> ((n = in.read(bytes)) != -<span class="hljs-number">1</span>) &#123;<br>         out.write(bytes, <span class="hljs-number">0</span> ,n);<br>      &#125;<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+
+
+<h2 id="MySQL存储引擎"><a href="#MySQL存储引擎" class="headerlink" title="MySQL存储引擎"></a>MySQL存储引擎</h2><p>比较常见的就是 <code>InnoDB</code> 和 <code>MyISAM</code></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>InnoDB(default)</th>
+<th>MyISAM</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>事务支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>外键支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>最小锁粒度</td>
+<td>行级</td>
+<td>表级</td>
+</tr>
+<tr>
+<td>索引</td>
+<td>聚簇索引，叶子节点存储实际数据</td>
+<td>非聚簇索引，叶子节点存储数据地址</td>
+</tr>
+<tr>
+<td>count(*)</td>
+<td>慢，需要扫描全表</td>
+<td>快，有一个变量自动维护某张表的所有记录数</td>
+</tr>
+<tr>
+<td>自增主键最大ID存储位置</td>
+<td>内存，重启后丢失，以表的最后一个+1为准</td>
+<td>磁盘文件，重启后不会丢失</td>
+</tr>
+</tbody></table>
+<p>上述两种引擎的特性决定了他们的最佳使用场景：</p>
+<ul>
+<li>MyISAM 适合读取多、更新少的场景，如数据仓库</li>
+<li>InnoDB 适合在高并发场景下为业务系统提供高负载的事务处理以及查询功能</li>
+</ul>
+<h1 id="0926"><a href="#0926" class="headerlink" title="0926"></a>0926</h1><h2 id="单一职责优化"><a href="#单一职责优化" class="headerlink" title="单一职责优化"></a>单一职责优化</h2><h3 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h3><p>之前我们的系统有这么一个需求：需要采集一些JVM以及系统信息相关的指标用于服务监控，最早我的实现方式如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> ServerResource <span class="hljs-title function_">generateServerResource</span><span class="hljs-params">()</span> &#123;<br>     <span class="hljs-comment">//服务监控指标对象实体，包含一些监控字段</span><br>     <span class="hljs-type">ServerResource</span> <span class="hljs-variable">resource</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerResource</span>();<br>     <br>     <span class="hljs-comment">//获取CPU利用率</span><br>     <br>     <span class="hljs-comment">//获取JVM堆内存使用率</span><br>     <br>     <span class="hljs-comment">//获取磁盘占用</span><br>     <br>     <span class="hljs-keyword">return</span> resource;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这样的实现固然简单粗暴，但是每一段获取系统资源的逻辑都很长，并且还需要根据业务需求进行单位转换等二次操作，不知不觉一个方法写了一百多行。</p>
+<p>第一个想到的是抽取成方法，某一个指标（例如CPU利用率）可能还会依赖多个私有的工具方法，方法一多，各个指标数据采集的方法都堆在一起，逻辑上互不关联但是维护起来十分麻烦。</p>
+<p>同时：所有逻辑都堆砌在一个方法中，职责不清晰，可读性和可维护性较差，且难以扩展（比如现在又要新增一个监控指标，这个时候需要修改核心的generateServerResource方法，新插入一段逻辑）</p>
+<p>我们可以通过<strong>单一职责原则</strong>（拆分不同资源的收集逻辑）进行优化，使代码结构更清晰、扩展性更强。</p>
+<h3 id="问题分析-1"><a href="#问题分析-1" class="headerlink" title="问题分析"></a>问题分析</h3><p>generateServerResource 一个方法承担了太多的职责，同时包含了多种监控指标的数据生成；我们希望针对一个类（对象）只专注一种监控指标数据的处理。</p>
+<h3 id="核心思路"><a href="#核心思路" class="headerlink" title="核心思路"></a>核心思路</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ResourceCollector</span> &#123;<br>     <span class="hljs-keyword">void</span> <span class="hljs-title function_">collectResource</span><span class="hljs-params">(ServerResource serverResource)</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JVMResourceCollector</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ResourceCollector</span> &#123;<br>     <span class="hljs-comment">//</span><br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DiskResourceCollector</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ResourceCollector</span>&#123;<br>     <span class="hljs-comment">//</span><br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CPUResourceCollector</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ResourceCollector</span>&#123;<br> 	<span class="hljs-comment">//    </span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<p>几种工厂模式的区别</p>
+<p>工厂模式作为一种创建型设计模式，核心解决的是 对象的创建与使用耦合在一起 的问题</p>
+<p>在实际开发中根据业务复杂度分为三种不同的工厂模式（从简单到复杂）：</p>
+<ul>
+<li>简单工厂</li>
+<li>工厂方法</li>
+<li>抽象工厂</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>模式类型</th>
+<th>核心特征</th>
+<th>典型结构</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>简单工厂模式</strong></td>
+<td>一个工厂类负责创建所有产品（无抽象工厂接口），通过参数或固定逻辑决定创建哪种产品。</td>
+<td>1 个工厂类 + 多种产品（被创建的对象）</td>
+</tr>
+<tr>
+<td><strong>工厂方法模式</strong></td>
+<td>定义抽象工厂接口，每个具体工厂类负责创建一种具体产品（工厂与产品一一对应）。</td>
+<td>1 个抽象工厂接口 + N 个具体工厂类 + N 个具体产品类</td>
+</tr>
+<tr>
+<td><strong>抽象工厂模式</strong></td>
+<td>定义抽象工厂接口，每个具体工厂负责创建一系列相关联的产品（产品族）。</td>
+<td>1 个抽象工厂接口 + N 个具体工厂类 + 多组产品接口（每组包含相关联的产品）</td>
+</tr>
+</tbody></table>
 
                 
               </div>
