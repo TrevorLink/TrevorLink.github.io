@@ -24,7 +24,7 @@
 <meta property="og:description" content="2025年10月技术日志记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-10-09T03:18:12.000Z">
-<meta property="article:modified_time" content="2025-10-13T03:51:48.406Z">
+<meta property="article:modified_time" content="2025-10-15T07:47:41.967Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="找工作">
 <meta property="article:tag" content="自我提升">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          2k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          11 分钟
+          18 分钟
         
       </span>
     
@@ -326,8 +326,7 @@
 <p>并行Parallelism，对应多核CPU，多个任务实际真的在多个物理处理单元上执行</p>
 <h2 id="为什么ConcurrentHashMap不支持null-key"><a href="#为什么ConcurrentHashMap不支持null-key" class="headerlink" title="为什么ConcurrentHashMap不支持null key"></a>为什么ConcurrentHashMap不支持null key</h2><p>关联[HashMap null key注意事项](#HashMap null key)</p>
 <p>ConcurrentHashMap不仅不支持null key，甚至还不支持null value</p>
-<p>二义性问题</p>
-<p>当我们map.get(null)发现等于null的时候，就会出现一个问题：</p>
+<h3 id="二义性问题"><a href="#二义性问题" class="headerlink" title="二义性问题"></a>二义性问题</h3><p>当我们map.get(null)发现等于null的时候，就会出现一个问题：</p>
 <ul>
 <li>是Map中不包含这个null key</li>
 <li>还是Map中包含这个key，只是value是null</li>
@@ -338,8 +337,53 @@
 <p>但是在ConcurrentHashMap中，由于是多线程环境，并且map.get()以及map.containsKey()这两个操作是两个独立的原子操作，因此中间可能存在 “线程切换导致的状态变化”，导致判断结果不一致。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//假设 ConcurrentHashMap 允许 null key</span><br><span class="hljs-comment">// 线程A执行</span><br><span class="hljs-keyword">if</span> (map.get(<span class="hljs-literal">null</span>) == <span class="hljs-literal">null</span>) &#123;  <span class="hljs-comment">// 步骤1：线程A判断get(null)返回null（此时map中确实没有null key）</span><br>    <span class="hljs-comment">// 步骤2：线程A执行到此处时，CPU时间片耗尽，线程切换到B</span><br>    <span class="hljs-keyword">if</span> (!map.containsKey(<span class="hljs-literal">null</span>)) &#123;  <span class="hljs-comment">// 步骤4：线程A恢复执行，判断containsKey(null)</span><br>        <span class="hljs-comment">// 步骤5：此时线程B已插入null key，因此containsKey(null)返回true，条件不成立</span><br>        map.put(<span class="hljs-literal">null</span>, <span class="hljs-string">&quot;error&quot;</span>);  <span class="hljs-comment">// 步骤6：因此这行代码不会执行，与程序预期出现偏差</span><br>    &#125;<br>&#125;<br><br><span class="hljs-comment">// 线程B在步骤2和步骤4之间执行</span><br>map.put(<span class="hljs-literal">null</span>, <span class="hljs-string">&quot;value&quot;</span>);  <span class="hljs-comment">// 步骤3：线程B插入null key，此时map中已有null key</span><br></code></pre></td></tr></table></figure>
 
+<h1 id="1015"><a href="#1015" class="headerlink" title="1015"></a>1015</h1><h2 id="对象逃逸-amp-标量替换"><a href="#对象逃逸-amp-标量替换" class="headerlink" title="对象逃逸&amp;标量替换"></a>对象逃逸&amp;标量替换</h2><p>本内容属于Java内存模型优化、JVM内存管理相关知识点</p>
+<h3 id="对象逃逸"><a href="#对象逃逸" class="headerlink" title="对象逃逸"></a>对象逃逸</h3><p>对象逃逸是指是对象的作用域超出了某个方法&#x2F;线程</p>
+<p>我们分三种情况进行讨论</p>
+<ul>
+<li>未逃逸</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// 创建对象：仅在当前方法内使用</span><br>    <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>(); <br>    user.setName(<span class="hljs-string">&quot;张三&quot;</span>);<br>    <span class="hljs-comment">// 仅在当前方法内调用对象的方法，没有把对象传出</span><br>    System.out.println(user.getName()); <br>&#125;<br></code></pre></td></tr></table></figure>
 
+<ul>
+<li>方法逃逸</li>
+</ul>
+<p>对象被作为方法返回值返回，或被传递给其他方法（但未被其他线程访问），导致其作用范围超出当前方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 场景1：对象被作为返回值返回</span><br><span class="hljs-keyword">public</span> User <span class="hljs-title function_">method1</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>    <span class="hljs-keyword">return</span> user; <span class="hljs-comment">// 对象逃出当前方法，被外部接收</span><br>&#125;<br><br><span class="hljs-comment">// 场景2：对象被传递给其他方法</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method2</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>    otherMethod(user); <span class="hljs-comment">// 对象被传给其他方法，可能在其他方法中被进一步传递</span><br>&#125;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">otherMethod</span><span class="hljs-params">(User user)</span> &#123;<br>    <span class="hljs-comment">// 使用user...</span><br>&#125;<br></code></pre></td></tr></table></figure>
 
+<p>上述两种方式本质上都是方法内创建的user对象作用域超出了本身的方法</p>
+<ul>
+<li>线程逃逸</li>
+</ul>
+<p>在这种情况下，对象一般会被存储到类的静态变量、实例变量中，或被传递给其他线程（如作为线程的 <code>Runnable</code> 参数），导致其他线程可以访问该对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 场景1：对象被存储到静态变量（全局可见）</span><br><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> User staticUser;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method3</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>    staticUser = user; <span class="hljs-comment">// 其他线程可以通过staticUser访问该对象</span><br>&#125;<br><br><span class="hljs-comment">// 场景2：对象被传递给其他线程</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method4</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>        <span class="hljs-comment">// 其他线程访问该对象</span><br>        System.out.println(user.getName()); <br>    &#125;).start();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="未逃逸对象栈上分配"><a href="#未逃逸对象栈上分配" class="headerlink" title="未逃逸对象栈上分配"></a>未逃逸对象栈上分配</h3><p>在编译期间，JVM引入了一个机制：如果某个对象未发生逃逸，则会将这个对象分配到栈上</p>
+<p>原因是因为栈相比于堆，更适合存储短期存在的对象，减轻GC压力</p>
+<table>
+<thead>
+<tr>
+<th>内存区域</th>
+<th>特点</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>堆</td>
+<td>线程共享，对象需要通过GC回收</td>
+<td>长期存在的对象</td>
+</tr>
+<tr>
+<td>栈</td>
+<td>线程私有，方法内产生创建，方法结束后自动销毁回收</td>
+<td>短期存在的对象</td>
+</tr>
+</tbody></table>
+<p>未逃逸的对象生命周期和方法一致，方法调用时创建，方法执行结束后就应当被回收。这种特性刚好匹配栈的 “自动回收” 机制 —— 无需 GC 介入，方法执行完栈帧弹出，对象内存直接释放，效率远高于堆分配。</p>
+<h3 id="分配前提：未逃逸-标量替换"><a href="#分配前提：未逃逸-标量替换" class="headerlink" title="分配前提：未逃逸+标量替换"></a>分配前提：未逃逸+标量替换</h3><p>当然在栈上的对象并不是完整的对象实例，JVM会通过标量替换优化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">method</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">// User对象未逃逸，可被标量替换</span><br>    <span class="hljs-type">User</span> <span class="hljs-variable">user</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>(); <br>    user.name = <span class="hljs-string">&quot;张三&quot;</span>;  <span class="hljs-comment">// 实际被替换为栈上的&quot;张三&quot;字符串引用</span><br>    user.age = <span class="hljs-number">20</span>;      <span class="hljs-comment">// 实际被替换为栈上的int变量（值20）</span><br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br>    String name;<br>    <span class="hljs-type">int</span> age;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>由于对象未逃逸，只会在方法内部进行使用，因此在JVM的<strong>标量替换</strong>优化作用下，栈上并不会存储完整的User对象，而是直接在栈上分配 <code>name</code>（引用类型）和 <code>age</code>（int 类型）两个标量，方法结束后随栈帧销毁。</p>
 
                 
               </div>
