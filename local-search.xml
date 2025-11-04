@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>202511|技术日志</title>
+    <link href="/2025/11/04/202511-%E6%8A%80%E6%9C%AF%E6%97%A5%E5%BF%97/"/>
+    <url>/2025/11/04/202511-%E6%8A%80%E6%9C%AF%E6%97%A5%E5%BF%97/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1104"><a href="#1104" class="headerlink" title="1104"></a>1104</h1><h2 id="计算机网络分层模型"><a href="#计算机网络分层模型" class="headerlink" title="计算机网络分层模型"></a>计算机网络分层模型</h2><p><a href="https://csguide.cn/network/overview/20_protocol.html">参考</a></p><h3 id="OSI七层"><a href="#OSI七层" class="headerlink" title="OSI七层"></a>OSI七层</h3><p>应用层（HTTP FTP POP3 SMTP等）</p><p>表示层（加密、protobuf等序列化协议）</p><p>会话层（Socket API）</p><p>传输层（TCP UDP是重点）</p><p>网络层（IP，ARP）</p><p>数据链路层（MAC）</p><p>物理层（网卡，光纤）</p><h3 id="TCP-x2F-IP四层"><a href="#TCP-x2F-IP四层" class="headerlink" title="TCP&#x2F;IP四层"></a>TCP&#x2F;IP四层</h3><p>应用层（OSI的应用层+表示层+会话层）</p><p>传输层</p><p>网络层</p><p>网络接口层（OSI的物理层和数据链路层）</p><h3 id="封装和解包"><a href="#封装和解包" class="headerlink" title="封装和解包"></a>封装和解包</h3><p>从Source主机出发，一个网络包，从上往下，每一层都会在传输的过程中加上协议对应的Header，这一过程叫做封装。</p><p>之后经过层层设备，这中间可能会进行中间层的封装和解包操作。</p><p>到达目标主机后，从下往上，一层一层提取Header解析内容，这一过程叫做解包。</p><h2 id="自底向上"><a href="#自底向上" class="headerlink" title="自底向上"></a>自底向上</h2><h3 id="网线直连"><a href="#网线直连" class="headerlink" title="网线直连"></a><strong>网线直连</strong></h3><p>物理层面的端到端连接</p><p>+实现简单粗暴</p><p>-设备数量上升时布线混乱，物理线路数量几何式增长</p><h3 id="集线器"><a href="#集线器" class="headerlink" title="集线器"></a><strong>集线器</strong></h3><p>中央设备无脑转发，通过接收方的MAC地址进行区分</p><p>类似同一个房间说话所有人都能听得到，但是每个人都会去”检查”喊的是不是自己，不是的话就不予理会</p><p>+物理层面广播，实现较为简单</p><p>-只支持单工通信。同一个时间只能有一个人在房间内说话</p><p>-带宽浪费，由于是广播因此会浪费不必要的通信成本</p><p>-性能问题，所有设备共享一个相同的集线器带宽，设备越多，网络越拥挤</p><h3 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h3><p>“智能学习”、精确通知的集线器</p><p>相比于集线器的广播，交换机内部维护了一个MAC地址映射表，<code>Map&lt;MAC, portNumber&gt;</code></p><p>一开始表没数据，还是通过广播的方式，收到接入设备的应答后更新表数据用于下次精准转发；</p><p>随着接入物理设备的变动，这张表会动态变更。最终实现通信数据的精准转发（指定端口）</p><p>交换机位于计算机网络模型中的数据链路层</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>技术日志</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>找工作</tag>
+      
+      <tag>自我提升</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Java|SPI</title>
     <link href="/2025/10/30/Java-SPI/"/>
     <url>/2025/10/30/Java-SPI/</url>
