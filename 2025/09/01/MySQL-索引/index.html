@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/7af22798.jpg">
 <meta property="article:published_time" content="2025-09-01T03:14:04.000Z">
-<meta property="article:modified_time" content="2025-09-01T09:07:28.103Z">
+<meta property="article:modified_time" content="2025-11-07T07:23:44.736Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="MySQL">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          790 字
+          1.8k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          7 分钟
+          15 分钟
         
       </span>
     
@@ -297,6 +297,48 @@
 <hr>
 <p>3层的B+树在实际的应用场景离可以表示上百万的数据，如果上百万的数据查找只需要三次IO，性能提高将是巨大的</p>
 <p>如果没有索引，扫描所有数据项，每一个数据项都要发生一次磁盘IO，那么百万级别的数据中查找总共需要百万次的IO</p>
+<h1 id="覆盖索引和回表"><a href="#覆盖索引和回表" class="headerlink" title="覆盖索引和回表"></a>覆盖索引和回表</h1><h2 id="InnoDB索引结构"><a href="#InnoDB索引结构" class="headerlink" title="InnoDB索引结构"></a>InnoDB索引结构</h2><p>在讨论覆盖索引和回表之前，我们需要先了解聚簇索引和二级索引。</p>
+<p>假设我们有这么一张表，DDL内容如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> product (<br>  id <span class="hljs-type">BIGINT</span> <span class="hljs-keyword">PRIMARY</span> KEY,     <span class="hljs-comment">-- 主键</span><br>  name <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">100</span>),<br>  category_id <span class="hljs-type">INT</span>,<br>  description TEXT,<br>  stock_count <span class="hljs-type">INT</span>,<br>  <span class="hljs-comment">-- ... 其他字段</span><br>  INDEX idx_category (category_id) <span class="hljs-comment">-- 我们在 category_id 上创建了一个索引</span><br>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="聚簇索引"><a href="#聚簇索引" class="headerlink" title="聚簇索引"></a>聚簇索引</h3><p>当一张表有主键时，聚簇索引又叫做主键索引。</p>
+<p>聚簇索引是按照每张表的<strong>主键</strong>构造一颗B+树，对MySQL而言，InnoDB会基于主键来构建这颗树；这棵树叶子节点中存放的是表每一行(包含全量字段)的数据记录。</p>
+<p>类似<strong>按拼音排序的字典</strong>，拼音（主键）和内容（整行数据）是存放在一起的。</p>
+<h3 id="二级索引"><a href="#二级索引" class="headerlink" title="二级索引"></a>二级索引</h3><p>二级索引又叫做非聚簇索引&#x2F;辅助索引。</p>
+<p>二级索引一般是我们手动设计并创建的索引，上面的例子中就是<code>idx_category</code>。二级索引所对应的B+树叶子节点存储的数据是 <strong>索引字段+主键字段</strong>，并不会像聚簇索引那样存储一行完整的数据。</p>
+<p>类似字典的<strong>“偏旁部首检字表”</strong>。它只告诉你这个“偏旁”（<code>category_id</code>）对应的字的拼音（<code>id</code>）在第几页，但不会告诉你字的完整解释（整行数据）。</p>
+<h2 id="回表"><a href="#回表" class="headerlink" title="回表"></a>回表</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> name, description <span class="hljs-keyword">FROM</span> product <span class="hljs-keyword">WHERE</span> category_id <span class="hljs-operator">=</span> <span class="hljs-number">123</span>;<br></code></pre></td></tr></table></figure>
+
+<p>此时索引命中流程如下：</p>
+<ol>
+<li><p>查询条件是category_id，刚好是辅助索引。所以 InnoDB 根据 category_id 的辅助索引树，找到 category_id &#x3D; 123 的所有记录，假设有3行，也就是在辅助索引树上有 3 个叶子节点。</p>
+</li>
+<li><p>这三个叶子节点的数据中，并不包含实际的行记录，但 category_id 都是 123，id 分别是 10, 20, 30</p>
+</li>
+<li><p>但也仅此而已了，我们最终查询的结果需要 name 和 description 数据，但是这三个辅助索引树的叶子节点里只有 id 和 category_id 的值。</p>
+</li>
+<li><p>于是 InnoDB 只能根据拿到的三个 id 值，重新回去查以主键 id 构建的聚簇索引树</p>
+</li>
+<li><p>“<code>id = 10</code> 的完整数据是什么？” -&gt; 找到，取出 <code>name</code> 和 <code>description</code>。</p>
+<p>“<code>id = 20</code> 的完整数据是什么？” -&gt; 找到，取出 <code>name</code> 和 <code>description</code>。</p>
+<p>“<code>id = 30</code> 的完整数据是什么？” -&gt; 找到，取出 <code>name</code> 和 <code>description</code>。</p>
+</li>
+</ol>
+<p>上述<strong>“拿着二级索引查到的主键值，再返回聚簇索引查整行数据”</strong>的过程，就叫做<strong>回表</strong>。</p>
+<p>分析上述流程，我们会发现导致回表的原因在于: select 的字段并未包含在辅助索引中。因此，当使用<strong>二级索引</strong>查询，但需要的列<strong>不在</strong>这个二级索引中时，就会发生“回表”。</p>
+<p>回表是一个随机性IO，这一次二级索引拿到的符合条件的记录有3条，下一次可能是1w条，数据库就需要执行 1 次索引树查询 + 1w 次回表（随机 I&#x2F;O），性能会非常差。</p>
+<h2 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h2><p>知道回表是如何触发的，那么覆盖索引就是指: 索引列完美覆盖查询列的场景。</p>
+<p>我们修改索引结构：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> product (<br>  id <span class="hljs-type">BIGINT</span> <span class="hljs-keyword">PRIMARY</span> KEY,     <span class="hljs-comment">-- 主键</span><br>  name <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">100</span>),<br>  category_id <span class="hljs-type">INT</span>,<br>  description TEXT,<br>  stock_count <span class="hljs-type">INT</span>,<br>  <span class="hljs-comment">-- ... 其他字段</span><br>  INDEX idx_category (category_id, name) <span class="hljs-comment">-- 我们在 category_id 上创建了一个索引</span><br>);<br></code></pre></td></tr></table></figure>
+
+<p>查询语句:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> id, name <span class="hljs-keyword">FROM</span> product <span class="hljs-keyword">WHERE</span> category_id <span class="hljs-operator">=</span> <span class="hljs-number">123</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这一次，在根据 category_id &#x3D; 123 去辅助索引树查找时，还是定位到那三个叶子节点。</p>
+<p>但这次叶子节点的数据扩展了，包含 category_id, name, id 数据。</p>
+<p>InnoDB 发现查询所需要的 id 和 name 字段在辅助索引树的叶子节点里都有，不再需要进行回表操作，这就是覆盖索引。</p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="禁止使用SELECT"><a href="#禁止使用SELECT" class="headerlink" title="禁止使用SELECT *"></a>禁止使用SELECT *</h3><p>通过上述讨论我们可以得出一个最佳实践：在对性能有严格要求的场景下，禁止使用 <code>SELECT *</code> 操作。</p>
+<p>因为索引的设计必不可能包含所有列，而<code>SELECT *</code>会查询所有列记录，必定无法进行覆盖索引，必定回表，影响性能。</p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/TheMagicalRainbowSea/p/18760275">https://www.cnblogs.com/TheMagicalRainbowSea/p/18760275</a></p>
 <p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2014/06/30/mysql-index.html">https://tech.meituan.com/2014/06/30/mysql-index.html</a></p>
 
