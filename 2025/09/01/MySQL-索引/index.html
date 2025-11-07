@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/7af22798.jpg">
 <meta property="article:published_time" content="2025-09-01T03:14:04.000Z">
-<meta property="article:modified_time" content="2025-11-07T07:32:25.259Z">
+<meta property="article:modified_time" content="2025-11-07T07:57:27.942Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="MySQL">
@@ -223,7 +223,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.8k 字
+          2.5k 字
         
       </span>
     
@@ -234,7 +234,7 @@
         
         
         
-          15 分钟
+          21 分钟
         
       </span>
     
@@ -339,6 +339,37 @@
 <p>InnoDB 发现查询所需要的 id 和 name 字段在辅助索引树的叶子节点里都有，不再需要进行回表操作，这就是覆盖索引。</p>
 <h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="禁止使用SELECT"><a href="#禁止使用SELECT" class="headerlink" title="禁止使用SELECT *"></a>禁止使用SELECT *</h3><p>通过上述讨论我们可以得出一个最佳实践：在对性能有严格要求的场景下，禁止使用 <code>SELECT *</code> 操作。</p>
 <p>因为索引的设计必不可能包含所有列，而<code>SELECT *</code>会查询所有列记录，必定无法进行覆盖索引，必定回表，影响性能。</p>
+<h1 id="最左匹配原则与索引覆盖"><a href="#最左匹配原则与索引覆盖" class="headerlink" title="最左匹配原则与索引覆盖"></a>最左匹配原则与索引覆盖</h1><p>一开始学习的时候很容易把这两个概念混在一起。实际上这两个概念是独立但是高度相关的。</p>
+<p>概括总结就是：</p>
+<blockquote>
+<p>最左匹配原则解决的是<strong>如何高效定位数据</strong>，可以理解为受到<code>WHERE</code>和<code>ORDER BY</code>的影响。</p>
+<p>覆盖索引解决的是<strong>定位到数据后是否能直接满足查询需求，是否还需要回表</strong>。受到<code>SELECT</code>内容的影响。</p>
+<p>他们的共同点是都和索引有关，因此在设计索引时需要综合考虑，同时兼顾最左匹配原则以及覆盖索引，避免回表查询。</p>
+</blockquote>
+<h2 id="最左匹配原则"><a href="#最左匹配原则" class="headerlink" title="最左匹配原则"></a>最左匹配原则</h2><p>主要的目的是为了高效筛选，定位符合查询条件的数据，还在查询条件过滤这一步。</p>
+<p>这是由 B+ 树索引的<strong>数据结构</strong>决定的。</p>
+<p>当创建一个联合索引 <code>INDEX idx_abc (a, b, c)</code> 时，可以将其想象成一个“多级排序”的电话簿：</p>
+<ol>
+<li>首先，所有条目<strong>严格按照 <code>a</code> 排序</strong>。</li>
+<li>在 <code>a</code> 相同的情况下，<strong>再按照 <code>b</code> 排序</strong>。</li>
+<li>在 <code>a</code> 和 <code>b</code> 都相同的情况下，<strong>最后按照 <code>c</code> 排序</strong>。</li>
+</ol>
+<p><strong>最左匹配原则</strong>就是：你必须从“最左边”的列（<code>a</code>）开始使用，才能利用上这个“排序”结构来快速缩小查询范围。</p>
+<ul>
+<li><strong><code>WHERE a = ?</code></strong> -&gt; 能用索引（高效定位）。</li>
+<li><strong><code>WHERE a = ? AND b = ?</code></strong> -&gt; 能用索引（高效定位）。</li>
+<li><strong><code>WHERE a = ? AND b = ? AND c = ?</code></strong> -&gt; 能用索引（高效定位）。</li>
+</ul>
+<p><strong>为什么 <code>WHERE b = ?</code> 不行？</strong></p>
+<ul>
+<li>因为 <code>b</code> 只有在 <code>a</code> 确定的情况下才是有序的。</li>
+<li>如果直接查 <code>b</code>，<code>b</code> 在整个索引中是“乱序”的（B+树的第一层是按 <code>a</code> 排序的），数据库无法快速定位，只能全索引扫描（Index Full Scan）或全表扫描（Table Scan）。</li>
+</ul>
+<p>所以从查询流程的先后顺序来看，最左匹配原则是首要目的，是<strong>让你能用上索引</strong>的 B+ 树快速搜索能力，而不是进行全表扫描。如果连最左匹配都不满足，那么只好全扫，性能最差，更谈不上覆盖索引了。</p>
+<h2 id="覆盖索引-1"><a href="#覆盖索引-1" class="headerlink" title="覆盖索引"></a>覆盖索引</h2><p>覆盖索引的目的是：<strong>仅仅通过辅助索引，查询条件过滤完，定位到符合条件的辅助索引树叶子节点后，能不能直接满足查询需求，不用再回表</strong>。</p>
+<p>所以从查询流程的先后顺序来看，覆盖索引场景在最左匹配原则生效的后面。</p>
+<h2 id="最佳实践-1"><a href="#最佳实践-1" class="headerlink" title="最佳实践"></a>最佳实践</h2><p>在设计索引时，最左匹配是<strong>必须要遵守的原则</strong>。这直接决定了是否能让 <code>WHERE</code> 子句命中索引，是优化的<strong>前提</strong>。</p>
+<p>覆盖索引是在最左匹配的基础上，尽可能让查询只通过一次二级索引（辅助索引）树就获取到查询所需的所有列数据，省略回表的IO消耗。</p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/TheMagicalRainbowSea/p/18760275">https://www.cnblogs.com/TheMagicalRainbowSea/p/18760275</a></p>
 <p><a target="_blank" rel="noopener" href="https://tech.meituan.com/2014/06/30/mysql-index.html">https://tech.meituan.com/2014/06/30/mysql-index.html</a></p>
 
