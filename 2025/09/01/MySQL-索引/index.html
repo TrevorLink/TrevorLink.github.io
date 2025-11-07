@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://my-img-1.oss-cn-hangzhou.aliyuncs.com/7af22798.jpg">
 <meta property="article:published_time" content="2025-09-01T03:14:04.000Z">
-<meta property="article:modified_time" content="2025-11-07T07:23:44.736Z">
+<meta property="article:modified_time" content="2025-11-07T07:32:25.259Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="数据库">
 <meta property="article:tag" content="MySQL">
@@ -311,7 +311,7 @@
 
 <p>此时索引命中流程如下：</p>
 <ol>
-<li><p>查询条件是category_id，刚好是辅助索引。所以 InnoDB 根据 category_id 的辅助索引树，找到 category_id &#x3D; 123 的所有记录，假设有3行，也就是在辅助索引树上有 3 个叶子节点。</p>
+<li><p>查询条件是category_id，刚好是辅助索引。所以 InnoDB 根据 category_id 的辅助索引树，找到 category_id &#x3D; 123 的所有记录，假设有3行，也就是在辅助索引树上有 3 个符合条件的叶子节点。</p>
 </li>
 <li><p>这三个叶子节点的数据中，并不包含实际的行记录，但 category_id 都是 123，id 分别是 10, 20, 30</p>
 </li>
@@ -329,7 +329,7 @@
 <p>回表是一个随机性IO，这一次二级索引拿到的符合条件的记录有3条，下一次可能是1w条，数据库就需要执行 1 次索引树查询 + 1w 次回表（随机 I&#x2F;O），性能会非常差。</p>
 <h2 id="覆盖索引"><a href="#覆盖索引" class="headerlink" title="覆盖索引"></a>覆盖索引</h2><p>知道回表是如何触发的，那么覆盖索引就是指: 索引列完美覆盖查询列的场景。</p>
 <p>我们修改索引结构：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> product (<br>  id <span class="hljs-type">BIGINT</span> <span class="hljs-keyword">PRIMARY</span> KEY,     <span class="hljs-comment">-- 主键</span><br>  name <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">100</span>),<br>  category_id <span class="hljs-type">INT</span>,<br>  description TEXT,<br>  stock_count <span class="hljs-type">INT</span>,<br>  <span class="hljs-comment">-- ... 其他字段</span><br>  INDEX idx_category (category_id, name) <span class="hljs-comment">-- 我们在 category_id 上创建了一个索引</span><br>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> product (<br>  id <span class="hljs-type">BIGINT</span> <span class="hljs-keyword">PRIMARY</span> KEY,     <span class="hljs-comment">-- 主键</span><br>  name <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">100</span>),<br>  category_id <span class="hljs-type">INT</span>,<br>  description TEXT,<br>  stock_count <span class="hljs-type">INT</span>,<br>  <span class="hljs-comment">-- ... 其他字段</span><br>  INDEX idx_multi (category_id, name) <span class="hljs-comment">-- 索引扩展</span><br>);<br></code></pre></td></tr></table></figure>
 
 <p>查询语句:</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> id, name <span class="hljs-keyword">FROM</span> product <span class="hljs-keyword">WHERE</span> category_id <span class="hljs-operator">=</span> <span class="hljs-number">123</span>;<br></code></pre></td></tr></table></figure>
