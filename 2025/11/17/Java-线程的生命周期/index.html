@@ -24,7 +24,7 @@
 <meta property="og:description" content="JVM线程的六种状态以及生命周期">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-11-17T09:38:46.000Z">
-<meta property="article:modified_time" content="2025-11-18T09:38:38.911Z">
+<meta property="article:modified_time" content="2025-11-24T09:12:45.400Z">
 <meta property="article:author" content="Noctis64">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="Concurrency">
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          729 字
+          1.5k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          7 分钟
+          13 分钟
         
       </span>
     
@@ -295,7 +295,7 @@
 <p>下面我们展开来细说。</p>
 <h3 id="创建态"><a href="#创建态" class="headerlink" title="创建态"></a>创建态</h3><p>当我们新建了一个 Thread 类的对象实例但是还未调用 <code>start()</code> 时，这个线程就一直保持在创建态。</p>
 <h3 id="运行态"><a href="#运行态" class="headerlink" title="运行态"></a>运行态</h3><p>调用 Thread 类实例的 <code>start()</code> 来进入。</p>
-<p>在上面我们提到了 JVM 的创建态 &#x3D; OS的就绪态 + OS的运行态，这是因为 <strong>JVM 将 CPU 的调度权交给操作系统（或者说是 JVM 采用 OS 级别的 CPU 调度）</strong>，因此，在 JVM 看来，不管线程有没有实际获得 CPU 时间片在跑，只要他就绪了，这个线程都是在 RUNNABLE 这个运行态的。</p>
+<p>在上面我们提到了 JVM 的创建态 &#x3D; OS的就绪态 + OS的运行态，这是因为 <strong>JVM 将 CPU 的调度权交给操作系统（或者说是 JVM 采用 OS 级别的 CPU 调度）</strong>，因此，在 JVM 看来，不管线程有没有实际获得 CPU 时间片在跑，只要调用了 <code>thread.start()</code> 以后他就算就绪了，这个线程都是在 RUNNABLE 这个运行态的。</p>
 <h3 id="阻塞态"><a href="#阻塞态" class="headerlink" title="阻塞态"></a>阻塞态</h3><p><strong>当且仅当</strong>尝试进入<code>synchronized</code>锁住的代码块或方法，但其他线程已经持有了这个区域的锁时，这个线程才会进入阻塞态。</p>
 <p><code>BLOCKED</code> 状态是 JVM 专为 <code>synchronized</code> 关键字设计的。</p>
 <p>所以 JVM 中的阻塞态并非 OS 中的阻塞态。</p>
@@ -328,6 +328,66 @@
 <li><code>Object.notify() / notifyAll()</code>注意必须在<code>synchronized</code>中使用</li>
 <li>被 join 的那个线程执行完了</li>
 </ol>
+<h1 id="经典-amp-重点"><a href="#经典-amp-重点" class="headerlink" title="经典&amp;重点"></a>经典&amp;重点</h1><h2 id="sleep-和-wait-的区别"><a href="#sleep-和-wait-的区别" class="headerlink" title="sleep() 和 wait() 的区别"></a><code>sleep()</code> 和 <code>wait()</code> 的区别</h2><table>
+<thead>
+<tr>
+<th><strong>对比项</strong></th>
+<th><strong>Thread.sleep(long millis)</strong></th>
+<th><strong>Object.wait() (或 wait(long timeout))</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>所属类</strong></td>
+<td>Thread类静态方法</td>
+<td>Object类实例方法</td>
+</tr>
+<tr>
+<td><strong>锁的释放</strong></td>
+<td>NO</td>
+<td>YES，调用时会释放当前线程持有的对象监视器锁</td>
+</tr>
+<tr>
+<td><strong>使用前提</strong></td>
+<td>NO，任何地方都可以调用</td>
+<td>YES，必须在 synchronized 代码块或方法中使用</td>
+</tr>
+<tr>
+<td><strong>唤醒方式</strong></td>
+<td>时间到，或被interrupt()中断</td>
+<td>notify&#x2F;notifyAll&#x2F;时间到,或被interrupt()中断</td>
+</tr>
+<tr>
+<td><strong>目的&#x2F;场景</strong></td>
+<td>手动阻塞当前线程，多用于轮询或让出CPU</td>
+<td>让出资源，多线程写作</td>
+</tr>
+<tr>
+<td><strong>进入状态</strong></td>
+<td>TIMED_WAITING</td>
+<td>WAITING&#x2F;TIMED_WAITING</td>
+</tr>
+</tbody></table>
+<h2 id="JVM的线程状态中，BLOCKED和WAITING的区别"><a href="#JVM的线程状态中，BLOCKED和WAITING的区别" class="headerlink" title="JVM的线程状态中，BLOCKED和WAITING的区别"></a>JVM的线程状态中，<code>BLOCKED</code>和<code>WAITING</code>的区别</h2><p>BLOCKED 只会在线程尝试进入<code>synchronized</code>修饰的代码区域时 尝试获取锁失败后进入，是一种<strong>被动</strong>的动作，尝试获取对象监视锁————失败————进入BLOCKED态等待锁的释放后重新竞争。</p>
+<p>而<code>WAITING</code>则是对应线程在某次时间片执行时主动让出CPU执行权，是一种<strong>主动</strong>操作。</p>
+<blockquote>
+<p>Q：如果一个线程在使用 <code>ReentrantLock.lock()</code> 时被阻塞了，它处于什么状态？</p>
+<p>A：<code>WAITING</code>状态，因为 ReentrantLock.lock() 底层是基于 LockSupport.park() 实现的，这个方法会使线程进入 <code>WAITING</code> 状态。</p>
+</blockquote>
+<h2 id="Socket-read-File-read-后进入什么状态"><a href="#Socket-read-File-read-后进入什么状态" class="headerlink" title="Socket.read() File.read() 后进入什么状态"></a>Socket.read() File.read() 后进入什么状态</h2><p>从主观感受上来说，网络读取IO和文件读取IO，理论上是觉得要进入等待阻塞的，也就是调用操作系统内核态的方法，进入阻塞状态，挂起。在 OS 层面来看是阻塞的。</p>
+<p>但是需要注意的是 Socket.read() 和 File.read() 在 JVM 中只是两个本地方法调用。在 JVM 看来，他只是调用了本地方法，线程仍然在运行中，只是没有返回结果。JVM 并不关心操作系统底层在做什么（是在读磁盘还是在等网络包），它只知道该线程正在执行代码（Native 代码），因此在 JVM 的视角线程是 RUNNABLE 状态。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>当我们讨论 Java 中线程的生命周期时，需要区别与 OS 层面的线程状态。</p>
+<p>共同点在于 NEW 和 TERMINATE 是一样的，但是 JVM 对于 RUNNBALE 和 WAITING 线程状态有着不一样的视角不一样的口径。</p>
+<p>如何判定线程状态需要明确边界：</p>
+<ul>
+<li><p><code>WAITING</code> &#x2F; <code>TIMED_WAITING</code>：是 JVM 内部显式调用了 <code>Object.wait()</code>, <code>Thread.sleep()</code>, <code>LockSupport.park()</code> 等方法产生的，<strong>JVM 明确知道线程在“等”Java 层面的信号</strong>。</p>
+</li>
+<li><p><code>BLOCKED</code>：是 JVM 内部在处理 <code>synchronized</code> 锁竞争。</p>
+</li>
+<li><p>而至于网络IO和文件IO等IO操作，这些方法在 Java 中都是本地方法。在底层 OS 的视角来看线程是阻塞状态，未被 CPU 执行。但是在 JVM 的视角来看，未产生任何 Java 层面的线程状态相关信号，自然也未发生线程状态的变动，仍是 RUNNABLE 状态，只是实际上未被 CPU 执行。</p>
+</li>
+</ul>
+<p>之所以 Java 中定义的线程状态会和 OS 层面的线程状态有区别，归根结底在于：</p>
+<p><strong>Java 线程状态本质上映射的是 JVM 对线程的管理行为，而不是 CPU 的调度行为。</strong></p>
 
                 
               </div>
