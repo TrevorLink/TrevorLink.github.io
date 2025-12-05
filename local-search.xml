@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>PS3|Homebrew</title>
+    <link href="/2025/12/05/PS3-Homebrew/"/>
+    <url>/2025/12/05/PS3-Homebrew/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Webman"><a href="#Webman" class="headerlink" title="Webman"></a>Webman</h1><p>在默认情况下，点击<code>Enable HEN</code>会加载硬盘中<code>boot_plugin.txt</code>里定义的插件，正常情况下会自动加载<code>webman mod</code></p><p>对 HEN 兼容性不是很好，很多吧u反馈说刷新游戏列表会卡死。</p><p>卸载的方式如下：ENABLE HEN之后，进入 webMAN 设置 ———— 卸载 webMAN 等待重启</p><h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><p><a href="https://github.com/aldostools/webMAN-MOD/issues/1151">https://github.com/aldostools/webMAN-MOD/issues/1151</a></p><p>从 brewology 或 github 下载完整安装程序，将 PKG 复制到 FAT32 格式的 U 盘中，使用包管理器安装 PKG。安装包安装完成后会多出一个 webman MOD 安装程序，执行这个 webMAN MOD 安装应用程序。它将在完成后重启主机。</p><h1 id="irisman"><a href="#irisman" class="headerlink" title="irisman"></a>irisman</h1><p>支持游戏加载，FTP，文件管理等，且默认兼容 NTFS 分区的 USB 设备</p><p>HEN破解会和 webman 冲突，且考虑到 webMAN 对 HEN 的兼容性不是很好，考虑留用 irisman</p><h1 id="multiman"><a href="#multiman" class="headerlink" title="multiman"></a>multiman</h1><p>这个用的比较少，可以直接删了，就是一个简单的app</p><h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><h2 id="boot-plugin被破坏"><a href="#boot-plugin被破坏" class="headerlink" title="boot_plugin被破坏"></a>boot_plugin被破坏</h2><p><a href="https://www.reddit.com/r/ps3homebrew/comments/1ai8qz3/any_way_to_access_files_without_enabling_hen/">https://www.reddit.com/r/ps3homebrew/comments/1ai8qz3/any_way_to_access_files_without_enabling_hen/</a></p><p>不小心在”plugin.txt”文件中添加了一行错误内容，现在每次尝试启用 hen 时 ps3 都会崩溃（我猜是插件加载失败）</p><p>对于这样的问题，创建一个名为“boot_plugins”的空文本文件，把它放在 U 盘的根目录，并在启用 HEN 之前插入 PS3。这将覆盖 PS3 上的 boot_plugins 文件，并让你可以使用除 webman 以外的任何备份管理器来删除该文件。</p><h2 id="偶现Enbale-HEN卡死"><a href="#偶现Enbale-HEN卡死" class="headerlink" title="偶现Enbale HEN卡死"></a>偶现Enbale HEN卡死</h2><p><a href="https://www.reddit.com/r/ps3homebrew/comments/11tpjas/490_hen_freezing/">https://www.reddit.com/r/ps3homebrew/comments/11tpjas/490_hen_freezing/</a></p><p>此问题是 webMAN 和 HEN 版本不兼容导致的。</p><p>在启动 HEN 时按住 R2 键以避免加载 webMAN。如果无效，请使用 FAT32 格式化的 USB  驱动器，在根目录创建一个名为<code>boot_plugins.txt</code>的空文件，然后启动 HEN，这应该可以解决问题。请注意，在这两种情况下，webMAN 都不会被加载，所以这不是一个永久性的修复方法。</p><p>一旦 HEN 运行起来，你需要将 webMAN MOD 更新到 1.47.44 版本，这个版本支持 4.90 系统。从<a href="https://github.com/aldostools/webMAN-MOD/releases/tag/1.47.44">这里</a>获取。</p><p>像往常一样通过包管理器安装，然后重启你的主机。它应该不会再崩溃了。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>Game</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>PS3</tag>
+      
+      <tag>HEN</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>AI|MCP</title>
     <link href="/2025/12/04/AI-MCP/"/>
     <url>/2025/12/04/AI-MCP/</url>

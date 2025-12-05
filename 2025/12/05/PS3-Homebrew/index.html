@@ -16,23 +16,23 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="模型上下文协议学习">
+    <meta name="description" content="PS3 HEN相关记录">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AI|MCP">
-<meta property="og:url" content="http://example.com/2025/12/04/AI-MCP/index.html">
+<meta property="og:title" content="PS3|Homebrew">
+<meta property="og:url" content="http://example.com/2025/12/05/PS3-Homebrew/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="模型上下文协议学习">
+<meta property="og:description" content="PS3 HEN相关记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-12-04T01:31:34.000Z">
-<meta property="article:modified_time" content="2025-12-04T01:39:40.980Z">
+<meta property="article:published_time" content="2025-12-05T01:56:38.000Z">
+<meta property="article:modified_time" content="2025-12-05T09:32:22.726Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="LLM">
-<meta property="article:tag" content="MCP">
+<meta property="article:tag" content="PS3">
+<meta property="article:tag" content="HEN">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>AI|MCP - Zanarkand</title>
+  <title>PS3|Homebrew - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="AI|MCP"></span>
+            <span id="subtitle" data-typed-text="PS3|Homebrew"></span>
           
         </div>
 
@@ -209,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-12-04 09:31" pubdate>
-          2025年12月4日 上午
+        <time datetime="2025-12-05 09:56" pubdate>
+          2025年12月5日 上午
         </time>
       </span>
     
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          538 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          1 分钟
+          5 分钟
         
       </span>
     
@@ -269,12 +269,28 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">AI|MCP</h1>
+            <h1 id="seo-header">PS3|Homebrew</h1>
             
             
               <div class="markdown-body">
                 
-                
+                <h1 id="Webman"><a href="#Webman" class="headerlink" title="Webman"></a>Webman</h1><p>在默认情况下，点击<code>Enable HEN</code>会加载硬盘中<code>boot_plugin.txt</code>里定义的插件，正常情况下会自动加载<code>webman mod</code></p>
+<p>对 HEN 兼容性不是很好，很多吧u反馈说刷新游戏列表会卡死。</p>
+<p>卸载的方式如下：ENABLE HEN之后，进入 webMAN 设置 ———— 卸载 webMAN 等待重启</p>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><p><a target="_blank" rel="noopener" href="https://github.com/aldostools/webMAN-MOD/issues/1151">https://github.com/aldostools/webMAN-MOD/issues/1151</a></p>
+<p>从 brewology 或 github 下载完整安装程序，将 PKG 复制到 FAT32 格式的 U 盘中，使用包管理器安装 PKG。安装包安装完成后会多出一个 webman MOD 安装程序，执行这个 webMAN MOD 安装应用程序。它将在完成后重启主机。</p>
+<h1 id="irisman"><a href="#irisman" class="headerlink" title="irisman"></a>irisman</h1><p>支持游戏加载，FTP，文件管理等，且默认兼容 NTFS 分区的 USB 设备</p>
+<p>HEN破解会和 webman 冲突，且考虑到 webMAN 对 HEN 的兼容性不是很好，考虑留用 irisman</p>
+<h1 id="multiman"><a href="#multiman" class="headerlink" title="multiman"></a>multiman</h1><p>这个用的比较少，可以直接删了，就是一个简单的app</p>
+<h1 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h1><h2 id="boot-plugin被破坏"><a href="#boot-plugin被破坏" class="headerlink" title="boot_plugin被破坏"></a>boot_plugin被破坏</h2><p><a target="_blank" rel="noopener" href="https://www.reddit.com/r/ps3homebrew/comments/1ai8qz3/any_way_to_access_files_without_enabling_hen/">https://www.reddit.com/r/ps3homebrew/comments/1ai8qz3/any_way_to_access_files_without_enabling_hen/</a></p>
+<p>不小心在”plugin.txt”文件中添加了一行错误内容，现在每次尝试启用 hen 时 ps3 都会崩溃（我猜是插件加载失败）</p>
+<p>对于这样的问题，创建一个名为“boot_plugins”的空文本文件，把它放在 U 盘的根目录，并在启用 HEN 之前插入 PS3。这将覆盖 PS3 上的 boot_plugins 文件，并让你可以使用除 webman 以外的任何备份管理器来删除该文件。</p>
+<h2 id="偶现Enbale-HEN卡死"><a href="#偶现Enbale-HEN卡死" class="headerlink" title="偶现Enbale HEN卡死"></a>偶现Enbale HEN卡死</h2><p><a target="_blank" rel="noopener" href="https://www.reddit.com/r/ps3homebrew/comments/11tpjas/490_hen_freezing/">https://www.reddit.com/r/ps3homebrew/comments/11tpjas/490_hen_freezing/</a></p>
+<p>此问题是 webMAN 和 HEN 版本不兼容导致的。</p>
+<p>在启动 HEN 时按住 R2 键以避免加载 webMAN。如果无效，请使用 FAT32 格式化的 USB  驱动器，在根目录创建一个名为<code>boot_plugins.txt</code>的空文件，然后启动 HEN，这应该可以解决问题。请注意，在这两种情况下，webMAN 都不会被加载，所以这不是一个永久性的修复方法。</p>
+<p>一旦 HEN 运行起来，你需要将 webMAN MOD 更新到 1.47.44 版本，这个版本支持 4.90 系统。从<a target="_blank" rel="noopener" href="https://github.com/aldostools/webMAN-MOD/releases/tag/1.47.44">这里</a>获取。</p>
+<p>像往常一样通过包管理器安装，然后重启你的主机。它应该不会再崩溃了。</p>
+
                 
               </div>
             
@@ -292,7 +308,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/AI/" class="category-chain-item">AI</a>
+  <a href="/categories/Game/" class="category-chain-item">Game</a>
   
   
 
@@ -307,9 +323,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/LLM/" class="print-no-link">#LLM</a>
+        <a href="/tags/PS3/" class="print-no-link">#PS3</a>
       
-        <a href="/tags/MCP/" class="print-no-link">#MCP</a>
+        <a href="/tags/HEN/" class="print-no-link">#HEN</a>
       
     </div>
   
@@ -321,8 +337,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>AI|MCP</div>
-      <div>http://example.com/2025/12/04/AI-MCP/</div>
+      <div>PS3|Homebrew</div>
+      <div>http://example.com/2025/12/05/PS3-Homebrew/</div>
     </div>
     <div class="license-meta">
       
@@ -334,7 +350,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年12月4日</div>
+          <div>2025年12月5日</div>
         </div>
       
       
@@ -366,18 +382,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/12/05/PS3-Homebrew/" title="PS3|Homebrew">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">PS3|Homebrew</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/12/01/%E7%8E%B0%E4%BB%A3%E7%A4%BE%E4%BA%A4%E5%AA%92%E4%BD%93%E6%83%85%E7%BB%AA%E5%8C%96%E5%86%85%E5%AE%B9%E5%BA%94%E5%AF%B9%E7%AD%96%E7%95%A5/" title="现代社交媒体情绪化内容应对策略">
-                        <span class="hidden-mobile">现代社交媒体情绪化内容应对策略</span>
+                      <a href="/2025/12/04/AI-MCP/" title="AI|MCP">
+                        <span class="hidden-mobile">AI|MCP</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
