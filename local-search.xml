@@ -35,7 +35,7 @@
     <link href="/2025/12/04/AI-MCP/"/>
     <url>/2025/12/04/AI-MCP/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>我们都知道 LLM 本身只会比较暴力的输出结构化的数据。如果我们直接让他发送邮件，他会告诉你他做不到，只会把润色好的邮件文本返回给你。从实用性便捷性的角度而言，还是差了一点意思。</p><p>我们希望 LLM 可以直接接入某个邮件发送的服务，我们只需要告诉他需求 prompt，他自己组织好语言，调用邮件服务的接口自动化的发送邮件。</p><p>这就是 MCP 的简单化应用场景。类似 AI 领域的 usb 接口。通过 MCP 扩展 LLM 的功能和应用场景。例如 usb 接口的网卡，声卡等等。<strong>通过一个约定俗成的对接协议，统一输入输出源，抽象各种AI应用</strong>。</p><p>常见的 MCP 服务应用场景</p><ul><li>把 Figma UI 文稿转化为代码。LLM 就是通过 Figma MCP Server 来获取你的需求上下文，也就是你的 UI 文稿数据的。</li><li>Github 自动提交：通过 Github MCP Server，可以让 LLM 接入到你的 github 远程仓库获取代码工程上下文。</li><li>自动发送邮件，读取私有环境数据库…</li></ul><h1 id="结构分析"><a href="#结构分析" class="headerlink" title="结构分析"></a>结构分析</h1><p>MCP 基于CS架构，由多个组件构成</p><ul><li>Host：宿主程序，用户<code>直接交互的桌面应用程序</code>，例如由 AI 赋能的 IDE 或对话式 AI.</li><li>MCP Client：MCP客户端位于 MCP 主机内，帮助 LLM 与 MCP 服务器进行通信。它将 LLM 的请求转换为 MCP 可处理的格式，并将 MCP 的回复转换为 LLM 可理解的格式。它还会发现并调用可用的 MCP 服务器。比如 Claude 客户端，Chatbox，Cline插件等。这些应用程序都内置了MCP Client，能配置 MCP Server。</li><li>MCP 服务器：MCP 服务器是为 LLM 提供上下文、数据和功能的外部服务。它通过连接数据库和 Web 服务等外部系统来帮助 LLM，将这些系统的响应转换为 LLM 可理解的格式，从而协助开发者提供多样化的功能。</li></ul>]]></content>
     
     
     <categories>
