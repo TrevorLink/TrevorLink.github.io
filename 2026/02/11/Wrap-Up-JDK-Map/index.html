@@ -16,23 +16,23 @@
   <meta name="author" content="Noctis64">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Python pdf2docx部署实践">
+    <meta name="description" content="核心知识点汇总目录————JDK Map相关">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python|pdf2docx">
-<meta property="og:url" content="http://example.com/2026/01/13/Python-pdf2docx/index.html">
+<meta property="og:title" content="Wrap Up|JDK Map">
+<meta property="og:url" content="http://example.com/2026/02/11/Wrap-Up-JDK-Map/index.html">
 <meta property="og:site_name" content="Zanarkand">
-<meta property="og:description" content="Python pdf2docx部署实践">
+<meta property="og:description" content="核心知识点汇总目录————JDK Map相关">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2026-01-13T01:48:03.000Z">
-<meta property="article:modified_time" content="2026-01-13T02:07:35.785Z">
+<meta property="article:published_time" content="2026-02-11T02:13:01.000Z">
+<meta property="article:modified_time" content="2026-02-11T02:48:22.951Z">
 <meta property="article:author" content="Noctis64">
-<meta property="article:tag" content="Python">
-<meta property="article:tag" content="Tools">
+<meta property="article:tag" content="找工作">
+<meta property="article:tag" content="自我提升">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Python|pdf2docx - Zanarkand</title>
+  <title>Wrap Up|JDK Map - Zanarkand</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +198,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Python|pdf2docx"></span>
+            <span id="subtitle" data-typed-text="Wrap Up|JDK Map"></span>
           
         </div>
 
@@ -209,8 +209,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2026-01-13 09:48" pubdate>
-          2026年1月13日 上午
+        <time datetime="2026-02-11 10:13" pubdate>
+          2026年2月11日 上午
         </time>
       </span>
     
@@ -221,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          849 字
+          1.2k 字
         
       </span>
     
@@ -232,7 +232,7 @@
         
         
         
-          8 分钟
+          11 分钟
         
       </span>
     
@@ -269,42 +269,82 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Python|pdf2docx</h1>
+            <h1 id="seo-header">Wrap Up|JDK Map</h1>
             
             
               <div class="markdown-body">
                 
-                <p>使用开源项目 pdf2docx 来将已有的 pdf 文档转换为 docx 格式的文档，方便编辑</p>
-<h1 id="环境需求"><a href="#环境需求" class="headerlink" title="环境需求"></a>环境需求</h1><h2 id="一、基础运行环境"><a href="#一、基础运行环境" class="headerlink" title="一、基础运行环境"></a>一、基础运行环境</h2><p>Python 版本：Python 3.7（本次实践版本，⚠️ 注意：Python3.7为过期维护版本，也是本次部署踩坑的核心诱因） </p>
-<p>核心依赖工具：Python 官方包管理工具 <code>pip</code>（Python3.4及以上版本内置，缺失可手动安装） </p>
-<h2 id="二、前置知识"><a href="#二、前置知识" class="headerlink" title="二、前置知识"></a>二、前置知识</h2><p> ✅ 1. <code>pip</code> 是 Python 的官方包管理工具，用于安装&#x2F;卸载&#x2F;升级 Python 第三方库，部署 <code>pdf2docx</code> 必须依赖 pip 完成所有依赖包的下载与安装，缺一不可。</p>
-<p>✅ 2. 关键环境问题说明（本次实践核心踩坑点）</p>
-<ol>
-<li>Python3.7 版本限制：Python3.7 在 2023 年 6 月已彻底停止官方维护，<strong>新版的第三方依赖包（如 opencv-python-headless 4.12+）不再对 Python3.7 做兼容适配</strong>，会导致安装时触发源码编译，极易报错；</li>
-<li>pip 版本问题：Python3.7 初始配套的 pip 版本为 <code>19.2.3</code>（老旧版本），不支持新版依赖包的 <code>pep517</code> 构建规范，会直接抛出 <code>BackendUnavailable</code> 安装失败报错，必须先升级 pip 至最新版；</li>
-<li>环境变量问题：Windows 下安装 Python 时若未勾选「Add Python to PATH」，会导致直接输入 <code>pip</code> 提示「无法识别命令」，解决方案：<strong>所有 pip 命令统一用 <code>python -m pip</code> 前缀调用</strong>，完美绕开环境变量配置问题，所有命令均有效。</li>
-</ol>
-<p>✅ 3. 必备前置依赖说明</p>
-<p><code>pdf2docx</code> 是多依赖的 Python 开源项目，核心依赖以下包，且存在版本兼容要求：</p>
+                <h1 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h1><h2 id="如何保证有序"><a href="#如何保证有序" class="headerlink" title="如何保证有序"></a>如何保证有序</h2><p>LinkedHashMap 是 HashMap 的直接子类，底层数据结构中每一个 Node 在 Entry 的基础上又维护了两个指针： <code>prev</code> 和 <code>next</code>用于构建双向链表。在插入（或是get时）维护这个双向链表的指针，遍历时从 head 开始遍历以实现有序。</p>
+<h2 id="排序的维度"><a href="#排序的维度" class="headerlink" title="排序的维度"></a>排序的维度</h2><p>LinkedHashMap 排序的维度分为两种，由<code>accessOrder</code> 属性值决定，此属性可通过构造函数进行设置：</p>
 <ul>
-<li><code>opencv-python-headless</code>：PDF 文件解析核心依赖，Python3.7 仅兼容 <code>4.5.5.64</code> 版本；</li>
-<li><code>python-docx</code>：Word 文档生成核心依赖，Python3.7 适配 <code>0.8.11</code> 版本；</li>
-<li><code>scikit-build/cmake/setuptools/wheel</code>：编译构建依赖，解决源码编译失败、<code>No module named &#39;skbuild&#39;</code> 报错问题；</li>
-<li>其他依赖：<code>numpy/fonttools/fire</code> 等，pip 会自动匹配兼容版本安装。</li>
+<li>按插入顺序：默认，构造函数不指定或是指定 <code>accessOrder = false</code>；这种排序方式是在 put 操作后将对应节点放在链表的尾部。</li>
+<li>按访问顺序：指定<code>accessOrder = true</code>；这种排序方式在 put 和 get 操作后都会将对应节点放在链表的尾部。</li>
 </ul>
-<h1 id="部署运行"><a href="#部署运行" class="headerlink" title="部署运行"></a>部署运行</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>以我本地的 Python 3.7 版本为例，运行命令安装</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 1. 升级pip到最新版</span><br>python -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple<br><br><span class="hljs-comment"># 2. 卸载残留的pdf2docx包</span><br>python -m pip uninstall -y pdf2docx<br><br><span class="hljs-comment"># 3. 安装编译依赖</span><br>python -m pip install scikit-build cmake setuptools wheel -i https://pypi.tuna.tsinghua.edu.cn/simple<br><br><span class="hljs-comment"># 4. 指定兼容版本安装</span><br>python -m pip install pdf2docx opencv-python-headless==4.5.5.64 python-docx==0.8.11 -i https://pypi.tuna.tsinghua.edu.cn/simple --force-reinstall<br></code></pre></td></tr></table></figure>
+<h2 id="LRU缓存设计"><a href="#LRU缓存设计" class="headerlink" title="LRU缓存设计"></a>LRU缓存设计</h2><p>基于 LinkedHashMap 的有序特性以及支持按照访问顺序对元素进行排序的模式，我们可以设计一个LRU缓存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">LRUCache</span>&lt;K, V&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title class_">LinkedHashMap</span>&lt;K, V&gt; &#123;<br>    <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> capacity;<br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">LRUCache</span><span class="hljs-params">(<span class="hljs-type">int</span> capacity)</span> &#123;<br>        <span class="hljs-built_in">super</span>(capacity, <span class="hljs-number">0.75f</span>, <span class="hljs-literal">true</span>);<br>        <span class="hljs-built_in">this</span>.capacity = capacity;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">removeEldestEntry</span><span class="hljs-params">(Map.Entry&lt;K, V&gt; eldest)</span> &#123;<br>        <span class="hljs-keyword">return</span> size() &gt; capacity;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><strong>指定 <code>opencv-python-headless==4.5.5.64</code><strong>：这是</strong>Python3.7 官方兼容的最后一个稳定版本</strong>，有编译好的 Windows 现成包（<code>.whl</code>），不用本地编译，不会报任何错；</p>
-<p>**指定 <code>python-docx==0.8.11</code>**：适配 Python3.7 的 docx 依赖版本，避免新版不兼容；</p>
-<p>**参数 <code>--force-reinstall</code>**：强制重新安装所有依赖，彻底清理之前的残留，保证安装纯净；</p>
-<p>验证安装：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">python -m pip list | findstr pdf2docx<br></code></pre></td></tr></table></figure>
+<p>核心重点：</p>
+<ol>
+<li>构造LRU实例时调用父类LinkedHashMap构造函数指定 accessOrder &#x3D; true 以指定按访问顺序排序策略。由于按访问顺序排序的 LinkedHashMap 会将新 get 的元素放在链表尾部，因此在 LRU 缓存设计的视角来看：链表尾部的元素就是LRU的热点元素，链表头部的元素则是LRU的长时间未访问元素。</li>
+<li>重写 LinkedHashMap 默认留空的 <code>removeEldestEntry</code>，当当前元素数量超出指定容量后开启淘汰策略，淘汰链表头部（LRU的长时间未访问元素）</li>
+</ol>
+<h2 id="多线程环境使用问题"><a href="#多线程环境使用问题" class="headerlink" title="多线程环境使用问题"></a>多线程环境使用问题</h2><p>首先 LinkedHashMap 本身是非线程安全的，因此在多线程环境下，不能使用 LinkedHashMap</p>
+<p>其次如果用的还是根据访问模式排序的策略，多线程 get 可能会出现难以排查和十分严重的问题：</p>
+<ol>
+<li>节点数据丢失 内存泄露</li>
+<li>链表成环 CPU 飙升</li>
+<li>上面说到的 ConcurrentModificationException</li>
+</ol>
+<p>本质上是因为当 <code>accessOrder = true</code> 时，每次调用 <code>get(key)</code>，内部都会触发 <code>afterNodeAccess(e)</code> 方法。这个方法负责把当前节点移到双向链表的尾部，这个过程中每一步指针操作（<code>before</code>, <code>after</code>, <code>head</code>, <code>tail</code>）都不是原子的，也没有加锁，多线程环境下会出问题。</p>
+<blockquote>
+<p>1）节点数据丢失</p>
+</blockquote>
+<p>假设链表为：<code>A &lt;-&gt; B &lt;-&gt; C</code>。</p>
+<ul>
+<li><strong>线程 T1</strong> 执行 <code>get(A)</code>：试图把 A 移到 C 后面。</li>
+<li><strong>线程 T2</strong> 执行 <code>get(B)</code>：试图把 B 移到 C 后面。</li>
+</ul>
+<p><strong>并发过程：</strong></p>
+<ol>
+<li>T1 读取到尾节点 <code>last = C</code>。</li>
+<li>T2 也读取到尾节点 <code>last = C</code>（注意：T2 不知道 T1 正在操作）。</li>
+<li>T1 执行链接：<code>C.after = A</code>，并将 <code>tail</code> 更新为 <code>A</code>。</li>
+<li>T2 执行链接：<code>C.after = B</code>，并将 <code>tail</code> 更新为 <code>B</code>。</li>
+</ol>
+<p><strong>后果：</strong> <code>C.after</code> 本来指向 A，瞬间被 T2 覆盖指向了 B。</p>
+<ul>
+<li><strong>结果</strong>：节点 A 虽然还在 HashMap 的哈希表中（可以通过 key 找到），但它从<strong>双向链表</strong>中“消失”了（断链）。</li>
+<li><strong>影响</strong>：当你遍历 Map 或使用 LRU 淘汰策略时，A 永远不会被遍历到，也永远不会被淘汰（导致内存泄漏）。</li>
+</ul>
+<blockquote>
+<p>2）链表成环</p>
+</blockquote>
+<p>在复杂的指针交换中，两个节点可能互相指向对方，形成闭环。</p>
+<p><strong>并发过程：</strong></p>
+<ol>
+<li>线程 T1 准备把 A 移到末尾，正在修改 <code>A.after</code>。</li>
+<li>线程 T2 准备把 B 移到末尾，正在修改 <code>B.before</code>。</li>
+<li>如果时机凑巧，可能出现 <code>A.next = B</code> 且 <code>B.next = A</code> 的情况，或者 <code>tail.next</code> 指向了链表中间的某个节点。</li>
+</ol>
+<p><strong>后果：</strong> 当你调用 <code>map.forEach()</code>、<code>map.values()</code> 或者 <code>ArrayList(map.values())</code> 进行遍历时，迭代器会沿着 <code>next</code> 指针无限跑下去。</p>
+<ul>
+<li><strong>现象</strong>：线上服务器 CPU 突然飙升到 100%，日志停止输出，程序假死。</li>
+</ul>
+<blockquote>
+<p>3）ConcurrentModificationException</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>   LinkedHashMap&lt;String, String&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedHashMap</span>&lt;&gt;(<span class="hljs-number">16</span>, <span class="hljs-number">0.75f</span>, <span class="hljs-literal">true</span>);<br>   map.put(<span class="hljs-string">&quot;k1&quot;</span>, <span class="hljs-string">&quot;v1&quot;</span>);<br>   map.put(<span class="hljs-string">&quot;k2&quot;</span>, <span class="hljs-string">&quot;v2&quot;</span>);<br>   map.put(<span class="hljs-string">&quot;k3&quot;</span>, <span class="hljs-string">&quot;v3&quot;</span>);<br><br>   <span class="hljs-comment">// 线程 T1：负责遍历（迭代器对 modCount 敏感）</span><br>   <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>      <span class="hljs-comment">// 这里的 forEach 本质上使用了迭代器</span><br>      <span class="hljs-keyword">try</span> &#123;<br>         map.forEach((k, v) -&gt; &#123;<br>            System.out.println(<span class="hljs-string">&quot;遍历: &quot;</span> + k);<br>            <span class="hljs-comment">//保证T2线程能在下一次T1执行前先get</span><br>            <span class="hljs-keyword">try</span> &#123; Thread.sleep(<span class="hljs-number">50</span>); &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;&#125;  <br>         &#125;);<br>      &#125; <span class="hljs-keyword">catch</span> (ConcurrentModificationException e) &#123;<br>         System.err.println(<span class="hljs-string">&quot;捕获到并发修改异常！因为 get 操作修改了 modCount&quot;</span>);<br>      &#125;<br>   &#125;).start();<br><br>   <span class="hljs-comment">// 线程 T2：负责 get (在 accessOrder=true 时，这等同于写操作)</span><br>   <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(() -&gt; &#123;<br>      <span class="hljs-keyword">try</span> &#123; Thread.sleep(<span class="hljs-number">10</span>); &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;&#125;<br>      System.out.println(<span class="hljs-string">&quot;执行 get 操作...&quot;</span>);<br>      map.get(<span class="hljs-string">&quot;k1&quot;</span>); <span class="hljs-comment">// 修改了链表结构，modCount++</span><br>   &#125;).start();<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h2 id="实践运行"><a href="#实践运行" class="headerlink" title="实践运行"></a>实践运行</h2><p>参考官方文档，创建一个python脚本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pdf2docx <span class="hljs-keyword">import</span> Converter<br><br><span class="hljs-comment"># 替换成实际的PDF路径和输出Word路径,路径前加 r 可以避免 Windows 路径里的\转义报错</span><br>pdf_file = <span class="hljs-string">r&quot;你的文件.pdf&quot;</span><br>docx_file = <span class="hljs-string">r&quot;转换后的文件.docx&quot;</span><br><br><span class="hljs-comment"># 执行转换（可以加参数：start=0, end=3 表示只转换前4页）</span><br>cv = Converter(pdf_file)<br>cv.convert(docx_file)<br>cv.close()<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;✅ PDF转Word成功！文件已保存到指定路径&quot;</span>)<br></code></pre></td></tr></table></figure>
-
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>我们的上述操作是通过<code>升级 pip + 指定兼容版本 + 模块方式调用</code>来实现了在 Python 3.7 版本下使用 pdf2docx 将 pdf 转换为 doc 文档的需求</p>
+<p><strong>并发过程：</strong></p>
+<ol>
+<li><strong>线程 T1</strong> 正在遍历 Map（比如做数据统计）。</li>
+<li><strong>线程 T2</strong> 执行了一次 <code>map.get(key)</code>。</li>
+</ol>
+<p><strong>后果：</strong></p>
+<ul>
+<li><code>LinkedHashMap</code> 在 <code>get()</code> 时修改了链表结构，导致内部的 <code>modCount++</code>。</li>
+<li>线程 T1 的迭代器在下一次 <code>next()</code> 时，检测到 <code>modCount != expectedModCount</code>，抛出 **<code>ConcurrentModificationException</code>**。</li>
+</ul>
 
                 
               </div>
@@ -323,7 +363,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/Programming-Language/" class="category-chain-item">Programming Language</a>
+  <a href="/categories/%E6%8A%80%E6%9C%AF%E6%97%A5%E5%BF%97/" class="category-chain-item">技术日志</a>
   
   
 
@@ -338,9 +378,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Python/" class="print-no-link">#Python</a>
+        <a href="/tags/%E6%89%BE%E5%B7%A5%E4%BD%9C/" class="print-no-link">#找工作</a>
       
-        <a href="/tags/Tools/" class="print-no-link">#Tools</a>
+        <a href="/tags/%E8%87%AA%E6%88%91%E6%8F%90%E5%8D%87/" class="print-no-link">#自我提升</a>
       
     </div>
   
@@ -352,8 +392,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Python|pdf2docx</div>
-      <div>http://example.com/2026/01/13/Python-pdf2docx/</div>
+      <div>Wrap Up|JDK Map</div>
+      <div>http://example.com/2026/02/11/Wrap-Up-JDK-Map/</div>
     </div>
     <div class="license-meta">
       
@@ -365,7 +405,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2026年1月13日</div>
+          <div>2026年2月11日</div>
         </div>
       
       
@@ -397,18 +437,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2026/02/11/Wrap-Up-JDK-Map/" title="Wrap Up|JDK Map">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Wrap Up|JDK Map</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/12/30/AI-Agent-Basic/" title="AI|Agent Basic">
-                        <span class="hidden-mobile">AI|Agent Basic</span>
+                      <a href="/2026/01/13/Python-pdf2docx/" title="Python|pdf2docx">
+                        <span class="hidden-mobile">Python|pdf2docx</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
